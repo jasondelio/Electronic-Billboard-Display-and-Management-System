@@ -17,9 +17,9 @@ public class XMLParser {
 
     private File documentToParse;
 
-    public XMLParser(File documentToParse)
+    public XMLParser(String documentToParse)
     {
-        this.documentToParse = documentToParse;
+        this.documentToParse = new File(documentToParse);
     }
 
     public HashMap<String, String> parseXML() {
