@@ -1,7 +1,6 @@
 package cab302.viewer.util;
 
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
@@ -12,6 +11,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Objects;
 
 public class XMLParser {
 
@@ -39,12 +39,15 @@ public class XMLParser {
 
 
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
-                    Element element = (Element) node;
-
-                    if (i != 3) {
+                    if (!Objects.equals(node.getNodeName(), "picture")) {
                         XMLDataMap.put(node.getNodeName(), node.getTextContent().replaceAll("\n", "").replaceAll("\\s\\s+", ""));
                     } else {
-                        XMLDataMap.put(node.getNodeName(), node.getAttributes().getNamedItem("url").getNodeValue());
+                        if (node.getAttributes().getNamedItem("url") != null)
+                            XMLDataMap.put(node.getNodeName(), node.getAttributes().getNamedItem("url").getNodeValue());
+                        else if (node.getAttributes().getNamedItem("data") != null)
+                            XMLDataMap.put(node.getNodeName(), node.getAttributes().getNamedItem("data").getNodeValue());
+                        else
+                            XMLDataMap.put(node.getNodeName(), null);
                     }
                 }
             }
