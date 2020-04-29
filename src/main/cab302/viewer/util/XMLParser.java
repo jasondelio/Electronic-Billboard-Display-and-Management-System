@@ -33,6 +33,11 @@ public class XMLParser {
             Document document = builder.parse(documentToParse);
 
             NodeList nodeList = document.getDocumentElement().getChildNodes();
+
+            if (document.getDocumentElement().hasAttribute("background")) {
+                XMLDataMap.put("bgColour", document.getDocumentElement().getAttribute("background"));
+            }
+
             for (int i = 0; i < nodeList.getLength(); i++) {
                 if (i % 2 == 0) continue;
                 Node node = nodeList.item(i);
@@ -40,7 +45,13 @@ public class XMLParser {
 
                 if (node.getNodeType() == Node.ELEMENT_NODE) {
                     if (!Objects.equals(node.getNodeName(), "picture")) {
-                        XMLDataMap.put(node.getNodeName(), node.getTextContent().replaceAll("\n", "").replaceAll("\\s\\s+", ""));
+                        XMLDataMap.put(
+                                node.getNodeName(),
+                                node.getTextContent().replaceAll("\n", "")
+                                        .replaceAll(
+                                                "\\s\\s+",
+                                                "")
+                                        + (node.hasAttributes() ? "%%%%" + node.getAttributes().getNamedItem("colour").getTextContent() : ""));
                     } else {
                         if (node.getAttributes().getNamedItem("url") != null)
                             XMLDataMap.put(node.getNodeName(), node.getAttributes().getNamedItem("url").getNodeValue());
