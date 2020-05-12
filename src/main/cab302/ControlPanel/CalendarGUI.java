@@ -5,7 +5,7 @@ import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
 
-public abstract class CalendarGUI extends JFrame implements ActionListener, Runnable {
+public abstract class CalendarGUI extends JFrame implements ActionListener, Runnable, MouseListener {
     public static final int YEAR_DURATION = 10;
 
 
@@ -18,24 +18,24 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
     private JButton btnLast;
     private JButton btnNext;
 
-    private JLabel emptyLbl;
-
-//    private JLabel year;
-//    private JLabel month;
 
     private JComboBox<Integer> yearChooser;
     private JComboBox<String> monthChooser;
     private DefaultComboBoxModel<Integer> yearBox;
     private DefaultComboBoxModel<String> monthBox;
 
-    int year, month, date, lastDate;
+    int year;
+    int month;
+    int date;
+    int lastDate;
+    String chosenDate;
     private Calendar current;
 
     protected String[] dayNames = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
     protected String[] monthNames = {"Jan", "Feb",
             "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
-    public void Calendar() {
+    public CalendarGUI() {
         initializer();
 
         pnlTop.add(btnLast);
@@ -76,8 +76,6 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
         btnNext = new JButton("->");
 
         pnlTop = new JPanel();
-
-        emptyLbl = new JLabel(" ");
 
         pnlCntr = new JPanel(new BorderLayout());
 
@@ -144,7 +142,6 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
 
             pnlDayNames.add(names);
         }
-        pnlCntr.add(pnlDayNames,"North");
     }
 
     public void setFirstDate() {
@@ -154,59 +151,126 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
         tempCal.set(year, month -1, 1);
 
         // Add empty items before printing the calendar
-        for(int i = 1; i < tempCal.get(Calendar.DAY_OF_WEEK); i++) pnlDate.add(emptyLbl);
+        for(int i = 1; i < tempCal.get(Calendar.DAY_OF_WEEK); i++) {
+            pnlDate.add(new JLabel(" "));
+        }
     }
 
     public void setDatesOfCalendar() {
         Calendar tempCal = Calendar.getInstance();
         lastDate = tempCal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
-        for(int i = 1; i < lastDate; i++) {
-
+        for(int i = 1; i <= lastDate; i++) {
+            Box box = Box.createVerticalBox();
             JLabel datelbl = new JLabel();
+            JLabel lbl = new JLabel();
             datelbl.setText(String.valueOf(i));
+
             // Set the date to define it is on Sun or Sat
             tempCal.set(year, month -1, i);
             if(tempCal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) datelbl.setForeground(Color.red);
             if(tempCal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) datelbl.setForeground((Color.blue));
 
-            pnlDate.add(datelbl);
+            datelbl.addMouseListener(this);
+
+            lbl.setText("Bill");
+
+            box.add(datelbl);
+            box.add(lbl);
+
+            pnlDate.add(box);
         }
     }
+
+    public void mouseClicked(MouseEvent e) {
+        Component comp = e.getComponent();
+
+        if(comp != null) {
+            chosenDate = ((JLabel)e.getSource()).getText();
+//            JOptionPane.showMessageDialog(null, chosenDate, "Me", JOptionPane.ERROR_MESSAGE);
+            CustomDialog d = new CustomDialog(chosenDate);
+
+        }
+    }
+
+
 
 
     public void actionPerformed(ActionEvent e) {
         Object obj = e.getSource();
 
         if(obj != null) {
-            int y = (Integer) yearChooser.getSelectedItem();
+            int y = (int) yearChooser.getSelectedItem();
             int m = monthChooser.getSelectedIndex();
 
             if (obj == btnLast) {
-                if (m == 0) y--;
-                m = 11;
-                if (m > 0) m--;
+                if (m == 0) {y--;
+                    m = 11;}
+                else {m--;}
+                year = y;
+                month = m + 1;
             }
-            if (obj == btnNext) {
-                if (m == 11) y++;
-                m = 0;
-                if (m < 11) m++;
+            else if (obj == btnNext) {
+                if (m == 11) {y++;
+                    m = 0;}
+                else {m++;}
+
+                year = y;
+                month = m + 1;
             }
 
-            if (obj == yearChooser || obj == monthChooser) {
+            else if (obj == yearChooser || obj == monthChooser) {
 
-                year = (Integer) yearChooser.getSelectedItem();
+                year = (int) yearChooser.getSelectedItem();
                 month = monthChooser.getSelectedIndex() + 1;
             }
 
-            pnlDate.setVisible(false);
-            pnlDate.removeAll();
-            setFirstDate();
-            setDatesOfCalendar();
-            pnlDate.setVisible(true);
+
         }
 
-    }
+        pnlDate.setVisible(false);
+        pnlDate.removeAll();
+        setFirstDate();
+        setDatesOfCalendar();
+        pnlDate.setVisible(true);
 
+    }
+//
+//    @Override
+//    public void run() {
+//        nn();
+//    }
+
+    public static void main(String[] args) {
+
+        new CalendarGUI() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+
+            @Override
+            public void run() {
+
+            }
+        };
+
+
+    }
 
 }
