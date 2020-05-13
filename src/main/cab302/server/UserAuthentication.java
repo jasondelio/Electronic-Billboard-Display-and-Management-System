@@ -3,78 +3,50 @@ package cab302.server;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
-import java.security.SecureRandom;
+import java.util.Random;
 
 public class UserAuthentication {
     public static void main(String[] args) throws NoSuchAlgorithmException, NoSuchProviderException {
-        String passwordToHash = "password";
-        String firsthashPass = getHash(passwordToHash);
-        String passwordToHash1 = "password";
-        String firsthashPass1 = getHash(passwordToHash1);
-        System.out.println(firsthashPass);
-        System.out.println(firsthashPass1);
-        byte[] salt = getSalt();
-        byte[] salt1 = getSalt();
+        // in control panel
+        String password = "password";
+        String firsthashedPass = getHashedPass(password);
+        System.out.println(firsthashedPass);
+        // in server
+        String salt = getSaltString();
         System.out.println(salt);
-        System.out.println(salt1);
-        String securePassword = get_SHA_256_SecurePassword(firsthashPass, salt);
-        System.out.println(securePassword);
-        String securePassword1 = get_SHA_256_SecurePassword(firsthashPass1, salt1);
-        System.out.println(securePassword1);
+        String newone = getSaltHashedPass(firsthashedPass,salt);
+        System.out.println(newone);
     }
+    //get idea from week 9 assignment Q & A
+    private static String getSaltHashedPass (String hashedpassword, String salt) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        String SaltHashedPassword= bytesToString(md.digest((hashedpassword + salt).getBytes()));
 
-    private static String get_SHA_256_SecurePassword(String passwordToHash, byte[] salt) {
-        String generatedPassword = null;
-        byte[] bytes;
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            md.update(salt);
-            bytes = md.digest(passwordToHash.getBytes());
-            StringBuilder sb = new StringBuilder(64);
-            for (byte b : bytes) {
-                sb.append(String.format("%02x", b));
-            }
-            //for(int i=0; i< bytes.length ;i++)
-            //{
-            //    sb.append(Integer.toString((bytes[i] & 0xff) + 0x100, 16).substring(1));
-            //}
-            generatedPassword = sb.toString();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace();
+        return SaltHashedPassword;
+    }
+    //get idea from week 9 assignment Q & A
+    private static String getHashedPass(String password) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] temp_byte = md.digest(password.getBytes());
+        String hashedPassword= bytesToString(temp_byte);
+
+        return hashedPassword;
+    }
+    // get idea from week 9 assignment Q & A
+    private static String getSaltString() {
+        Random rng = new Random();
+        byte[] salt_bytes = new byte[32];
+        rng.nextBytes(salt_bytes);
+        String salt_str = bytesToString(salt_bytes);
+        return salt_str;
+    }
+    // from week 9 assignment Q & A
+    public static String bytesToString(byte[] hash){
+        StringBuffer str_buff = new StringBuffer();
+        for (byte b : hash){
+            str_buff.append(String.format("%02x", b & 0xFF));
         }
-        return generatedPassword;
+        return str_buff.toString();
     }
-
-    //Add hash
-    private static String getHash(String passwordToHash) throws NoSuchAlgorithmException, NoSuchProviderException {
-        byte[] temp_byte;
-        String gen = null;
-        try {
-            MessageDigest md = MessageDigest.getInstance("SHA-256");
-            temp_byte = md.digest(passwordToHash.getBytes());
-            StringBuilder sb = new StringBuilder(64);
-            for (byte b : temp_byte) {
-                sb.append(String.format("%02x", b));
-            }
-            gen = sb.toString();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return gen;
-    }
-
-    //Add salt
-    private static byte[] getSalt() throws NoSuchAlgorithmException, NoSuchProviderException {
-        //Always use a SecureRandom generator
-        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
-        //Create array for salt
-        byte[] salt = new byte[16];
-        //Get a random salt
-        sr.nextBytes(salt);
-        //return salt
-        return salt;
-    }
-
 }
 

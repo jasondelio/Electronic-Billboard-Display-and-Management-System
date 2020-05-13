@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="01508137-4561-4283-97d1-e5c870fef63b" name="Default Changelist" comment="Handle">
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/UserAuthentication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserAuthentication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/UserAuthentication.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
