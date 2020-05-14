@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="01508137-4561-4283-97d1-e5c870fef63b" name="Default Changelist" comment="Handle">
+      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Client.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Myclass.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/billboardServer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserAuthentication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/UserAuthentication.java" afterDir="false" />
     </list>
@@ -79,7 +82,20 @@
       <recent name="D:\[University\CAB302\CAB302\src\main\java\viewer" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.UserAuthentication">
+  <component name="RunManager" selected="Application.Client">
+    <configuration name="Client" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cab302.server.Client" />
+      <module name="CAB302" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cab302.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Main (2)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cab302.viewer.Main" />
       <module name="CAB302" />
@@ -106,8 +122,23 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="billboardServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cab302.server.billboardServer" />
+      <module name="CAB302" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cab302.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Client" />
+        <item itemvalue="Application.billboardServer" />
         <item itemvalue="Application.UserAuthentication" />
         <item itemvalue="Application.Main (2)" />
       </list>
@@ -195,26 +226,30 @@
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="533" y="162" key="#com.intellij.ide.util.MemberChooser" timestamp="1589454309517">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="533" y="162" key="#com.intellij.ide.util.MemberChooser/0.0.1440.900@0.0.1440.900" timestamp="1589454309517" />
     <state x="342" y="55" key="CommitChangelistDialog2" timestamp="1588425185052">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="342" y="55" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1588425185052" />
-    <state width="692" height="244" key="GridCell.Tab.0.bottom" timestamp="1588425185096">
+    <state width="1398" height="244" key="GridCell.Tab.0.bottom" timestamp="1589454707310">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="692" height="244" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1588425185096" />
-    <state width="692" height="244" key="GridCell.Tab.0.center" timestamp="1588425185095">
+    <state width="1398" height="244" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1589454707310" />
+    <state width="1398" height="244" key="GridCell.Tab.0.center" timestamp="1589454707308">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="692" height="244" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1588425185095" />
-    <state width="692" height="244" key="GridCell.Tab.0.left" timestamp="1588425185094">
+    <state width="1398" height="244" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1589454707308" />
+    <state width="1398" height="244" key="GridCell.Tab.0.left" timestamp="1589454707306">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="692" height="244" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1588425185094" />
-    <state width="692" height="244" key="GridCell.Tab.0.right" timestamp="1588425185096">
+    <state width="1398" height="244" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1589454707306" />
+    <state width="1398" height="244" key="GridCell.Tab.0.right" timestamp="1589454707309">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="692" height="244" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1588425185096" />
+    <state width="1398" height="244" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1589454707309" />
     <state x="208" y="33" key="SettingsEditor" timestamp="1588425070955">
       <screen x="0" y="0" width="1440" height="900" />
     </state>

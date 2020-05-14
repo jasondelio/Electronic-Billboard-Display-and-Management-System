@@ -40,6 +40,14 @@ public class UserAuthentication {
         String salt_str = bytesToString(salt_bytes);
         return salt_str;
     }
+    // get idea from week 10 assignment Q & A
+    private static String getSessionTokenString() {
+        Random rng = new Random();
+        byte[] token_bytes = new byte[32];
+        rng.nextBytes(token_bytes);
+        String token_str = bytesToString(token_bytes);
+        return token_str;
+    }
     // from week 9 assignment Q & A
     public static String bytesToString(byte[] hash){
         StringBuffer str_buff = new StringBuffer();
@@ -48,5 +56,6 @@ public class UserAuthentication {
         }
         return str_buff.toString();
     }
+
 }
 
