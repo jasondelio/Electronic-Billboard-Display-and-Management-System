@@ -45,6 +45,10 @@ public class ScheduleData {
         return data.getSchedule((String) key);
     }
 
+    public ScheduleInfo find(Object key1, Object key2) {
+        return data.findScheudle((String) key1, (String) key2);
+    }
+
     /**
      */
     public ListModel getModel() {
