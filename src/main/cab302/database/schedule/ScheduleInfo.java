@@ -8,15 +8,15 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
         private Integer date;
     
-        private Integer hour;
+        private String hour;
     
-        private Integer minute;
+        private String minute;
 
         private String boardtitle;
 
         private String creator;
 
-        private Integer duration;
+        private String duration;
 
 
 
@@ -27,7 +27,7 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
         /**
          */
-        public ScheduleInfo(String boardtitle, String creator, Integer month, Integer date, Integer hour, Integer minute, Integer duration) {
+        public ScheduleInfo(String boardtitle, String creator, Integer month, Integer date, String hour, String minute, String duration) {
             this.month = month;
             this.hour = hour;
             this.date = date;
@@ -84,37 +84,40 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
         }
 
         /**
+         * @return
          */
-        public Integer getHour() {
+        public String getHour() {
             return hour;
         }
 
         /**
          */
-        public void setHour(Integer hour) {
+        public void setHour(String hour) {
             this.hour = hour;
         }
 
         /**
+         * @return
          */
-        public Integer getMinute() {
+        public String getMinute() {
             return minute;
         }
 
         /**
          */
-        public void setMinute(Integer minute) {
+        public void setMinute(String minute) {
             this.minute = minute;
         }
 
         /**
+         * @return
          */
-        public Integer getDuration() {
+        public String getDuration() {
             return duration; }
 
         /**
          */
-        public void setDuration(Integer duration) {
+        public void setDuration(String duration) {
             this.duration = duration;
         }
 
