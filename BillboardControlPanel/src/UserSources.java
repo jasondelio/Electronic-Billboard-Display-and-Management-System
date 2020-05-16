@@ -22,7 +22,9 @@ public interface UserSources {
      *
      * @return
      */
-    void editUser(String name, String username, String password, String email, String previousUsername);
+    void editUser(String name, String username, String password, String email, String previousUsername,
+                  String createBillboards, String editAllBillboards,
+                  String scheduleBillboards, String editUsers);
 
     /**
      */

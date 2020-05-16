@@ -88,9 +88,12 @@ public class UserData {
     {
         return userData.isValidUser(username, password);
     }
-    public void edit(String name, String username, String password, String email, String previousUsername)
+    public void edit(String name, String username, String password, String email, String previousUsername,
+                     String createBillboards, String editAllBillboards,
+                     String scheduleBillboards, String editUsers)
     {
-        userData.editUser(name, username, password, email, previousUsername);
+        userData.editUser(name, username, password, email, previousUsername, createBillboards, editAllBillboards,
+                scheduleBillboards, editUsers);
         if(previousUsername != username) {
             listModel.removeElement(previousUsername);
             listModel.addElement(username);

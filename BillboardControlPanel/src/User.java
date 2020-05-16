@@ -15,6 +15,14 @@ public class User implements Comparable<User>, Serializable {
 
     private String passwords;
 
+    private String createBillboards;
+
+    private String editAllBillboards;
+
+    private String scheduleBillboards;
+
+    private String editUsers;
+
 
     /**
      */
@@ -23,11 +31,16 @@ public class User implements Comparable<User>, Serializable {
 
     /**
      */
-    public User(String name, String username, String passwords, String email) {
+    public User(String name, String username, String passwords, String email, String createBillboards,
+                String editAllBillboards, String scheduleBillboards, String editUsers) {
         this.name = name;
         this.username = username;
         this.email = email;
         this.passwords= passwords;
+        this.createBillboards = createBillboards;
+        this.editAllBillboards = editAllBillboards;
+        this.scheduleBillboards = scheduleBillboards;
+        this.editUsers = editUsers;
     }
 
     /**
@@ -74,9 +87,59 @@ public class User implements Comparable<User>, Serializable {
 
     /**
      */
+    public void setCreateBillboards(String createBillboards) {
+        this.createBillboards = createBillboards;
+    }
+
+    /**
+     */
+    public String getCreateBillboards() {
+        return createBillboards;
+    }
+
+    /**
+     */
+    public void setEditAllBillboards(String editAllBillboards) {
+        this.editAllBillboards = editAllBillboards;
+    }
+
+    /**
+     */
+    public String getEditAllBillboards() {
+        return editAllBillboards;
+    }
+
+    /**
+     */
+    public void setScheduleBillboards(String scheduleBillboards) {
+        this.scheduleBillboards = scheduleBillboards;
+    }
+
+    /**
+     */
+    public String getScheduleBillboards() {
+        return scheduleBillboards;
+    }
+
+    /**
+     */
+    public void setEditUsers(String editUsers) {
+        this.editUsers = editUsers;
+    }
+
+    /**
+     */
+    public String getEditUsers() {
+        return editUsers;
+    }
+
+    /**
+     */
     public void setPasswords(String passwords) {
         this.passwords = passwords;
     }
+
+
 
     /**
      */

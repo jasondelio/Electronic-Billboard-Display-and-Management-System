@@ -13,13 +13,18 @@ public class UserDataSource implements UserSources {
                     + "name VARCHAR(30),"
                     + "username VARCHAR(30) UNIQUE,"
                     + "passwords VARCHAR(20),"
-                    + "email VARCHAR(30)" + ");";
+                    + "email VARCHAR(30),"
+                    + "createBillboards VARCHAR(5),"
+                    + "editAllBillboards VARCHAR(5),"
+                    + "scheduleBillboards VARCHAR(5),"
+                    + "editUsers VARCHAR(5)" + ");";
     public static final String INSERT_ADMINISTRATOR_USER =
-            "INSERT IGNORE INTO users(name, username, passwords, email) VALUES ('admin', 'root', 'password', 'root@gmail.com');";
+            "INSERT IGNORE INTO users(name, username, passwords, email, createBillboards, editAllBillboards, " +
+                    "scheduleBillboards, editUsers) VALUES ('admin', 'root', 'password', 'root@gmail.com', " +
+                    "'true', 'true', 'true', 'true');";
 
-    private static final String INSERT_USER = "INSERT INTO users (name, username, passwords, email) VALUES (?, ?, ?, ?);";
-
-    private static final String GET_NAMES = "SELECT name FROM users";
+    private static final String INSERT_USER = "INSERT INTO users (name, username, passwords, email" +
+            ", createBillboards, editAllBillboards, scheduleBillboards, editUsers) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
     private static final String GET_USERNAMES = "SELECT username FROM users";
 
@@ -27,11 +32,22 @@ public class UserDataSource implements UserSources {
 
     private static final String DELETE_USER = "DELETE FROM users WHERE username=?";
 
-    private static final String EDIT_USER = "UPDATE users SET name=?, username=?, passwords=?, email=? WHERE username=?";
+    private static final String EDIT_USER = "UPDATE users SET name=?, username=?, passwords=?, email=?" +
+            ", createBillboards=?, editAllBillboards=?, scheduleBillboards=?, editUsers=? WHERE username=?";
 
     private static final String COUNT_ROWS = "SELECT COUNT(*) FROM users";
 
     private static final String GET_VALID = "SELECT * FROM users WHERE username=? AND passwords =?";
+
+    private static final String GET_PERMISSION = "SELECT ? from users WHERE username=?";
+
+    private static final String GET_CREATE_BILLBOARDS_PERMISSION = "SELECT createBillboards from users WHERE username=?";
+
+    private static final String GET_EDIT_ALL_BILLBOARDS_PERMISSION = "SELECT editAllBillboards from users WHERE username=?";
+
+    private static final String GET_SCHEDULLE_BILLBOARDS_PERMISSION = "SELECT scheduleBillboards from users WHERE username=?";
+
+    private static final String GET_EDIT_USERS_PERMISSION = "SELECT editUsers from users WHERE username=?";
 
     private Connection connection;
 
@@ -48,6 +64,7 @@ public class UserDataSource implements UserSources {
     private PreparedStatement rowCount;
 
     private PreparedStatement isValidUser;
+
 
     public UserDataSource() {
         connection = DataConnection.getInstance();
@@ -76,6 +93,10 @@ public class UserDataSource implements UserSources {
             addUser.setString(2, u.getUsername());
             addUser.setString(3, u.getPasswords());
             addUser.setString(4, u.getEmail());
+            addUser.setString(5, u.getCreateBillboards());
+            addUser.setString(6, u.getEditAllBillboards());
+            addUser.setString(7, u.getScheduleBillboards());
+            addUser.setString(8, u.getEditUsers());
             addUser.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -115,6 +136,10 @@ public class UserDataSource implements UserSources {
             u.setUsername(rs.getString("username"));
             u.setPasswords(rs.getString("passwords"));
             u.setEmail(rs.getString("email"));
+            u.setCreateBillboards(rs.getString("createBillboards"));
+            u.setEditAllBillboards(rs.getString("editAllBillboards"));
+            u.setEditUsers(rs.getString("editUsers"));
+            u.setScheduleBillboards(rs.getString("scheduleBillboards"));
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -171,13 +196,19 @@ public class UserDataSource implements UserSources {
      * @see
      * @return
      */
-    public void editUser(String name, String username, String password, String email, String previousUsername) {
+    public void editUser(String name, String username, String password, String email, String previousUsername,
+                         String createBillboards, String editAllBillboards,
+                         String scheduleBillboards, String editUsers) {
         try {
             editUser.setString(1, name);
             editUser.setString(2, username);
             editUser.setString(3, password);
             editUser.setString(4, email);
-            editUser.setString(5, previousUsername);
+            editUser.setString(5, createBillboards);
+            editUser.setString(6, editAllBillboards);
+            editUser.setString(7, scheduleBillboards);
+            editUser.setString(8, editUsers);
+            editUser.setString(9, previousUsername);
             editUser.execute();
         }
         catch (SQLException ex) {

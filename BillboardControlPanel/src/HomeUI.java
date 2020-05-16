@@ -62,6 +62,10 @@ public class HomeUI extends JFrame implements ActionListener {
     private JTextField informationColour;
     private JTextField billboardName;
     private JCheckBox cbUrl;
+    private JCheckBox cbCreateBillboardsPermission;
+    private JCheckBox cbEditAllBillboardsPermission;
+    private JCheckBox cbScheduleBillboardsPermission;
+    private JCheckBox cbEditUsersPermission;
     private int r;
     private int g;
     private int b;
@@ -296,11 +300,16 @@ public class HomeUI extends JFrame implements ActionListener {
         JLabel lblUsername = new JLabel("Username");
         JLabel lblPassword = new JLabel("Password");
         JLabel lblEmail = new JLabel("Email");
+        JLabel lblPermission = new JLabel("Permission :");
 
         name = new JTextField(20);
         username = new JTextField(20);
         password = new JTextField(20);
         email = new JTextField(20);
+        cbCreateBillboardsPermission = new JCheckBox("Create Billboard");
+        cbEditAllBillboardsPermission = new JCheckBox("Edit All Billboards");
+        cbScheduleBillboardsPermission = new JCheckBox("Schedule Billboards");
+        cbEditUsersPermission = new JCheckBox("Edit Users");
 
 
         GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
@@ -308,10 +317,11 @@ public class HomeUI extends JFrame implements ActionListener {
 
         hGroup.addGroup(layout.createParallelGroup().addComponent(lblName)
                 .addComponent(lblUsername).addComponent(lblPassword).addComponent(
-                        lblEmail));
+                        lblEmail).addComponent(lblPermission)
+                .addComponent(cbCreateBillboardsPermission).addComponent(cbScheduleBillboardsPermission));
         hGroup.addGroup(layout.createParallelGroup().addComponent(name)
                 .addComponent(username).addComponent(password).addComponent(email)
-                .addComponent(email));
+                .addComponent(email).addComponent(cbEditAllBillboardsPermission).addComponent(cbEditUsersPermission));
         layout.setHorizontalGroup(hGroup);
 
 
@@ -326,6 +336,12 @@ public class HomeUI extends JFrame implements ActionListener {
                 .addComponent(lblPassword).addComponent(password));
         vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(lblEmail).addComponent(email));
+        vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(lblPermission));
+        vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(cbCreateBillboardsPermission).addComponent(cbEditAllBillboardsPermission));
+        vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(cbScheduleBillboardsPermission).addComponent(cbEditUsersPermission));
         layout.setVerticalGroup(vGroup);
 
         return userFieldsPanel;
@@ -602,9 +618,9 @@ public class HomeUI extends JFrame implements ActionListener {
     private void newUserPressed()
     {
         addNewUserDialog = new JDialog(this, "Add new user");
-        addNewUserDialog.setSize(300,200);
+        addNewUserDialog.setSize(300,300);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        addNewUserDialog.setLocation(dim.width / 2 - 150, dim.height / 2 - 100);
+        addNewUserDialog.setLocation(dim.width / 2 - 150, dim.height / 2 - 150);
         JPanel addNewUserPanel = new JPanel();
         addNewUserPanel.setLayout(new BorderLayout());
         JPanel buttonPanel = new JPanel();
@@ -626,9 +642,9 @@ public class HomeUI extends JFrame implements ActionListener {
     {
         if(usernameList.getSelectedValue() != null) {
             editUserDialog = new JDialog(this, "Edit user");
-            editUserDialog.setSize(300, 200);
+            editUserDialog.setSize(300, 300);
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-            editUserDialog.setLocation(dim.width / 2 - 150, dim.height / 2 - 100);
+            editUserDialog.setLocation(dim.width / 2 - 150, dim.height / 2 - 150);
             JPanel editUserPanel = new JPanel();
             editUserPanel.setLayout(new BorderLayout());
             JPanel buttonPanel = new JPanel();
@@ -643,6 +659,10 @@ public class HomeUI extends JFrame implements ActionListener {
             username.setText(u.getUsername());
             password.setText(u.getPasswords());
             email.setText(u.getEmail());
+            cbCreateBillboardsPermission.setSelected(Boolean.parseBoolean(u.getCreateBillboards()));
+            cbEditAllBillboardsPermission.setSelected(Boolean.parseBoolean(u.getEditAllBillboards()));
+            cbScheduleBillboardsPermission.setSelected(Boolean.parseBoolean(u.getScheduleBillboards()));
+            cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
             editUserDialog.add(buttonPanel, BorderLayout.SOUTH);
             editUserDialog.add(editUserPanel);
             editUserDialog.setVisible(true);
@@ -657,12 +677,20 @@ public class HomeUI extends JFrame implements ActionListener {
         username.setText("");
         password.setText("");
         email.setText("");
+        cbCreateBillboardsPermission.setSelected(false);
+        cbEditAllBillboardsPermission.setSelected(false);
+        cbScheduleBillboardsPermission.setSelected(false);
+        cbEditUsersPermission.setSelected(false);
     }
     private void saveNewUserPressed(){
         if (name.getText() != null && !name.getText().equals("") &&
                 username.getText() != null && !username.getText().equals("") && password.getText() != null
                 && !password.getText().equals("") && email.getText() != null && !email.getText().equals("")) {
-            User u = new User(name.getText(), username.getText(), password.getText(), email.getText());
+            User u = new User(name.getText(), username.getText(), password.getText(), email.getText(),
+                    Boolean.toString(cbCreateBillboardsPermission.isSelected()),
+                    Boolean.toString(cbEditAllBillboardsPermission.isSelected()),
+                    Boolean.toString(cbScheduleBillboardsPermission.isSelected()),
+                    Boolean.toString(cbEditUsersPermission.isSelected()));
             userData.add(u);
             addNewUserDialog.dispose();
         }
@@ -677,7 +705,11 @@ public class HomeUI extends JFrame implements ActionListener {
                 username.getText() != null && !username.getText().equals("") && password.getText() != null
                 && !password.getText().equals("") && email.getText() != null && !email.getText().equals("")) {
             userData.edit(name.getText(), username.getText(), password.getText(), email.getText(),
-                    usernameList.getSelectedValue().toString());
+                    usernameList.getSelectedValue().toString(),
+                    Boolean.toString(cbCreateBillboardsPermission.isSelected()),
+                    Boolean.toString(cbEditAllBillboardsPermission.isSelected()),
+                    Boolean.toString(cbScheduleBillboardsPermission.isSelected()),
+                    Boolean.toString(cbEditUsersPermission.isSelected()));
             editUserDialog.dispose();
         }
         else{
