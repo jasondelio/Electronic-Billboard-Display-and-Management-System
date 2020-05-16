@@ -1,13 +1,13 @@
-package cab302.server;
+package cab302.server.UserServer;
 
 import java.io.Serializable;
 
-public class Myclass implements Serializable {
+public class Loginrequest implements Serializable {
     private  String username;
     private  String password;
 
 
-    public Myclass(String username, String password){
+    public Loginrequest(String username, String password){
         this.password = password;
         this.username = username;
     }

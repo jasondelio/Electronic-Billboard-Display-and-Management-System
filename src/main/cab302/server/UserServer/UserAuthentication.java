@@ -1,4 +1,4 @@
-package cab302.server;
+package cab302.server.UserServer;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
