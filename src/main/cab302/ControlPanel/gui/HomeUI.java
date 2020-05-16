@@ -21,8 +21,8 @@ import java.io.*;
 import java.util.Base64;
 
 public class HomeUI extends JFrame implements ActionListener {
-    public static final int WIDTH = 600;
-    public static final int HEIGHT = 600;
+    private static final int WIDTH = 600;
+    private static final int HEIGHT = 600;
     private Color initialColor = Color.BLACK;
     private JList usernameList;
     private JList billboardList;
@@ -76,7 +76,7 @@ public class HomeUI extends JFrame implements ActionListener {
     UserData userData;
     BillboardData billboardData;
 
-    public HomeUI(UserData userData, BillboardData billboardData){
+    public HomeUI(UserData userData, BillboardData billboardData) {
         super("Billboard Control Panel");
         this.userData = userData;
         this.billboardData = billboardData;
@@ -114,6 +114,7 @@ public class HomeUI extends JFrame implements ActionListener {
         setVisible(true);
 
     }
+
     private JPanel makePanelCreateBillboards()
     {
         JPanel panelCreateBillboards = new JPanel();
@@ -132,6 +133,7 @@ public class HomeUI extends JFrame implements ActionListener {
         panelEditUsers.add(makeButtonsPanelEditUsers(), BorderLayout.SOUTH);
         return panelEditUsers;
     }
+
     private JPanel makePanelListBillboards()
     {
         JPanel panelListBillboards = new JPanel();
@@ -143,6 +145,7 @@ public class HomeUI extends JFrame implements ActionListener {
         panelListBillboards.add(makeButtonsPanelListBillboards(), BorderLayout.SOUTH);
         return panelListBillboards;
     }
+
     private JPanel makeButtonsPanelCreateBillboards()
     {
         JPanel buttonPanel = new JPanel();
@@ -162,6 +165,7 @@ public class HomeUI extends JFrame implements ActionListener {
 
         return buttonPanel;
     }
+
     private JPanel makeButtonsPanelEditUsers() {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
@@ -181,6 +185,7 @@ public class HomeUI extends JFrame implements ActionListener {
 
         return buttonPanel;
     }
+
     private JPanel makeButtonsPanelListBillboards()
     {
         JPanel buttonPanel = new JPanel();
@@ -286,6 +291,7 @@ public class HomeUI extends JFrame implements ActionListener {
 
         return createBillboardFieldsPanel;
     }
+
     private JPanel makeUserFieldsPanel() {
         JPanel userFieldsPanel = new JPanel();
         GroupLayout layout = new GroupLayout(userFieldsPanel);
@@ -567,6 +573,7 @@ public class HomeUI extends JFrame implements ActionListener {
         XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 
     }
+
     public void exportBillboardPressed()
     {
         if (billboardName.getText() != null && !billboardName.getText().equals("")) {
@@ -606,6 +613,7 @@ public class HomeUI extends JFrame implements ActionListener {
                     "Error", JOptionPane.WARNING_MESSAGE);
         }
     }
+
     private void newUserPressed()
     {
         addNewUserDialog = new JDialog(this, "Add new user");
@@ -629,6 +637,7 @@ public class HomeUI extends JFrame implements ActionListener {
         addNewUserDialog.add(addNewUserPanel);
         addNewUserDialog.setVisible(true);
     }
+
     private void editUserPressed()
     {
         if(usernameList.getSelectedValue() != null) {
@@ -655,16 +664,19 @@ public class HomeUI extends JFrame implements ActionListener {
             editUserDialog.setVisible(true);
         }
     }
+
     private void deleteUserPressed()
     {
         userData.remove(usernameList.getSelectedValue());
     }
+
     private void resetNewUserPressed() {
         name.setText("");
         username.setText("");
         password.setText("");
         email.setText("");
     }
+
     private void saveNewUserPressed(){
         if (name.getText() != null && !name.getText().equals("") &&
                 username.getText() != null && !username.getText().equals("") && password.getText() != null
@@ -679,6 +691,7 @@ public class HomeUI extends JFrame implements ActionListener {
                     "Error", JOptionPane.WARNING_MESSAGE);
         }
     }
+
     private void updateUserPressed() {
         if (name.getText() != null && !name.getText().equals("") &&
                 username.getText() != null && !username.getText().equals("") && password.getText() != null
@@ -705,11 +718,13 @@ public class HomeUI extends JFrame implements ActionListener {
         hexColour = String.format("#%02X%02X%02X", r, g, b);
         initialColor = new Color(r, g, b);
     }
+
     private void resetEditedBillboardPressed() {
         Billboard b = billboardData.get(billboardList.getSelectedValue());
         billboardName.setText(b.getName());
         parseXMLContentsFromDatabase(b);
     }
+
     private void uploadPicturePressed() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
@@ -726,12 +741,14 @@ public class HomeUI extends JFrame implements ActionListener {
             picture.setText(encodeImageToBase64(selectedFile.toString()));
         }
     }
+
     private void saveImportedBillboardPressed() {
         Billboard b = new Billboard(billboardName.getText(), XMLContents);
         billboardData.add(b);
         importBillboardDialog.dispose();
         XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     }
+
     private void saveEditedBillboardPressed() {
         convertBillboardToXML();
         if (billboardName.getText() != null && !billboardName.getText().equals("")) {
@@ -763,7 +780,7 @@ public class HomeUI extends JFrame implements ActionListener {
         File file = new File(imagePath);
         try (FileInputStream imageInFile = new FileInputStream(file)) {
             // Reading a Image file from file system
-            byte imageData[] = new byte[(int) file.length()];
+            byte[] imageData = new byte[(int) file.length()];
             imageInFile.read(imageData);
             base64Image = Base64.getEncoder().encodeToString(imageData);
         } catch (FileNotFoundException e) {
@@ -773,6 +790,7 @@ public class HomeUI extends JFrame implements ActionListener {
         }
         return base64Image;
     }
+
     private void addToXMLContents(String content)
     {
         XMLContents = XMLContents + content;

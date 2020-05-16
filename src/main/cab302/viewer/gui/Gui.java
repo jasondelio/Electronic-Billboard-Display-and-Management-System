@@ -16,7 +16,6 @@ public class Gui extends JFrame {
 
     private JFrame frame;
 
-
     public Gui(HashMap<String, String> xmlInfo) {
 
         // ## Window Configuration ## \\

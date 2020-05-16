@@ -15,7 +15,7 @@ public class DataConnection {
     /**
      * Constructor intializes the connection.
      */
-    private DataConnection() {
+    public DataConnection() {
         Properties props = new Properties();
         FileInputStream in;
         try {
