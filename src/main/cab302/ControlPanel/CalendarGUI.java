@@ -1,9 +1,14 @@
+package cab302.database;
 
+import cab302.database.schedule.ScheduleInfo;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
+
+import cab302.database.schedule.ScheduleData;
+import cab302.database.schedule.ScheduleInfo;
 
 public abstract class CalendarGUI extends JFrame implements ActionListener, Runnable, MouseListener {
     public static final int YEAR_DURATION = 10;
@@ -30,6 +35,7 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
     int lastDate;
     String chosenDate;
     private Calendar current;
+    ScheduleData data;
 
     protected String[] dayNames = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
     protected String[] monthNames = {"Jan", "Feb",
@@ -163,7 +169,7 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
         for(int i = 1; i <= lastDate; i++) {
             Box box = Box.createVerticalBox();
             JLabel datelbl = new JLabel();
-            JLabel lbl = new JLabel();
+//            JLabel lbl = new JLabel();
             datelbl.setText(String.valueOf(i));
 
             // Set the date to define it is on Sun or Sat
@@ -171,16 +177,21 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
             if(tempCal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) datelbl.setForeground(Color.red);
             if(tempCal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) datelbl.setForeground((Color.blue));
 
+
+
             datelbl.addMouseListener(this);
 
-            lbl.setText("Bill");
+//            lbl.setText("Bill");
 
             box.add(datelbl);
-            box.add(lbl);
+
+            //TODO: Not sure it will work well or not
+            box.add(show(data.find(month-1, i)));
 
             pnlDate.add(box);
         }
     }
+
 
     public void mouseClicked(MouseEvent e) {
         Component comp = e.getComponent();
@@ -234,6 +245,14 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
         setDatesOfCalendar();
         pnlDate.setVisible(true);
 
+    }
+
+    private JLabel show(ScheduleInfo s) {
+        JLabel lbl = new JLabel();
+        if (s != null) {
+            lbl.setText(s.getBoardTitle() + ":" + s.getHour() + s.getMinute());
+        }
+        return lbl;
     }
 //
 //    @Override
