@@ -31,6 +31,8 @@ public class SchedulesDatasource implements ScheduleSources {
 
     private static final String COUNT_ROWS = "SELECT COUNT(*) FROM schedules";
 
+    private static final String FIND_SCHEDULE = "SELECT boardtitle From schedules WHERE (month=?) AND (date=?)";
+
     private Connection connection;
 
     private PreparedStatement createSchedule;
@@ -45,6 +47,8 @@ public class SchedulesDatasource implements ScheduleSources {
 
     private PreparedStatement rowCount;
 
+    private PreparedStatement findSchedule;
+
     public SchedulesDatasource() {
         connection = DataConnection.getInstance();
         try {
@@ -56,6 +60,7 @@ public class SchedulesDatasource implements ScheduleSources {
             deleteSchedule = connection.prepareStatement(DELETE_SCHEDULE);
             editSchedule = connection.prepareStatement(EDIT_SCHEDULE);
             rowCount = connection.prepareStatement(COUNT_ROWS);
+            findSchedule = connection.prepareStatement(FIND_SCHEDULE);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -111,6 +116,21 @@ public class SchedulesDatasource implements ScheduleSources {
             ex.printStackTrace();
         }
         return b;
+    }
+
+    public ScheduleInfo findScheudle(String date, String month){
+        ScheduleInfo n = new ScheduleInfo();
+        ResultSet rs = null;
+        try {
+            findSchedule.setString(1, date);
+            findSchedule.setString(2, month);
+            rs = getSchedule.executeQuery();
+            rs.next();
+            n.setBoardTitle(rs.getString("boardtitle"));
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return n;
     }
 
     /**
