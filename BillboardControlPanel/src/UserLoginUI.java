@@ -12,8 +12,11 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener{
     private JTextField username;
     private JPasswordField password;
 
-    public UserLoginUI(){
+    UserData data;
+
+    public UserLoginUI(UserData data){
         super("Login Page");
+        this.data = data;
         setSize(WIDTH, HEIGHT);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(dim.width / 2 - WIDTH / 2, dim.height / 2 - HEIGHT / 2);
@@ -73,14 +76,17 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener{
         if(src == btnLogin)
         {
             String name = username.getText();
-            if(name.equals("Jason"))
+            String pass = String.valueOf(password.getPassword());
+            if(data.isValidUser(name, pass) == true)
             {
-                HomeUI GUI = new HomeUI();
-                GUI.setVisible(true);
-                dispose();
+                System.out.println(data.isValidUser(name, pass));
+                //HomeUI GUI = new HomeUI(data);
+                //GUI.setVisible(true);
+                //dispose();
             }
             else
             {
+                System.out.println(data.isValidUser(name, pass));
                 username.setBorder(new LineBorder(Color.RED));
                 password.setBorder(new LineBorder(Color.RED));
                 JOptionPane.showMessageDialog(this,"Invalid username or password",

@@ -2,7 +2,7 @@ import javax.swing.*;
 
 public class Run {
     private static void createAndShowGUI() {
-        HomeUI GUI = new HomeUI();
+        HomeUI GUI = new HomeUI(new UserData(), new BillboardData());
         GUI.setVisible(true);
     }
     public static void main(String[] args) {
