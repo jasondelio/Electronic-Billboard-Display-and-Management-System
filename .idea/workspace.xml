@@ -2,58 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="01508137-4561-4283-97d1-e5c870fef63b" name="Default Changelist" comment="Handle">
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/database/billboard/BillboardData.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/database/billboard/BillboardDataSource.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/AcknowledgeReply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/listUsersReply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/RemoveBillboardRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/ScheduleBillboardRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/CAB302.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CAB302.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/cab302/database/DataConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/DataConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/billboard/BillboardInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/billboard/BillboardInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/billboard/BillboardSources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/billboard/BillboardSources.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/billboard/BillboardsDatasource.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleSources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleSources.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/SchedulesDatasource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/SchedulesDatasource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/user/UserData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/user/UserData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/user/UserDataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/user/UserDataSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/user/UserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/user/UserInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/user/UserSources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/user/UserSources.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/cab302/db.props" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/db.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/BillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/BillboardRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/CreateBillboardReply.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/CreateBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/CreateBillboardRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/DelateBillboardReply.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/DelateBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/DelateBillboardRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/RemoveBillboardReply.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/RemoveBillboardRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ScheduleBillboardReply.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ScheduleBillboardRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ViewBillboardReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ViewBillboardReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ViewBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/ViewBillboardRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/billboardServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/billboardServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/listBillboardReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/listBillboardReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/listBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/listBillboardRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/CreateUsersReply.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/CreateUsersRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/CreateUsersRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/DelateUserReply.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/DelateUserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/DelateUserRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/GetUserPemmRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/GetUserPemmRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/GetUserpemmReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/GetUserpemmReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/LoginReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/LoginReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/Loginrequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/Loginrequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/LogoutUserReply.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/LogoutUsersRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/LogoutUsersRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/SetPassReply.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/SetPassRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/SetPassRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/SetUserPemmRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/SetUserPemmRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/SetUserpemmReply.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/UserAuthentication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/UserAuthentication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/UserClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/UserClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/listUsersReply.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/listUsersRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/listUsersRequest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
