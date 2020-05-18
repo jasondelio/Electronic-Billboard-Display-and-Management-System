@@ -1,28 +1,38 @@
 package cab302.database;
 
 import cab302.database.schedule.ScheduleInfo;
+import cab302.database.schedule.ScheduleData;
 
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
-
-import cab302.database.schedule.ScheduleData;
-import cab302.database.schedule.ScheduleInfo;
+import javax.swing.border.Border;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 
 public abstract class CalendarGUI extends JFrame implements ActionListener, Runnable, MouseListener {
     public static final int YEAR_DURATION = 10;
+    public static final int WEEK_LENGTH = 7;
+    public static final int DAY_HOUR = 24;
 
-
+    private JFrame bg;
     private JPanel pnlTop;
     private JPanel pnlCntr;
     private JPanel pnlDate;
     private JPanel pnlDayNames;
+    private JPanel pnlWeekly;
+    private JPanel pnlNames;
+    private JPanel pnlTime;
+    private JPanel pnlMain;
 
+    private JTable table;
 
-    private JButton btnLast;
-    private JButton btnNext;
+    private JScrollPane scrollWeekly;
 
+    String chosenDate;
 
     private JComboBox<Integer> yearChooser;
     private JComboBox<String> monthChooser;
@@ -33,55 +43,104 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
     int month;
     int date;
     int lastDate;
-    String chosenDate;
     private Calendar current;
-    ScheduleData data;
 
     protected String[] dayNames = {"Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
     protected String[] monthNames = {"Jan", "Feb",
             "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
+//    protected String[][] data = {
+//            {"Test", "2020", "5", "19", "10","00", "1"},
+//            {"Test", "2020", "5", "20", "13","30","3"}};
+
+    ScheduleData dataSet;
+
+    String[][] data;
+
+    Integer[][] ob;
+
+    Object[] rowH;
+
+    Object[] lblList;
+
     public CalendarGUI() {
         initializer();
 
-        pnlTop.add(btnLast);
-        setMonthChooser();
-        setYearChooser();
-        pnlTop.add(btnNext);
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.fill = GridBagConstraints.BOTH;
+
+        Box topBox = Box.createHorizontalBox();
+        setMonthChooser(topBox);
+        setYearChooser(topBox);
+        gbc.gridwidth = 2;
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        pnlTop.add(topBox);
+
         pnlTop.setBackground(new Color(100, 200, 200));
 
-        add(pnlTop, "North");
+        pnlMain.add(pnlTop, gbc);
+
+
         setLblOfDays();
-
-
         setFirstDate();
         setDatesOfCalendar();
-        pnlCntr.add(pnlDate,"Center");
-        add(pnlCntr, "Center");
+        emptyWeekly();
+        setSchedule();
+        setTable();
 
-        setVisible(true);
+        gbc.ipadx = 0;
+        gbc.gridx = 1;
+        gbc.gridy = 2;
+        gbc.gridwidth = 1;
+        pnlMain.add(pnlDayNames, gbc);
+
+        gbc.gridwidth = 4;
+        gbc.gridheight = 4;
+        gbc.ipady = 0;
+        gbc.gridx = 3;
+        gbc.gridy = 2;
+//        pnlMain.add(pnlWeekly, gbc);
+        pnlMain.add(scrollWeekly, gbc);
+
+        gbc.gridwidth = 1;
+        gbc.gridheight = 2;
+        gbc.ipadx = 0;
+        gbc.gridx = 1;
+        gbc.gridy = 3;
+        pnlMain.add(pnlDate, gbc);
+
+        bg.add(pnlMain);
+        bg.pack();
+
+        bg.setVisible(true);
 
         yearChooser.addActionListener(this);
         monthChooser.addActionListener(this);
-        btnLast.addActionListener(this);
-        btnNext.addActionListener(this);
-
     }
 
     public void initializer() {
 
         current = Calendar.getInstance();
 
+        bg = new JFrame();
         yearChooser = new JComboBox<Integer>();
         yearBox = new DefaultComboBoxModel<Integer>();
         monthChooser = new JComboBox<String>();
         monthBox = new DefaultComboBoxModel<String>();
 
-        btnLast = new JButton("<-");
+        table = new JTable();
 
-        btnNext = new JButton("->");
+        scrollWeekly = new JScrollPane();
+
+        pnlMain = new JPanel(new GridBagLayout());
 
         pnlTop = new JPanel();
+
+        pnlTime = new JPanel();
+
+        pnlNames = new JPanel();
 
         pnlCntr = new JPanel(new BorderLayout());
 
@@ -89,11 +148,173 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
 
         pnlDate = new JPanel(new GridLayout(0, 7));
 
-        setSize(600, 400);
+        pnlWeekly = new JPanel(new GridLayout(0, 8));
+
+        bg.setSize(800, 400);
+
+        ob = new Integer[DAY_HOUR][WEEK_LENGTH + 1];
+        rowH =  new Object[DAY_HOUR];
+        lblList = new Object[WEEK_LENGTH];
+
+//        dataArray = new String[][];
 
         getDate();
         getMonth();
         getYear();
+
+    }
+
+    public void takeData() {
+         dataSet.take();
+    }
+
+    public void setTable() {
+        ListModel Rlm = new AbstractListModel() {
+            @Override
+            public int getSize() {
+                return rowH.length;
+            }
+
+            @Override
+            public Object getElementAt(int index) {
+                return rowH[index];
+            }
+        };
+
+        DefaultTableModel dm = new DefaultTableModel(Rlm.getSize(),lblList.length);
+        dm.setColumnIdentifiers(lblList);
+        JTable table = new JTable( dm ){
+            public Component prepareRenderer(TableCellRenderer renderer, int row, int col) {
+                // get the current row
+                Component comp = super.prepareRenderer(renderer, row, col);
+
+                String type = (String) getModel().getValueAt(row, col);
+                String otherType = (String) getModel().getValueAt(row, 3);
+                Integer du = (Integer) ob[row][col];
+//
+//                if(otherType == null) {
+//                    comp.setBackground(Color.GRAY);
+//                }
+
+                // even index, not selected
+                if (type != null) {
+                    comp.setBackground(Color.CYAN);
+//                    System.out.println(type);
+                }
+                else if (col == 3) {
+                    comp.setBackground(Color.LIGHT_GRAY);
+                }
+                else {
+                    comp.setBackground(Color.white);
+                }
+
+                return comp;
+            }
+        };
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+        // set list selection
+        ListSelectionModel sm = table.getSelectionModel();
+        sm.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        sm.addListSelectionListener(new ListSelectionListener() {
+            public void valueChanged(ListSelectionEvent e) {
+                String Data = null;
+                int[] row = table.getSelectedRows();
+                int[] columns = table.getSelectedColumns();
+                for (int i = 0; i < row.length; i++) {
+                    for (int j = 0; j < columns.length; j++) {
+                        Data = (String) table.getColumnName(j);
+                    } }
+//                System.out.println("Table element selected is: " + Data);
+
+                chosenDate = Data;
+
+                CustomDialog d = new CustomDialog(chosenDate);
+            }
+        });
+
+        JList rowHeader = new JList(Rlm);
+
+        rowHeader.setFixedCellWidth(50);
+
+//        table.setRowHeight();
+        rowHeader.setFixedCellHeight(table.getRowHeight());
+//                             + table.getIntercellSpacing().height);
+        rowHeader.setCellRenderer(new TableModel(table));
+
+        JList colHeader = new JList(lblList);
+        colHeader.setFixedCellWidth(70);
+
+        setTableValue(table);
+
+
+        scrollWeekly.setViewportView(table);
+        scrollWeekly.setRowHeaderView(rowHeader);
+//        scrollWeekly.setColumnHeaderView(colHeader);
+        scrollWeekly.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+        scrollWeekly.setPreferredSize(new Dimension(600, 450));
+
+    }
+
+    public void setTableValue(JTable t) {
+//        String[][] data = {
+//                {"Test", "2020", "5", "19", "10","00", "1"},
+//                {"Test", "2020", "5", "20", "13","30","3"}};
+        String[][] tempData = data;
+        String[][] tC = new String[t.getColumnCount()][2];
+        String[] tR = new String[t.getRowCount()];
+        boolean find = false;
+        int c = 0;
+        int[][] d = new int[tC.length][2];
+        for(int i = 0; i < t.getColumnCount(); i++) {
+            String[] m = t.getColumnName(i).replace("<html><center>", "").split("<br>");
+//            String date = Arrays.toString(m);
+            tC[i][0] = m[0];
+            tC[i][1] = String.valueOf(i);
+//            System.out.println(tC[i][1]);
+
+        }
+
+        while(c < data.length) {
+            for (int i = 0; i < data.length; i++) {
+                for (String[] n : tC) {
+//                    System.out.println(n[0]);
+//                    System.out.println(tempData[i][3]);
+                    if (n[0].equals(tempData[i][3])) {
+//                        System.out.println(tempData[i][3]);
+                        d[i][0] = Integer.parseInt(n[1]);
+                        d[i][1] = i;
+                        System.out.println(d[i][0]);
+                        find = true;
+                    }
+                }
+
+                if(!find) {d[i][0] = -1; d[i][1] = -1;}
+            }
+
+            if(find && d[c][0] != -1 && d[c][1] != -1) {
+                String value = data[d[c][1]][0] + " - " + data[d[c][1]][4] + ":" + data[d[c][1]][5];
+
+                //            String[] value = t.getColumnName(1).replace("<html><center>", "").split("<br>");
+//                System.out.println(value);
+                t.setValueAt(value,
+                        Integer.parseInt(data[d[c][1]][4]),
+                        d[c][0]);
+                if(Integer.parseInt(data[d[c][1]][6]) > 0) {
+                    for(int i = 1; i < Integer.parseInt(data[d[c][1]][6]); i++) {
+                        t.setValueAt(" ",
+                                Integer.parseInt(data[d[c][1]][4]) + i,
+                                d[c][0]);
+                    }
+                }
+
+                //            ob[Integer.parseInt(data[d[c][1]][4])][d[c][0]] = Integer.valueOf(data[d[c][1]][6]);
+                c++;
+                find = false;
+            } else {
+                c++;
+            }
+        }
 
     }
 
@@ -112,11 +333,8 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
         return date;
     }
 
-//    public int getTime(){
-//
-//    }
 
-    public void setYearChooser(){
+    public void setYearChooser(Box x){
 
         for(int i=year-YEAR_DURATION; i<=year+YEAR_DURATION; i++) yearBox.addElement(i);
 
@@ -124,10 +342,10 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
 
         yearChooser.setSelectedItem(year);
 
-        pnlTop.add(yearChooser);
+        x.add(yearChooser);
     }
 
-    public void setMonthChooser(){
+    public void setMonthChooser(Box x){
 
 
         for(int i=0; i<12; i++) monthBox.addElement(monthNames[i]);
@@ -136,7 +354,7 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
 
         monthChooser.setSelectedItem(monthNames[month - 1]);
 
-        pnlTop.add(monthChooser);
+        x.add(monthChooser);
     }
 
     public void setLblOfDays() {
@@ -169,7 +387,6 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
         for(int i = 1; i <= lastDate; i++) {
             Box box = Box.createVerticalBox();
             JLabel datelbl = new JLabel();
-//            JLabel lbl = new JLabel();
             datelbl.setText(String.valueOf(i));
 
             // Set the date to define it is on Sun or Sat
@@ -177,35 +394,175 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
             if(tempCal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) datelbl.setForeground(Color.red);
             if(tempCal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) datelbl.setForeground((Color.blue));
 
-
-
             datelbl.addMouseListener(this);
 
-//            lbl.setText("Bill");
 
             box.add(datelbl);
 
+
             //TODO: Not sure it will work well or not
-            box.add(show(data.find(month-1, i)));
+//            box.add(show(data.find(month-1, i)));
 
             pnlDate.add(box);
         }
     }
 
+    public void weeklyPlanner(String comp) {
+        Calendar tempCal = Calendar.getInstance();
+        int last = tempCal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
-    public void mouseClicked(MouseEvent e) {
-        Component comp = e.getComponent();
+        int d = Integer.parseInt(comp);
 
-        if(comp != null) {
-            chosenDate = ((JLabel)e.getSource()).getText();
-//            JOptionPane.showMessageDialog(null, chosenDate, "Me", JOptionPane.ERROR_MESSAGE);
-            CustomDialog d = new CustomDialog(chosenDate);
+//        pnlWeekly.add(new JLabel(" "));
 
+        int ind = 0;
+
+        for(int i = -3; i <= 3; i++) {
+
+            Box box = Box.createVerticalBox();
+            JLabel datelbl = new JLabel();
+            int j;
+
+            if(d + i <= 0) {
+                j = last + i;
+                tempCal.set(year, month - 2, j);
+            }
+            else if(d + i > last) {
+                j = (d - last) + i;
+                tempCal.set(year, month, j);
+            } else {
+                j = d + i;
+                tempCal.set(year, month -1, j);
+            }
+
+            JLabel names = new JLabel(dayNames[tempCal.get(Calendar.DAY_OF_WEEK) - 1]);
+            datelbl.setText(String.valueOf(j));
+
+            if(tempCal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {datelbl.setForeground(Color.red); names.setForeground(Color.red);}
+            if(tempCal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {datelbl.setForeground((Color.blue)); names.setForeground(Color.blue);}
+            box.add(datelbl);
+            box.add(names);
+            lblList[ind] = "<html><center>" + j + "<br>" + names.getText();
+
+            ind++;
+
+//            pnlWeekly.add(box);
+        }
+    }
+
+    public void emptyWeekly() {
+        Calendar tempCal = Calendar.getInstance();
+        int last = tempCal.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        int d = date;
+
+//        pnlWeekly.add(new JLabel(" "));
+
+        int ind = 0;
+
+        for(int i = -3; i <= 3; i++) {
+            Box box = Box.createVerticalBox();
+            JLabel datelbl = new JLabel();
+            int j;
+
+            if(d + i <= 0) {
+                j = last + i;
+                tempCal.set(year, month - 2, j);
+            }
+            else if(d + i > last) {
+                j = (d - last) + i;
+                tempCal.set(year, month, j);
+            } else {
+                j = d + i;
+                tempCal.set(year, month -1, j);
+            }
+
+            JLabel names = new JLabel(dayNames[tempCal.get(Calendar.DAY_OF_WEEK) - 1]);
+            datelbl.setText(String.valueOf(j));
+
+            if(tempCal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {datelbl.setForeground(Color.red); names.setForeground(Color.red);}
+            if(tempCal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {datelbl.setForeground((Color.blue)); names.setForeground(Color.blue);}
+            box.add(datelbl);
+            box.add(names);
+
+            lblList[ind] = "<html><center>" + j + "<br>" + names.getText();
+
+            ind++;
+
+//            pnlWeekly.add(box);
         }
     }
 
 
+    public void setSchedule() {
 
+        Border black = BorderFactory.createLineBorder(Color.black);
+
+        for(int i = 0; i < 24; i ++) {
+            for(int j = 0; j < 8; j++) {
+                if(j == 0) {
+                    JLabel time = new JLabel();
+                    time.setText((int)(i) + ":" + "00");
+//                    pnlWeekly.add(time);
+                    rowH[i] = (int)(i) + ":" + "00";
+                } else {
+                    JPanel pn = new JPanel();
+                    pn.setBorder(black);
+//                    pn.addMouseListener(new MouseAdapter() {
+//                        @Override
+//                        public void mousePressed(MouseEvent e) {
+////                            super.mousePressed(e);
+//                            // TODO: Need to find the way to setup chosenDate
+////                            chosenDate = (JPanel) e.getSource().toString();
+//                            chosenDate = "ha...";
+//                        }
+//
+//                        @Override
+//                        public void mouseReleased(MouseEvent e) {
+////                            super.mouseReleased(e);
+//                            CustomDialog d = new CustomDialog(chosenDate);
+//                        }
+//                    });
+//                    pnlWeekly.add(pn);
+                }
+
+            }
+        }
+    }
+
+
+    public void mouseClicked(MouseEvent e) {
+//        Component comp = e.getComponent();
+
+        Object comp = e.getSource();
+
+        if(comp != null) {
+//            chosenDate = ((JLabel)e.getSource()).getText();
+////            JOptionPane.showMessageDialog(null, chosenDate, "Me", JOptionPane.ERROR_MESSAGE);
+//            CustomDialog d = new CustomDialog(chosenDate);
+//            scrollWeekly.setVisible(false);
+//            scrollWeekly.removeAll();
+            pnlWeekly.setVisible(false);
+            pnlWeekly.removeAll();
+            weeklyPlanner(((JLabel) e.getSource()).getText());
+            setSchedule();
+            setTable();
+            pnlWeekly.setVisible(true);
+//            scrollWeekly.setVisible(true);
+        }
+    }
+
+
+    /*
+    Actions
+     */
+    private JLabel show(ScheduleInfo s) {
+        JLabel lbl = new JLabel();
+        if (s != null) {
+            lbl.setText(s.getBoardTitle() + ":" + s.getHour() + s.getMinute());
+        }
+        return lbl;
+    }
 
     public void actionPerformed(ActionEvent e) {
         Object obj = e.getSource();
@@ -214,45 +571,18 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
             int y = (int) yearChooser.getSelectedItem();
             int m = monthChooser.getSelectedIndex();
 
-            if (obj == btnLast) {
-                if (m == 0) {y--;
-                    m = 11;}
-                else {m--;}
-                year = y;
-                month = m + 1;
-            }
-            else if (obj == btnNext) {
-                if (m == 11) {y++;
-                    m = 0;}
-                else {m++;}
-
-                year = y;
-                month = m + 1;
-            }
-
-            else if (obj == yearChooser || obj == monthChooser) {
+            if (obj == yearChooser || obj == monthChooser) {
 
                 year = (int) yearChooser.getSelectedItem();
                 month = monthChooser.getSelectedIndex() + 1;
             }
-
-
         }
-
         pnlDate.setVisible(false);
         pnlDate.removeAll();
         setFirstDate();
         setDatesOfCalendar();
         pnlDate.setVisible(true);
 
-    }
-
-    private JLabel show(ScheduleInfo s) {
-        JLabel lbl = new JLabel();
-        if (s != null) {
-            lbl.setText(s.getBoardTitle() + ":" + s.getHour() + s.getMinute());
-        }
-        return lbl;
     }
 //
 //    @Override
