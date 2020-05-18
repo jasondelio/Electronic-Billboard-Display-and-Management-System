@@ -1,12 +1,12 @@
-package cab302.database.user;
+package cab302.database.billboard;
 
 import javax.swing.*;
 import java.util.Set;
 
-public class UserData {
+public class BillboardData {
     DefaultListModel listModel;
 
-    UserDataSource userData;
+    BillboardDataSource billboardData;
 
     /**
      * Constructor initializes the list model that holds names as Strings and
@@ -14,30 +14,30 @@ public class UserData {
      * application.
      *
      */
-    public UserData() {
+    public BillboardData() {
         listModel = new DefaultListModel();
         /* BEGIN MISSING CODE */
-        userData = new UserDataSource();
+        billboardData = new BillboardDataSource();
         /* END MISSING CODE */
 
         // add the retrieved data to the list model
-        for (String username : userData.nameSet()) {
-            listModel.addElement(username);
+        for (String name : billboardData.nameSet()) {
+            listModel.addElement(name);
         }
     }
 
     /**
      * Adds a person to the address book.
      *
-     * @param u A User to add to the address book.
+     * @param  b User to add to the address book.
      */
-    public void add(UserInfo u) {
+    public void add(BillboardInfo b) {
 
         // check to see if the person is already in the book
         // if not add to the address book and the list model
-        if (!listModel.contains(u.getUsername())) {
-            listModel.addElement(u.getUsername());
-            userData.addUser(u);
+        if (!listModel.contains(b.getName())) {
+            listModel.addElement(b.getName());
+            billboardData.addBillboard(b);
         }
     }
 
@@ -50,15 +50,14 @@ public class UserData {
 
         // remove from both list and map
         listModel.removeElement(key);
-        userData.deleteUser((String) key);
+        billboardData.deleteBillboard((String) key);
     }
 
     /**
      * Saves the data in the address book using a persistence
      * mechanism.
      */
-    public void persist() {
-        userData.close();
+    public void persist() { billboardData.close();
     }
 
     /**
@@ -67,8 +66,8 @@ public class UserData {
      * @param key the name to retrieve.
      * @return the Person object related to the name.
      */
-    public UserInfo get(Object key) {
-        return userData.getUser((String) key);
+    public BillboardInfo get(Object key) {
+        return billboardData.getBillboard((String) key);
     }
 
     /**
@@ -84,24 +83,26 @@ public class UserData {
      * @return the number of names in the Address Book.
      */
     public int getSize() {
-        return userData.getSize();
+        return billboardData.getSize();
     }
 
-    public boolean isValidUser(String username, String password)
+    public void edit(String name, String xmlContent, String previousName)
     {
-        return userData.isValidUser(username, password);
-    }
-    public void edit(String name, String username, String password, String salt, String previousUsername,
-                     String createBillboards, String editAllBillboards,
-                     String scheduleBillboards, String editUsers)
-    {
-        userData.editUser(name, username, password, salt, previousUsername, createBillboards, editAllBillboards,
-                scheduleBillboards, editUsers);
-        if(previousUsername != username) {
-            listModel.removeElement(previousUsername);
-            listModel.addElement(username);
+        billboardData.editBillboard(name, xmlContent, previousName);
+        if(previousName != name) {
+            listModel.removeElement(previousName);
+            listModel.addElement(name);
         }
 
     }
-    public Set<String> getUserList() { return  userData.nameSet(); }
+    /**
+     * @return lists of billboards name
+     */
+    public Set<String> getNameLists (){ return billboardData.nameSet(); }
+
+    /**
+     * @return lists of billboards name
+     */
+    public Set<String> geBillsLists (){ return billboardData.billsSet(); }
+
 }

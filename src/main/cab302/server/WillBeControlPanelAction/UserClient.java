@@ -1,4 +1,4 @@
-package cab302.server.UserServer;
+package cab302.server.WillBeControlPanelAction;
 
 import cab302.server.Billboardserver.*;
 
@@ -10,15 +10,15 @@ import java.util.ArrayList;
 
 public class UserClient {
     public static void main (String[] args) throws IOException, ClassNotFoundException, NoSuchAlgorithmException {
-        Socket socket = new Socket("localhost",3306);
+        Socket socket = new Socket("localhost",12345);
         OutputStream outputStream = socket.getOutputStream();
         InputStream inputStream = socket.getInputStream();
 
         ObjectOutputStream oos = new ObjectOutputStream(outputStream);
         ObjectInputStream ois = new ObjectInputStream(inputStream);
-        String password ="dfddsd";
+        String password ="daafda";
         String hashePass = getHashedPass(password);
-        Loginrequest loginrequest = new Loginrequest("souu",hashePass);
+        Loginrequest loginrequest = new Loginrequest("suzan",hashePass);
         oos.writeObject(loginrequest);
         oos.flush();
         Object transoO = ois.readObject();
@@ -39,7 +39,7 @@ public class UserClient {
 
         if (sessionToken.isEmpty()) return;
 
-        socket = new Socket("localhost",3306);
+        socket = new Socket("localhost",12345);
         outputStream = socket.getOutputStream();
         inputStream = socket.getInputStream();
 
@@ -52,7 +52,7 @@ public class UserClient {
         transoO = ois.readObject();
         if (transoO instanceof listBillboardReply){
             listBillboardReply lbrlist =  (listBillboardReply) transoO;
-            System.out.println("server replied with "+ lbrlist);
+            System.out.println("Billboards List : "+ lbrlist.getListofBillboards());
         }else{
             System.out.println("error");
         }
@@ -63,13 +63,13 @@ public class UserClient {
 
         if (sessionToken.isEmpty()) return;
 
-        socket = new Socket("localhost",3306);
+        socket = new Socket("localhost",12345);
         outputStream = socket.getOutputStream();
         inputStream = socket.getInputStream();
 
         oos = new ObjectOutputStream(outputStream);
         ois = new ObjectInputStream(inputStream);
-        String billboardname = "dfdfd";
+        String billboardname = "billboard1";
         BillboardRequest bbr = new BillboardRequest(billboardname,sessionToken);
         oos.writeObject(bbr);
         oos.flush();
@@ -78,7 +78,7 @@ public class UserClient {
         if (transoO instanceof BillboardReply){
             BillboardReply bbrcontent =  (BillboardReply) transoO;
             billboardContent = bbrcontent.getbillboard();
-            System.out.println("server replied with "+ billboardContent);
+            System.out.println("billboard content : "+ billboardContent);
         }else{
             System.out.println("error");
         }
@@ -88,7 +88,7 @@ public class UserClient {
 
         if (sessionToken.isEmpty()) return;
 
-        socket = new Socket("localhost",3306);
+        socket = new Socket("localhost",12345);
         outputStream = socket.getOutputStream();
         inputStream = socket.getInputStream();
 
@@ -98,41 +98,41 @@ public class UserClient {
         oos.writeObject(cbbr);
         oos.flush();
         transoO = ois.readObject();
-        if (transoO instanceof CreateBillboardReply){
-            CreateBillboardReply cbbrcontent =  (CreateBillboardReply) transoO;
-            System.out.println("server replied with "+ cbbrcontent.getbillboard());
+        if (transoO instanceof AcknowledgeReply){
+            AcknowledgeReply cbbrcontent =  (AcknowledgeReply) transoO;
+            System.out.println(cbbrcontent.getAcknowledgement());
         }else{
             System.out.println("error");
         }
         ois.close();
         oos.close();
         socket.close();
+//
+//        if (sessionToken.isEmpty()) return;
+//
+//        socket = new Socket("localhost",12345);
+//        outputStream = socket.getOutputStream();
+//        inputStream = socket.getInputStream();
+//
+//        oos = new ObjectOutputStream(outputStream);
+//        ois = new ObjectInputStream(inputStream);
+//        DelateBillboardRequest dbbr = new DelateBillboardRequest(billboardname,sessionToken);
+//        oos.writeObject(dbbr);
+//        oos.flush();
+//        transoO = ois.readObject();
+//        if (transoO instanceof AcknowledgeReply){
+//            AcknowledgeReply dbbrcontent =  (AcknowledgeReply) transoO;
+//            System.out.println(dbbrcontent.getAcknowledgement());
+//        }else{
+//            System.out.println("error");
+//        }
+//        ois.close();
+//        oos.close();
+//        socket.close();
 
         if (sessionToken.isEmpty()) return;
 
-        socket = new Socket("localhost",3306);
-        outputStream = socket.getOutputStream();
-        inputStream = socket.getInputStream();
-
-        oos = new ObjectOutputStream(outputStream);
-        ois = new ObjectInputStream(inputStream);
-        DelateBillboardRequest dbbr = new DelateBillboardRequest(billboardname,sessionToken);
-        oos.writeObject(dbbr);
-        oos.flush();
-        transoO = ois.readObject();
-        if (transoO instanceof DelateBillboardReply){
-            DelateBillboardReply dbbrcontent =  (DelateBillboardReply) transoO;
-            System.out.println("server replied with "+ dbbrcontent.getbillboard());
-        }else{
-            System.out.println("error");
-        }
-        ois.close();
-        oos.close();
-        socket.close();
-
-        if (sessionToken.isEmpty()) return;
-
-        socket = new Socket("localhost",3306);
+        socket = new Socket("localhost",12345);
         outputStream = socket.getOutputStream();
         inputStream = socket.getInputStream();
 
@@ -156,56 +156,63 @@ public class UserClient {
 
         if (sessionToken.isEmpty()) return;
 
-        socket = new Socket("localhost",3306);
+        socket = new Socket("localhost",12345);
         outputStream = socket.getOutputStream();
         inputStream = socket.getInputStream();
 
         oos = new ObjectOutputStream(outputStream);
         ois = new ObjectInputStream(inputStream);
-        int time1 = 10;
-        int duration1 = 100;
-        ScheduleBillboardRequest sbbr = new ScheduleBillboardRequest(billboardname,sessionToken, time1, duration1);
+        String duration1 = "1";
+        int month1 = 5;
+        int date1 = 19;
+        String hour = "16";
+        String minitue = "10";
+        ScheduleBillboardRequest sbbr = new ScheduleBillboardRequest(billboardname, month1, date1, hour, minitue, duration1, sessionToken);
         oos.writeObject(sbbr);
         oos.flush();
         transoO = ois.readObject();
-        if (transoO instanceof ScheduleBillboardReply){
-            ScheduleBillboardReply sbbrcontent =  (ScheduleBillboardReply) transoO;
-            System.out.println("server replied with "+ sbbrcontent.getbillboard());
+        if (transoO instanceof AcknowledgeReply){
+            AcknowledgeReply sbbrcontent =  (AcknowledgeReply) transoO;
+            System.out.println("Scheduled billboard list : "+ sbbrcontent.getAcknowledgement());
         }else{
             System.out.println("error");
         }
         ois.close();
         oos.close();
         socket.close();
-
-        if (sessionToken.isEmpty()) return;
-
-        socket = new Socket("localhost",3306);
-        outputStream = socket.getOutputStream();
-        inputStream = socket.getInputStream();
-
-        oos = new ObjectOutputStream(outputStream);
-        ois = new ObjectInputStream(inputStream);
-        int time2 = 10;
-        RemoveBillboardRequest rbbr = new RemoveBillboardRequest(billboardname,sessionToken, time2);
-        oos.writeObject(rbbr);
-        oos.flush();
-        transoO = ois.readObject();
-        if (transoO instanceof RemoveBillboardReply){
-            RemoveBillboardReply rbbrcontent =  (RemoveBillboardReply) transoO;
-            System.out.println("server replied with "+ rbbrcontent.getbillboard());
-        }else{
-            System.out.println("error");
-        }
-        ois.close();
-        oos.close();
-        socket.close();
+//
+//        if (sessionToken.isEmpty()) return;
+//
+//        socket = new Socket("localhost",12345);
+//        outputStream = socket.getOutputStream();
+//        inputStream = socket.getInputStream();
+//
+//        oos = new ObjectOutputStream(outputStream);
+//        ois = new ObjectInputStream(inputStream);
+//        int time2 = 10;
+//        int month2 = 5;
+//        int date2 = 19;
+//        String hou2 = "16";
+//        String minitu2 = "10";
+//        RemoveBillboardRequest rbbr = new RemoveBillboardRequest(billboardname,sessionToken, month2, date2, hou2,minitu2);
+//        oos.writeObject(rbbr);
+//        oos.flush();
+//        transoO = ois.readObject();
+//        if (transoO instanceof AcknowledgeReply){
+//            AcknowledgeReply rbbrcontent =  (AcknowledgeReply) transoO;
+//            System.out.println(rbbrcontent.getAcknowledgement());
+//        }else{
+//            System.out.println("error");
+//        }
+//        ois.close();
+//        oos.close();
+//        socket.close();
 
 
         System.out.println("------------------------------------------------------");
         if (sessionToken.isEmpty()) return;
 
-        socket = new Socket("localhost",3306);
+        socket = new Socket("localhost",12345);
         outputStream = socket.getOutputStream();
         inputStream = socket.getInputStream();
 
@@ -218,7 +225,7 @@ public class UserClient {
         transoO = ois.readObject();
         if (transoO instanceof listUsersReply){
             listUsersReply lurlist =  (listUsersReply) transoO;
-            System.out.println("server replied with "+ lurlist);
+            System.out.println("User Lists : "+ lurlist.getListOfUsers());
         }else{
             System.out.println("error");
         }
@@ -229,7 +236,7 @@ public class UserClient {
 
         if (sessionToken.isEmpty()) return;
 
-        socket = new Socket("localhost",3306);
+        socket = new Socket("localhost",12345);
         outputStream = socket.getOutputStream();
         inputStream = socket.getInputStream();
 
@@ -238,18 +245,19 @@ public class UserClient {
         String username = "suu";
         String password1 = "dfdfcc";
         String hashePass1 = getHashedPass(password1);
-        ArrayList<String> lists_permission = new ArrayList<String>();
-        lists_permission.add("EditUsers");
-        lists_permission.add("ScheduleBillboards");
-        lists_permission.add("EditAllBillboards");
-        lists_permission.add("CreateBillboards");
-        CreateUsersRequest cur = new CreateUsersRequest(sessionToken, username, hashePass1,lists_permission);
+        ArrayList<String> lists_permission = new ArrayList<>();
+        lists_permission.add("True");
+        lists_permission.add("True");
+        lists_permission.add("True");
+        lists_permission.add("True");
+        CreateUsersRequest cur = new CreateUsersRequest(sessionToken, hashePass1,username, lists_permission);
 
         oos.writeObject(cur);
         oos.flush();
         transoO = ois.readObject();
-        if (transoO instanceof CreateUsersReply){
-            System.out.println("Server successfully made the user ! ");
+        if (transoO instanceof AcknowledgeReply){
+            AcknowledgeReply lurlist =  (AcknowledgeReply) transoO;
+            System.out.println(lurlist.getAcknowledgement());
         }else{
             System.out.println("error");
         }
@@ -259,19 +267,20 @@ public class UserClient {
         socket.close();
         if (sessionToken.isEmpty()) return;
 
-        socket = new Socket("localhost",3306);
+        socket = new Socket("localhost",12345);
         outputStream = socket.getOutputStream();
         inputStream = socket.getInputStream();
 
         oos = new ObjectOutputStream(outputStream);
         ois = new ObjectInputStream(inputStream);
-        GetUserPemmRequest gupr = new GetUserPemmRequest("souu", sessionToken);
+        GetUserPemmRequest gupr = new GetUserPemmRequest("suu", sessionToken);
 
         oos.writeObject(gupr);
         oos.flush();
         transoO = ois.readObject();
         if (transoO instanceof GetUserpemmReply){
-            System.out.println("Server successfully get the user permission ! ");
+            GetUserpemmReply lurlist =  (GetUserpemmReply) transoO;
+            System.out.println(lurlist.getListPermissions());
         }else{
             System.out.println("error");
         }
@@ -282,7 +291,7 @@ public class UserClient {
 
         if (sessionToken.isEmpty()) return;
 
-        socket = new Socket("localhost",3306);
+        socket = new Socket("localhost",12345);
         outputStream = socket.getOutputStream();
         inputStream = socket.getInputStream();
 
@@ -290,14 +299,17 @@ public class UserClient {
         ois = new ObjectInputStream(inputStream);
         ArrayList<String> list_permission = new ArrayList<String>();
         list_permission.add("True");
-        list_permission.add("False");
-        SetUserPemmRequest supr = new SetUserPemmRequest("souu", sessionToken, list_permission);
+        list_permission.add("True");
+        list_permission.add("True");
+        list_permission.add("True");
+        SetUserPemmRequest supr = new SetUserPemmRequest("suu", sessionToken, list_permission);
 
         oos.writeObject(supr);
         oos.flush();
         transoO = ois.readObject();
-        if (transoO instanceof SetUserpemmReply){
-            System.out.println("Server successfully set the user permission ! ");
+        if (transoO instanceof AcknowledgeReply){
+            AcknowledgeReply supr1 = (AcknowledgeReply)  transoO;
+            System.out.println(supr1.getAcknowledgement());
         }else{
             System.out.println("error");
         }
@@ -307,20 +319,21 @@ public class UserClient {
         socket.close();
 
 
-        socket = new Socket("localhost",3306);
+        socket = new Socket("localhost",12345);
         outputStream = socket.getOutputStream();
         inputStream = socket.getInputStream();
 
         oos = new ObjectOutputStream(outputStream);
         ois = new ObjectInputStream(inputStream);
-
-        SetPassRequest spr = new SetPassRequest("souu", hashePass);
+        String hashePassd = getHashedPass("sfaad");
+        SetPassRequest spr = new SetPassRequest("suu", hashePassd, sessionToken);
 
         oos.writeObject(spr);
         oos.flush();
         transoO = ois.readObject();
-        if (transoO instanceof SetPassReply){
-            System.out.println("Server successfully set the user password ! ");
+        if (transoO instanceof AcknowledgeReply){
+            AcknowledgeReply replys = (AcknowledgeReply) transoO;
+            System.out.println(replys.getAcknowledgement());
         }else{
             System.out.println("error");
         }
@@ -328,32 +341,33 @@ public class UserClient {
         oos.close();
 
         socket.close();
+//        if (sessionToken.isEmpty()) return;
+//
+//        socket = new Socket("localhost",12345);
+//        outputStream = socket.getOutputStream();
+//        inputStream = socket.getInputStream();
+//
+//        oos = new ObjectOutputStream(outputStream);
+//        ois = new ObjectInputStream(inputStream);
+//
+//        DelateUserRequest dur = new DelateUserRequest("suu", sessionToken);
+//
+//        oos.writeObject(dur);
+//        oos.flush();
+//        transoO = ois.readObject();
+//        if (transoO instanceof AcknowledgeReply){
+//            AcknowledgeReply deuser = (AcknowledgeReply) transoO;
+//            System.out.println(deuser.getAcknowledgement());
+//        }else{
+//            System.out.println("error");
+//        }
+//        ois.close();
+//        oos.close();
+//
+//        socket.close();
         if (sessionToken.isEmpty()) return;
 
-        socket = new Socket("localhost",3306);
-        outputStream = socket.getOutputStream();
-        inputStream = socket.getInputStream();
-
-        oos = new ObjectOutputStream(outputStream);
-        ois = new ObjectInputStream(inputStream);
-
-        DelateUserRequest dur = new DelateUserRequest("suu", sessionToken);
-
-        oos.writeObject(dur);
-        oos.flush();
-        transoO = ois.readObject();
-        if (transoO instanceof DelateUserReply){
-            System.out.println("Server successfully delate the user! ");
-        }else{
-            System.out.println("error");
-        }
-        ois.close();
-        oos.close();
-
-        socket.close();
-        if (sessionToken.isEmpty()) return;
-
-        socket = new Socket("localhost",3306);
+        socket = new Socket("localhost",12345);
         outputStream = socket.getOutputStream();
         inputStream = socket.getInputStream();
 
@@ -365,8 +379,9 @@ public class UserClient {
         oos.writeObject(lour);
         oos.flush();
         transoO = ois.readObject();
-        if (transoO instanceof LogoutUserReply){
-            System.out.println("Server successfully logout the user! ");
+        if (transoO instanceof AcknowledgeReply){
+            AcknowledgeReply loure = (AcknowledgeReply) transoO;
+            System.out.println(loure.getAcknowledgement());
         }else{
             System.out.println("error");
         }

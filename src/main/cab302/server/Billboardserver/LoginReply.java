@@ -1,4 +1,4 @@
-package cab302.server.UserServer;
+package cab302.server.Billboardserver;
 
 import java.io.Serializable;
 

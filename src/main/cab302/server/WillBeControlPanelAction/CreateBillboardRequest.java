@@ -1,4 +1,4 @@
-package cab302.server.Billboardserver;
+package cab302.server.WillBeControlPanelAction;
 
 import java.io.Serializable;
 

@@ -1,75 +1,88 @@
 package cab302.database.billboard;
 
-import java.io.*;
+import java.io.Serializable;
 
+/**
+ * Stores information of users
+ */
 public class BillboardInfo implements Comparable<BillboardInfo>, Serializable {
 
-        private String title;
+    private static final long serialVersionUID = -7092701502990374424L;
 
-        private String singer;
+    private String name;
 
-        private String rank;
+    private String xmlContent;
 
+    private String creator;
 
-        /**
-         */
-        public BillboardInfo() {
-        }
+    /**
+     *
+     */
+    public BillboardInfo() {
+    }
 
-        /**
-         */
-        public BillboardInfo(String title, String singer, String rank) {
-            this.title = title;
-            this.rank = rank;
-            this.singer = singer;
-        }
+    /**
+     *
+     */
+    public BillboardInfo(String name, String xmlContent, String creator) {
+        this.name = name;
+        this.xmlContent = xmlContent;
+        this.creator = creator;
+    }
 
-        /**
-         */
-        public String getSinger() {
-            return singer;
-        }
+    /**
+     *
+     */
+    public String getXMLContent() {
+        return xmlContent;
+    }
 
-        /**
-         */
-        public void setSinger(String singer) {
-            this.singer = singer;
-        }
+    /**
+     *
+     */
+    public void setXMLContent(String xmlContent) {
+        this.xmlContent = xmlContent;
+    }
 
-        /**
-         */
-        public String getTitle() {
-            return title;
-        }
+    /**
+     *
+     */
+    public String getName() {
+        return name;
+    }
 
-        /**
-         */
-        public void setTitle(String title) {
-            this.title = title;
-        }
+    /**
+     *
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+    /**
+     *
+     */
+    public String getCreator() {
+        return creator;
+    }
 
-        /**
-         */
-        public String getRank() {
-            return rank;
-        }
+    /**
+     *
+     */
+    public void setCreator(String creator) {
+        this.creator = creator;
+    }
 
-        /**
-         */
-        public void setRank(String rank) {
-            this.rank = rank;
-        }
+    /**
+     *
+     */
+    public int compareTo(BillboardInfo other) {
+        return this.name.compareTo(other.name);
+    }
 
-        /**
-         */
-        public int compareTo(BillboardInfo other) {
-            return this.title.compareTo(other.title);
-        }
-
-        /**
-         */
-        public String toString() {
-            return title + " " + singer + ", " + rank;
-        }
+    /**
+     *
+     */
+    public String toString() {
+        return name + ", " + xmlContent;
+    }
 
 }

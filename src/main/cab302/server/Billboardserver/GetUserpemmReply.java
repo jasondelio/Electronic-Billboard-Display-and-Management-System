@@ -1,13 +1,13 @@
-package cab302.server.UserServer;
+package cab302.server.Billboardserver;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class SetUserpemmReply implements Serializable {
+public class GetUserpemmReply implements Serializable {
     private ArrayList<String> listPermissions;
 
 
-    public SetUserpemmReply(ArrayList<String> listPermissions){
+    public GetUserpemmReply(ArrayList<String> listPermissions){
         this.listPermissions = listPermissions;
     }
     public ArrayList<String> getListPermissions(){

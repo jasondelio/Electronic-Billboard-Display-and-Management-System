@@ -1,15 +1,17 @@
 package cab302.database.billboard;
 
-import java.util.*;
+import java.util.Set;
 
 public interface BillboardSources {
-    /**
-     */
-    void createBillboard(BillboardInfo b);
 
     /**
      */
-    BillboardInfo getBillboard(String title);
+    void addBillboard(BillboardInfo b);
+
+    /**
+     */
+    BillboardInfo getBillboard(String name);
+
 
     /**
      */
@@ -17,13 +19,13 @@ public interface BillboardSources {
 
     /**
      */
-    void deleteBillboard(String title);
+    void deleteBillboard(String name);
 
     /**
      *
      * @return
      */
-    BillboardInfo editBillboard(String title);
+    void editBillboard(String name, String XMLContent, String previousName);
 
     /**
      */
@@ -31,5 +33,6 @@ public interface BillboardSources {
 
     /**
      */
-    Set<String> titleSet();
+    Set<String> nameSet();
+
 }

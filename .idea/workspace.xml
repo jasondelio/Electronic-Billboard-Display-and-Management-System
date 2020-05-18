@@ -2,43 +2,58 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="01508137-4561-4283-97d1-e5c870fef63b" name="Default Changelist" comment="Handle">
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/BillboardReply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/BillboardRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/CreateBillboardReply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/CreateBillboardRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/DelateBillboardReply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/DelateBillboardRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/RemoveBillboardReply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/RemoveBillboardRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ScheduleBillboardReply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ScheduleBillboardRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ViewBillboardReply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ViewBillboardRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/billboardServer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/listBillboardReply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/listBillboardRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/UserServer/CreateUsersReply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/UserServer/CreateUsersRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/UserServer/DelateUserReply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/UserServer/DelateUserRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/UserServer/GetUserPemmRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/UserServer/GetUserpemmReply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/UserServer/LoginReply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/UserServer/LogoutUserReply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/UserServer/LogoutUsersRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/UserServer/SetPassReply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/UserServer/SetPassRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/UserServer/SetUserPemmRequest.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/UserServer/SetUserpemmReply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/UserServer/UserClient.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/UserServer/listUsersReply.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/UserServer/listUsersRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/cab302/database/billboard/BillboardData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/cab302/database/billboard/BillboardDataSource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/AcknowledgeReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/listUsersReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/RemoveBillboardRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/ScheduleBillboardRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/CAB302.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CAB302.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CAB302/META-INF/CAB302.kotlin_module" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CAB302/META-INF/CAB302.kotlin_module" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Client.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Myclass.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/UserServer/Loginrequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserAuthentication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/UserServer/UserAuthentication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/billboardServer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/DataConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/DataConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/billboard/BillboardInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/billboard/BillboardInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/billboard/BillboardSources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/billboard/BillboardSources.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/billboard/BillboardsDatasource.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleSources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleSources.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/SchedulesDatasource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/SchedulesDatasource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/user/UserData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/user/UserData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/user/UserDataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/user/UserDataSource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/user/UserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/user/UserInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/user/UserSources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/user/UserSources.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/db.props" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/db.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/BillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/BillboardRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/CreateBillboardReply.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/CreateBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/CreateBillboardRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/DelateBillboardReply.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/DelateBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/DelateBillboardRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/RemoveBillboardReply.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/RemoveBillboardRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ScheduleBillboardReply.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ScheduleBillboardRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ViewBillboardReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ViewBillboardReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ViewBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/ViewBillboardRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/billboardServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/billboardServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/listBillboardReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/listBillboardReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/listBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/listBillboardRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/CreateUsersReply.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/CreateUsersRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/CreateUsersRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/DelateUserReply.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/DelateUserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/DelateUserRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/GetUserPemmRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/GetUserPemmRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/GetUserpemmReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/GetUserpemmReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/LoginReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/LoginReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/Loginrequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/Loginrequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/LogoutUserReply.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/LogoutUsersRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/LogoutUsersRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/SetPassReply.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/SetPassRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/SetPassRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/SetUserPemmRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/SetUserPemmRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/SetUserpemmReply.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/UserAuthentication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/UserAuthentication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/UserClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/UserClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/listUsersReply.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserServer/listUsersRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/listUsersRequest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,10 +91,15 @@
   </component>
   <component name="PropertiesComponent">
     <property name="ASKED_SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
+    <property name="Downloaded.Files.Path.Enabled" value="false" />
+    <property name="Repository.Attach.Annotations" value="false" />
+    <property name="Repository.Attach.JavaDocs" value="false" />
+    <property name="Repository.Attach.Sources" value="false" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last.edited.regexp" value="https://www.bigpond.com/anything" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/main/cab302" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -89,27 +109,31 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.last.edited" value="Libraries" />
     <property name="project.structure.proportion" value="0.0" />
-    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="cab302.viewer.exceptions" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/main/cab302" />
+      <recent name="$PROJECT_DIR$/src/main/cab302/database" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="cab302.server.UserServer" />
+      <recent name="cab302.server.Billboardserver" />
+      <recent name="cab302.server" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\[University\CAB302\CAB302\xml-exmaples" />
       <recent name="D:\[University\CAB302\CAB302" />
       <recent name="D:\[University\CAB302\CAB302\src\main\java\cab302" />
       <recent name="D:\[University\CAB302\CAB302\src\main\java\viewer" />
-    </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="cab302.server.Billboardserver" />
-      <recent name="cab302.server.UserServer" />
-      <recent name="cab302.server" />
-    </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="cab302.viewer.exceptions" />
     </key>
   </component>
   <component name="RunManager" selected="Application.billboardServer">
@@ -118,7 +142,7 @@
       <module name="CAB302" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="cab302.server.UserServer.*" />
+          <option name="PATTERN" value="cab302.server.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -140,11 +164,11 @@
       </method>
     </configuration>
     <configuration name="UserAuthentication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="cab302.server.UserServer.UserAuthentication" />
+      <option name="MAIN_CLASS_NAME" value="cab302.server.UserAuthentication" />
       <module name="CAB302" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="cab302.server.UserServer.*" />
+          <option name="PATTERN" value="cab302.server.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -153,11 +177,11 @@
       </method>
     </configuration>
     <configuration name="UserClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="cab302.server.UserServer.UserClient" />
+      <option name="MAIN_CLASS_NAME" value="cab302.server.WillBeControlPanelAction.UserClient" />
       <module name="CAB302" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="cab302.server.UserServer.*" />
+          <option name="PATTERN" value="cab302.server.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -170,7 +194,7 @@
       <module name="CAB302" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="cab302.server.UserServer.*" />
+          <option name="PATTERN" value="cab302.server.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -278,39 +302,55 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="290" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.900@0.0.1440.900" timestamp="1589548262143" />
-    <state x="342" y="55" key="CommitChangelistDialog2" timestamp="1588425185052">
+    <state x="458" y="205" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1589775364891">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="342" y="55" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1588425185052" />
-    <state width="1398" height="230" key="GridCell.Tab.0.bottom" timestamp="1589613546880">
+    <state x="458" y="205" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.900@0.0.1440.900" timestamp="1589775364891" />
+    <state x="342" y="55" key="CommitChangelistDialog2" timestamp="1589773959278">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1589613546880" />
+    <state x="342" y="55" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1589773959278" />
+    <state width="1398" height="145" key="GridCell.Tab.0.bottom" timestamp="1589776396416">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="145" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1589776396416" />
     <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
-    <state width="1398" height="230" key="GridCell.Tab.0.center" timestamp="1589613546879">
+    <state width="1398" height="145" key="GridCell.Tab.0.center" timestamp="1589776396414">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="230" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1589613546879" />
+    <state width="1398" height="145" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1589776396414" />
     <state width="1398" height="230" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1398" height="230" key="GridCell.Tab.0.left" timestamp="1589613546879">
+    <state width="1398" height="145" key="GridCell.Tab.0.left" timestamp="1589776396412">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="230" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1589613546879" />
+    <state width="1398" height="145" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1589776396412" />
     <state width="1398" height="230" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1398" height="230" key="GridCell.Tab.0.right" timestamp="1589613546880">
+    <state width="1398" height="145" key="GridCell.Tab.0.right" timestamp="1589776396415">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="230" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1589613546880" />
+    <state width="1398" height="145" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1589776396415" />
     <state width="1398" height="230" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
-    <state x="208" y="55" key="SettingsEditor" timestamp="1589559659741">
-      <screen x="0" y="23" width="1440" height="877" />
+    <state x="208" y="33" key="SettingsEditor" timestamp="1589769467764">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="208" y="33" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1588425070955" />
+    <state x="208" y="33" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1589769467764" />
     <state x="208" y="55" key="SettingsEditor/0.23.1440.877@0.23.1440.877" timestamp="1589559659741" />
-    <state x="374" y="300" key="com.intellij.ide.util.TipDialog" timestamp="1589559823917">
-      <screen x="0" y="23" width="1440" height="877" />
+    <state x="374" y="284" key="com.intellij.ide.util.TipDialog" timestamp="1589701305370">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="374" y="284" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1589556159554" />
+    <state x="374" y="284" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1589701305370" />
     <state x="374" y="300" key="com.intellij.ide.util.TipDialog/0.23.1440.877@0.23.1440.877" timestamp="1589559823917" />
+    <state x="424" y="353" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1589769463259">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="424" y="353" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1440.900@0.0.1440.900" timestamp="1589769463259" />
+    <state x="385" y="210" width="670" height="675" key="run.anything.popup" timestamp="1589701571702">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="385" y="210" width="670" height="675" key="run.anything.popup/0.0.1440.900@0.0.1440.900" timestamp="1589701571702" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1589774669504">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1589774669504" />
   </component>
 </project>

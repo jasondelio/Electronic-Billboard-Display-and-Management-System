@@ -7,7 +7,8 @@ package cab302.database.user;
 import cab302.database.DataConnection;
 
 import java.sql.*;
-import java.util.*;
+import java.util.Set;
+import java.util.TreeSet;
 
 
 /**
@@ -16,24 +17,46 @@ import java.util.*;
 public class UserDataSource implements UserSources {
 
     public static final String CREATE_TABLE =
-            "CREATE TABLE IF NOT EXISTS userinfo ("
+            "CREATE TABLE IF NOT EXISTS users ("
                     + "idx INTEGER PRIMARY KEY /*!40101 AUTO_INCREMENT */ NOT NULL UNIQUE," // from https://stackoverflow.com/a/41028314
                     + "name VARCHAR(30),"
-                    + "id VARCHAR(30),"
-                    + "passwords VARCHAR(20),"
-                    + "email VARCHAR(30)" + ");";
+                    + "username VARCHAR(30) UNIQUE,"
+                    + "passwords VARCHAR(70),"
+                    + "salt VARCHAR(70),"
+                    + "createBillboards VARCHAR(5),"
+                    + "editAllBillboards VARCHAR(5),"
+                    + "scheduleBillboards VARCHAR(5),"
+                    + "editUsers VARCHAR(5)" + ");";
+    public static final String INSERT_ADMINISTRATOR_USER =
+            "INSERT IGNORE INTO users(name, username, passwords, salt, createBillboards, editAllBillboards, " +
+                    "scheduleBillboards, editUsers) VALUES ('admin', 'root', 'password', 'root@gmail.com', " +
+                    "'true', 'true', 'true', 'true');";
 
-    private static final String INSERT_USER = "INSERT INTO userinfo (name, id, passwords, email) VALUES (?, ?, ?, ?);";
+    private static final String INSERT_USER = "INSERT INTO users (name, username, passwords, salt" +
+            ", createBillboards, editAllBillboards, scheduleBillboards, editUsers) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
 
-    private static final String GET_NAMES = "SELECT name FROM userinfo";
+    private static final String GET_USERNAMES = "SELECT username FROM users";
 
-    private static final String GET_USER = "SELECT * FROM userinfo WHERE name=?";
+    private static final String GET_USER = "SELECT * FROM users WHERE username=?";
 
-    private static final String DELETE_USER = "DELETE FROM userinfo WHERE name=?";
+    private static final String DELETE_USER = "DELETE FROM users WHERE username=?";
 
-    private static final String EDIT_USER = "UPDATE FROM userinfo SET name=?, passwords=?, email=? WHERE id=?";
+    private static final String EDIT_USER = "UPDATE users SET name=?, username=?, passwords=?, salt=?" +
+            ", createBillboards=?, editAllBillboards=?, scheduleBillboards=?, editUsers=? WHERE username=?";
 
-    private static final String COUNT_ROWS = "SELECT COUNT(*) FROM userinfo";
+    private static final String COUNT_ROWS = "SELECT COUNT(*) FROM users";
+
+    private static final String GET_VALID = "SELECT * FROM users WHERE username=? AND passwords =?";
+
+    private static final String GET_PERMISSION = "SELECT ? from users WHERE username=?";
+
+    private static final String GET_CREATE_BILLBOARDS_PERMISSION = "SELECT createBillboards from users WHERE username=?";
+
+    private static final String GET_EDIT_ALL_BILLBOARDS_PERMISSION = "SELECT editAllBillboards from users WHERE username=?";
+
+    private static final String GET_SCHEDULLE_BILLBOARDS_PERMISSION = "SELECT scheduleBillboards from users WHERE username=?";
+
+    private static final String GET_EDIT_USERS_PERMISSION = "SELECT editUsers from users WHERE username=?";
 
     private Connection connection;
 
@@ -49,17 +72,22 @@ public class UserDataSource implements UserSources {
 
     private PreparedStatement rowCount;
 
+    private PreparedStatement isValidUser;
+
+
     public UserDataSource() {
         connection = DataConnection.getInstance();
         try {
             Statement st = connection.createStatement();
             st.execute(CREATE_TABLE);
+            st.execute(INSERT_ADMINISTRATOR_USER);
             addUser = connection.prepareStatement(INSERT_USER);
-            getNameList = connection.prepareStatement(GET_NAMES);
+            getNameList = connection.prepareStatement(GET_USERNAMES);
             getUser = connection.prepareStatement(GET_USER);
             deleteUser = connection.prepareStatement(DELETE_USER);
             editUser = connection.prepareStatement(EDIT_USER);
             rowCount = connection.prepareStatement(COUNT_ROWS);
+            isValidUser = connection.prepareStatement(GET_VALID);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -71,9 +99,13 @@ public class UserDataSource implements UserSources {
     public void addUser(UserInfo u) {
         try {
             addUser.setString(1, u.getName());
-            addUser.setString(2, u.getId());
+            addUser.setString(2, u.getUsername());
             addUser.setString(3, u.getPasswords());
-            addUser.setString(5, u.getEmail());
+            addUser.setString(4, u.getSalt());
+            addUser.setString(5, u.getCreateBillboards());
+            addUser.setString(6, u.getEditAllBillboards());
+            addUser.setString(7, u.getScheduleBillboards());
+            addUser.setString(8, u.getEditUsers());
             addUser.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -84,39 +116,60 @@ public class UserDataSource implements UserSources {
      * @see
      */
     public Set<String> nameSet() {
-        Set<String> names = new TreeSet<String>();
+        Set<String> usernames = new TreeSet<String>();
         ResultSet rs = null;
 
         try {
             rs = getNameList.executeQuery();
             while (rs.next()) {
-                names.add(rs.getString("name"));
+                usernames.add(rs.getString("username"));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
-        return names;
+        return usernames;
     }
 
     /**
      * @see
      */
-    public UserInfo getUser(String name) {
+    public UserInfo getUser(String username) {
         UserInfo u = new UserInfo();
         ResultSet rs = null;
         try {
-            getUser.setString(1, name);
+            getUser.setString(1, username);
             rs = getUser.executeQuery();
             rs.next();
             u.setName(rs.getString("name"));
-            u.setId(rs.getString("id"));
+            u.setUsername(rs.getString("username"));
             u.setPasswords(rs.getString("passwords"));
-            u.setEmail(rs.getString("email"));
+            u.setSalt(rs.getString("salt"));
+            u.setCreateBillboards(rs.getString("createBillboards"));
+            u.setEditAllBillboards(rs.getString("editAllBillboards"));
+            u.setEditUsers(rs.getString("editUsers"));
+            u.setScheduleBillboards(rs.getString("scheduleBillboards"));
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
         return u;
+    }
+
+    public boolean isValidUser(String username, String password){
+        ResultSet rs = null;
+        try {
+            isValidUser.setString(1, username);
+            isValidUser.setString(2, password);
+            rs = isValidUser.executeQuery();
+            rs.next();
+            if(rs.getString("username") == null)
+            {
+                return false;
+            }
+        } catch (SQLException ex) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -139,9 +192,9 @@ public class UserDataSource implements UserSources {
     /**
      * @see
      */
-    public void deleteUser(String name) {
+    public void deleteUser(String username) {
         try {
-            deleteUser.setString(1, name);
+            deleteUser.setString(1, username);
             deleteUser.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -152,20 +205,24 @@ public class UserDataSource implements UserSources {
      * @see
      * @return
      */
-    public UserInfo editUser(String name) {
-        UserInfo n = new UserInfo();
-        ResultSet r = null;
+    public void editUser(String name, String username, String password, String salt, String previousUsername,
+                         String createBillboards, String editAllBillboards,
+                         String scheduleBillboards, String editUsers) {
         try {
             editUser.setString(1, name);
-            r = editUser.executeQuery();
-            r.next();
-            n.setName(r.getString("name"));
-            n.setPasswords(r.getString("passwords"));
-            n.setEmail(r.getString("email"));
-        } catch (SQLException ex) {
+            editUser.setString(2, username);
+            editUser.setString(3, password);
+            editUser.setString(4, salt);
+            editUser.setString(5, createBillboards);
+            editUser.setString(6, editAllBillboards);
+            editUser.setString(7, scheduleBillboards);
+            editUser.setString(8, editUsers);
+            editUser.setString(9, previousUsername);
+            editUser.execute();
+        }
+        catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return n;
     }
 
     /**

@@ -2,7 +2,6 @@ package cab302.database.schedule;
 
 import cab302.database.DataConnection;
 
-
 import java.sql.*;
 import java.util.Set;
 import java.util.TreeSet;
@@ -15,15 +14,21 @@ public class SchedulesDatasource implements ScheduleSources {
 
     public static final String CREATE_TABLE =
             "CREATE TABLE IF NOT EXISTS schedules ("
-                    + "title VARCHAR(30),"
-                    + "singer VARCHAR(30),"
-                    + "rank VARCHAR(3)" + ");";
+                    + "boardtitle VARCHAR(30),"
+                    + "creator VARCHAR(30),"
+                    + "month INT,"
+                    + "date INT,"
+                    + "hour VARCHAR(30),"
+                    + "minute VARCHAR(30),"
+                    + "duration VARCHAR(30)" + ");";
 
-    private static final String INSERT_SCHEDULE = "INSERT INTO schedules (boradtitle, creator, month, hour, minute, duration) VALUES (?, ?, ?, ?, ?, ?);";
+    private static final String INSERT_SCHEDULE = "INSERT INTO schedules (boardtitle, creator, month, date, hour, minute, duration) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
     private static final String GET_TITLE = "SELECT boardtitle FROM schedules";
 
     private static final String GET_SCHEDULE = "SELECT * FROM schedules WHERE boardtitle=?";
+
+    private static final String GET_SCHEDULE_List = "SELECT * FROM schedules";
 
     private static final String DELETE_SCHEDULE = "DELETE FROM schedules WHERE boardtitle=?";
 
@@ -41,6 +46,8 @@ public class SchedulesDatasource implements ScheduleSources {
 
     private PreparedStatement getSchedule;
 
+    private PreparedStatement getScheduleList;
+
     private PreparedStatement deleteSchedule;
 
     private PreparedStatement editSchedule;
@@ -57,6 +64,7 @@ public class SchedulesDatasource implements ScheduleSources {
             createSchedule = connection.prepareStatement(INSERT_SCHEDULE);
             getTitleList = connection.prepareStatement(GET_TITLE);
             getSchedule = connection.prepareStatement(GET_SCHEDULE);
+            getScheduleList = connection.prepareStatement(GET_SCHEDULE_List);
             deleteSchedule = connection.prepareStatement(DELETE_SCHEDULE);
             editSchedule = connection.prepareStatement(EDIT_SCHEDULE);
             rowCount = connection.prepareStatement(COUNT_ROWS);
@@ -73,7 +81,11 @@ public class SchedulesDatasource implements ScheduleSources {
         try {
             createSchedule.setString(1, b.getBoardTitle());
             createSchedule.setString(2, b.getCreator());
-            createSchedule.setInt(3, b.getDate());
+            createSchedule.setInt(3, b.getMonth());
+            createSchedule.setInt(4, b.getDate());
+            createSchedule.setString(5, b.getHour());
+            createSchedule.setString(6, b.getMinute());
+            createSchedule.setString(7, b.getDuration());
             createSchedule.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -90,13 +102,34 @@ public class SchedulesDatasource implements ScheduleSources {
         try {
             rs = getTitleList.executeQuery();
             while (rs.next()) {
-                titles.add(rs.getString("title"));
+                titles.add(rs.getString("boardtitle"));
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
 
         return titles;
+    }
+
+    /**
+     * @see
+     */
+    public Set<String> GetScheduleList() {
+        Set<String> schedules = new TreeSet<String>();
+        ResultSet rs = null;
+
+        try {
+            rs = getScheduleList.executeQuery();
+            while (rs.next()) {
+                schedules.add(rs.getString("boardtitle")+" made by "+rs.getString("creator")+": Scheduled "+ rs.getString("duration")
+                        +" hour on "+rs.getInt("month")+"/"+rs.getInt("date")+"/"+rs.getString("hour")+"/"
+                        +rs.getString("minute") + "(mm/dd/hh/mm):");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return schedules;
     }
 
     /**
@@ -109,9 +142,13 @@ public class SchedulesDatasource implements ScheduleSources {
             getSchedule.setString(1, title);
             rs = getSchedule.executeQuery();
             rs.next();
-            b.setBoardTitle(rs.getString("title"));
-            b.setCreator(rs.getString("singer"));
-            b.setDate(rs.getInt("rank"));
+            b.setBoardTitle(rs.getString("boardtitle"));
+            b.setCreator(rs.getString("creator"));
+            b.setMonth(rs.getInt("month"));
+            b.setDate(rs.getInt("date"));
+            b.setHour(rs.getString("hour"));
+            b.setMinute(rs.getString("minute"));
+            b.setDuration(rs.getString("duration"));
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -174,9 +211,13 @@ public class SchedulesDatasource implements ScheduleSources {
             editSchedule.setString(1, title);
             r = editSchedule.executeQuery();
             r.next();
-            n.setBoardTitle(r.getString("title"));
-            n.setCreator(r.getString("singer"));
-            n.setDate(r.getInt("rank"));
+            n.setBoardTitle(r.getString("boardtitle"));
+            n.setCreator(r.getString("creator"));
+            n.setMonth(r.getInt("month"));
+            n.setDate(r.getInt("data"));
+            n.setHour(r.getString("hour"));
+            n.setMinute(r.getString("minute"));
+            n.setDuration(r.getString("duration"));
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

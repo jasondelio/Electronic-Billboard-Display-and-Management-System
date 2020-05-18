@@ -1,7 +1,7 @@
 
 package cab302.database.user;
 
-import java.util.*;
+import java.util.Set;
 
 public interface UserSources {
 
@@ -25,7 +25,9 @@ public interface UserSources {
      *
      * @return
      */
-    UserInfo editUser(String name);
+    void editUser(String name, String username, String password, String salt, String previousUsername,
+                  String createBillboards, String editAllBillboards,
+                  String scheduleBillboards, String editUsers);
 
     /**
      */
@@ -34,5 +36,7 @@ public interface UserSources {
     /**
      */
     Set<String> nameSet();
+
+    boolean isValidUser(String username, String Password);
 
 }

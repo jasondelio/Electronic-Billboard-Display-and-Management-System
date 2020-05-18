@@ -1,7 +1,7 @@
 package cab302.database.schedule;
 
-import javax.swing.DefaultListModel;
-import javax.swing.ListModel;
+import javax.swing.*;
+import java.util.Set;
 
 public class ScheduleData {
 
@@ -32,7 +32,6 @@ public class ScheduleData {
     /**
      */
     public void remove(Object key) {
-
         // remove from both list and map
         listModel.removeElement(key);
         data.deleteSchedule((String) key);
@@ -60,6 +59,11 @@ public class ScheduleData {
     public int getSize() {
         return data.getSize();
     }
+
+    /**
+     * @return lists of billboards name
+     */
+    public Set<String> getScheduleList (){ return data.GetScheduleList(); }
 }
 
 

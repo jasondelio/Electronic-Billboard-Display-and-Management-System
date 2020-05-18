@@ -1,11 +1,12 @@
-package cab302.server.Billboardserver;
+package cab302.server.WillBeControlPanelAction;
 
 import java.io.Serializable;
 
-public class ViewBillboardRequest implements Serializable {
+public class listUsersRequest implements Serializable {
     private String sessionToken;
 
-    public ViewBillboardRequest(String sessionToken) {
+    public listUsersRequest(String sessionToken){
+
         this.sessionToken = sessionToken;
     }
 
