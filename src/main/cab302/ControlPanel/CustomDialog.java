@@ -46,10 +46,12 @@ public class CustomDialog extends JDialog implements ActionListener {
 
     ScheduleData data;
 
-    int month;
-    int date;
+    String month;
+    String date;
 
     Calendar cal;
+
+    JList datalst;
 
 
     public CustomDialog(String info) {
@@ -69,11 +71,15 @@ public class CustomDialog extends JDialog implements ActionListener {
 
         //TODO: Change this list to import the data from SQL
 
-        nameList = new JList(new DefaultListModel());
-        DefaultListModel model = (DefaultListModel) nameList.getModel();
-        model.addElement("ZZ");
+//        dataSet = new DefaultListModel();
+//
+//        dataSet.addElement(test[0]);
+//        dataSet.addElement(test[1]);
 
-        pnlList = new JScrollPane(nameList);
+        datalst = new JList(data.getModel());
+
+        setDisplay(info);
+
         gbc.gridwidth = 5;
         gbc.gridheight = 5;
         gbc.gridx = 1;
@@ -175,13 +181,6 @@ public class CustomDialog extends JDialog implements ActionListener {
 
         pnl.add(save, gbc);
 
-        edit = new JButton("Edit");
-//        gbc.gridwidth = 2;
-        gbc.gridx = 5;
-        gbc.gridy = 11;
-
-        pnl.add(edit, gbc);
-
         delete = new JButton("Delete");
 //        gbc.gridwidth = 2;
         gbc.gridx = 4;
@@ -199,21 +198,50 @@ public class CustomDialog extends JDialog implements ActionListener {
         bg.pack();
 
         save.addActionListener(this);
-        edit.addActionListener(this);
         delete.addActionListener(this);
         nameList.addListSelectionListener((ListSelectionListener) this);
 
         bg.setVisible(true);
     }
 
+    public void setDisplay(String inf) {
 
-    public int getMonth(){
-        month = cal.get(Calendar.MONTH)+1;
+        String date = inf.replace("/", " ").split(" ")[0];
+        String month = inf.replace("/", " ").split(" ")[1];
+        DefaultListModel model = new DefaultListModel();
+
+
+        JList tempData = datalst;
+
+        int[] d = new int[tempData.getModel().getSize()];
+//        System.out.println(tempData.getModel().getSize());
+
+        for (int i = 0; i < tempData.getModel().getSize(); i++) {
+            String[] tempElem = (String[]) tempData.getModel().getElementAt(i);
+//            System.out.println(tempElem[2] + tempElem[3] + tempElem[4]);
+            if (date.equals(tempElem[3]) && month.equals(tempElem[2])) {
+                d[i] = i;
+            }
+        }
+
+//        System.out.println(Arrays.toString(tempData.getModel()));
+        // String[] test = {"Test", "2020", "5", "20", "13","30","3"};
+        for(int i = 0; i < d.length; i++) {
+            String[] t = (String[]) tempData.getModel().getElementAt(d[i]);
+            model.addElement(t[0] + " - " + t[4] + ":" + t[5] + " during " + t[6] + " hrs");
+        }
+        nameList = new JList(model);
+        pnlList = new JScrollPane(nameList);
+    }
+
+
+    public String getMonth(){
+        month = String.valueOf(cal.get(Calendar.MONTH)+1);
         return month;
     }
 
-    public int getDate(){
-        date = cal.get(Calendar.DATE);
+    public String getDate(){
+        date = String.valueOf(cal.get(Calendar.DATE));
         return date;
     }
 
