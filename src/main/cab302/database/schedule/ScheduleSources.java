@@ -32,4 +32,6 @@ public interface ScheduleSources {
     /**
      */
     Set<String> titleSet();
+
+    Set<String> GetScheduleList();
 }

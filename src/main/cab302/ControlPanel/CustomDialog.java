@@ -1,14 +1,15 @@
-package cab302.database;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.util.Calendar;
-import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
+package cab302.ControlPanel;
 
 import cab302.database.schedule.ScheduleData;
 import cab302.database.schedule.ScheduleInfo;
+
+import javax.swing.*;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.Calendar;
 
 public class CustomDialog extends JDialog implements ActionListener {
 

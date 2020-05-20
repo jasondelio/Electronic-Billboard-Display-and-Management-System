@@ -4,13 +4,13 @@ import java.io.Serializable;
 
 public class ScheduleBillboardRequest implements Serializable {
     private String billboardname;
-    private int month;
-    private int date;
+    private String month;
+    private String date;
     private String hour;
     private String minitue;
     private String duration;
     private String sessionToken;
-    public ScheduleBillboardRequest(String billboardname, int month, int date, String hour, String minitue, String duration, String sessionToken) {
+    public ScheduleBillboardRequest(String billboardname, String month, String date, String hour, String minitue, String duration, String sessionToken) {
         this.billboardname = billboardname;
         this.month = month;
         this.date = date;
@@ -32,10 +32,10 @@ public class ScheduleBillboardRequest implements Serializable {
         return duration;
     }
 
-    public int getMonth() {
+    public String getMonth() {
         return month;
     }
-    public int getDate() {
+    public String getDate() {
         return date;
     }
 

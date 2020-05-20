@@ -1,8 +1,6 @@
-package cab302.database;
+package cab302.ControlPanel;
 
 import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 

@@ -163,8 +163,8 @@ public class UserClient {
         oos = new ObjectOutputStream(outputStream);
         ois = new ObjectInputStream(inputStream);
         String duration1 = "1";
-        int month1 = 5;
-        int date1 = 19;
+        String month1 = "5";
+        String date1 = "19";
         String hour = "16";
         String minitue = "10";
         ScheduleBillboardRequest sbbr = new ScheduleBillboardRequest(billboardname, month1, date1, hour, minitue, duration1, sessionToken);

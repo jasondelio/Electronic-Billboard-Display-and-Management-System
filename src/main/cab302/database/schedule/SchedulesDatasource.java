@@ -33,6 +33,8 @@ public class SchedulesDatasource implements ScheduleSources {
 
     private static final String GET_SCHEDULE = "SELECT * FROM schedules WHERE boardtitle=?";
 
+    private static final String GET_SCHEDULE_List = "SELECT * FROM schedules";
+
     private static final String DELETE_SCHEDULE = "DELETE FROM schedules WHERE boardtitle=?";
 
     private static final String EDIT_SCHEDULE = "UPDATE FROM schedules SET month=?, hour=?, minute=?, duration=? WHERE boardtitle=?";
@@ -48,6 +50,8 @@ public class SchedulesDatasource implements ScheduleSources {
     private PreparedStatement getTitleList;
 
     private PreparedStatement getSchedule;
+
+    private PreparedStatement getScheduleList;
 
     private PreparedStatement deleteSchedule;
 
@@ -67,6 +71,7 @@ public class SchedulesDatasource implements ScheduleSources {
             createSchedule = connection.prepareStatement(INSERT_SCHEDULE);
             getTitleList = connection.prepareStatement(GET_TITLE);
             getSchedule = connection.prepareStatement(GET_SCHEDULE);
+            getScheduleList = connection.prepareStatement(GET_SCHEDULE_List);
             deleteSchedule = connection.prepareStatement(DELETE_SCHEDULE);
             editSchedule = connection.prepareStatement(EDIT_SCHEDULE);
             rowCount = connection.prepareStatement(COUNT_ROWS);
@@ -188,7 +193,24 @@ public class SchedulesDatasource implements ScheduleSources {
         }
         return rows;
     }
+    // im using this in server
+    public Set<String> GetScheduleList() {
+        Set<String> schedules = new TreeSet<String>();
+        ResultSet rs = null;
 
+        try {
+            rs = getScheduleList.executeQuery();
+            while (rs.next()) {
+                schedules.add(rs.getString("boardtitle")+" made by "+rs.getString("creator")+": Scheduled "+ rs.getString("duration")
+                        +" hour on "+rs.getInt("month")+"/"+rs.getInt("date")+"/"+rs.getString("hour")+"/"
+                        +rs.getString("minute") + "(mm/dd/hh/mm):");
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return schedules;
+    }
 
     /**
      * @see

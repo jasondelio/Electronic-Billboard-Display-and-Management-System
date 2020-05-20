@@ -1,21 +1,21 @@
-package cab302.database;
+package cab302.ControlPanel;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.util.*;
+import cab302.database.schedule.ScheduleData;
+
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
-import javax.swing.DefaultListModel;
-import javax.swing.ListModel;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.Calendar;
 
-
-import cab302.database.schedule.ScheduleData;
-import cab302.database.schedule.ScheduleInfo;
-
-public abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, MouseListener {
+//sorry i just change public to firsly run the server to create tables
+abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, MouseListener {
     public static final int YEAR_DURATION = 10;
     public static final int WEEK_LENGTH = 7;
     public static final int DAY_HOUR = 24;

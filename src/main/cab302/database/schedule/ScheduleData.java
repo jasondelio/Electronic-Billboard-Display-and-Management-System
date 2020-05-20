@@ -2,6 +2,7 @@ package cab302.database.schedule;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ListModel;
+import java.util.Set;
 
 public class ScheduleData {
 
@@ -68,6 +69,9 @@ public class ScheduleData {
     public int getSize() {
         return data.getSize();
     }
+
+    public Set<String> getScheduleList (){ return data.GetScheduleList(); }
+
 }
 
 
