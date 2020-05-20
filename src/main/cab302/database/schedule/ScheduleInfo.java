@@ -4,9 +4,9 @@ import java.io.Serializable;
 
 public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
-        private Integer month;
+        private String month;
 
-        private Integer date;
+        private String date;
     
         private String hour;
     
@@ -27,7 +27,7 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
         /**
          */
-        public ScheduleInfo(String boardtitle, String creator, Integer month, Integer date, String hour, String minute, String duration) {
+        public ScheduleInfo(String boardtitle, String creator, String month, String date, String hour, String minute, String duration) {
             this.month = month;
             this.hour = hour;
             this.date = date;
@@ -37,7 +37,8 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
             this.duration = duration;
         }
 
-        /**
+
+    /**
          */
         public String getBoardTitle() {
             return boardtitle;
@@ -61,25 +62,26 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
         }
         /**
          */
-        public Integer getDate() {
+        public String getDate() {
             return date;
         }
 
         /**
          */
-        public void setDate(Integer date) {
+        public void setDate(String date) {
             this.date = date;
         }
 
         /**
          */
-        public Integer getMonth() {
+        public String getMonth() {
             return month;
         }
 
         /**
+         * @param month
          */
-        public void setMonth(Integer month) {
+        public void setMonth(String month) {
             this.month = month;
         }
 
