@@ -1,19 +1,21 @@
 package cab302.database;
 
-import cab302.database.schedule.ScheduleInfo;
-import cab302.database.schedule.ScheduleData;
-
 import java.awt.*;
 import java.awt.event.*;
 import java.util.*;
 import javax.swing.*;
-import javax.swing.border.Border;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.ListModel;
 
-public abstract class CalendarGUI extends JFrame implements ActionListener, Runnable, MouseListener {
+
+import cab302.database.schedule.ScheduleData;
+import cab302.database.schedule.ScheduleInfo;
+
+public abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, MouseListener {
     public static final int YEAR_DURATION = 10;
     public static final int WEEK_LENGTH = 7;
     public static final int DAY_HOUR = 24;
@@ -49,13 +51,15 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
     protected String[] monthNames = {"Jan", "Feb",
             "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
-//    protected String[][] data = {
-//            {"Test", "2020", "5", "19", "10","00", "1"},
-//            {"Test", "2020", "5", "20", "13","30","3"}};
-
     ScheduleData dataSet;
 
-    String[][] data;
+    JList data;
+
+//    String[] t1 = {"Test", "2020", "5", "19", "10","00", "1"};
+//
+//    String[] t2 = {"Test", "2020", "5", "20", "13","30","3"};
+
+//    String[][] data;
 
     Integer[][] ob;
 
@@ -63,8 +67,17 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
 
     Object[] lblList;
 
-    public CalendarGUI() {
+    public CalanderGUI(ScheduleData dataSet) {
+        this.dataSet = dataSet;
         initializer();
+
+//        dataSet = new DefaultListModel();
+//
+//        dataSet.addElement(t1);
+//        dataSet.addElement(t2);
+//
+//
+//        data= new JList(dataSet);
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
@@ -120,6 +133,19 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
         monthChooser.addActionListener(this);
     }
 
+//    public JList<String> test(String[] i) {
+//        JList<String> t = new JList<String>();
+//
+//        for(String s: i) {
+//            t.add;
+//        }
+//        return t;
+//    }
+//
+//    public ListModel tt() {
+//        return dataSet;
+//    }
+
     public void initializer() {
 
         current = Calendar.getInstance();
@@ -156,16 +182,12 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
         rowH =  new Object[DAY_HOUR];
         lblList = new Object[WEEK_LENGTH];
 
-//        dataArray = new String[][];
+        data = new JList(dataSet.getModel());
 
         getDate();
         getMonth();
         getYear();
 
-    }
-
-    public void takeData() {
-         dataSet.take();
     }
 
     public void setTable() {
@@ -189,9 +211,9 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
                 Component comp = super.prepareRenderer(renderer, row, col);
 
                 String type = (String) getModel().getValueAt(row, col);
-                String otherType = (String) getModel().getValueAt(row, 3);
-                Integer du = (Integer) ob[row][col];
-//
+//                String otherType = (String) getModel().getValueAt(row, 3);
+//                Integer du = (Integer) ob[row][col];
+////
 //                if(otherType == null) {
 //                    comp.setBackground(Color.GRAY);
 //                }
@@ -218,16 +240,10 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
         sm.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         sm.addListSelectionListener(new ListSelectionListener() {
             public void valueChanged(ListSelectionEvent e) {
-                String Data = null;
-                int[] row = table.getSelectedRows();
-                int[] columns = table.getSelectedColumns();
-                for (int i = 0; i < row.length; i++) {
-                    for (int j = 0; j < columns.length; j++) {
-                        Data = (String) table.getColumnName(j);
-                    } }
-//                System.out.println("Table element selected is: " + Data);
-
-                chosenDate = Data;
+                String[] title =table.getColumnName(table.getSelectedColumn())
+                        .replace("<html><center>", "")
+                        .split("<br>");
+                chosenDate = title[0] + "/" + month + " (" +title[1] + ")";
 
                 CustomDialog d = new CustomDialog(chosenDate);
             }
@@ -237,9 +253,7 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
 
         rowHeader.setFixedCellWidth(50);
 
-//        table.setRowHeight();
         rowHeader.setFixedCellHeight(table.getRowHeight());
-//                             + table.getIntercellSpacing().height);
         rowHeader.setCellRenderer(new TableModel(table));
 
         JList colHeader = new JList(lblList);
@@ -250,17 +264,14 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
 
         scrollWeekly.setViewportView(table);
         scrollWeekly.setRowHeaderView(rowHeader);
-//        scrollWeekly.setColumnHeaderView(colHeader);
         scrollWeekly.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollWeekly.setPreferredSize(new Dimension(600, 450));
 
     }
 
     public void setTableValue(JTable t) {
-//        String[][] data = {
-//                {"Test", "2020", "5", "19", "10","00", "1"},
-//                {"Test", "2020", "5", "20", "13","30","3"}};
-        String[][] tempData = data;
+        JList tempData = data;
+
         String[][] tC = new String[t.getColumnCount()][2];
         String[] tR = new String[t.getRowCount()];
         boolean find = false;
@@ -268,23 +279,18 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
         int[][] d = new int[tC.length][2];
         for(int i = 0; i < t.getColumnCount(); i++) {
             String[] m = t.getColumnName(i).replace("<html><center>", "").split("<br>");
-//            String date = Arrays.toString(m);
             tC[i][0] = m[0];
             tC[i][1] = String.valueOf(i);
-//            System.out.println(tC[i][1]);
 
         }
 
-        while(c < data.length) {
-            for (int i = 0; i < data.length; i++) {
+        while(c < tempData.getModel().getSize()) {
+            for (int i = 0; i < tempData.getModel().getSize(); i++) {
                 for (String[] n : tC) {
-//                    System.out.println(n[0]);
-//                    System.out.println(tempData[i][3]);
-                    if (n[0].equals(tempData[i][3])) {
-//                        System.out.println(tempData[i][3]);
+                    String[] tempElem = (String[]) tempData.getModel().getElementAt(i);
+                    if (n[0].equals(tempElem[3])) {
                         d[i][0] = Integer.parseInt(n[1]);
                         d[i][1] = i;
-                        System.out.println(d[i][0]);
                         find = true;
                     }
                 }
@@ -293,22 +299,20 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
             }
 
             if(find && d[c][0] != -1 && d[c][1] != -1) {
-                String value = data[d[c][1]][0] + " - " + data[d[c][1]][4] + ":" + data[d[c][1]][5];
+                String[] tmpArray = (String[]) tempData.getModel().getElementAt(d[c][1]);
+                String value = tmpArray[0] + " - " + tmpArray[4] + ":" + tmpArray[5];
 
-                //            String[] value = t.getColumnName(1).replace("<html><center>", "").split("<br>");
-//                System.out.println(value);
                 t.setValueAt(value,
-                        Integer.parseInt(data[d[c][1]][4]),
+                        Integer.parseInt(tmpArray[4]),
                         d[c][0]);
-                if(Integer.parseInt(data[d[c][1]][6]) > 0) {
-                    for(int i = 1; i < Integer.parseInt(data[d[c][1]][6]); i++) {
+                if(Integer.parseInt(tmpArray[6]) > 0) {
+                    for(int i = 1; i < Integer.parseInt(tmpArray[6]); i++) {
                         t.setValueAt(" ",
-                                Integer.parseInt(data[d[c][1]][4]) + i,
+                                Integer.parseInt(tmpArray[4]) + i,
                                 d[c][0]);
                     }
                 }
 
-                //            ob[Integer.parseInt(data[d[c][1]][4])][d[c][0]] = Integer.valueOf(data[d[c][1]][6]);
                 c++;
                 find = false;
             } else {
@@ -419,8 +423,6 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
 
         for(int i = -3; i <= 3; i++) {
 
-            Box box = Box.createVerticalBox();
-            JLabel datelbl = new JLabel();
             int j;
 
             if(d + i <= 0) {
@@ -436,12 +438,6 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
             }
 
             JLabel names = new JLabel(dayNames[tempCal.get(Calendar.DAY_OF_WEEK) - 1]);
-            datelbl.setText(String.valueOf(j));
-
-            if(tempCal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {datelbl.setForeground(Color.red); names.setForeground(Color.red);}
-            if(tempCal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {datelbl.setForeground((Color.blue)); names.setForeground(Color.blue);}
-            box.add(datelbl);
-            box.add(names);
             lblList[ind] = "<html><center>" + j + "<br>" + names.getText();
 
             ind++;
@@ -461,8 +457,6 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
         int ind = 0;
 
         for(int i = -3; i <= 3; i++) {
-            Box box = Box.createVerticalBox();
-            JLabel datelbl = new JLabel();
             int j;
 
             if(d + i <= 0) {
@@ -478,12 +472,6 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
             }
 
             JLabel names = new JLabel(dayNames[tempCal.get(Calendar.DAY_OF_WEEK) - 1]);
-            datelbl.setText(String.valueOf(j));
-
-            if(tempCal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {datelbl.setForeground(Color.red); names.setForeground(Color.red);}
-            if(tempCal.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {datelbl.setForeground((Color.blue)); names.setForeground(Color.blue);}
-            box.add(datelbl);
-            box.add(names);
 
             lblList[ind] = "<html><center>" + j + "<br>" + names.getText();
 
@@ -496,37 +484,8 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
 
     public void setSchedule() {
 
-        Border black = BorderFactory.createLineBorder(Color.black);
-
         for(int i = 0; i < 24; i ++) {
-            for(int j = 0; j < 8; j++) {
-                if(j == 0) {
-                    JLabel time = new JLabel();
-                    time.setText((int)(i) + ":" + "00");
-//                    pnlWeekly.add(time);
-                    rowH[i] = (int)(i) + ":" + "00";
-                } else {
-                    JPanel pn = new JPanel();
-                    pn.setBorder(black);
-//                    pn.addMouseListener(new MouseAdapter() {
-//                        @Override
-//                        public void mousePressed(MouseEvent e) {
-////                            super.mousePressed(e);
-//                            // TODO: Need to find the way to setup chosenDate
-////                            chosenDate = (JPanel) e.getSource().toString();
-//                            chosenDate = "ha...";
-//                        }
-//
-//                        @Override
-//                        public void mouseReleased(MouseEvent e) {
-////                            super.mouseReleased(e);
-//                            CustomDialog d = new CustomDialog(chosenDate);
-//                        }
-//                    });
-//                    pnlWeekly.add(pn);
-                }
-
-            }
+            rowH[i] = (int)(i) + ":" + "00";
         }
     }
 
@@ -537,18 +496,12 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
         Object comp = e.getSource();
 
         if(comp != null) {
-//            chosenDate = ((JLabel)e.getSource()).getText();
-////            JOptionPane.showMessageDialog(null, chosenDate, "Me", JOptionPane.ERROR_MESSAGE);
-//            CustomDialog d = new CustomDialog(chosenDate);
-//            scrollWeekly.setVisible(false);
-//            scrollWeekly.removeAll();
             pnlWeekly.setVisible(false);
             pnlWeekly.removeAll();
             weeklyPlanner(((JLabel) e.getSource()).getText());
             setSchedule();
             setTable();
             pnlWeekly.setVisible(true);
-//            scrollWeekly.setVisible(true);
         }
     }
 
@@ -556,13 +509,13 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
     /*
     Actions
      */
-    private JLabel show(ScheduleInfo s) {
-        JLabel lbl = new JLabel();
-        if (s != null) {
-            lbl.setText(s.getBoardTitle() + ":" + s.getHour() + s.getMinute());
-        }
-        return lbl;
-    }
+//    private JLabel show(ScheduleInfo s) {
+//        JLabel lbl = new JLabel();
+//        if (s != null) {
+//            lbl.setText(s.getBoardTitle() + ":" + s.getHour() + s.getMinute());
+//        }
+//        return lbl;
+//    }
 
     public void actionPerformed(ActionEvent e) {
         Object obj = e.getSource();
@@ -592,7 +545,7 @@ public abstract class CalendarGUI extends JFrame implements ActionListener, Runn
 
     public static void main(String[] args) {
 
-        new CalendarGUI() {
+        new CalanderGUI(new ScheduleData()) {
             @Override
             public void mousePressed(MouseEvent e) {
 
