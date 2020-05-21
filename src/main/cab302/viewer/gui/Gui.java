@@ -16,7 +16,6 @@ public class Gui extends JFrame {
 
     private JFrame frame;
 
-
     public Gui(HashMap<String, String> xmlInfo) {
 
         // ## Window Configuration ## \\
@@ -61,24 +60,16 @@ public class Gui extends JFrame {
             }
 
             @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
+            public void mousePressed(MouseEvent e) {}
 
             @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
+            public void mouseReleased(MouseEvent e) {}
 
             @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
+            public void mouseEntered(MouseEvent e) {}
 
             @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
+            public void mouseExited(MouseEvent e) {}
         });
 
 
@@ -132,10 +123,13 @@ public class Gui extends JFrame {
             informationText.setFont(new Font("Arial", Font.PLAIN, 36));
             informationText.setForeground(
                     HexToRGB(
-                            infoStringArr.length > 1 ?
-                                    (!infoStringArr[infoStringArr.length - 1].equals("") ?
-                                            infoStringArr[infoStringArr.length - 1] : "#000000")
-                                    : "#000000"
+                        infoStringArr.length > 1
+                        ? (
+                            !infoStringArr[infoStringArr.length - 1].equals("")
+                            ? infoStringArr[infoStringArr.length - 1]
+                            : "#000000"
+                        )
+                        : "#000000"
                     )
             );
             informationText.setBackground(bgColour);
