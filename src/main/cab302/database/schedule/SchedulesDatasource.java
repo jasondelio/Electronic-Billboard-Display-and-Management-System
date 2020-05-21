@@ -2,9 +2,9 @@ package cab302.database.schedule;
 
 import cab302.database.DataConnection;
 
-
 import javax.swing.*;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -25,7 +25,7 @@ public class SchedulesDatasource implements ScheduleSources {
                     + "duration VARCHAR(3)"
                     + ");";
 
-    private static final String INSERT_SCHEDULE = "INSERT INTO schedules (boradtitle, creator, month, date, hour, minute, duration) VALUES (?, ?, ?, ?, ?, ?, ?);";
+    private static final String INSERT_SCHEDULE = "INSERT INTO schedules (boardtitle, creator, month, date, hour, minute, duration) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
     private static final String GET_TITLE = "SELECT boardtitle FROM schedules";
 
@@ -37,7 +37,7 @@ public class SchedulesDatasource implements ScheduleSources {
 
     private static final String DELETE_SCHEDULE = "DELETE FROM schedules WHERE boardtitle=?";
 
-    private static final String EDIT_SCHEDULE = "UPDATE FROM schedules SET month=?, hour=?, minute=?, duration=? WHERE boardtitle=?";
+    private static final String EDIT_SCHEDULE = "UPDATE schedules SET boardtitle=?, creator=?, month=?, hour=?, minute=?, duration=? WHERE boardtitle=?";
 
     private static final String COUNT_ROWS = "SELECT COUNT(*) FROM schedules";
 
@@ -92,9 +92,10 @@ public class SchedulesDatasource implements ScheduleSources {
             createSchedule.setString(1, b.getBoardTitle());
             createSchedule.setString(2, b.getCreator());
             createSchedule.setString(3, b.getMonth());
-            createSchedule.setString(4, b.getHour());
-            createSchedule.setString(5, b.getMinute());
-            createSchedule.setString(6, b.getDuration());
+            createSchedule.setString(4, b.getDate());
+            createSchedule.setString(5, b.getHour());
+            createSchedule.setString(6, b.getMinute());
+            createSchedule.setString(7, b.getDuration());
             createSchedule.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -132,8 +133,6 @@ public class SchedulesDatasource implements ScheduleSources {
             rs.next();
             b.setBoardTitle(rs.getString("boardtitle"));
             b.setCreator(rs.getString("creator"));
-            b.setMonth(rs.getString("month"));
-            b.setDate(rs.getString("date"));
             b.setHour(rs.getString("hour"));
             b.setMinute(rs.getString("minute"));
             b.setDuration(rs.getString("duration"));
@@ -145,16 +144,19 @@ public class SchedulesDatasource implements ScheduleSources {
 
     public DefaultListModel takeSchedule(){
         DefaultListModel n = new DefaultListModel();
+        ArrayList<String> a = new ArrayList<>();
+
         ResultSet rs = null;
         try {
             rs = takeSchedule.executeQuery();
             while (rs.next()) {
-                n.addElement(rs.getString("boardtitle"));
-                n.addElement(rs.getString("month"));
-                n.addElement(rs.getString("date"));
-                n.addElement(rs.getString("hour"));
-                n.addElement(rs.getString("minute"));
-                n.addElement(rs.getString("duration"));
+                a.add(rs.getString("boardtitle") + ", " +
+                        rs.getString("month") + ", " +
+                        rs.getString("date") + ", " +
+                        rs.getString("hour") + ", " +
+                        rs.getString("minute") + ", " +
+                        rs.getString("duration") + "/");
+                n.addElement(a);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -162,20 +164,6 @@ public class SchedulesDatasource implements ScheduleSources {
         return n;
     }
 
-    public ScheduleInfo findSchedule(String date, String month){
-        ScheduleInfo n = new ScheduleInfo();
-        ResultSet rs = null;
-        try {
-            findSchedule.setString(1, date);
-            findSchedule.setString(2, month);
-            rs = getSchedule.executeQuery();
-            rs.next();
-            n.setBoardTitle(rs.getString("boardtitle"));
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        return n;
-    }
 
     /**
      * @see
@@ -228,24 +216,21 @@ public class SchedulesDatasource implements ScheduleSources {
      * @see
      * @return
      */
-    public ScheduleInfo editSchedule(String title) {
-        ScheduleInfo n = new ScheduleInfo();
-        ResultSet r = null;
+    public void editSchedule(String boardtitle, String creator, String month, String date, String hour,
+                                     String minute, String duration) {
         try {
-            editSchedule.setString(1, title);
-            r = editSchedule.executeQuery();
-            r.next();
-            n.setBoardTitle(r.getString("boardtitle"));
-            n.setCreator(r.getString("creator"));
-            n.setMonth(r.getString("month"));
-            n.setDate(r.getString("date"));
-            n.setHour(r.getString("hour"));
-            n.setMinute(r.getString("minute"));
-            n.setDuration(r.getString("duration"));
-        } catch (SQLException ex) {
+            editSchedule.setString(1, boardtitle);
+            editSchedule.setString(2, creator);
+            editSchedule.setString(3, month);
+            editSchedule.setString(4, date);
+            editSchedule.setString(5, hour);
+            editSchedule.setString(6, minute);
+            editSchedule.setString(7, duration);
+            editSchedule.execute();
+        }
+        catch (SQLException ex) {
             ex.printStackTrace();
         }
-        return n;
     }
 
     /**
