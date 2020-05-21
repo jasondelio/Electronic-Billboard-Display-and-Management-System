@@ -4,8 +4,6 @@ import cab302.database.schedule.ScheduleData;
 import cab302.database.schedule.ScheduleInfo;
 
 import javax.swing.*;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -55,31 +53,24 @@ public class CustomDialog extends JDialog implements ActionListener {
     JList datalst;
 
 
-    public CustomDialog(String info) {
+    public CustomDialog(String info, ScheduleData data) {
+        this.data = data;
 
         cal = Calendar.getInstance();
-//        getMonth();
-//        getDate();
 
+        date = info.replace("/", " ").split(" ")[0];
+        month = info.replace("/", " ").split(" ")[1];
 
-        bg = new JFrame();
         pnl = new JPanel();
-        setTitle("Scheduling");
+        setTitle(info);
         pnl.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.BOTH;
 
-        //TODO: Change this list to import the data from SQL
+        datalst = new JList(data.take());
 
-//        dataSet = new DefaultListModel();
-//
-//        dataSet.addElement(test[0]);
-//        dataSet.addElement(test[1]);
-
-        datalst = new JList(data.getModel());
-
-        setDisplay(info);
+        setDisplay(date, month);
 
         gbc.gridwidth = 5;
         gbc.gridheight = 5;
@@ -169,21 +160,24 @@ public class CustomDialog extends JDialog implements ActionListener {
 
         // Buttons
         newbtn = new JButton("New");
-//        gbc.gridwidth = 1;
         gbc.gridx = 1;
         gbc.gridy = 11;
 
         pnl.add(newbtn, gbc);
 
         save = new JButton("Save");
-//        gbc.gridwidth = 1;
-        gbc.gridx = 3;
+        gbc.gridx = 2;
         gbc.gridy = 11;
 
         pnl.add(save, gbc);
 
+        edit = new JButton("Edit");
+        gbc.gridx = 3;
+        gbc.gridy = 11;
+
+        pnl.add(edit, gbc);
+
         delete = new JButton("Delete");
-//        gbc.gridwidth = 2;
         gbc.gridx = 4;
         gbc.gridy = 12;
 
@@ -195,60 +189,103 @@ public class CustomDialog extends JDialog implements ActionListener {
 
         pnl.add(close, gbc);
 
-        bg.add(pnl);
-        bg.pack();
+        add(pnl);
+        pack();
 
+        newbtn.addActionListener(this);
         save.addActionListener(this);
         delete.addActionListener(this);
-        nameList.addListSelectionListener((ListSelectionListener) this);
+        edit.addActionListener(this);
+        close.addActionListener(this);
 
-        bg.setVisible(true);
+        nameList.addListSelectionListener(e -> {
+            if (nameList.getSelectedValue() != null
+                    && !nameList.getSelectedValue().equals("")) {
+                show(data.get(nameList.getSelectedValue().toString().split(" ")[0]));
+
+            }
+        });
+        setVisible(true);
     }
 
-    public void setDisplay(String inf) {
 
-        String date = inf.replace("/", " ").split(" ")[0];
-        String month = inf.replace("/", " ").split(" ")[1];
+    public void setDisplay(String date, String month) {
+
         DefaultListModel model = new DefaultListModel();
 
 
         JList tempData = datalst;
 
         int[] d = new int[tempData.getModel().getSize()];
-//        System.out.println(tempData.getModel().getSize());
 
         for (int i = 0; i < tempData.getModel().getSize(); i++) {
-            String[] tempElem = (String[]) tempData.getModel().getElementAt(i);
-//            System.out.println(tempElem[2] + tempElem[3] + tempElem[4]);
-            if (date.equals(tempElem[3]) && month.equals(tempElem[2])) {
-                d[i] = i;
+            if (tempData.getModel().getSize() > 1) {
+                String tempVal = String.valueOf(tempData.getModel()
+                        .getElementAt(0))
+                        .split("/,")[i]
+                        .replace("[", "")
+                        .replace("]", "")
+                        .replace("/", "")
+                        .replace(" ","");
+
+                String[] tempElem = tempVal.split(",");
+
+                if (date.equals(tempElem[2]) && month.equals(tempElem[1])) {
+                    d[i] = i;
+                }
+                else {
+                    d[i] = -1;
+                }
+
+            } else
+            {
+                String[] temp = String.valueOf(tempData.getModel())
+                        .replace("[[","")
+                        .replace("]]","")
+                        .replace(" ","")
+                        .split(",");
+                if (date.equals(temp[2]) && month.equals(temp[1])) {
+                    d[i] = i;
+                }
+                else {
+                    d[i] = -1;
+                }
             }
         }
 
-//        System.out.println(Arrays.toString(tempData.getModel()));
-        // String[] test = {"Test", "2020", "5", "20", "13","30","3"};
         for(int i = 0; i < d.length; i++) {
-            String[] t = (String[]) tempData.getModel().getElementAt(d[i]);
-            model.addElement(t[0] + " - " + t[4] + ":" + t[5] + " during " + t[6] + " hrs");
+            String[] t;
+            if (tempData.getModel().getSize() > 1) {
+                String tempVal = String.valueOf(tempData.getModel()
+                        .getElementAt(0))
+                        .split("/,")[i]
+                        .replace("[", "")
+                        .replace("]", "")
+                        .replace("/", "")
+                        .replace(" ","");
+
+                t = tempVal.split(",");
+            } else
+            {
+                t = String.valueOf(tempData.getModel())
+                        .replace("[[","")
+                        .replace("]]","")
+                        .replace("/","")
+                        .replace(" ","")
+                        .split(",");
+            }
+//            System.out.println(d[i]);
+            if(d[i] != -1) {
+                model.addElement(t[0] + " - " + t[3] + ":" + t[4] + " during " + t[5] + " hrs");
+            }
         }
         nameList = new JList(model);
         pnlList = new JScrollPane(nameList);
     }
 
 
-    public String getMonth(){
-        month = String.valueOf(cal.get(Calendar.MONTH)+1);
-        return month;
-    }
-
-    public String getDate(){
-        date = String.valueOf(cal.get(Calendar.DATE));
-        return date;
-    }
-
     private void show(ScheduleInfo s) {
         if (s != null) {
-            // TODO: Need to set up the dataset from ScheduleInfo and Data
             namebox.setText(s.getBoardTitle());
             creatorbox.setText(s.getCreator());
             hourbox.setText(s.getHour());
@@ -286,46 +323,39 @@ public class CustomDialog extends JDialog implements ActionListener {
         }
         else if(act == save){
             savePressed();
+            this.dispose();
 
         } else if (act == edit) {
             editPressed();
+            this.dispose();
 
         } else if (act == delete) {
             deletePressed();
+            this.dispose();
 
         } else if (act == close) {
-            dispose();
+            this.dispose();
         }
     }
 
     private void savePressed() {
         if (namebox.getText() != null && !namebox.getText().equals("") && hourbox.getText() != null && !hourbox.getText().equals("")
         && minbox.getText() != null && !minbox.getText().equals("")) {
-            ScheduleInfo s = new ScheduleInfo(namebox.getText(), creatorbox.getText(), getMonth(), getDate(), hourbox.getText(), minbox
+            ScheduleInfo s = new ScheduleInfo(namebox.getText(), creatorbox.getText(), month, date, hourbox.getText(), minbox
                     .getText(), dubox.getText());
             data.add(s);
         }
-        setFieldsEditable(false);
-        save.setEnabled(false);
     }
 
-    // TODO: I think it is not really essential button to edit as we already have save button
     private void editPressed() {
-
-    }
-
-    private void deletePressed() {
-
-        data.remove(nameList.getSelectedValue());
-        clearFields();
-        delete.setEnabled(data.getSize() != 0);
-    }
-
-    public void listAction(ListSelectionEvent e) {
-        if (nameList.getSelectedValue() != null
-                && !nameList.getSelectedValue().equals("")) {
-            show(data.get(nameList.getSelectedValue()));
+        if (namebox.getText() != null && !namebox.getText().equals("") && hourbox.getText() != null && !hourbox.getText().equals("")
+                && minbox.getText() != null && !minbox.getText().equals("")) {
+            data.edit(namebox.getText(), creatorbox.getText(), month, date, hourbox.getText(), minbox
+                    .getText(), dubox.getText());
         }
     }
 
+    private void deletePressed() {
+        data.remove(nameList.getSelectedValue().toString().split(" ")[0]);
+    }
 }
