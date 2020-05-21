@@ -23,7 +23,8 @@ public interface ScheduleSources {
      *
      * @return
      */
-    ScheduleInfo editSchedule(String boradtitle);
+    void editSchedule(String boardtitle, String creator, String month, String date, String hour,
+                      String minute, String duration);
 
     /**
      */
