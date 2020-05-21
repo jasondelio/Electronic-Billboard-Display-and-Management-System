@@ -1,7 +1,6 @@
 package cab302.database.schedule;
 
-import javax.swing.DefaultListModel;
-import javax.swing.ListModel;
+import javax.swing.*;
 import java.util.Set;
 
 public class ScheduleData {
@@ -50,8 +49,11 @@ public class ScheduleData {
         return data.getSchedule((String) key);
     }
 
-    public ScheduleInfo find(Object key1, Object key2) {
-        return data.findSchedule((String) key1, (String) key2);
+    public void edit(String boardtitle, String creator, String month, String date, String hour,
+                     String minute, String duration)
+    {
+        data.editSchedule(boardtitle, creator, month, date, hour, minute, duration);
+
     }
 
     public DefaultListModel take() {
