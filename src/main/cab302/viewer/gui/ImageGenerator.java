@@ -15,10 +15,10 @@ public class ImageGenerator {
 
         return !imageData.startsWith("https");
     }
-    ImageGenerator() {
+    public ImageGenerator() {
     }
 
-    BufferedImage decodeDataString(String imageInfo) throws IOException, BadImageFormatException {
+    public BufferedImage decodeDataString(String imageInfo) throws IOException, BadImageFormatException {
 
         if (isBase64EncodedImage(imageInfo)) {
             // Create local variables to store data and images
@@ -37,7 +37,7 @@ public class ImageGenerator {
 
     }
 
-    BufferedImage downloadImage(String imageInfo) throws BadImageFormatException, IOException {
+    public BufferedImage downloadImage(String imageInfo) throws BadImageFormatException, IOException {
         if (!isBase64EncodedImage(imageInfo)) {
             BufferedImage img;
             img = ImageIO.read(new URL("https://cloudstor.aarnet.edu.au/plus/s/A26R8MYAplgjUhL/download"));

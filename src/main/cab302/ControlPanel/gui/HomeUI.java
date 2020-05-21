@@ -1,9 +1,12 @@
 package cab302.controlpanel.gui;
 
-import cab302.controlpanel.dataobjects.Billboard;
-import cab302.controlpanel.dataobjects.User;
 import cab302.controlpanel.data.BillboardData;
 import cab302.controlpanel.data.UserData;
+import cab302.controlpanel.dataobjects.Billboard;
+import cab302.controlpanel.dataobjects.User;
+import cab302.viewer.exceptions.BadImageFormatException;
+import cab302.viewer.gui.ImageGenerator;
+import cab302.viewer.util.XMLParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -19,6 +22,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.Base64;
+import java.util.HashMap;
+
+import static cab302.viewer.util.HexToRGB.HexToRGB;
 
 public class HomeUI extends JFrame implements ActionListener {
     private static final int WIDTH = 600;
@@ -246,18 +252,15 @@ public class HomeUI extends JFrame implements ActionListener {
         btnUploadPicture = new JButton("Upload");
         btnUploadPicture.addActionListener(this);
         cbUrl = new JCheckBox("URL");
-        cbUrl.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(cbUrl.isSelected()) {
-                    picture.setEnabled(true);
-                    btnUploadPicture.setEnabled(false);
-                }
-                else{
-                    picture.setText("");
-                    picture.setEnabled(false);
-                    btnUploadPicture.setEnabled(true);
-                }
+        cbUrl.addActionListener(e -> {
+            if(cbUrl.isSelected()) {
+                picture.setEnabled(true);
+                btnUploadPicture.setEnabled(false);
+            }
+            else{
+                picture.setText("");
+                picture.setEnabled(false);
+                btnUploadPicture.setEnabled(true);
             }
         });
 
@@ -763,6 +766,137 @@ public class HomeUI extends JFrame implements ActionListener {
         XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     }
 
+    private void previewBillboardPressed(JButton btnSource)
+    {
+        previewBillboardDialog = new JDialog(this,"Preview Billboard");
+        previewBillboardDialog.setSize(new Dimension(860, 600));
+
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        previewBillboardDialog.setLocation(dim.width / 2 - 860, dim.height / 2 - 300);
+
+        JPanel previewPanel = new JPanel();
+        XMLParser parser;
+
+        if (btnSource == btnPreviewEditedBillboard || btnSource == btnPreviewNewBillboard) {
+            convertBillboardToXML();
+            parser = new XMLParser(new Billboard(billboardName.getText(), XMLContents));
+        }
+        else if (btnSource == btnPreviewBillboard)
+            parser = new XMLParser(billboardData.get(billboardList.getSelectedValue()));
+        else
+            parser = new XMLParser("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<billboard>\n<message>No Billboard Found</message>\n</billboard>");
+
+        HashMap<String,String> xmlInfo = parser.parseXML();
+
+        // Layout and closing
+        BorderLayout layout = new BorderLayout();
+//        GridBagLayout layout = new GridBagLayout();
+        previewPanel.setLayout(layout);
+
+        // Get and set Background
+        String bgString = xmlInfo.getOrDefault("bgColour", "#FFFFFF");
+        Color bgColour = HexToRGB(bgString);
+        previewPanel.setBackground(bgColour);
+
+        // ## Utilities and Actions ## \\
+        // Provide a way to decode and display images
+        ImageGenerator imgGen = new ImageGenerator();
+
+        // ## GridBag Constraints ## \\
+//        GridBagConstraints gbc = new GridBagConstraints();
+//        gbc.fill = GridBagConstraints.NONE;
+//        gbc.weighty = 1;
+//        gbc.weightx = 1;
+
+
+        // ## XML display ## \\
+        // Create heading label if exists and add it to the window
+        if (xmlInfo.containsKey("message")) {
+            JTextArea titleText = new JTextArea();
+            String[] messageStringArr = xmlInfo.get("message").split("%%%%");
+            titleText.setText(messageStringArr[0]);
+            titleText.setFont(new Font("Arial", Font.PLAIN, 84));
+            titleText.setForeground(
+                    HexToRGB(
+                            messageStringArr.length != 1 ?
+                                    (!messageStringArr[messageStringArr.length - 1].equals("") ?
+                                            messageStringArr[messageStringArr.length - 1] : "#000000")
+                                    : "#000000"
+                    )
+            );
+            titleText.setBackground(bgColour);
+
+            titleText.setEditable(false);
+            titleText.setLineWrap(true);
+            titleText.setWrapStyleWord(true);
+            titleText.setRows(3);
+            titleText.setColumns(25);
+
+//            gbc.gridx = 0;
+//            gbc.gridy = 0;
+            previewPanel.add(titleText, BorderLayout.NORTH);
+        }
+
+        // Create picture label if exists and add it to the window
+        if (xmlInfo.containsKey("picture")) {
+            JLabel pictureLabel = new JLabel();
+            String imgInfo = xmlInfo.get("picture");
+            try {
+                pictureLabel.setIcon(new ImageIcon(imgGen.isBase64EncodedImage(imgInfo) ? imgGen.decodeDataString(imgInfo) : imgGen.downloadImage(imgInfo)));
+            } catch (IOException | BadImageFormatException e) {
+                e.printStackTrace();
+            }
+
+//            gbc.gridy = 1;
+            previewPanel.add(pictureLabel, BorderLayout.CENTER);
+        }
+
+        // Create information label if exists and add it to the window
+        if (xmlInfo.containsKey("information")) {
+            JTextArea informationText = new JTextArea();
+            String[] infoStringArr = xmlInfo.get("information").split("%%%%");
+            informationText.setText(infoStringArr[0]);
+            informationText.setFont(new Font("Arial", Font.PLAIN, 36));
+            informationText.setForeground(
+                HexToRGB(infoStringArr.length > 1
+                    ? (
+                        !infoStringArr[infoStringArr.length - 1].equals("")
+                        ? infoStringArr[infoStringArr.length - 1]
+                        : "#000000"
+                    )
+                    : "#000000"
+                )
+            );
+            informationText.setBackground(bgColour);
+
+            informationText.setEditable(false);
+            informationText.setLineWrap(true);
+            informationText.setWrapStyleWord(true);
+            informationText.setColumns(55);
+
+//            gbc.gridy = 2;
+            previewPanel.add(informationText, BorderLayout.SOUTH);
+        }
+
+        previewBillboardDialog.add(previewPanel);
+        previewBillboardDialog.setVisible(true);
+
+        // TODO: finish preview billboard
+        // TODO: finish preview billboard
+        // TODO: finish preview billboard
+        // TODO: finish preview billboard
+        // TODO: finish preview billboard
+        // TODO: finish preview billboard
+        // TODO: finish preview billboard
+        // TODO: finish preview billboard
+        // TODO: finish preview billboard
+        // TODO: finish preview billboard
+        // TODO: finish preview billboard
+        // TODO: finish preview billboard
+        // TODO: finish preview billboard
+        // TODO: finish preview billboard
+    }
+
     private void resetNewBillboardPressed(){
         cbUrl.setSelected(false);
         initialColor = Color.BLACK;
@@ -793,7 +927,7 @@ public class HomeUI extends JFrame implements ActionListener {
 
     private void addToXMLContents(String content)
     {
-        XMLContents = XMLContents + content;
+        XMLContents += content;
     }
 
     @Override
@@ -873,6 +1007,10 @@ public class HomeUI extends JFrame implements ActionListener {
         else if(btnSource == btnEditBillboard)
         {
             editBillboardPressed();
+        }
+        else if (btnSource == btnPreviewBillboard || btnSource == btnPreviewEditedBillboard || btnSource == btnPreviewNewBillboard)
+        {
+            previewBillboardPressed(btnSource);
         }
 
     }

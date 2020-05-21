@@ -18,16 +18,28 @@ import java.util.Objects;
 public class XMLParser {
 
     private Billboard billboard;
+    private String billboardStr;
 
     public XMLParser(Billboard b)
     {
         this.billboard = b;
     }
+    public XMLParser(String billboardStr) {
+        this.billboardStr = billboardStr;
+    }
 
     public HashMap<String, String> parseXML() {
 
         HashMap<String, String> XMLDataMap = new HashMap<>();
-        String xmlContent = this.billboard.getXMLContent();
+
+        String xmlContent;
+        if (this.billboard != null)
+            xmlContent = this.billboard.getXMLContent();
+        else
+            xmlContent = Objects.requireNonNullElse(
+                this.billboardStr,
+                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<billboard>\n<message>No Billboard Found</message>\n</billboard>"
+            );
 
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
