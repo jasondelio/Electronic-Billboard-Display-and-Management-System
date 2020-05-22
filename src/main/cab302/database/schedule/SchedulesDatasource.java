@@ -37,7 +37,7 @@ public class SchedulesDatasource implements ScheduleSources {
 
     private static final String DELETE_SCHEDULE = "DELETE FROM schedules WHERE boardtitle=?";
 
-    private static final String EDIT_SCHEDULE = "UPDATE schedules SET boardtitle=?, creator=?, month=?, hour=?, minute=?, duration=? WHERE boardtitle=?";
+    private static final String EDIT_SCHEDULE = "UPDATE schedules SET boardtitle=?, creator=?, month=?, date=?, hour=?, minute=?, duration=? WHERE boardtitle=?";
 
     private static final String COUNT_ROWS = "SELECT COUNT(*) FROM schedules";
 
@@ -226,6 +226,7 @@ public class SchedulesDatasource implements ScheduleSources {
             editSchedule.setString(5, hour);
             editSchedule.setString(6, minute);
             editSchedule.setString(7, duration);
+            editSchedule.setString(8, boardtitle);
             editSchedule.execute();
         }
         catch (SQLException ex) {
