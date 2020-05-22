@@ -188,18 +188,16 @@ abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, M
         // set list selection
         ListSelectionModel sm = table.getSelectionModel();
         sm.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+
         sm.addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()){
             String[] title = table.getColumnName(table.getSelectedColumn())
                     .replace("<html><center>", "")
                     .split("<br>");
             chosenDate = title[0] + "/" + month + " (" +title[1] + ")";
             new CustomDialog(chosenDate, dataSet);
-//            pnlWeekly.setVisible(false);
-//            pnlWeekly.removeAll();
-//            weeklyPlanner(((JLabel) e.getSource()).getText());
-//            setSchedule();
-//            setTable();
-//            pnlWeekly.setVisible(true);
+            System.out.println("test");
+            }
         });
 
         JList rowHeader = new JList(Rlm);
@@ -294,7 +292,7 @@ abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, M
 //                System.out.println(d[i][1]);
                     String[] tmpArray;
                     if (tempData.getModel().getSize() > 1 && d[i][1] != -1) {
-                        System.out.println(d[i][1]);
+//                        System.out.println(d[i][1]);
                         String tempVal = String.valueOf(tempData.getModel()
                                 .getElementAt(0))
                                 .split("/,")[index]
