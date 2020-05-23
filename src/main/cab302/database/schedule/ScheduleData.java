@@ -27,8 +27,8 @@ public class ScheduleData {
      */
     public void add(ScheduleInfo s) {
 
-        if (!listModel.contains(s.getBoardTitle())) {
-            listModel.addElement(s.getBoardTitle());
+        if (!sModel.contains(s.getBoardTitle())) {
+            sModel.addElement(s.getBoardTitle());
             data.createSchedule(s);
         }
     }
@@ -38,7 +38,7 @@ public class ScheduleData {
     public void remove(Object key) {
 
         // remove from both list and map
-        listModel.removeElement(key);
+        sModel.removeElement(key);
         data.deleteSchedule((String) key);
     }
 
@@ -49,6 +49,10 @@ public class ScheduleData {
         return data.getSchedule((String) key);
     }
 
+    public ScheduleInfo findSchedule(String month, String date) {
+        return data.findSchedule(month, date);
+    }
+
     public void edit(String boardtitle, String creator, String month, String date, String hour,
                      String minute, String duration)
     {
@@ -56,7 +60,7 @@ public class ScheduleData {
 
     }
 
-    public DefaultListModel take() {
+    public ListModel take() {
         return sModel;
     }
 
