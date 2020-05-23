@@ -1,15 +1,13 @@
 package cab302.ControlPanel;
 
+import cab302.database.billboard.BillboardData;
 import cab302.database.schedule.ScheduleData;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.awt.event.*;
 import java.util.Calendar;
 
 //sorry i just change public to firsly run the server to create tables
@@ -45,6 +43,7 @@ abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, M
             "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
     ScheduleData dataSet;
+    BillboardData boradData;
 
     JList data;
 
@@ -54,8 +53,9 @@ abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, M
 
     Object[] lblList;
 
-    public CalanderGUI(ScheduleData dataSet) {
+    public CalanderGUI(ScheduleData dataSet, BillboardData boradData) {
         this.dataSet = dataSet;
+        this.boradData = boradData;
         initializer();
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -191,12 +191,19 @@ abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, M
 
         sm.addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()){
-            String[] title = table.getColumnName(table.getSelectedColumn())
-                    .replace("<html><center>", "")
-                    .split("<br>");
-            chosenDate = title[0] + "/" + month + " (" +title[1] + ")";
-            new CustomDialog(chosenDate, dataSet);
-            System.out.println("test");
+                String[] title = table.getColumnName(table.getSelectedColumn())
+                        .replace("<html><center>", "")
+                        .split("<br>");
+                chosenDate = title[0] + "/" + month + " (" +title[1] + ")";
+                int time = table.getSelectedRow();
+                CustomDialog dialog = new CustomDialog(chosenDate, time, dataSet, boradData);
+                dialog.addWindowListener(new WindowAdapter() {
+                    @Override
+                    public void windowClosed(WindowEvent e) {
+                        super.windowClosed(e);
+                        setTable();
+                    }
+                });
             }
         });
 
@@ -222,118 +229,50 @@ abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, M
 
     public void setTableValue(JTable t) {
         JList tempData = data;
-        String[][] tC = new String[t.getColumnCount()][2];
+        int[][] tC = new int[t.getColumnCount()][2];
         int index = 0;
         int[][] d = new int[tC.length][2];
         for (int i = 0; i < t.getColumnCount(); i++) {
             String[] m = t.getColumnName(i)
                     .replace("<html><center>", "")
-                    .replace(" ","")
+                    .replace(" ", "")
                     .split("<br>");
-            tC[i][0] = m[0];
-            tC[i][1] = String.valueOf(i);
+            tC[i][0] = Integer.parseInt(m[0]);
+            tC[i][1] = i;
         }
 
-        while(index < tempData.getModel().getSize()) {
+        while (index < tempData.getModel().getSize()) {
 
-            for (String[] n : tC) {
-//                    System.out.println(tempData.getModel().getSize());
-                if (tempData.getModel().getSize() > 1) {
+            for (int[] n : tC) {
 
-                    for (int i = 0; i < d.length; i++) {
-
-                        String tempVal = String.valueOf(tempData.getModel()
-                                .getElementAt(0))
-                                .split("/,")[index]
-                                .replace("[", "")
-                                .replace("]", "")
-                                .replace("/", "")
-                                .replace(" ", "");
-//                            System.out.println(tempVal);
-                        String[] tempElem = tempVal.split(",");
-
-//                            System.out.println(n[0].equals(tempElem[2]));
-
-                        if (n[0].equals(tempElem[2])) {
-                            d[i][0] = Integer.parseInt(n[1]);
-                            d[i][1] = i;
-//                        System.out.println(d[i][1]);
-                        } else {
-                            d[i][1] = -1;
-                            d[i][0] = -1;
-                        }
-//                        System.out.println(d[i][0]);
-                    }
-
-//                System.out.println(d[0][0]);
-                } else if (tempData.getModel().getSize() == 1) {
-                    String[] temp = String.valueOf(tempData.getModel())
-                            .replace("[[", "")
-                            .replace("]]", "")
-                            .replace(" ", "")
-                            .split(",");
-                    if (n[0].equals(temp[2])) {
-                        d[0][0] = Integer.parseInt(n[1]);
-                        d[0][1] = 0;
-                        break;
-                    } else {
-                        d[0][1] = -1;
-                        d[0][0] = -1;
-                    }
+                if (dataSet.get(dataSet.getModel().getElementAt(index)).getDate().equals(String.valueOf(n[0]))) {
+                    d[index] = n;
+                } else {
+                    d[index][0] = -1;
+                    d[index][1] = -1;
                 }
-//                    System.out.println(n[0]);
-//            System.out.println(d[0][0]);
-//        }
-
-//        System.out.println(d[0][0]);
-
-                for (int i = 0; i < d.length; i++) {
-//                            System.out.println(ints[1]);
-//                System.out.println(d[i][1]);
-                    String[] tmpArray;
-                    if (tempData.getModel().getSize() > 1 && d[i][1] != -1) {
-//                        System.out.println(d[i][1]);
-                        String tempVal = String.valueOf(tempData.getModel()
-                                .getElementAt(0))
-                                .split("/,")[index]
-                                .replace(" ", "")
-                                .replace("/", "")
-                                .replace("[", "")
-                                .replace("]", "");
-
-
-                        tmpArray = tempVal.split(",");
-
-                    } else {
-                        tmpArray = String.valueOf(tempData.getModel())
-                                .replace("[[", "")
-                                .replace("]]", "")
-                                .replace(" ", "")
-                                .replace("/", "")
-                                .split(",");
-                    }
-                    String value = tmpArray[0] + " - " + tmpArray[3] + ":" + tmpArray[4];
-
-//                System.out.println(d[i][1]);
-                    if (d[i][1] != -1 && d[i][0] != -1) {
+                if (d[index][1] != -1 && d[index][0] != -1) {
+                    String value = dataSet.get(dataSet.getModel().getElementAt(index)).getBoardTitle() + " - "
+                            + dataSet.get(dataSet.getModel().getElementAt(index)).getHour()
+                            + ":" + dataSet.get(dataSet.getModel().getElementAt(index)).getMinute();
 //                    System.out.println(d[i][0]);
-                        t.setValueAt(value,
-                                Integer.parseInt(tmpArray[3]),
-                                d[i][0]);
-                        if (Integer.parseInt(tmpArray[5]) > 0) {
-                            for (int j = 1; j < Integer.parseInt(tmpArray[5]); j++) {
-                                t.setValueAt(" ",
-                                        Integer.parseInt(tmpArray[3]) + j,
-                                        d[i][0]);
-                            }
+                    t.setValueAt(value,
+                            Integer.parseInt(dataSet.get(dataSet.getModel().getElementAt(index)).getHour()),
+                            d[index][1]);
+                    if (Integer.parseInt(dataSet.get(dataSet.getModel().getElementAt(index)).getDuration()) > 0) {
+                        for (int j = 1; j < Integer.parseInt(dataSet.get(dataSet.getModel().getElementAt(index)).getDuration()); j++) {
+                            t.setValueAt(" ",
+                                    Integer.parseInt(dataSet.get(dataSet.getModel().getElementAt(index)).getHour()) + j,
+                                    d[index][1]);
                         }
                     }
                 }
-//                index++;
             }
-            index++;
+                index++;
         }
+//        index++;
     }
+
 
     public int getYear(){
         year = current.get(Calendar.YEAR);
@@ -521,7 +460,7 @@ abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, M
 
     public static void main(String[] args) {
 
-        new CalanderGUI(new ScheduleData()) {
+        new CalanderGUI(new ScheduleData(), new BillboardData()) {
             @Override
             public void mousePressed(MouseEvent e) {
 
