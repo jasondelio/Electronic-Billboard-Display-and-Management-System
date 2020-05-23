@@ -1,5 +1,6 @@
 package cab302.ControlPanel;
 
+import cab302.database.billboard.BillboardData;
 import cab302.database.schedule.ScheduleData;
 import cab302.database.schedule.ScheduleInfo;
 
@@ -27,6 +28,9 @@ public class CustomDialog extends JDialog implements ActionListener {
     private JTextField dubox;
     private JTextField creatorbox;
 
+    private JComboBox billboardChooser;
+    private DefaultComboBoxModel chooserBox;
+
     private JLabel lblName;
     private JLabel lblselectedDate;
     private JLabel lblTime;
@@ -42,19 +46,24 @@ public class CustomDialog extends JDialog implements ActionListener {
     private Integer scheduledMin;
 
     private JList nameList;
+    DefaultListModel model;
 
     ScheduleData data;
+    BillboardData boradData;
 
     String month;
     String date;
+    Integer time;
 
     Calendar cal;
 
     JList datalst;
 
 
-    public CustomDialog(String info, ScheduleData data) {
+    public CustomDialog(String info, int selectedTime, ScheduleData data, BillboardData boradData) {
         this.data = data;
+        this.boradData = boradData;
+        time = selectedTime;
 
         cal = Calendar.getInstance();
 
@@ -88,12 +97,12 @@ public class CustomDialog extends JDialog implements ActionListener {
 
         pnl.add(lblName, gbc);
 
-        namebox = new JTextField(20);
+        billboardChooser = setBillboardChooser();
         gbc.gridwidth = 3;
         gbc.gridx = 2;
         gbc.gridy = 7;
 
-        pnl.add(namebox, gbc);
+        pnl.add(billboardChooser, gbc);
 
         // Creator
         lblCreator = new JLabel("Creator");
@@ -105,6 +114,7 @@ public class CustomDialog extends JDialog implements ActionListener {
         pnl.add(lblCreator, gbc);
 
         creatorbox = new JTextField(20);
+        creatorbox.setEditable(false);
         gbc.gridwidth = 3;
         gbc.gridx = 2;
         gbc.gridy = 8;
@@ -120,6 +130,8 @@ public class CustomDialog extends JDialog implements ActionListener {
         pnl.add(lblTime, gbc);
 
         hourbox = new JTextField(5);
+        hourbox.setText(String.valueOf(time));
+        hourbox.setEditable(false);
         gbc.gridx = 2;
         gbc.gridy = 9;
 
@@ -198,87 +210,67 @@ public class CustomDialog extends JDialog implements ActionListener {
         edit.addActionListener(this);
         close.addActionListener(this);
 
-        nameList.addListSelectionListener(e -> {
-            if (nameList.getSelectedValue() != null
-                    && !nameList.getSelectedValue().equals("")) {
-                show(data.get(nameList.getSelectedValue().toString().split(" ")[0]));
-
+        billboardChooser.addActionListener(e -> {
+            if (billboardChooser.getSelectedItem() != null
+                    && !billboardChooser.getSelectedItem().equals("")) {
+//                show(data.get(billboardChooser.getSelectedItem().toString()));
+                creatorbox.setText(boradData.get(billboardChooser.getSelectedItem()).getCreator());
+            }
+            else if(billboardChooser.getSelectedItem().equals("HH")) {
+                creatorbox.setText("H");
             }
         });
+
+        nameList.addListSelectionListener(e -> {if(nameList.getSelectedValue() != null){
+            show(data.get(nameList.getSelectedValue().toString().split(" ")[0]));
+        }});
         setVisible(true);
     }
 
+    public JComboBox setBillboardChooser(){
+        billboardChooser = new JComboBox();
+        chooserBox = new DefaultComboBoxModel<>();
+
+        chooserBox.addElement("HH");
+
+        for(int i=0; i<boradData.getModel().getSize(); i++) chooserBox.addElement(boradData.getModel().getElementAt(i));
+
+        billboardChooser.setModel(chooserBox);
+
+//        x.add(monthChooser);
+        return billboardChooser;
+    }
 
     public void setDisplay(String date, String month) {
 
-        DefaultListModel model = new DefaultListModel();
+        model = new DefaultListModel();
 
 
-        JList tempData = datalst;
+//        JList tempData = datalst;
 
-        int[] d = new int[tempData.getModel().getSize()];
+        int[] d = new int[datalst.getModel().getSize()];
+        int index = 0;
 
-        for (int i = 0; i < tempData.getModel().getSize(); i++) {
-            if (tempData.getModel().getSize() > 1) {
-                String tempVal = String.valueOf(tempData.getModel()
-                        .getElementAt(0))
-                        .split("/,")[i]
-                        .replace("[", "")
-                        .replace("]", "")
-                        .replace("/", "")
-                        .replace(" ","");
+        while (index < datalst.getModel().getSize()) {
 
-                String[] tempElem = tempVal.split(",");
-
-                if (date.equals(tempElem[2]) && month.equals(tempElem[1])) {
-                    d[i] = i;
+                if (data.get(data.getModel().getElementAt(index)).getDate().equals(date) &&
+                        data.get(data.getModel().getElementAt(index)).getMonth().equals(month)) {
+                    d[index] = index;
+                } else {
+                    d[index] = -1;
                 }
-                else {
-                    d[i] = -1;
-                }
+                if (d[index] != -1) {
+                    String value = data.get(data.getModel().getElementAt(index)).getBoardTitle() + " - "
+                            + data.get(data.getModel().getElementAt(index)).getHour()
+                            + ":" + data.get(data.getModel().getElementAt(index)).getMinute()
+                            + " during " + data.get(data.getModel().getElementAt(index)).getDuration()
+                            + "hrs";
+                    model.addElement(value);
 
-            } else
-            {
-                String[] temp = String.valueOf(tempData.getModel())
-                        .replace("[[","")
-                        .replace("]]","")
-                        .replace(" ","")
-                        .split(",");
-                if (date.equals(temp[2]) && month.equals(temp[1])) {
-                    d[i] = i;
                 }
-                else {
-                    d[i] = -1;
-                }
-            }
+            index++;
         }
 
-        for(int i = 0; i < d.length; i++) {
-            String[] t;
-            if (tempData.getModel().getSize() > 1) {
-                String tempVal = String.valueOf(tempData.getModel()
-                        .getElementAt(0))
-                        .split("/,")[i]
-                        .replace("[", "")
-                        .replace("]", "")
-                        .replace("/", "")
-                        .replace(" ","");
-
-                t = tempVal.split(",");
-            } else
-            {
-                t = String.valueOf(tempData.getModel())
-                        .replace("[[","")
-                        .replace("]]","")
-                        .replace("/","")
-                        .replace(" ","")
-                        .split(",");
-            }
-//            System.out.println(d[i]);
-            if(d[i] != -1) {
-                model.addElement(t[0] + " - " + t[3] + ":" + t[4] + " during " + t[5] + " hrs");
-            }
-        }
         nameList = new JList(model);
         pnlList = new JScrollPane(nameList);
     }
@@ -286,7 +278,7 @@ public class CustomDialog extends JDialog implements ActionListener {
 
     private void show(ScheduleInfo s) {
         if (s != null) {
-            namebox.setText(s.getBoardTitle());
+            billboardChooser.setSelectedItem(s.getBoardTitle());
             creatorbox.setText(s.getCreator());
             hourbox.setText(s.getHour());
             minbox.setText(s.getMinute());
@@ -339,23 +331,32 @@ public class CustomDialog extends JDialog implements ActionListener {
     }
 
     private void savePressed() {
-        if (namebox.getText() != null && !namebox.getText().equals("") && hourbox.getText() != null && !hourbox.getText().equals("")
+        if (billboardChooser.getSelectedItem() != null && !billboardChooser.getSelectedItem().equals("") &&
+                hourbox.getText() != null && !hourbox.getText().equals("")
         && minbox.getText() != null && !minbox.getText().equals("")) {
-            ScheduleInfo s = new ScheduleInfo(namebox.getText(), creatorbox.getText(), month, date, hourbox.getText(), minbox
+            ScheduleInfo s = new ScheduleInfo(String.valueOf(billboardChooser.getSelectedItem()), creatorbox.getText(),
+                    month, date, String.valueOf(time), minbox
                     .getText(), dubox.getText());
             data.add(s);
+            model.removeAllElements();
+            setDisplay(date, month);
         }
     }
 
     private void editPressed() {
-        if (namebox.getText() != null && !namebox.getText().equals("") && hourbox.getText() != null && !hourbox.getText().equals("")
+        if (billboardChooser.getSelectedItem() != null && !billboardChooser.getSelectedItem().equals("") &&
+                hourbox.getText() != null && !hourbox.getText().equals("")
                 && minbox.getText() != null && !minbox.getText().equals("")) {
-            data.edit(namebox.getText(), creatorbox.getText(), month, date, hourbox.getText(), minbox
+            data.edit(billboardChooser.getSelectedItem().toString(), creatorbox.getText(), month, date, String.valueOf(time), minbox
                     .getText(), dubox.getText());
+            model.removeAllElements();
+            setDisplay(date, month);
         }
     }
 
     private void deletePressed() {
         data.remove(nameList.getSelectedValue().toString().split(" ")[0]);
+        model.removeAllElements();
+        setDisplay(date, month);
     }
 }
