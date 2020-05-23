@@ -41,7 +41,7 @@ public class SchedulesDatasource implements ScheduleSources {
 
     private static final String COUNT_ROWS = "SELECT COUNT(*) FROM schedules";
 
-    private static final String FIND_SCHEDULE = "SELECT boardtitle From schedules WHERE (month=?) AND (date=?)";
+    private static final String FIND_SCHEDULE = "SELECT * From schedules WHERE (month=?) AND (date=?)";
 
     private Connection connection;
 
@@ -133,6 +133,26 @@ public class SchedulesDatasource implements ScheduleSources {
             rs.next();
             b.setBoardTitle(rs.getString("boardtitle"));
             b.setCreator(rs.getString("creator"));
+            b.setMonth(rs.getString("month"));
+            b.setDate(rs.getString("date"));
+            b.setHour(rs.getString("hour"));
+            b.setMinute(rs.getString("minute"));
+            b.setDuration(rs.getString("duration"));
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return b;
+    }
+
+    public ScheduleInfo findSchedule(String month, String date) {
+        ScheduleInfo b = new ScheduleInfo();
+        ResultSet rs = null;
+        try {
+            findSchedule.setString(3, month);
+            findSchedule.setString(4, date);
+            rs = findSchedule.executeQuery();
+            rs.next();
+            b.setBoardTitle(rs.getString("boardtitle"));
             b.setHour(rs.getString("hour"));
             b.setMinute(rs.getString("minute"));
             b.setDuration(rs.getString("duration"));
