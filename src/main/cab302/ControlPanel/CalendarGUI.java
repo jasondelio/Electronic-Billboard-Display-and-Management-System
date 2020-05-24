@@ -203,7 +203,6 @@ abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, M
                         super.windowOpened(e);
                         dataSet = new ScheduleData();
                         boradData = new BillboardData();
-
                     }
                     @Override
                     public void windowClosed(WindowEvent e) {
@@ -244,7 +243,7 @@ abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, M
         int[][] d = new int[tC.length][2];
 
 
-        while (index < dataSet.getModel().getSize()) {
+        while (index < data.getModel().getSize()) {
             for (int i = 0; i < t.getColumnCount(); i++) {
                 String[] m = t.getColumnName(i)
                         .replace("<html><center>", "")
@@ -255,25 +254,25 @@ abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, M
             }
 
             for (int[] n : tC) {
-
-                if (dataSet.get(dataSet.getModel().getElementAt(index)).getDate().equals(String.valueOf(n[0]))) {
+//                String tempDate = dataSet.get(data.getModel().getElementAt(index)).getDate();
+                if (dataSet.get(data.getModel().getElementAt(index)).getDate().equals(String.valueOf(n[0]))) {
                     d[index] = n;
                 } else {
                     d[index][0] = -1;
                     d[index][1] = -1;
                 }
                 if (d[index][1] != -1 && d[index][0] != -1) {
-                    String value = dataSet.get(dataSet.getModel().getElementAt(index)).getBoardTitle() + " - "
-                            + dataSet.get(dataSet.getModel().getElementAt(index)).getHour()
-                            + ":" + dataSet.get(dataSet.getModel().getElementAt(index)).getMinute();
+                    String value = dataSet.findRow(index).getBoardTitle() + " - "
+                            + dataSet.findRow(index).getHour()
+                            + ":" + dataSet.findRow(index).getMinute();
 //                    System.out.println(d[i][0]);
                     t.setValueAt(value,
-                            Integer.parseInt(dataSet.get(dataSet.getModel().getElementAt(index)).getHour()),
+                            Integer.parseInt(dataSet.findRow(index).getHour()),
                             d[index][1]);
-                    if (Integer.parseInt(dataSet.get(dataSet.getModel().getElementAt(index)).getDuration()) > 0) {
-                        for (int j = 1; j < Integer.parseInt(dataSet.get(dataSet.getModel().getElementAt(index)).getDuration()); j++) {
+                    if (Integer.parseInt(dataSet.findRow(index).getDuration()) > 0) {
+                        for (int j = 1; j < Integer.parseInt(dataSet.findRow(index).getDuration()); j++) {
                             t.setValueAt(" ",
-                                    Integer.parseInt(dataSet.get(dataSet.getModel().getElementAt(index)).getHour()) + j,
+                                    Integer.parseInt(dataSet.findRow(index).getHour()) + j,
                                     d[index][1]);
                         }
                     }
