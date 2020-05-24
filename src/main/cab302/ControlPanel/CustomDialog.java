@@ -259,22 +259,22 @@ public class CustomDialog extends JDialog implements ActionListener {
 
 //        JList tempData = datalst;
 
-        int[] d = new int[data.getModel().getSize()];
+        int[] d = new int[data.take().getSize()];
         int index = 0;
 
-        while (index < data.getModel().getSize()) {
+        while (index < data.take().getSize()) {
 
-                if (data.get(data.getModel().getElementAt(index)).getDate().equals(date) &&
-                        data.get(data.getModel().getElementAt(index)).getMonth().equals(month)) {
+                if (data.get(data.take().getElementAt(index)).getDate().equals(date) &&
+                        data.get(data.take().getElementAt(index)).getMonth().equals(month)) {
                     d[index] = index;
                 } else {
                     d[index] = -1;
                 }
                 if (d[index] != -1) {
-                    String value = data.get(data.getModel().getElementAt(index)).getBoardTitle() + " - "
-                            + data.get(data.getModel().getElementAt(index)).getHour()
-                            + ":" + data.get(data.getModel().getElementAt(index)).getMinute()
-                            + " during " + data.get(data.getModel().getElementAt(index)).getDuration()
+                    String value = data.findRow(index).getBoardTitle() + " - "
+                            + data.findRow(index).getHour()
+                            + ":" + data.findRow(index).getMinute()
+                            + " during " + data.findRow(index).getDuration()
                             + "hrs";
                     model.addElement(value);
 
