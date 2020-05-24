@@ -130,14 +130,15 @@ public class SchedulesDatasource implements ScheduleSources {
         try {
             getSchedule.setString(1, title);
             rs = getSchedule.executeQuery();
-            rs.next();
-            b.setBoardTitle(rs.getString("boardtitle"));
-            b.setCreator(rs.getString("creator"));
-            b.setMonth(rs.getString("month"));
-            b.setDate(rs.getString("date"));
-            b.setHour(rs.getString("hour"));
-            b.setMinute(rs.getString("minute"));
-            b.setDuration(rs.getString("duration"));
+            while(rs.next()) {
+                b.setBoardTitle(rs.getString("boardtitle"));
+                b.setCreator(rs.getString("creator"));
+                b.setMonth(rs.getString("month"));
+                b.setDate(rs.getString("date"));
+                b.setHour(rs.getString("hour"));
+                b.setMinute(rs.getString("minute"));
+                b.setDuration(rs.getString("duration"));
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
