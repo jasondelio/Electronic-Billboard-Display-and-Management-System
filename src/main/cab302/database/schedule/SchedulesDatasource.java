@@ -29,7 +29,7 @@ public class SchedulesDatasource implements ScheduleSources {
 
     private static final String GET_TITLE = "SELECT boardtitle FROM schedules";
 
-    private static final String TAKE_SCHEDULE = "SELECT boardtitle, month, date, hour, minute, duration FROM schedules";
+    private static final String TAKE_SCHEDULE = "SELECT boardtitle FROM schedules";
 
     private static final String GET_SCHEDULE = "SELECT * FROM schedules WHERE boardtitle=?";
 
@@ -40,6 +40,8 @@ public class SchedulesDatasource implements ScheduleSources {
     private static final String EDIT_SCHEDULE = "UPDATE schedules SET boardtitle=?, creator=?, month=?, date=?, hour=?, minute=?, duration=? WHERE boardtitle=?";
 
     private static final String COUNT_ROWS = "SELECT COUNT(*) FROM schedules";
+
+    private static final String ROW_ITEM = "SELECT * FROM schedules LIMIT ?, 1;";
 
     private static final String FIND_SCHEDULE = "SELECT * From schedules WHERE (month=?) AND (date=?)";
 
@@ -63,6 +65,8 @@ public class SchedulesDatasource implements ScheduleSources {
 
     private PreparedStatement takeSchedule;
 
+    private PreparedStatement findRow;
+
     public SchedulesDatasource() {
         connection = DataConnection.getInstance();
         try {
@@ -77,6 +81,7 @@ public class SchedulesDatasource implements ScheduleSources {
             rowCount = connection.prepareStatement(COUNT_ROWS);
             findSchedule = connection.prepareStatement(FIND_SCHEDULE);
             takeSchedule = connection.prepareStatement(TAKE_SCHEDULE);
+            findRow = connection. prepareStatement(ROW_ITEM);
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -149,14 +154,36 @@ public class SchedulesDatasource implements ScheduleSources {
         ScheduleInfo b = new ScheduleInfo();
         ResultSet rs = null;
         try {
-            findSchedule.setString(3, month);
-            findSchedule.setString(4, date);
+            findSchedule.setString(1, month);
+            findSchedule.setString(2, date);
             rs = findSchedule.executeQuery();
-            rs.next();
-            b.setBoardTitle(rs.getString("boardtitle"));
-            b.setHour(rs.getString("hour"));
-            b.setMinute(rs.getString("minute"));
-            b.setDuration(rs.getString("duration"));
+            while(rs.next()) {
+                b.setBoardTitle(rs.getString("boardtitle"));
+                b.setHour(rs.getString("hour"));
+                b.setMinute(rs.getString("minute"));
+                b.setDuration(rs.getString("duration"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return b;
+    }
+
+    public ScheduleInfo findRow(int index) {
+        ScheduleInfo b = new ScheduleInfo();
+        ResultSet rs = null;
+        try {
+            findRow.setInt(1, index);
+            rs = findRow.executeQuery();
+            while(rs.next()) {
+                b.setBoardTitle(rs.getString("boardtitle"));
+                b.setCreator(rs.getString("creator"));
+                b.setMonth(rs.getString("month"));
+                b.setDate(rs.getString("date"));
+                b.setHour(rs.getString("hour"));
+                b.setMinute(rs.getString("minute"));
+                b.setDuration(rs.getString("duration"));
+            }
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
@@ -171,13 +198,14 @@ public class SchedulesDatasource implements ScheduleSources {
         try {
             rs = takeSchedule.executeQuery();
             while (rs.next()) {
-                a.add(rs.getString("boardtitle") + ", " +
-                        rs.getString("month") + ", " +
-                        rs.getString("date") + ", " +
-                        rs.getString("hour") + ", " +
-                        rs.getString("minute") + ", " +
-                        rs.getString("duration") + "/");
-                n.addElement(a);
+                n.addElement(rs.getString("boardtitle"));
+//                a.add(rs.getString("boardtitle") + ", " +
+//                        rs.getString("month") + ", " +
+//                        rs.getString("date") + ", " +
+//                        rs.getString("hour") + ", " +
+//                        rs.getString("minute") + ", " +
+//                        rs.getString("duration") + "/");
+//                n.addElement(a);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
