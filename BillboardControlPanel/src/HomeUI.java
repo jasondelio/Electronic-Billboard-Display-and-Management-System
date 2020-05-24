@@ -1,3 +1,12 @@
+package cab302.ControlPanel;
+
+import cab302.database.billboard.BillboardData;
+import cab302.database.billboard.BillboardInfo;
+import cab302.database.user.UserData;
+import cab302.database.user.UserInfo;
+import cab302.viewer.exceptions.BadImageFormatException;
+import cab302.viewer.gui.ImageGenerator;
+import cab302.viewer.util.XMLParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -13,6 +22,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 import java.util.Base64;
+import java.util.HashMap;
+
+import static cab302.viewer.util.HexToRGB.HexToRGB;
 
 public class HomeUI extends JFrame implements ActionListener {
     public static final int WIDTH = 600;
@@ -424,7 +436,7 @@ public class HomeUI extends JFrame implements ActionListener {
             XMLContents = temp;
         }
     }
-    private void parseXMLContentsFromDatabase(Billboard b)
+    private void parseXMLContentsFromDatabase(BillboardInfo b)
     {
         String contents = b.getXMLContent();
         try {
@@ -513,7 +525,7 @@ public class HomeUI extends JFrame implements ActionListener {
             panelBillboardName.add(billboardName);
             editBillboardPanel.add(panelBillboardName, BorderLayout.NORTH);
 
-            Billboard b = billboardData.get(billboardList.getSelectedValue());
+            BillboardInfo b = billboardData.get(billboardList.getSelectedValue());
             billboardName.setText(b.getName());
 
             parseXMLContentsFromDatabase(b);
@@ -564,7 +576,7 @@ public class HomeUI extends JFrame implements ActionListener {
         convertBillboardToXML();
 
         if (billboardName.getText() != null && !billboardName.getText().equals("")) {
-            Billboard b = new Billboard(billboardName.getText(), XMLContents);
+            BillboardInfo b = new BillboardInfo(billboardName.getText(), XMLContents);
             billboardData.add(b);
             createNewBillboardDialog.dispose();
         }
@@ -654,7 +666,7 @@ public class HomeUI extends JFrame implements ActionListener {
             buttonPanel.add(Box.createHorizontalStrut(110));
             buttonPanel.add(btnUpdateUser);
             editUserPanel.add(makeUserFieldsPanel(), BorderLayout.CENTER);
-            User u = userData.get(usernameList.getSelectedValue());
+            UserInfo u = userData.get(usernameList.getSelectedValue());
             name.setText(u.getName());
             username.setText(u.getUsername());
             password.setText(u.getPasswords());
@@ -686,7 +698,7 @@ public class HomeUI extends JFrame implements ActionListener {
         if (name.getText() != null && !name.getText().equals("") &&
                 username.getText() != null && !username.getText().equals("") && password.getText() != null
                 && !password.getText().equals("") && email.getText() != null && !email.getText().equals("")) {
-            User u = new User(name.getText(), username.getText(), password.getText(), email.getText(),
+            UserInfo u = new UserInfo(name.getText(), username.getText(), password.getText(), email.getText(),
                     Boolean.toString(cbCreateBillboardsPermission.isSelected()),
                     Boolean.toString(cbEditAllBillboardsPermission.isSelected()),
                     Boolean.toString(cbScheduleBillboardsPermission.isSelected()),
@@ -731,7 +743,7 @@ public class HomeUI extends JFrame implements ActionListener {
         initialColor = new Color(r, g, b);
     }
     private void resetEditedBillboardPressed() {
-        Billboard b = billboardData.get(billboardList.getSelectedValue());
+        BillboardInfo b = billboardData.get(billboardList.getSelectedValue());
         billboardName.setText(b.getName());
         parseXMLContentsFromDatabase(b);
     }
@@ -752,7 +764,7 @@ public class HomeUI extends JFrame implements ActionListener {
         }
     }
     private void saveImportedBillboardPressed() {
-        Billboard b = new Billboard(billboardName.getText(), XMLContents);
+        BillboardInfo b = new BillboardInfo(billboardName.getText(), XMLContents);
         billboardData.add(b);
         importBillboardDialog.dispose();
         XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
@@ -802,6 +814,113 @@ public class HomeUI extends JFrame implements ActionListener {
     {
         XMLContents = XMLContents + content;
     }
+
+
+    private void previewBillboardPressed(JButton btnSource)
+    {
+        previewBillboardDialog = new JDialog(this,"Preview Billboard");
+        previewBillboardDialog.setSize(new Dimension(860, 600));
+
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        previewBillboardDialog.setLocation(dim.width / 2 - 860, dim.height / 2 - 300);
+
+        JPanel previewPanel = new JPanel();
+        XMLParser parser;
+
+        if (btnSource == btnPreviewEditedBillboard || btnSource == btnPreviewNewBillboard) {
+            convertBillboardToXML();
+            parser = new XMLParser(new BillboardInfo(billboardName.getText(), XMLContents));
+        }
+        else if (btnSource == btnPreviewBillboard)
+            parser = new XMLParser(billboardData.get(billboardList.getSelectedValue()));
+        else
+            parser = new XMLParser("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<billboard>\n<message>No Billboard Found</message>\n</billboard>");
+
+        HashMap<String,String> xmlInfo = parser.parseXML();
+
+        // Layout and closing
+        BorderLayout layout = new BorderLayout();
+        previewPanel.setLayout(layout);
+
+        // Get and set Background
+        String bgString = xmlInfo.getOrDefault("bgColour", "#FFFFFF");
+        Color bgColour = HexToRGB(bgString);
+        previewPanel.setBackground(bgColour);
+
+        // ## Utilities and Actions ## \\
+        // Provide a way to decode and display images
+        ImageGenerator imgGen = new ImageGenerator();
+
+
+        // ## XML display ## \\
+        // Create heading label if exists and add it to the window
+        if (xmlInfo.containsKey("message")) {
+            JTextArea titleText = new JTextArea();
+            String[] messageStringArr = xmlInfo.get("message").split("%%%%");
+            titleText.setText(messageStringArr[0]);
+            titleText.setFont(new Font("Arial", Font.PLAIN, 84));
+            titleText.setForeground(
+                    HexToRGB(
+                            messageStringArr.length != 1 ?
+                                    (!messageStringArr[messageStringArr.length - 1].equals("") ?
+                                            messageStringArr[messageStringArr.length - 1] : "#000000")
+                                    : "#000000"
+                    )
+            );
+            titleText.setBackground(bgColour);
+
+            titleText.setEditable(false);
+            titleText.setLineWrap(true);
+            titleText.setWrapStyleWord(true);
+            titleText.setRows(3);
+            titleText.setColumns(25);
+
+            previewPanel.add(titleText, BorderLayout.NORTH);
+        }
+
+        // Create picture label if exists and add it to the window
+        if (xmlInfo.containsKey("picture")) {
+            JLabel pictureLabel = new JLabel();
+            String imgInfo = xmlInfo.get("picture");
+            try {
+                pictureLabel.setIcon(new ImageIcon(imgGen.isBase64EncodedImage(imgInfo) ? imgGen.decodeDataString(imgInfo) : imgGen.downloadImage(imgInfo)));
+            } catch (IOException | BadImageFormatException e) {
+                e.printStackTrace();
+            }
+
+            previewPanel.add(pictureLabel, BorderLayout.CENTER);
+        }
+
+        // Create information label if exists and add it to the window
+        if (xmlInfo.containsKey("information")) {
+            JTextArea informationText = new JTextArea();
+            String[] infoStringArr = xmlInfo.get("information").split("%%%%");
+            informationText.setText(infoStringArr[0]);
+            informationText.setFont(new Font("Arial", Font.PLAIN, 36));
+            informationText.setForeground(
+                    HexToRGB(infoStringArr.length > 1
+                                    ? (
+                                    !infoStringArr[infoStringArr.length - 1].equals("")
+                                            ? infoStringArr[infoStringArr.length - 1]
+                                            : "#000000"
+                            )
+                                    : "#000000"
+                    )
+            );
+            informationText.setBackground(bgColour);
+
+            informationText.setEditable(false);
+            informationText.setLineWrap(true);
+            informationText.setWrapStyleWord(true);
+            informationText.setColumns(55);
+
+            previewPanel.add(informationText, BorderLayout.SOUTH);
+        }
+
+        previewBillboardDialog.add(previewPanel);
+        previewBillboardDialog.setVisible(true);
+    }
+
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -881,7 +1000,10 @@ public class HomeUI extends JFrame implements ActionListener {
         {
             editBillboardPressed();
         }
+        else if (btnSource == btnPreviewBillboard || btnSource == btnPreviewEditedBillboard || btnSource == btnPreviewNewBillboard)
+        {
+            previewBillboardPressed(btnSource);
+        }
 
     }
 }
-
