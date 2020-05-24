@@ -49,8 +49,13 @@ public class ScheduleData {
         return data.getSchedule((String) key);
     }
 
+
     public ScheduleInfo findSchedule(String month, String date) {
         return data.findSchedule(month, date);
+    }
+
+    public ScheduleInfo findRow(int index) {
+        return data.findRow(index);
     }
 
     public void edit(String boardtitle, String creator, String month, String date, String hour,
