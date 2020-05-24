@@ -32,7 +32,7 @@ public class CustomDialog extends JDialog implements ActionListener {
     private DefaultComboBoxModel chooserBox;
 
     private JLabel lblName;
-    private JLabel lblselectedDate;
+    private JLabel lblDuhour;
     private JLabel lblTime;
     private JLabel lblHour;
     private JLabel lblMin;
@@ -169,6 +169,12 @@ public class CustomDialog extends JDialog implements ActionListener {
 
         pnl.add(dubox, gbc);
 
+        lblDuhour = new JLabel("hr");
+        gbc.gridx = 3;
+        gbc.gridy = 10;
+
+        pnl.add(lblDuhour, gbc);
+
 
         // Buttons
         newbtn = new JButton("New");
@@ -190,7 +196,7 @@ public class CustomDialog extends JDialog implements ActionListener {
         pnl.add(edit, gbc);
 
         delete = new JButton("Delete");
-        gbc.gridx = 4;
+        gbc.gridx = 3;
         gbc.gridy = 12;
 
         pnl.add(delete, gbc);
@@ -211,13 +217,16 @@ public class CustomDialog extends JDialog implements ActionListener {
         close.addActionListener(this);
 
         billboardChooser.addActionListener(e -> {
-            if (billboardChooser.getSelectedItem() != null
+//            if(billboardChooser.getSelectedItem().equals("HH")) {
+//                creatorbox.setText("H");
+//            }else
+            if(billboardChooser.getSelectedItem().equals("")) {
+                creatorbox.setText("");
+            }else
+                if (billboardChooser.getSelectedItem() != null
                     && !billboardChooser.getSelectedItem().equals("")) {
 //                show(data.get(billboardChooser.getSelectedItem().toString()));
                 creatorbox.setText(boradData.get(billboardChooser.getSelectedItem()).getCreator());
-            }
-            else if(billboardChooser.getSelectedItem().equals("HH")) {
-                creatorbox.setText("H");
             }
         });
 
@@ -231,7 +240,9 @@ public class CustomDialog extends JDialog implements ActionListener {
         billboardChooser = new JComboBox();
         chooserBox = new DefaultComboBoxModel<>();
 
-        chooserBox.addElement("HH");
+        // For testing new name and creator set of database as name and creator have to be set in Home UI
+        chooserBox.addElement("");
+//        chooserBox.addElement("HH");
 
         for(int i=0; i<boradData.getModel().getSize(); i++) chooserBox.addElement(boradData.getModel().getElementAt(i));
 
@@ -248,10 +259,10 @@ public class CustomDialog extends JDialog implements ActionListener {
 
 //        JList tempData = datalst;
 
-        int[] d = new int[datalst.getModel().getSize()];
+        int[] d = new int[data.getModel().getSize()];
         int index = 0;
 
-        while (index < datalst.getModel().getSize()) {
+        while (index < data.getModel().getSize()) {
 
                 if (data.get(data.getModel().getElementAt(index)).getDate().equals(date) &&
                         data.get(data.getModel().getElementAt(index)).getMonth().equals(month)) {
@@ -287,19 +298,15 @@ public class CustomDialog extends JDialog implements ActionListener {
     }
 
     private void clearFields() {
-        namebox.setText("");
-        hourbox.setText("");
+        billboardChooser.setSelectedIndex(0);
         minbox.setText("");
         dubox.setText("");
         creatorbox.setText("");
     }
 
     private void setFieldsEditable(boolean editable) {
-        namebox.setEditable(editable);
-        hourbox.setEditable(editable);
         minbox.setEditable(editable);
         dubox.setEditable(editable);
-        creatorbox.setEditable(editable);
     }
 
 
@@ -316,14 +323,17 @@ public class CustomDialog extends JDialog implements ActionListener {
         else if(act == save){
             savePressed();
             this.dispose();
+//            setDisplay(date, month);
 
         } else if (act == edit) {
             editPressed();
             this.dispose();
+//            setDisplay(date, month);
 
         } else if (act == delete) {
             deletePressed();
             this.dispose();
+//            setDisplay(date, month);
 
         } else if (act == close) {
             this.dispose();
@@ -339,7 +349,7 @@ public class CustomDialog extends JDialog implements ActionListener {
                     .getText(), dubox.getText());
             data.add(s);
             model.removeAllElements();
-            setDisplay(date, month);
+//            setDisplay(date, month);
         }
     }
 
@@ -350,13 +360,13 @@ public class CustomDialog extends JDialog implements ActionListener {
             data.edit(billboardChooser.getSelectedItem().toString(), creatorbox.getText(), month, date, String.valueOf(time), minbox
                     .getText(), dubox.getText());
             model.removeAllElements();
-            setDisplay(date, month);
+//            setDisplay(date, month);
         }
     }
 
     private void deletePressed() {
         data.remove(nameList.getSelectedValue().toString().split(" ")[0]);
         model.removeAllElements();
-        setDisplay(date, month);
+//        setDisplay(date, month);
     }
 }
