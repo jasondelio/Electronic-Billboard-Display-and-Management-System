@@ -829,7 +829,7 @@ public class HomeUI extends JFrame implements ActionListener {
 
         if (btnSource == btnPreviewEditedBillboard || btnSource == btnPreviewNewBillboard) {
             convertBillboardToXML();
-            parser = new XMLParser(new BillboardInfo(billboardName.getText(), XMLContents));
+            parser = new XMLParser(XMLContents);
         }
         else if (btnSource == btnPreviewBillboard)
             parser = new XMLParser(billboardData.get(billboardList.getSelectedValue()));
