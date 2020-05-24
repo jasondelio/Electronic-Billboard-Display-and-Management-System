@@ -1,9 +1,5 @@
-package cab302.ControlPanel;
+package cab302.ControlPanelTest;
 
-import cab302.database.billboard.BillboardData;
-import cab302.database.billboard.BillboardInfo;
-import cab302.database.user.UserData;
-import cab302.database.user.UserInfo;
 import cab302.viewer.exceptions.BadImageFormatException;
 import cab302.viewer.gui.ImageGenerator;
 import cab302.viewer.util.XMLParser;
@@ -436,7 +432,7 @@ public class HomeUI extends JFrame implements ActionListener {
             XMLContents = temp;
         }
     }
-    private void parseXMLContentsFromDatabase(BillboardInfo b)
+    private void parseXMLContentsFromDatabase(Billboard b)
     {
         String contents = b.getXMLContent();
         try {
@@ -525,7 +521,7 @@ public class HomeUI extends JFrame implements ActionListener {
             panelBillboardName.add(billboardName);
             editBillboardPanel.add(panelBillboardName, BorderLayout.NORTH);
 
-            BillboardInfo b = billboardData.get(billboardList.getSelectedValue());
+            Billboard b = billboardData.get(billboardList.getSelectedValue());
             billboardName.setText(b.getName());
 
             parseXMLContentsFromDatabase(b);
@@ -541,6 +537,8 @@ public class HomeUI extends JFrame implements ActionListener {
 
     private void convertBillboardToXML()
     {
+        XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";  // Reset XML contents to avoid malformed XML documents
+
         if(backgroundColour.getText() != null && !backgroundColour.getText().equals("")) {
             addToXMLContents("<billboard background=\"" + backgroundColour.getText() + "\">\n");
         }
@@ -576,7 +574,7 @@ public class HomeUI extends JFrame implements ActionListener {
         convertBillboardToXML();
 
         if (billboardName.getText() != null && !billboardName.getText().equals("")) {
-            BillboardInfo b = new BillboardInfo(billboardName.getText(), XMLContents);
+            Billboard b = new Billboard(billboardName.getText(), XMLContents);
             billboardData.add(b);
             createNewBillboardDialog.dispose();
         }
@@ -666,7 +664,7 @@ public class HomeUI extends JFrame implements ActionListener {
             buttonPanel.add(Box.createHorizontalStrut(110));
             buttonPanel.add(btnUpdateUser);
             editUserPanel.add(makeUserFieldsPanel(), BorderLayout.CENTER);
-            UserInfo u = userData.get(usernameList.getSelectedValue());
+            User u = userData.get(usernameList.getSelectedValue());
             name.setText(u.getName());
             username.setText(u.getUsername());
             password.setText(u.getPasswords());
@@ -698,7 +696,7 @@ public class HomeUI extends JFrame implements ActionListener {
         if (name.getText() != null && !name.getText().equals("") &&
                 username.getText() != null && !username.getText().equals("") && password.getText() != null
                 && !password.getText().equals("") && email.getText() != null && !email.getText().equals("")) {
-            UserInfo u = new UserInfo(name.getText(), username.getText(), password.getText(), email.getText(),
+            User u = new User(name.getText(), username.getText(), password.getText(), email.getText(),
                     Boolean.toString(cbCreateBillboardsPermission.isSelected()),
                     Boolean.toString(cbEditAllBillboardsPermission.isSelected()),
                     Boolean.toString(cbScheduleBillboardsPermission.isSelected()),
@@ -743,7 +741,7 @@ public class HomeUI extends JFrame implements ActionListener {
         initialColor = new Color(r, g, b);
     }
     private void resetEditedBillboardPressed() {
-        BillboardInfo b = billboardData.get(billboardList.getSelectedValue());
+        Billboard b = billboardData.get(billboardList.getSelectedValue());
         billboardName.setText(b.getName());
         parseXMLContentsFromDatabase(b);
     }
@@ -764,7 +762,7 @@ public class HomeUI extends JFrame implements ActionListener {
         }
     }
     private void saveImportedBillboardPressed() {
-        BillboardInfo b = new BillboardInfo(billboardName.getText(), XMLContents);
+        Billboard b = new Billboard(billboardName.getText(), XMLContents);
         billboardData.add(b);
         importBillboardDialog.dispose();
         XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
@@ -815,28 +813,30 @@ public class HomeUI extends JFrame implements ActionListener {
         XMLContents = XMLContents + content;
     }
 
-
     private void previewBillboardPressed(JButton btnSource)
     {
         previewBillboardDialog = new JDialog(this,"Preview Billboard");
         previewBillboardDialog.setSize(new Dimension(860, 600));
+        previewBillboardDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         previewBillboardDialog.setLocation(dim.width / 2 - 860, dim.height / 2 - 300);
 
         JPanel previewPanel = new JPanel();
         XMLParser parser;
+        HashMap<String,String> xmlInfo;
 
         if (btnSource == btnPreviewEditedBillboard || btnSource == btnPreviewNewBillboard) {
             convertBillboardToXML();
+            System.out.println(XMLContents);
             parser = new XMLParser(XMLContents);
         }
         else if (btnSource == btnPreviewBillboard)
-            parser = new XMLParser(billboardData.get(billboardList.getSelectedValue()));
+            parser = new XMLParser(billboardData.get(billboardList.getSelectedValue()).getXMLContent());
         else
             parser = new XMLParser("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<billboard>\n<message>No Billboard Found</message>\n</billboard>");
 
-        HashMap<String,String> xmlInfo = parser.parseXML();
+        xmlInfo = parser.parseXML();
 
         // Layout and closing
         BorderLayout layout = new BorderLayout();
@@ -920,7 +920,6 @@ public class HomeUI extends JFrame implements ActionListener {
         previewBillboardDialog.add(previewPanel);
         previewBillboardDialog.setVisible(true);
     }
-
 
     @Override
     public void actionPerformed(ActionEvent e) {
