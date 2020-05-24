@@ -199,10 +199,20 @@ abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, M
                 CustomDialog dialog = new CustomDialog(chosenDate, time, dataSet, boradData);
                 dialog.addWindowListener(new WindowAdapter() {
                     @Override
+                    public void windowOpened(WindowEvent e) {
+                        super.windowOpened(e);
+                        dataSet = new ScheduleData();
+                        boradData = new BillboardData();
+
+                    }
+                    @Override
                     public void windowClosed(WindowEvent e) {
                         super.windowClosed(e);
+                        dataSet = new ScheduleData();
+                        boradData = new BillboardData();
                         setTable();
                     }
+
                 });
             }
         });
@@ -232,16 +242,17 @@ abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, M
         int[][] tC = new int[t.getColumnCount()][2];
         int index = 0;
         int[][] d = new int[tC.length][2];
-        for (int i = 0; i < t.getColumnCount(); i++) {
-            String[] m = t.getColumnName(i)
-                    .replace("<html><center>", "")
-                    .replace(" ", "")
-                    .split("<br>");
-            tC[i][0] = Integer.parseInt(m[0]);
-            tC[i][1] = i;
-        }
 
-        while (index < tempData.getModel().getSize()) {
+
+        while (index < dataSet.getModel().getSize()) {
+            for (int i = 0; i < t.getColumnCount(); i++) {
+                String[] m = t.getColumnName(i)
+                        .replace("<html><center>", "")
+                        .replace(" ", "")
+                        .split("<br>");
+                tC[i][0] = Integer.parseInt(m[0]);
+                tC[i][1] = i;
+            }
 
             for (int[] n : tC) {
 
