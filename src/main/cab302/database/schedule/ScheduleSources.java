@@ -16,15 +16,15 @@ public interface ScheduleSources {
     int getSize();
 
     /**
+     *
      */
-    void deleteSchedule(String boradtitle);
+    void deleteSchedule(String title, String date, String hour);
 
     /**
-     *
      * @return
      */
     void editSchedule(String boardtitle, String creator, String month, String date, String hour,
-                      String minute, String duration);
+                      String minute, String duHr, String duMin, String recur);
 
     /**
      */

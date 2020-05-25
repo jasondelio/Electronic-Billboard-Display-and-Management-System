@@ -11,7 +11,7 @@ import java.awt.event.*;
 import java.util.Calendar;
 
 //sorry i just change public to firsly run the server to create tables
-abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, MouseListener {
+public class CalendarGUI extends JFrame implements ActionListener, Runnable, MouseListener {
     public static final int YEAR_DURATION = 10;
     public static final int WEEK_LENGTH = 7;
     public static final int DAY_HOUR = 24;
@@ -53,7 +53,7 @@ abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, M
 
     Object[] lblList;
 
-    public CalanderGUI(ScheduleData dataSet, BillboardData boradData) {
+    public CalendarGUI(ScheduleData dataSet, BillboardData boradData) {
         this.dataSet = dataSet;
         this.boradData = boradData;
         initializer();
@@ -147,6 +147,38 @@ abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, M
 
     }
 
+    public static void main(String[] args) {
+
+        new CalendarGUI(new ScheduleData(), new BillboardData()) {
+            @Override
+            public void mousePressed(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+
+            }
+
+            @Override
+            public void run() {
+
+            }
+        };
+
+
+    }
+
     public void setTable() {
         ListModel Rlm = new AbstractListModel() {
             @Override
@@ -209,6 +241,8 @@ abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, M
                         super.windowClosed(e);
                         dataSet = new ScheduleData();
                         boradData = new BillboardData();
+                        data = new JList(dataSet.take());
+
                         setTable();
                     }
 
@@ -234,53 +268,6 @@ abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, M
         scrollWeekly.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollWeekly.setPreferredSize(new Dimension(600, 450));
 
-    }
-
-    public void setTableValue(JTable t) {
-        JList tempData = data;
-        int[][] tC = new int[t.getColumnCount()][2];
-        int index = 0;
-        int[][] d = new int[tC.length][2];
-
-
-        while (index < data.getModel().getSize()) {
-            for (int i = 0; i < t.getColumnCount(); i++) {
-                String[] m = t.getColumnName(i)
-                        .replace("<html><center>", "")
-                        .replace(" ", "")
-                        .split("<br>");
-                tC[i][0] = Integer.parseInt(m[0]);
-                tC[i][1] = i;
-            }
-
-            for (int[] n : tC) {
-//                String tempDate = dataSet.get(data.getModel().getElementAt(index)).getDate();
-                if (dataSet.get(data.getModel().getElementAt(index)).getDate().equals(String.valueOf(n[0]))) {
-                    d[index] = n;
-                } else {
-                    d[index][0] = -1;
-                    d[index][1] = -1;
-                }
-                if (d[index][1] != -1 && d[index][0] != -1) {
-                    String value = dataSet.findRow(index).getBoardTitle() + " - "
-                            + dataSet.findRow(index).getHour()
-                            + ":" + dataSet.findRow(index).getMinute();
-//                    System.out.println(d[i][0]);
-                    t.setValueAt(value,
-                            Integer.parseInt(dataSet.findRow(index).getHour()),
-                            d[index][1]);
-                    if (Integer.parseInt(dataSet.findRow(index).getDuration()) > 0) {
-                        for (int j = 1; j < Integer.parseInt(dataSet.findRow(index).getDuration()); j++) {
-                            t.setValueAt(" ",
-                                    Integer.parseInt(dataSet.findRow(index).getHour()) + j,
-                                    d[index][1]);
-                        }
-                    }
-                }
-            }
-                index++;
-        }
-//        index++;
     }
 
 
@@ -439,7 +426,7 @@ abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, M
     public void mouseClicked(MouseEvent e) {
         Object comp = e.getSource();
 
-        if(comp != null) {
+        if (comp != null) {
             pnlWeekly.setVisible(false);
             pnlWeekly.removeAll();
             weeklyPlanner(((JLabel) e.getSource()).getText());
@@ -449,11 +436,87 @@ abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, M
         }
     }
 
+    public void setTableValue(JTable t) {
+        int[][] tC = new int[t.getColumnCount()][2];
+        int index = 0;
+        int[][] d = new int[tC.length][2];
+
+
+        while (index < data.getModel().getSize()) {
+            for (int i = 0; i < t.getColumnCount(); i++) {
+                String[] m = t.getColumnName(i)
+                        .replace("<html><center>", "")
+                        .replace(" ", "")
+                        .split("<br>");
+                tC[i][0] = Integer.parseInt(m[0]);
+                tC[i][1] = i;
+            }
+
+            for (int[] n : tC) {
+//                String tempDate = dataSet.get(data.getModel().getElementAt(index)).getDate();
+                if (dataSet.findRow(index).getDate().equals(String.valueOf(n[0]))) {
+                    d[index] = n;
+                } else {
+                    d[index][0] = -1;
+                    d[index][1] = -1;
+                }
+                if (d[index][1] != -1 && d[index][0] != -1) {
+                    String value = dataSet.findRow(index).getBoardTitle() + " - "
+                            + dataSet.findRow(index).getHour()
+                            + ":" + dataSet.findRow(index).getMinute();
+//                    System.out.println(d[i][0]);
+                    t.setValueAt(value,
+                            Integer.parseInt(dataSet.findRow(index).getHour()),
+                            d[index][1]);
+                    int min = 0;
+                    int hrs = 0;
+                    if (Integer.parseInt(dataSet.findRow(index).getDuMin()) > 0 &&
+                            Integer.parseInt(dataSet.findRow(index).getDuMin()) < 60) {
+                        hrs = 1;
+                    } else if (Integer.parseInt(dataSet.findRow(index).getDuMin()) > 59) {
+                        hrs = Integer.parseInt(dataSet.findRow(index).getDuMin()) / 60;
+                        if (Integer.parseInt(dataSet.findRow(index).getDuMin()) % 60 > 0) {
+                            min = Integer.parseInt(dataSet.findRow(index).getDuMin()) % 60;
+                            if (min > 0) {
+                                hrs++;
+                            }
+                        }
+                    }
+                    int duration = Integer.parseInt(dataSet.findRow(index).getDuHr()) + hrs;
+                    if (duration > 0) {
+                        for (int j = 1; j < duration; j++) {
+                            t.setValueAt(" ",
+                                    Integer.parseInt(dataSet.findRow(index).getHour()) + j,
+                                    d[index][1]);
+                        }
+                    }
+                }
+            }
+            index++;
+        }
+//        index++;
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
 
     public void actionPerformed(ActionEvent e) {
         Object obj = e.getSource();
 
-        if(obj != null) {
+        if (obj != null) {
             if (obj == yearChooser || obj == monthChooser) {
 
                 year = (int) yearChooser.getSelectedItem();
@@ -468,36 +531,13 @@ abstract class CalanderGUI extends JFrame implements ActionListener, Runnable, M
 
     }
 
-    public static void main(String[] args) {
-
-        new CalanderGUI(new ScheduleData(), new BillboardData()) {
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-
-            @Override
-            public void run() {
-
-            }
-        };
-
+    @Override
+    public void mouseExited(MouseEvent e) {
 
     }
 
+    @Override
+    public void run() {
+
+    }
 }

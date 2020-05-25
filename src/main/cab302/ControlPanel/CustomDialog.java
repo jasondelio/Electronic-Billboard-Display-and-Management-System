@@ -25,19 +25,23 @@ public class CustomDialog extends JDialog implements ActionListener {
     private JTextField namebox;
     private JTextField hourbox;
     private JTextField minbox;
-    private JTextField dubox;
+    private JTextField duHrbox;
+    private JTextField duMinbox;
     private JTextField creatorbox;
+    private JTextField recurbox;
 
     private JComboBox billboardChooser;
     private DefaultComboBoxModel chooserBox;
 
     private JLabel lblName;
     private JLabel lblDuhour;
+    private JLabel lblDumin;
     private JLabel lblTime;
     private JLabel lblHour;
     private JLabel lblMin;
     private JLabel lblduration;
     private JLabel lblCreator;
+    private JLabel lblRecur;
 
     private String name;
     private Integer scheduledMonth;
@@ -155,23 +159,48 @@ public class CustomDialog extends JDialog implements ActionListener {
 
         pnl.add(lblMin, gbc);
 
+        lblRecur = new JLabel("Recur duration");
+        gbc.gridx = 1;
+        gbc.gridy = 10;
+
+        pnl.add(lblRecur, gbc);
+
+        recurbox = new JTextField(3);
+        gbc.gridx = 2;
+        gbc.gridy = 10;
+
+        pnl.add(recurbox, gbc);
+
+
         // Duration
 
         lblduration = new JLabel("Duration");
         gbc.gridx = 1;
-        gbc.gridy = 10;
+        gbc.gridy = 11;
 
         pnl.add(lblduration, gbc);
 
-        dubox = new JTextField(5);
+        duHrbox = new JTextField(3);
         gbc.gridx = 2;
-        gbc.gridy = 10;
+        gbc.gridy = 11;
 
-        pnl.add(dubox, gbc);
+        pnl.add(duHrbox, gbc);
 
         lblDuhour = new JLabel("hr");
         gbc.gridx = 3;
-        gbc.gridy = 10;
+        gbc.gridy = 11;
+
+        pnl.add(lblDuhour, gbc);
+
+        duMinbox = new JTextField(3);
+        gbc.gridx = 4;
+        gbc.gridy = 11;
+
+        pnl.add(duMinbox, gbc);
+
+        lblDumin = new JLabel("min");
+        gbc.gridx = 3;
+        gbc.gridy = 11;
 
         pnl.add(lblDuhour, gbc);
 
@@ -179,31 +208,31 @@ public class CustomDialog extends JDialog implements ActionListener {
         // Buttons
         newbtn = new JButton("New");
         gbc.gridx = 1;
-        gbc.gridy = 11;
+        gbc.gridy = 12;
 
         pnl.add(newbtn, gbc);
 
         save = new JButton("Save");
         gbc.gridx = 2;
-        gbc.gridy = 11;
+        gbc.gridy = 12;
 
         pnl.add(save, gbc);
 
         edit = new JButton("Edit");
         gbc.gridx = 3;
-        gbc.gridy = 11;
+        gbc.gridy = 12;
 
         pnl.add(edit, gbc);
 
         delete = new JButton("Delete");
         gbc.gridx = 3;
-        gbc.gridy = 12;
+        gbc.gridy = 13;
 
         pnl.add(delete, gbc);
 
         close = new JButton("Back to calendar");
         gbc.gridx = 2;
-        gbc.gridy = 12;
+        gbc.gridy = 13;
 
         pnl.add(close, gbc);
 
@@ -220,19 +249,21 @@ public class CustomDialog extends JDialog implements ActionListener {
 //            if(billboardChooser.getSelectedItem().equals("HH")) {
 //                creatorbox.setText("H");
 //            }else
-            if(billboardChooser.getSelectedItem().equals("")) {
+            if (billboardChooser.getSelectedItem().equals("")) {
                 creatorbox.setText("");
-            }else
-                if (billboardChooser.getSelectedItem() != null
+            } else if (billboardChooser.getSelectedItem() != null
                     && !billboardChooser.getSelectedItem().equals("")) {
 //                show(data.get(billboardChooser.getSelectedItem().toString()));
                 creatorbox.setText(boradData.get(billboardChooser.getSelectedItem()).getCreator());
             }
         });
 
-        nameList.addListSelectionListener(e -> {if(nameList.getSelectedValue() != null){
-            show(data.get(nameList.getSelectedValue().toString().split(" ")[0]));
-        }});
+        nameList.addListSelectionListener(e -> {
+            if (nameList.getSelectedValue() != null) {
+                show(data.findSchedule(nameList.getSelectedValue().toString().split(" ")[0], date,
+                        nameList.getSelectedValue().toString().split(" ")[2]));
+            }
+        });
         setVisible(true);
     }
 
@@ -264,21 +295,23 @@ public class CustomDialog extends JDialog implements ActionListener {
 
         while (index < data.take().getSize()) {
 
-                if (data.get(data.take().getElementAt(index)).getDate().equals(date) &&
-                        data.get(data.take().getElementAt(index)).getMonth().equals(month)) {
-                    d[index] = index;
-                } else {
-                    d[index] = -1;
-                }
-                if (d[index] != -1) {
-                    String value = data.findRow(index).getBoardTitle() + " - "
-                            + data.findRow(index).getHour()
-                            + ":" + data.findRow(index).getMinute()
-                            + " during " + data.findRow(index).getDuration()
-                            + "hrs";
-                    model.addElement(value);
+            if (data.findRow(index).getDate().equals(date) &&
+                    data.findRow(index).getMonth().equals(month)) {
+                d[index] = index;
+            } else {
+                d[index] = -1;
+            }
+            if (d[index] != -1) {
+                String value = data.findRow(index).getBoardTitle() + " - "
+                        + data.findRow(index).getHour()
+                        + " : " + data.findRow(index).getMinute()
+                        + " during " + data.findRow(index).getDuHr()
+                        + " hrs " + data.findRow(index).getDuMin()
+                        + " mins frequently "
+                        + data.findRow(index).getRecur() + " hrs";
+                model.addElement(value);
 
-                }
+            }
             index++;
         }
 
@@ -293,20 +326,24 @@ public class CustomDialog extends JDialog implements ActionListener {
             creatorbox.setText(s.getCreator());
             hourbox.setText(s.getHour());
             minbox.setText(s.getMinute());
-            dubox.setText(s.getDuration());
+            duHrbox.setText(s.getDuHr());
+            duMinbox.setText(s.getDuMin());
+            recurbox.setText(s.getRecur());
         }
     }
 
     private void clearFields() {
         billboardChooser.setSelectedIndex(0);
         minbox.setText("");
-        dubox.setText("");
+        duHrbox.setText("");
+        duMinbox.setText("");
+        recurbox.setText("");
         creatorbox.setText("");
     }
 
     private void setFieldsEditable(boolean editable) {
         minbox.setEditable(editable);
-        dubox.setEditable(editable);
+        duHrbox.setEditable(editable);
     }
 
 
@@ -346,7 +383,7 @@ public class CustomDialog extends JDialog implements ActionListener {
         && minbox.getText() != null && !minbox.getText().equals("")) {
             ScheduleInfo s = new ScheduleInfo(String.valueOf(billboardChooser.getSelectedItem()), creatorbox.getText(),
                     month, date, String.valueOf(time), minbox
-                    .getText(), dubox.getText());
+                    .getText(), duHrbox.getText(), duMinbox.getText(), recurbox.getText());
             data.add(s);
             model.removeAllElements();
 //            setDisplay(date, month);
@@ -358,14 +395,14 @@ public class CustomDialog extends JDialog implements ActionListener {
                 hourbox.getText() != null && !hourbox.getText().equals("")
                 && minbox.getText() != null && !minbox.getText().equals("")) {
             data.edit(billboardChooser.getSelectedItem().toString(), creatorbox.getText(), month, date, String.valueOf(time), minbox
-                    .getText(), dubox.getText());
+                    .getText(), duHrbox.getText(), duMinbox.getText(), recurbox.getText());
             model.removeAllElements();
 //            setDisplay(date, month);
         }
     }
 
     private void deletePressed() {
-        data.remove(nameList.getSelectedValue().toString().split(" ")[0]);
+        data.remove(billboardChooser.getSelectedItem().toString(), date, hourbox.getText());
         model.removeAllElements();
 //        setDisplay(date, month);
     }

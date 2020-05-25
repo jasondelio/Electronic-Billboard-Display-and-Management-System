@@ -4,48 +4,58 @@ import java.io.Serializable;
 
 public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
-        private String month;
+    private String month;
 
-        private String date;
-    
-        private String hour;
-    
-        private String minute;
+    private String date;
 
-        private String boardtitle;
+    private String hour;
 
-        private String creator;
+    private String minute;
 
-        private String duration;
+    private String boardtitle;
 
+    private String creator;
 
+    private String durationHr;
 
-        /**
-         */
-        public ScheduleInfo() {
-        }
+    private String durationMin;
 
-        /**
-         */
-        public ScheduleInfo(String boardtitle, String creator, String month, String date, String hour, String minute, String duration) {
-            this.month = month;
-            this.hour = hour;
-            this.date = date;
-            this.minute = minute;
-            this.boardtitle = boardtitle;
-            this.creator = creator;
-            this.duration = duration;
-        }
+    private String recur;
 
 
     /**
-         */
-        public String getBoardTitle() {
-            return boardtitle;
-        }
+     *
+     */
+    public ScheduleInfo() {
+    }
 
-        /**
-         */
+    /**
+     *
+     */
+    public ScheduleInfo(String boardtitle, String creator, String month, String date, String hour, String minute, String durationHr,
+                        String durationMin, String recur) {
+        this.month = month;
+        this.hour = hour;
+        this.date = date;
+        this.minute = minute;
+        this.boardtitle = boardtitle;
+        this.creator = creator;
+        this.durationHr = durationHr;
+        this.durationMin = durationMin;
+        this.recur = recur;
+    }
+
+
+    /**
+     *
+     */
+    public String getBoardTitle() {
+        return boardtitle;
+    }
+
+    /**
+     *
+     */
         public void setBoardTitle(String boardtitle) {
             this.boardtitle = boardtitle;
         }
@@ -98,41 +108,75 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
             this.hour = hour;
         }
 
-        /**
-         * @return
-         */
-        public String getMinute() {
-            return minute;
-        }
+    /**
+     * @return
+     */
+    public String getMinute() {
+        return minute;
+    }
 
-        /**
-         */
-        public void setMinute(String minute) {
-            this.minute = minute;
-        }
+    /**
+     *
+     */
+    public void setMinute(String minute) {
+        this.minute = minute;
+    }
 
-        /**
-         * @return
-         */
-        public String getDuration() {
-            return duration; }
+    /**
+     * @return
+     */
+    public String getDuHr() {
+        return durationHr;
+    }
 
-        /**
-         */
-        public void setDuration(String duration) {
-            this.duration = duration;
-        }
+    /**
+     *
+     */
+    public void setDuHr(String duHr) {
+        this.durationHr = duHr;
+    }
 
-        /**
-         */
-        public int compareTo(ScheduleInfo other) {
-            return this.month.compareTo(other.month);
-        }
+    /**
+     * @return
+     */
+    public String getDuMin() {
+        return durationMin;
+    }
 
-        /**
-         */
-        public String toString() {
-            return boardtitle + " " + creator + " " + month + " " + date + " " + hour + " " + minute + ", " + duration;
-        }
+    /**
+     *
+     */
+    public void setDuMin(String duMin) {
+        this.durationMin = duMin;
+    }
+
+    /**
+     * @return
+     */
+    public String getRecur() {
+        return recur;
+    }
+
+    /**
+     *
+     */
+    public void setRecur(String recur) {
+        this.recur = recur;
+    }
+
+    /**
+     *
+     */
+    public int compareTo(ScheduleInfo other) {
+        return this.month.compareTo(other.month);
+    }
+
+    /**
+     *
+     */
+    public String toString() {
+        return boardtitle + " " + creator + " " + month + " " + date + " " + hour + " " + minute + " " +
+                durationHr + " " + durationMin + ", " + recur;
+    }
 
 }
