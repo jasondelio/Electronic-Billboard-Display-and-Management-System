@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="01508137-4561-4283-97d1-e5c870fef63b" name="Default Changelist" comment="schedule table still not have the recurring schedule looping">
+    <list default="true" id="01508137-4561-4283-97d1-e5c870fef63b" name="Default Changelist" comment="GUI updated, preview billboard added but still waiting for the gridbag layout">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/DataConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/DataConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/CloseAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/CloseAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Gui.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/ImageGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/ImageGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CAB302/META-INF/CAB302.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CAB302/cab302/database/schedule/test" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CAB302/cab302/database/temp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CAB302/cab302/db.props" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CAB302/cab302/db.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/CAB302/cab302/server/temp.txt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -211,7 +211,14 @@
       <option name="project" value="LOCAL" />
       <updated>1590405937340</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="GUI updated, preview billboard added but still waiting for the gridbag layout">
+      <created>1590474938375</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1590474938375</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TimeTrackingManager">
@@ -253,7 +260,8 @@
     <MESSAGE value="Add project configuration files" />
     <MESSAGE value="Handle colour elements" />
     <MESSAGE value="schedule table still not have the recurring schedule looping" />
-    <option name="LAST_COMMIT_MESSAGE" value="schedule table still not have the recurring schedule looping" />
+    <MESSAGE value="GUI updated, preview billboard added but still waiting for the gridbag layout" />
+    <option name="LAST_COMMIT_MESSAGE" value="GUI updated, preview billboard added but still waiting for the gridbag layout" />
     <option name="OPTIMIZE_IMPORTS_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REFORMAT_BEFORE_PROJECT_COMMIT" value="true" />
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
@@ -271,11 +279,11 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="458" y="205" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.900@0.0.1440.900" timestamp="1589775364891" />
-    <state x="365" y="14" key="CommitChangelistDialog2" timestamp="1590474888354">
+    <state x="365" y="14" key="CommitChangelistDialog2" timestamp="1590475098706">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="342" y="55" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1589773959278" />
-    <state x="365" y="14" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1590474888354" />
+    <state x="365" y="14" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1590475098706" />
     <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1590474888419">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
