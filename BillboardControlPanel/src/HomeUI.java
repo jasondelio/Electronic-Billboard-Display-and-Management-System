@@ -11,11 +11,14 @@ import org.xml.sax.InputSource;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.Base64;
 import java.util.HashMap;
@@ -534,7 +537,6 @@ public class HomeUI extends JFrame implements ActionListener {
 
     }
 
-
     private void convertBillboardToXML()
     {
         XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";  // Reset XML contents to avoid malformed XML documents
@@ -815,12 +817,18 @@ public class HomeUI extends JFrame implements ActionListener {
 
     private void previewBillboardPressed(JButton btnSource)
     {
+        Dimension dialogSize = new Dimension(860, 600);
+
         previewBillboardDialog = new JDialog(this,"Preview Billboard");
-        previewBillboardDialog.setSize(new Dimension(860, 600));
+        previewBillboardDialog.setSize(dialogSize);
         previewBillboardDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
+        SimpleAttributeSet set=new SimpleAttributeSet();
+        StyleConstants.setAlignment(set,StyleConstants.ALIGN_CENTER);
+        StyleConstants.setFontFamily(set, "Arial");
+
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        previewBillboardDialog.setLocation(dim.width / 2 - 860, dim.height / 2 - 300);
+        previewBillboardDialog.setLocation(dim.width / 2 - 430, dim.height / 2 - 300);
 
         JPanel previewPanel = new JPanel();
         XMLParser parser;
@@ -828,7 +836,6 @@ public class HomeUI extends JFrame implements ActionListener {
 
         if (btnSource == btnPreviewEditedBillboard || btnSource == btnPreviewNewBillboard) {
             convertBillboardToXML();
-            System.out.println(XMLContents);
             parser = new XMLParser(XMLContents);
         }
         else if (btnSource == btnPreviewBillboard)
@@ -839,13 +846,19 @@ public class HomeUI extends JFrame implements ActionListener {
         xmlInfo = parser.parseXML();
 
         // Layout and closing
-        BorderLayout layout = new BorderLayout();
+        GridBagLayout layout = new GridBagLayout();
         previewPanel.setLayout(layout);
 
         // Get and set Background
         String bgString = xmlInfo.getOrDefault("bgColour", "#FFFFFF");
         Color bgColour = HexToRGB(bgString);
         previewPanel.setBackground(bgColour);
+
+        // ## GridBag Constraints ## \\
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weighty = 1;
+        gbc.weightx = 1;
 
         // ## Utilities and Actions ## \\
         // Provide a way to decode and display images
@@ -855,27 +868,23 @@ public class HomeUI extends JFrame implements ActionListener {
         // ## XML display ## \\
         // Create heading label if exists and add it to the window
         if (xmlInfo.containsKey("message")) {
-            JTextArea titleText = new JTextArea();
-            String[] messageStringArr = xmlInfo.get("message").split("%%%%");
-            titleText.setText(messageStringArr[0]);
+            JTextPane titleText = new JTextPane();
+            titleText.setText(xmlInfo.get("message"));
             titleText.setFont(new Font("Arial", Font.PLAIN, 84));
             titleText.setForeground(
                     HexToRGB(
-                            messageStringArr.length != 1 ?
-                                    (!messageStringArr[messageStringArr.length - 1].equals("") ?
-                                            messageStringArr[messageStringArr.length - 1] : "#000000")
-                                    : "#000000"
+                            xmlInfo.get("messageColour")
                     )
             );
             titleText.setBackground(bgColour);
+            StyleConstants.setFontSize(set, 84);
 
+            titleText.setParagraphAttributes(set,true);
             titleText.setEditable(false);
-            titleText.setLineWrap(true);
-            titleText.setWrapStyleWord(true);
-            titleText.setRows(3);
-            titleText.setColumns(25);
 
-            previewPanel.add(titleText, BorderLayout.NORTH);
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            previewPanel.add(titleText, gbc);
         }
 
         // Create picture label if exists and add it to the window
@@ -883,38 +892,43 @@ public class HomeUI extends JFrame implements ActionListener {
             JLabel pictureLabel = new JLabel();
             String imgInfo = xmlInfo.get("picture");
             try {
-                pictureLabel.setIcon(new ImageIcon(imgGen.isBase64EncodedImage(imgInfo) ? imgGen.decodeDataString(imgInfo) : imgGen.downloadImage(imgInfo)));
+                BufferedImage picture = imgGen.isBase64EncodedImage(imgInfo) ? imgGen.decodeDataString(imgInfo) : imgGen.downloadImage(imgInfo);
+                Image resizedImage = picture.getScaledInstance(
+                        picture.getWidth() > dialogSize.width
+                                ? dialogSize.width
+                                : picture.getWidth(),
+                        picture.getHeight() > dialogSize.height / 3
+                                ? dialogSize.height / 3
+                                : picture.getHeight(),
+                        Image.SCALE_SMOOTH
+                );
+                pictureLabel.setIcon(new ImageIcon(resizedImage));
             } catch (IOException | BadImageFormatException e) {
                 e.printStackTrace();
             }
 
-            previewPanel.add(pictureLabel, BorderLayout.CENTER);
+            gbc.gridy = 1;
+            previewPanel.add(pictureLabel, gbc);
         }
 
         // Create information label if exists and add it to the window
         if (xmlInfo.containsKey("information")) {
-            JTextArea informationText = new JTextArea();
-            String[] infoStringArr = xmlInfo.get("information").split("%%%%");
-            informationText.setText(infoStringArr[0]);
+            JTextPane informationText = new JTextPane();
+            informationText.setText(xmlInfo.get("information"));
             informationText.setFont(new Font("Arial", Font.PLAIN, 36));
             informationText.setForeground(
-                    HexToRGB(infoStringArr.length > 1
-                                    ? (
-                                    !infoStringArr[infoStringArr.length - 1].equals("")
-                                            ? infoStringArr[infoStringArr.length - 1]
-                                            : "#000000"
-                            )
-                                    : "#000000"
+                    HexToRGB(
+                            xmlInfo.get("informationColour")
                     )
             );
             informationText.setBackground(bgColour);
+            StyleConstants.setFontSize(set, 36);
 
+            informationText.setParagraphAttributes(set, true);
             informationText.setEditable(false);
-            informationText.setLineWrap(true);
-            informationText.setWrapStyleWord(true);
-            informationText.setColumns(55);
 
-            previewPanel.add(informationText, BorderLayout.SOUTH);
+            gbc.gridy = 2;
+            previewPanel.add(informationText, gbc);
         }
 
         previewBillboardDialog.add(previewPanel);
@@ -1006,3 +1020,4 @@ public class HomeUI extends JFrame implements ActionListener {
 
     }
 }
+
