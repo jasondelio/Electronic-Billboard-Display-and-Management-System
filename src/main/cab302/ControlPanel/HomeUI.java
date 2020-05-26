@@ -52,6 +52,7 @@ public class HomeUI extends JFrame implements ActionListener {
     private JButton btnSaveEditedBillboard;
     private JButton btnPreviewEditedBillboard;
     private JButton btnResetEditedBillboard;
+    private JButton btnEditProfile;
     private JButton btnLogout;
     private JTextField name;
     private JTextField username;
@@ -112,7 +113,7 @@ public class HomeUI extends JFrame implements ActionListener {
         lblWelcome.setFont(lblWelcome.getFont().deriveFont(24.0f));
         btnLogout = new JButton("Logout");
         btnLogout.addActionListener(this);
-        JButton btnEditProfile = new JButton("Edit profile");
+        btnEditProfile = new JButton("Edit profile");
         btnEditProfile.addActionListener(this);
         JPanel editProfilePanel = new JPanel();
         editProfilePanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
@@ -137,6 +138,13 @@ public class HomeUI extends JFrame implements ActionListener {
 
         this.add(pane, BorderLayout.CENTER);
         pane.setSelectedIndex(currentTab);
+        disableFeatureBasedOnPermissions();
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setVisible(true);
+
+    }
+
+    private void disableFeatureBasedOnPermissions() {
         if (!permissionsList.get(0).equals("true")) {
             pane.setEnabledAt(2, false);
         }
@@ -146,18 +154,16 @@ public class HomeUI extends JFrame implements ActionListener {
         if (!permissionsList.get(3).equals("true")) {
             pane.setEnabledAt(3, false);
         }
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setVisible(true);
-
     }
-    private JPanel makePanelCreateBillboards()
-    {
+
+    private JPanel makePanelCreateBillboards() {
         JPanel panelCreateBillboards = new JPanel();
         panelCreateBillboards.setLayout(new BorderLayout());
         panelCreateBillboards.setAlignmentX(Component.CENTER_ALIGNMENT);
         panelCreateBillboards.add(makeButtonsPanelCreateBillboards(), BorderLayout.CENTER);
         return panelCreateBillboards;
     }
+
     private JPanel makePanelEditUsers() throws IOException, ClassNotFoundException {
         panelEditUsers = new JPanel();
         panelEditUsers.setLayout(new BorderLayout());
