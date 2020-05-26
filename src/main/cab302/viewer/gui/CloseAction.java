@@ -6,7 +6,7 @@ import java.awt.event.ActionEvent;
 
 public class CloseAction extends AbstractAction {
 
-    CloseAction(String text, String desc, Integer mnemonicKey) {
+    public CloseAction(String text, String desc, Integer mnemonicKey) {
 
         super(text);
         putValue(SHORT_DESCRIPTION, desc);

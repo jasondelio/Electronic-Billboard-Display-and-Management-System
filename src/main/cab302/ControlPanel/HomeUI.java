@@ -52,6 +52,7 @@ public class HomeUI extends JFrame implements ActionListener {
     private JButton btnSaveEditedBillboard;
     private JButton btnPreviewEditedBillboard;
     private JButton btnResetEditedBillboard;
+    private JButton btnLogout;
     private JTextField name;
     private JTextField username;
     private JTextField password;
@@ -83,8 +84,7 @@ public class HomeUI extends JFrame implements ActionListener {
     private String hexColour;
     private String XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     private String content;
-    //UserData userData;
-    //BillboardData billboardData;
+
 
     //UserData data;
     Socket socket;
@@ -109,9 +109,17 @@ public class HomeUI extends JFrame implements ActionListener {
         JPanel panelHome = new JPanel(new BorderLayout());
         JLabel lblWelcome = new JLabel("Welcome to Billboard Control Panel !");
         lblWelcome.setHorizontalAlignment(JLabel.CENTER);
-        lblWelcome.setFont (lblWelcome.getFont().deriveFont (24.0f));
+        lblWelcome.setFont(lblWelcome.getFont().deriveFont(24.0f));
+        btnLogout = new JButton("Logout");
+        btnLogout.addActionListener(this);
+        JButton btnEditProfile = new JButton("Edit profile");
+        btnEditProfile.addActionListener(this);
+        JPanel editProfilePanel = new JPanel();
+        editProfilePanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
+        editProfilePanel.add(btnLogout);
         panelHome.add(lblWelcome, BorderLayout.CENTER);
-        JButton btnLogout = new JButton("Logout");
+        panelHome.add(btnEditProfile, BorderLayout.SOUTH);
+        panelHome.add(editProfilePanel, BorderLayout.NORTH);
 
 
         JPanel panelListBillboards = new JPanel();
@@ -129,6 +137,15 @@ public class HomeUI extends JFrame implements ActionListener {
 
         this.add(pane, BorderLayout.CENTER);
         pane.setSelectedIndex(currentTab);
+        if (!permissionsList.get(0).equals("true")) {
+            pane.setEnabledAt(2, false);
+        }
+        if (!permissionsList.get(2).equals("true")) {
+            pane.setEnabledAt(4, false);
+        }
+        if (!permissionsList.get(3).equals("true")) {
+            pane.setEnabledAt(3, false);
+        }
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
 
@@ -965,7 +982,7 @@ public class HomeUI extends JFrame implements ActionListener {
         File file = new File(imagePath);
         try (FileInputStream imageInFile = new FileInputStream(file)) {
             // Reading a Image file from file system
-            byte imageData[] = new byte[(int) file.length()];
+            byte[] imageData = new byte[(int) file.length()];
             imageInFile.read(imageData);
             base64Image = Base64.getEncoder().encodeToString(imageData);
         } catch (FileNotFoundException e) {
@@ -975,10 +992,119 @@ public class HomeUI extends JFrame implements ActionListener {
         }
         return base64Image;
     }
-    private void addToXMLContents(String content)
-    {
+
+    private void addToXMLContents(String content) {
         XMLContents = XMLContents + content;
     }
+
+    // WAIT FOR THE GRID BAG LAYOUT
+//    private void previewBillboardPressed(JButton btnSource)
+//    {
+//        previewBillboardDialog = new JDialog(this,"Preview Billboard");
+//        previewBillboardDialog.setSize(new Dimension(860, 600));
+//        previewBillboardDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+//
+//        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+//        previewBillboardDialog.setLocation(dim.width / 2 - 860, dim.height / 2 - 300);
+//
+//        JPanel previewPanel = new JPanel();
+//        XMLParser parser;
+//        HashMap<String,String> xmlInfo;
+//
+//        if (btnSource == btnPreviewEditedBillboard || btnSource == btnPreviewNewBillboard) {
+//            convertBillboardToXML();
+//            System.out.println(XMLContents);
+//            parser = new XMLParser(XMLContents);
+//        }
+//        else if (btnSource == btnPreviewBillboard)
+//            parser = new XMLParser(billboardData.get(billboardList.getSelectedValue()).getXMLContent());
+//        else
+//            parser = new XMLParser("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<billboard>\n<message>No Billboard Found</message>\n</billboard>");
+//
+//        xmlInfo = parser.parseXML();
+//
+//        // Layout and closing
+//        BorderLayout layout = new BorderLayout();
+//        previewPanel.setLayout(layout);
+//
+//        // Get and set Background
+//        String bgString = xmlInfo.getOrDefault("bgColour", "#FFFFFF");
+//        Color bgColour = HexToRGB(bgString);
+//        previewPanel.setBackground(bgColour);
+//
+//        // ## Utilities and Actions ## \\
+//        // Provide a way to decode and display images
+//        ImageGenerator imgGen = new ImageGenerator();
+//
+//
+//        // ## XML display ## \\
+//        // Create heading label if exists and add it to the window
+//        if (xmlInfo.containsKey("message")) {
+//            JTextArea titleText = new JTextArea();
+//            String[] messageStringArr = xmlInfo.get("message").split("%%%%");
+//            titleText.setText(messageStringArr[0]);
+//            titleText.setFont(new Font("Arial", Font.PLAIN, 84));
+//            titleText.setForeground(
+//                    HexToRGB(
+//                            messageStringArr.length != 1 ?
+//                                    (!messageStringArr[messageStringArr.length - 1].equals("") ?
+//                                            messageStringArr[messageStringArr.length - 1] : "#000000")
+//                                    : "#000000"
+//                    )
+//            );
+//            titleText.setBackground(bgColour);
+//
+//            titleText.setEditable(false);
+//            titleText.setLineWrap(true);
+//            titleText.setWrapStyleWord(true);
+//            titleText.setRows(3);
+//            titleText.setColumns(25);
+//
+//            previewPanel.add(titleText, BorderLayout.NORTH);
+//        }
+//
+//        // Create picture label if exists and add it to the window
+//        if (xmlInfo.containsKey("picture")) {
+//            JLabel pictureLabel = new JLabel();
+//            String imgInfo = xmlInfo.get("picture");
+//            try {
+//                pictureLabel.setIcon(new ImageIcon(imgGen.isBase64EncodedImage(imgInfo) ? imgGen.decodeDataString(imgInfo) : imgGen.downloadImage(imgInfo)));
+//            } catch (IOException | BadImageFormatException e) {
+//                e.printStackTrace();
+//            }
+//
+//            previewPanel.add(pictureLabel, BorderLayout.CENTER);
+//        }
+//
+//        // Create information label if exists and add it to the window
+//        if (xmlInfo.containsKey("information")) {
+//            JTextArea informationText = new JTextArea();
+//            String[] infoStringArr = xmlInfo.get("information").split("%%%%");
+//            informationText.setText(infoStringArr[0]);
+//            informationText.setFont(new Font("Arial", Font.PLAIN, 36));
+//            informationText.setForeground(
+//                    HexToRGB(infoStringArr.length > 1
+//                                    ? (
+//                                    !infoStringArr[infoStringArr.length - 1].equals("")
+//                                            ? infoStringArr[infoStringArr.length - 1]
+//                                            : "#000000"
+//                            )
+//                                    : "#000000"
+//                    )
+//            );
+//            informationText.setBackground(bgColour);
+//
+//            informationText.setEditable(false);
+//            informationText.setLineWrap(true);
+//            informationText.setWrapStyleWord(true);
+//            informationText.setColumns(55);
+//
+//            previewPanel.add(informationText, BorderLayout.SOUTH);
+//        }
+//
+//        previewBillboardDialog.add(previewPanel);
+//        previewBillboardDialog.setVisible(true);
+//    }
 
     @Override
     public void actionPerformed(ActionEvent e) {

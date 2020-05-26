@@ -1,9 +1,13 @@
 
 package cab302.database;
 
-import java.io.*;
-import java.sql.*;
-import java.util.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.Properties;
 
 public class DataConnection {
 
@@ -19,7 +23,7 @@ public class DataConnection {
         Properties props = new Properties();
         FileInputStream in = null;
         try {
-            in = new FileInputStream("./db.props");
+            in = new FileInputStream("src/main/cab302/db.props");
             props.load(in);
             in.close();
 

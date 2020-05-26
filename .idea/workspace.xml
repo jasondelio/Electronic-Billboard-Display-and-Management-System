@@ -3,6 +3,11 @@
   <component name="ChangeListManager">
     <list default="true" id="01508137-4561-4283-97d1-e5c870fef63b" name="Default Changelist" comment="schedule table still not have the recurring schedule looping">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/DataConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/DataConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/CloseAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/CloseAction.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Gui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/ImageGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/ImageGenerator.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -26,6 +31,7 @@
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
+        <option value="jasondelio &lt;63277002+jasondelio@users.noreply.github.com&gt;" />
         <option value="Ethan" />
       </list>
     </option>
@@ -87,7 +93,7 @@
       <recent name="cab302.viewer.exceptions" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.UserClient">
+  <component name="RunManager" selected="Application.Run">
     <configuration name="BillboardClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cab302.server.Billboardserver.BillboardClient" />
       <module name="CAB302" />
@@ -101,12 +107,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Main (2)" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="cab302.viewer.Main" />
+    <configuration name="Run" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cab302.ControlPanel.Run" />
       <module name="CAB302" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="cab302.viewer.*" />
+          <option name="PATTERN" value="cab302.ControlPanel.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -155,11 +161,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.UserClient" />
+        <item itemvalue="Application.Run" />
         <item itemvalue="Application.billboardServer" />
+        <item itemvalue="Application.UserClient" />
         <item itemvalue="Application.BillboardClient" />
         <item itemvalue="Application.UserAuthentication" />
-        <item itemvalue="Application.Main (2)" />
       </list>
     </recent_temporary>
   </component>
@@ -265,30 +271,34 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="458" y="205" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.900@0.0.1440.900" timestamp="1589775364891" />
-    <state x="365" y="14" key="CommitChangelistDialog2" timestamp="1590406140129">
+    <state x="365" y="14" key="CommitChangelistDialog2" timestamp="1590474888354">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="342" y="55" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1589773959278" />
-    <state x="365" y="14" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1590406140129" />
-    <state width="1398" height="145" key="GridCell.Tab.0.bottom" timestamp="1589954399452">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="365" y="14" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1590474888354" />
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1590474888419">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="145" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1589954399452" />
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590474888419" />
     <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
-    <state width="1398" height="145" key="GridCell.Tab.0.center" timestamp="1589954399451">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1590474888419">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="145" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1589954399451" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590474888419" />
     <state width="1398" height="230" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1398" height="145" key="GridCell.Tab.0.left" timestamp="1589954399450">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1590474888419">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="145" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1589954399450" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590474888419" />
     <state width="1398" height="230" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1398" height="145" key="GridCell.Tab.0.right" timestamp="1589954399451">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1590474888419">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="145" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1589954399451" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590474888419" />
     <state width="1398" height="230" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
     <state x="208" y="33" key="SettingsEditor" timestamp="1589769467764">
       <screen x="0" y="0" width="1440" height="900" />
@@ -308,10 +318,11 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1590406057378" />
-    <state x="385" y="210" width="670" height="675" key="run.anything.popup" timestamp="1589701571702">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="411" y="192" width="715" height="618" key="run.anything.popup" timestamp="1590470221742">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="385" y="210" width="670" height="675" key="run.anything.popup/0.0.1440.900@0.0.1440.900" timestamp="1589701571702" />
+    <state x="411" y="192" width="715" height="618" key="run.anything.popup/0.0.1536.824@0.0.1536.824" timestamp="1590470221742" />
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1589774669504">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
