@@ -123,14 +123,16 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
         Object transoO = ois.readObject();
         String sessionToken = null;
         ArrayList<String> permlists = new ArrayList<String>();
+        String loggedinuser = null;
         if (transoO instanceof LoginReply) {
             LoginReply reply = (LoginReply) transoO;
             if (reply.isLoginSucceed()) {
                 sessionToken = reply.getSessionToken();
+                loggedinuser = reply.getLoggedInUsername();
                 System.out.println("Success to log in, recieve the token " + sessionToken);
                 permlists = reply.getPermissionsList();
                 System.out.println(permlists);
-                HomeUI GUI = new HomeUI(sessionToken,permlists,0);
+                HomeUI GUI = new HomeUI(sessionToken,permlists,loggedinuser,0);
                 GUI.setVisible(true);
 
                 socketStop();

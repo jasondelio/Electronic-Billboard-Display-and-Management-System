@@ -4,6 +4,12 @@
     <list default="true" id="01508137-4561-4283-97d1-e5c870fef63b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/UserLoginUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/UserLoginUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/DataConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/DataConnection.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/LoginReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/LoginReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/billboardServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/billboardServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/SetPassRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/SetPassRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/UserClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/UserClient.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -47,6 +53,7 @@
     <property name="Repository.Attach.Annotations" value="false" />
     <property name="Repository.Attach.JavaDocs" value="false" />
     <property name="Repository.Attach.Sources" value="false" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
@@ -66,16 +73,14 @@
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\[University\CAB302\CAB302\xml-exmaples" />
-      <recent name="D:\[University\CAB302\CAB302" />
-      <recent name="D:\[University\CAB302\CAB302\src\main\java\cab302" />
-      <recent name="D:\[University\CAB302\CAB302\src\main\java\viewer" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="cab302.viewer.exceptions" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$" />
       <recent name="C:\Users\user\IdeaProjects\CAB302\src\main\cab302\database" />
       <recent name="C:\Users\user\IdeaProjects\CAB302\src\main\cab302" />
       <recent name="$PROJECT_DIR$/src/main/cab302" />
@@ -86,8 +91,11 @@
       <recent name="cab302.server.Billboardserver" />
       <recent name="cab302.server" />
     </key>
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="cab302.viewer.exceptions" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\[University\CAB302\CAB302\xml-exmaples" />
+      <recent name="D:\[University\CAB302\CAB302" />
+      <recent name="D:\[University\CAB302\CAB302\src\main\java\cab302" />
+      <recent name="D:\[University\CAB302\CAB302\src\main\java\viewer" />
     </key>
   </component>
   <component name="RunManager" selected="Application.Run">
@@ -289,28 +297,28 @@
     </state>
     <state x="342" y="55" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1589773959278" />
     <state x="365" y="14" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1590475661660" />
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1590474888419">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1398" height="128" key="GridCell.Tab.0.bottom" timestamp="1590533406884">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="145" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1589954399452" />
+    <state width="1398" height="128" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1590533406884" />
     <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590474888419" />
     <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1590474888419">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1398" height="128" key="GridCell.Tab.0.center" timestamp="1590533406882">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="145" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1589954399451" />
+    <state width="1398" height="128" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1590533406882" />
     <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590474888419" />
     <state width="1398" height="230" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1590474888419">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1398" height="128" key="GridCell.Tab.0.left" timestamp="1590533406880">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="145" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1589954399450" />
+    <state width="1398" height="128" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1590533406880" />
     <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590474888419" />
     <state width="1398" height="230" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1590474888419">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1398" height="128" key="GridCell.Tab.0.right" timestamp="1590533406883">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="145" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1589954399451" />
+    <state width="1398" height="128" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1590533406883" />
     <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590474888419" />
     <state width="1398" height="230" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
     <state x="208" y="33" key="SettingsEditor" timestamp="1589769467764">

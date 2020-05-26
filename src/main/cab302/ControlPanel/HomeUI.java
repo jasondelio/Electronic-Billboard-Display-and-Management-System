@@ -35,6 +35,7 @@ public class HomeUI extends JFrame implements ActionListener {
     private JButton btnSaveNewUser;
     private JButton btnResetNewUser;
     private JButton btnUpdateUser;
+    private JButton btnUpdateCurrentUser;
     private JButton btnCreateNewBillboard;
     private JButton btnImportBillboard;
     private JButton btnEditBillboard;
@@ -90,16 +91,18 @@ public class HomeUI extends JFrame implements ActionListener {
     //UserData data;
     Socket socket;
     String sessionToken;
+    String currentUsername;
     ArrayList<String> permissionsList;
     OutputStream outputStream;
     InputStream inputStream;
     ObjectOutputStream oos;
     ObjectInputStream ois;
 
-    public HomeUI(String sessiontoken, ArrayList<String> perm_lists, int currentTab) throws IOException, ClassNotFoundException {
+    public HomeUI(String sessiontoken, ArrayList<String> perm_lists, String loggedInuser, int currentTab) throws IOException, ClassNotFoundException {
         super("Billboard Control Panel");
         sessionToken = sessiontoken;
         permissionsList = perm_lists;
+        currentUsername = loggedInuser;
         setLayout(new BorderLayout());
         setSize(WIDTH, HEIGHT);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -660,7 +663,7 @@ public class HomeUI extends JFrame implements ActionListener {
         }
         XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         dispose();
-        HomeUI GUI = new HomeUI(sessionToken, permissionsList,pane.getSelectedIndex());
+        HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername,pane.getSelectedIndex());
         GUI.setVisible(true);
     }
     private void deleteBillboardPressed() throws IOException, ClassNotFoundException {
@@ -675,7 +678,7 @@ public class HomeUI extends JFrame implements ActionListener {
         }
         socketStop();
         dispose();
-        HomeUI GUI = new HomeUI(sessionToken, permissionsList,pane.getSelectedIndex());
+        HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername,pane.getSelectedIndex());
         GUI.setVisible(true);
     }
     public void exportBillboardPressed()
@@ -771,21 +774,81 @@ public class HomeUI extends JFrame implements ActionListener {
             socketStop();
 
             name.setText(u.getName());
-            name.setEditable(false);
             username.setText(u.getUsername());
             username.setEditable(false);
             password.setText("");
             email.setText(u.getEmail());
-            email.setEditable(false);
             cbCreateBillboardsPermission.setSelected(Boolean.parseBoolean(u.getCreateBillboards()));
             cbEditAllBillboardsPermission.setSelected(Boolean.parseBoolean(u.getEditAllBillboards()));
             cbScheduleBillboardsPermission.setSelected(Boolean.parseBoolean(u.getScheduleBillboards()));
-//            if(usernameList.getSelectedValue() == )
-            cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
+            if(usernameList.getSelectedValue().equals(currentUsername)){
+                cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
+                cbEditUsersPermission.setEnabled(false);
+            }else{
+                cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
+            }
+
             editUserDialog.add(buttonPanel, BorderLayout.SOUTH);
             editUserDialog.add(editUserPanel);
             editUserDialog.setVisible(true);
         }
+    }
+    private void editCurrentUser() throws IOException, ClassNotFoundException{
+        editUserDialog = new JDialog(this, "Edit Current User");
+        editUserDialog.setSize(300, 300);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        editUserDialog.setLocation(dim.width / 2 - 150, dim.height / 2 - 150);
+        JPanel editUserPanel = new JPanel();
+        editUserPanel.setLayout(new BorderLayout());
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        btnUpdateCurrentUser = new JButton("Update Profile");
+        btnUpdateCurrentUser.addActionListener(this);
+        buttonPanel.add(Box.createHorizontalStrut(110));
+        buttonPanel.add(btnUpdateCurrentUser);
+        editUserPanel.add(makeUserFieldsPanel(), BorderLayout.CENTER);
+        socketStart();
+        GetUserPemmRequest getUserPemmRequest = new GetUserPemmRequest(currentUsername, sessionToken);
+        oos.writeObject(getUserPemmRequest);
+        oos.flush();
+        UserInfo u = null;
+        Object transoO = ois.readObject();
+        if (transoO instanceof GetUserpemmReply) {
+            GetUserpemmReply lurlist = (GetUserpemmReply) transoO;
+            System.out.println(lurlist.getListPermissions());
+            u = lurlist.getU();
+        }
+        socketStop();
+
+        name.setText(u.getName());
+        username.setText(u.getUsername());
+        username.setEditable(false);
+        password.setText("");
+        email.setText(u.getEmail());
+        if(permissionsList.get(3).equals("true")){
+            cbCreateBillboardsPermission.setSelected(Boolean.parseBoolean(u.getCreateBillboards()));
+            cbEditAllBillboardsPermission.setSelected(Boolean.parseBoolean(u.getEditAllBillboards()));
+            cbScheduleBillboardsPermission.setSelected(Boolean.parseBoolean(u.getScheduleBillboards()));
+            cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
+            cbEditUsersPermission.setEnabled(false);
+        }else{
+            cbCreateBillboardsPermission.setSelected(Boolean.parseBoolean(u.getCreateBillboards()));
+            cbCreateBillboardsPermission.setEnabled(false);
+            cbEditAllBillboardsPermission.setSelected(Boolean.parseBoolean(u.getEditAllBillboards()));
+            cbEditAllBillboardsPermission.setEnabled(false);
+            cbScheduleBillboardsPermission.setSelected(Boolean.parseBoolean(u.getScheduleBillboards()));
+            cbScheduleBillboardsPermission.setEnabled(false);
+            cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
+            cbEditUsersPermission.setEnabled(false);
+        }
+
+
+
+
+        editUserDialog.add(buttonPanel, BorderLayout.SOUTH);
+        editUserDialog.add(editUserPanel);
+        editUserDialog.setVisible(true);
+
     }
     private void deleteUserPressed() throws IOException, ClassNotFoundException {
         socketStart();
@@ -797,7 +860,7 @@ public class HomeUI extends JFrame implements ActionListener {
             AcknowledgeReply lurlist = (AcknowledgeReply) transoO;
             System.out.println(lurlist.getAcknowledgement());
             dispose();
-            HomeUI GUI = new HomeUI(sessionToken, permissionsList,pane.getSelectedIndex());
+            HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername,pane.getSelectedIndex());
             GUI.setVisible(true);
         }
         socketStop();
@@ -832,7 +895,7 @@ public class HomeUI extends JFrame implements ActionListener {
                 AcknowledgeReply lurlist = (AcknowledgeReply) transoO;
                 System.out.println(lurlist.getAcknowledgement());
                 dispose();
-                HomeUI GUI = new HomeUI(sessionToken, permissionsList,pane.getSelectedIndex());
+                HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername,pane.getSelectedIndex());
                 GUI.setVisible(true);
             }
             socketStop();
@@ -872,7 +935,7 @@ public class HomeUI extends JFrame implements ActionListener {
             list_permission.add(Boolean.toString(cbEditUsersPermission.isSelected()));
             String hashedPassword = getHashedPass(password.getText());
 
-            SetPassRequest setPassRequest = new SetPassRequest(username.getText(),hashedPassword,sessionToken,(String)usernameList.getSelectedValue());
+            SetPassRequest setPassRequest = new SetPassRequest(name.getText(),username.getText(),email.getText(),hashedPassword,sessionToken,(String)usernameList.getSelectedValue());
             oos.writeObject(setPassRequest);
             oos.flush();
             Object transo = ois.readObject();
@@ -885,6 +948,22 @@ public class HomeUI extends JFrame implements ActionListener {
 //                GUI.setVisible(true);
             }
             socketStop();
+            socketStart();
+            GetUserPemmRequest getUserPemmRequest = new GetUserPemmRequest(currentUsername, sessionToken);
+            oos.writeObject(getUserPemmRequest);
+            oos.flush();
+
+            Object getPermm = ois.readObject();
+            if (getPermm instanceof GetUserpemmReply) {
+                GetUserpemmReply lurlist = (GetUserpemmReply) getPermm;
+                System.out.println(lurlist.getListPermissions());
+//                permissionsList = lurlist.getListPermissions();
+//                disableFeatureBasedOnPermissions();
+                dispose();
+                HomeUI GUI = new HomeUI(sessionToken, lurlist.getListPermissions(), currentUsername, pane.getSelectedIndex());
+                GUI.setVisible(true);
+            }
+            socketStop();
             editUserDialog.dispose();
         }
         else{
@@ -892,7 +971,66 @@ public class HomeUI extends JFrame implements ActionListener {
                     "Error", JOptionPane.WARNING_MESSAGE);
         }
     }
+    private void updateCurrentUserPressed() throws NoSuchAlgorithmException, IOException, ClassNotFoundException {
+        if (name.getText() != null && !name.getText().equals("") &&
+                username.getText() != null && !username.getText().equals("") && password.getText() != null
+                && !password.getText().equals("") && email.getText() != null && !email.getText().equals("")) {ArrayList<String> list_permission = new ArrayList<String>();
+            socketStart();
+            list_permission.add(Boolean.toString(cbCreateBillboardsPermission.isSelected()));
+            list_permission.add(Boolean.toString(cbEditAllBillboardsPermission.isSelected()));
+            list_permission.add(Boolean.toString(cbScheduleBillboardsPermission.isSelected()));
+            list_permission.add(Boolean.toString(cbEditUsersPermission.isSelected()));
 
+            SetUserPemmRequest setUserPemmRequest = new SetUserPemmRequest(username.getText(),sessionToken, email.getText(),  list_permission);
+            oos.writeObject(setUserPemmRequest);
+            oos.flush();
+            Object transoO = ois.readObject();
+            if (transoO instanceof AcknowledgeReply) {
+                AcknowledgeReply lurlist = (AcknowledgeReply) transoO;
+                System.out.println(lurlist.getAcknowledgement());
+
+            }
+            socketStop();
+            socketStart();
+            list_permission.add(Boolean.toString(cbCreateBillboardsPermission.isSelected()));
+            list_permission.add(Boolean.toString(cbEditAllBillboardsPermission.isSelected()));
+            list_permission.add(Boolean.toString(cbScheduleBillboardsPermission.isSelected()));
+            list_permission.add(Boolean.toString(cbEditUsersPermission.isSelected()));
+            String hashedPassword = getHashedPass(password.getText());
+
+            SetPassRequest setPassRequest = new SetPassRequest(name.getText(),username.getText(),email.getText(),hashedPassword,sessionToken,username.getText());
+            oos.writeObject(setPassRequest);
+            oos.flush();
+            Object transo = ois.readObject();
+            if (transo instanceof AcknowledgeReply) {
+                AcknowledgeReply lurlist = (AcknowledgeReply) transo;
+                System.out.println(lurlist.getAcknowledgement());
+            }
+            socketStop();
+
+            socketStart();
+            GetUserPemmRequest getUserPemmRequest = new GetUserPemmRequest(currentUsername, sessionToken);
+            oos.writeObject(getUserPemmRequest);
+            oos.flush();
+            UserInfo u = null;
+            Object getPermm = ois.readObject();
+            if (getPermm instanceof GetUserpemmReply) {
+                GetUserpemmReply lurlist = (GetUserpemmReply) getPermm;
+                System.out.println(lurlist.getListPermissions());
+
+                dispose();
+                HomeUI GUI = new HomeUI(sessionToken, lurlist.getListPermissions(), currentUsername, pane.getSelectedIndex());
+                GUI.setVisible(true);
+            }
+            socketStop();
+
+            editUserDialog.dispose();
+        }
+        else{
+            JOptionPane.showMessageDialog(this,"Data cannot be null",
+                    "Error", JOptionPane.WARNING_MESSAGE);
+        }
+    }
     private void displayColorChooser()
     {
         Color color = JColorChooser.showDialog(this,
@@ -942,7 +1080,7 @@ public class HomeUI extends JFrame implements ActionListener {
         importBillboardDialog.dispose();
         XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         dispose();
-        HomeUI GUI = new HomeUI(sessionToken, permissionsList,pane.getSelectedIndex());
+        HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername,pane.getSelectedIndex());
         GUI.setVisible(true);
     }
     private void saveEditedBillboardPressed() throws IOException, ClassNotFoundException {
@@ -1001,6 +1139,24 @@ public class HomeUI extends JFrame implements ActionListener {
 
     private void addToXMLContents(String content) {
         XMLContents = XMLContents + content;
+    }
+
+    private void logout() throws IOException, ClassNotFoundException {
+        socketStart();
+        LogoutUsersRequest logoutUsersRequest = new LogoutUsersRequest(sessionToken);
+        oos.writeObject(logoutUsersRequest);
+        oos.flush();
+        Object logoutO = ois.readObject();
+        if (logoutO instanceof  AcknowledgeReply){
+            AcknowledgeReply reply = (AcknowledgeReply) logoutO;
+            System.out.println(reply.getAcknowledgement());
+        }
+        socketStop();
+        dispose();
+        dispose();
+        UserLoginUI GUI = new UserLoginUI();
+        GUI.setVisible(true);
+
     }
 
     // WAIT FOR THE GRID BAG LAYOUT
@@ -1217,7 +1373,32 @@ public class HomeUI extends JFrame implements ActionListener {
                 ex.printStackTrace();
             }
         }
-
+        else if (btnSource == btnEditProfile) {
+            try {
+                editCurrentUser();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }else if (btnSource == btnUpdateCurrentUser) {
+            try {
+                updateCurrentUserPressed();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            } catch (NoSuchAlgorithmException ex) {
+                ex.printStackTrace();
+            }
+        }
+        else if (btnSource == btnLogout) {
+            try {
+                logout();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        }
     }
     public static String getHashedPass(String password) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");

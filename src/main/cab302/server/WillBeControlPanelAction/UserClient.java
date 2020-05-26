@@ -333,7 +333,7 @@ public class UserClient {
         oos = new ObjectOutputStream(outputStream);
         ois = new ObjectInputStream(inputStream);
         String hashePassd = getHashedPass("sfaad");
-        SetPassRequest spr = new SetPassRequest("suu", hashePassd, sessionToken,"suu");
+        SetPassRequest spr = new SetPassRequest("suu", "suu", "email",hashePassd, sessionToken,"suu");
 
         oos.writeObject(spr);
         oos.flush();

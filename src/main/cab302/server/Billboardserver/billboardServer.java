@@ -53,6 +53,7 @@ public class billboardServer {
                 System.out.printf("User try to login with username %s and hasedpassword %s\n",
                         loginrequest.getUsername(), loginrequest.getPassword());
                 UserInfo u = data.get(loginrequest.getUsername());
+                String loggedinUsername = loginrequest.getUsername();
                 //get salt and stored password from database
                 String salt = u.getSalt();
                 String saltHashedPass = u.getPasswords();
@@ -65,10 +66,10 @@ public class billboardServer {
                     permissions.add(u.getEditAllBillboards());
                     permissions.add(u.getScheduleBillboards());
                     permissions.add(u.getEditUsers());
-                    reply = new LoginReply(true,token, permissions);
+                    reply = new LoginReply(true,token, permissions, loggedinUsername);
                     validSessionTokens.put(token, loginrequest.getUsername());
                 }else {
-                    reply = new LoginReply(false,null, null);
+                    reply = new LoginReply(false,null, null,null);
                 }
                 oos.writeObject(reply);
                 oos.flush();
@@ -190,7 +191,7 @@ public class billboardServer {
                             results = "You do not have CreateBillboard permission";
                         }
                     }else {
-                        if (nu.getEditAllBillboards() == "true"){
+                        if (nu.getEditAllBillboards().equals("true")){
                             billboardData.remove(edit_b.getName());
                             results = "Success to delate";
                         }else{
@@ -368,18 +369,34 @@ public class billboardServer {
                 ArrayList<String> permissions = supr.getPermisssions();
                 String results = null;
                 if (isValidSessionToken(sessionToken)){
-                    if(getSessionUsername(sessionToken).equals(supr.getUsername())){
-                        UserInfo spr_user = data.get(getSessionUsername(sessionToken));
-                        data.edit(spr_user.getName(),spr_user.getUsername(),spr_user.getPasswords(), spr_user.getSalt(),spr_user.getEmail(),spr_user.getName(),
-                                permissions.get(0),permissions.get(1),permissions.get(2),spr_user.getEditUsers());
-                        results = "Succeceed to change same user's permissions";
+                    UserInfo spr_user = data.get(getSessionUsername(sessionToken));
+                    if (spr_user.getEditUsers().equals("true")){
+                        if(getSessionUsername(sessionToken).equals(supr.getUsername())){
+                            data.edit(spr_user.getName(),spr_user.getUsername(),spr_user.getPasswords(), spr_user.getSalt(),spr_user.getEmail(),spr_user.getUsername(),
+                                    permissions.get(0),permissions.get(1),permissions.get(2),spr_user.getEditUsers());
+                            results = "Succeceed to change same user's permissions";
+                        }
+                        else{
+                            UserInfo new_user = data.get(supr.getUsername());
+                            data.edit(new_user.getName(),new_user.getUsername(),new_user.getPasswords(), new_user.getSalt(),new_user.getEmail(),new_user.getUsername(),
+                                    permissions.get(0),permissions.get(1),permissions.get(2),permissions.get(3));
+                            results = "Succeed to change other user's permsissions";
+//                            System.out.println(permissions.get(0));
+//                            System.out.println(permissions.get(1));
+//                            System.out.println(permissions.get(2));
+//                            System.out.println(permissions.get(3));
+//                            UserInfo user = data.get(supr.getUsername());
+//                            System.out.println(user.getCreateBillboards());
+//                            System.out.println(user.getEditAllBillboards());
+//                            System.out.println(user.getScheduleBillboards());
+//                            System.out.println(user.getEditUsers());
+                        }
+                    }else{
+                        data.edit(spr_user.getName(),spr_user.getUsername(),spr_user.getPasswords(), spr_user.getSalt(),spr_user.getEmail(),spr_user.getUsername(),
+                            spr_user.getCreateBillboards(),spr_user.getEditAllBillboards(),spr_user.getScheduleBillboards(),spr_user.getEditUsers());
+                        results = "Failed to change user's permsissions because there is no Edit Users permsissions";
                     }
-                    else{
-                        UserInfo spr_user = data.get(supr.getUsername());
-                        data.edit(spr_user.getName(),spr_user.getUsername(),spr_user.getPasswords(), spr_user.getSalt(),spr_user.getEmail(),spr_user.getName(),
-                                permissions.get(0),permissions.get(1),permissions.get(2),permissions.get(3));
-                        results = "Succeed to change other user's permsissions";
-                    }
+
                     AcknowledgeReply setUserPemmReply = new AcknowledgeReply(results);
                     oos.writeObject(setUserPemmReply);
                     oos.flush();
@@ -393,25 +410,30 @@ public class billboardServer {
                 SetPassRequest spr =(SetPassRequest) o;
                 String hashedPassword = spr.getHashedPassword();
                 String results = null;
-                UserInfo newu = data.get(spr.getUsername());
+                UserInfo editU = data.get(spr.getUsername());
+                UserInfo currentLoginU = data.get(getSessionUsername(spr.getSessionToken()));
 
-                if (newu.getUsername().equals(getSessionUsername(spr.getSessionToken()))){
+                if (editU.getUsername().equals(getSessionUsername(spr.getSessionToken()))){
                     String salt = getSaltString();
                     String hashsaltPaass = getSaltHashedPass(spr.getHashedPassword(),salt);
-                    data.edit(newu.getUsername(),spr.getUsername(),hashsaltPaass,salt,newu.getEmail(),spr.getPreviousUserName(),newu.getCreateBillboards(),
-                            newu.getEditAllBillboards(), newu.getScheduleBillboards(),newu.getEditUsers());
-                    results = "Succeed to change password";
+                    data.edit(spr.getName(),spr.getUsername(),hashsaltPaass,salt,spr.getEmail(),spr.getPreviousUserName(),editU.getCreateBillboards(),
+                            editU.getEditAllBillboards(), editU.getScheduleBillboards(),editU.getEditUsers());
+                    results = "Succeed to change own name, password and/or email";
                 }
                 else{
-                    if (newu.getEditUsers().equals("true")){
+                    if (currentLoginU.getEditUsers().equals("true")){
                         String salt = getSaltString();
                         String hashsaltPaass = getSaltHashedPass(spr.getHashedPassword(),salt);
-                        data.edit(newu.getUsername(),spr.getUsername(),hashsaltPaass,salt,newu.getEmail(),spr.getPreviousUserName(),newu.getCreateBillboards(),
-                                newu.getEditAllBillboards(), newu.getScheduleBillboards(),newu.getEditUsers());
-                        results = "Succeed to change password";
+                        data.edit(spr.getName(),spr.getUsername(),hashsaltPaass,salt,spr.getEmail(),spr.getPreviousUserName(),editU.getCreateBillboards(),
+                                editU.getEditAllBillboards(), editU.getScheduleBillboards(),editU.getEditUsers());
+                        results = "Succeed to change other's name, password and/or email";
+                        System.out.println(editU.getCreateBillboards());
+                        System.out.println(editU.getEditAllBillboards());
+                        System.out.println(editU.getScheduleBillboards());
+                        System.out.println(editU.getEditUsers());
                     }
                     else {
-                        results = "failed to change password";
+                        results = "failed to change  name, password and/or email";
                     }
                 }
                 AcknowledgeReply setPassReply = new AcknowledgeReply(results);

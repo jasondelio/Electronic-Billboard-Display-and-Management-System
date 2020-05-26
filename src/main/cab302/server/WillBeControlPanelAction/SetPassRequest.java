@@ -3,13 +3,17 @@ package cab302.server.WillBeControlPanelAction;
 import java.io.Serializable;
 
 public class SetPassRequest implements Serializable {
+    private String name;
     private String username;
+    private String email;
     private String hashedPassword;
     private String sessionToken;
     private String previousUserName;
 
-    public SetPassRequest(String username, String hashedPassword, String sessionToken, String previousUserName){
+    public SetPassRequest(String name, String username, String email, String hashedPassword, String sessionToken, String previousUserName){
         this.hashedPassword = hashedPassword;
+        this.name = name;
+        this.email = email;
         this.username = username;
         this.sessionToken = sessionToken;
         this.previousUserName = previousUserName;
@@ -18,6 +22,15 @@ public class SetPassRequest implements Serializable {
     public String getHashedPassword() {
         return hashedPassword;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
     public String getUsername(){
         return username;
     }
