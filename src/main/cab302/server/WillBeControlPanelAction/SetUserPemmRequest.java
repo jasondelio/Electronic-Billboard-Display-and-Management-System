@@ -6,9 +6,12 @@ import java.util.ArrayList;
 public class SetUserPemmRequest implements Serializable {
     private String username;
     private String sessionToken;
+    private String email;
     private ArrayList<String> permisssions;
-    public SetUserPemmRequest(String username, String sessionToken, ArrayList<String> permisssions){
+
+    public SetUserPemmRequest(String username, String sessionToken, String email, ArrayList<String> permisssions){
         this.sessionToken = sessionToken;
+        this.email = email;
         this.username = username;
         this.permisssions = permisssions;
     }
@@ -19,6 +22,7 @@ public class SetUserPemmRequest implements Serializable {
     public String getUsername(){
         return username;
     }
+    public String getEmail() {return email; }
     public ArrayList<String> getPermisssions(){ return  permisssions; }
 }
 

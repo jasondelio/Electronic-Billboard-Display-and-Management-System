@@ -1,15 +1,15 @@
 package cab302.server.Billboardserver;
 
+import javax.swing.*;
 import java.io.Serializable;
-import java.util.Set;
 
 public class listUsersReply implements Serializable {
-    private Set<String> listOfUsers;
-    public listUsersReply(Set<String> listOfUsers){
+    private ListModel listOfUsers;
+    public listUsersReply(ListModel listOfUsers){
         this.listOfUsers = listOfUsers;
     }
 
-    public Set<String> getListOfUsers() {
+    public ListModel getListOfUsers() {
         return listOfUsers;
     }
 }

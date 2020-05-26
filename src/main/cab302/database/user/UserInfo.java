@@ -22,6 +22,8 @@ public class UserInfo implements Comparable<UserInfo>, Serializable {
 
     private String passwords;
 
+    private String email;
+
     private String createBillboards;
 
     private String editAllBillboards;
@@ -40,11 +42,12 @@ public class UserInfo implements Comparable<UserInfo>, Serializable {
     /**
      *
      */
-    public UserInfo(String name, String username, String passwords, String salt, String createBillboards,
+    public UserInfo(String name, String username, String passwords, String salt, String email, String createBillboards,
                 String editAllBillboards, String scheduleBillboards, String editUsers) {
         this.name = name;
         this.username = username;
         this.salt = salt;
+        this.email = email;
         this.passwords = passwords;
         this.createBillboards = createBillboards;
         this.editAllBillboards = editAllBillboards;
@@ -155,6 +158,20 @@ public class UserInfo implements Comparable<UserInfo>, Serializable {
      */
     public String getEditUsers() {
         return editUsers;
+    }
+
+    /**
+     *
+     */
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    /**
+     *
+     */
+    public String getEmail() {
+        return email;
     }
 
     /**

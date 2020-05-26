@@ -1,13 +1,9 @@
 
 package cab302.database;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.util.Properties;
+import java.io.*;
+import java.sql.*;
+import java.util.*;
 
 public class DataConnection {
 

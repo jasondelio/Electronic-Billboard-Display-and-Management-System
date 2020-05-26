@@ -1,55 +1,36 @@
 package cab302.viewer.util;
 
-import cab302.controlpanel.dataobjects.Billboard;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import java.io.File;
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Objects;
 
 public class XMLParser {
 
-    private Billboard billboard;
-    private String billboardStr;
+    private File documentToParse;
 
-    public XMLParser(Billboard b)
+    public XMLParser(String documentToParse)
     {
-        this.billboard = b;
-    }
-    public XMLParser(String billboardStr) {
-        this.billboardStr = billboardStr;
+        this.documentToParse = new File(documentToParse);
     }
 
     public HashMap<String, String> parseXML() {
 
         HashMap<String, String> XMLDataMap = new HashMap<>();
 
-        String xmlContent;
-        if (this.billboard != null)
-            xmlContent = this.billboard.getXMLContent();
-        else
-            xmlContent = Objects.requireNonNullElse(
-                this.billboardStr,
-                "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<billboard>\n<message>No Billboard Found</message>\n</billboard>"
-            );
-
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
 
-            InputSource is = new InputSource();
-            is.setCharacterStream(new StringReader(xmlContent));
-
-            Document document = builder.parse(is);
-            document.getDocumentElement().normalize();
+            Document document = builder.parse(documentToParse);
 
             NodeList nodeList = document.getDocumentElement().getChildNodes();
 

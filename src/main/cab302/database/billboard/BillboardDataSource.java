@@ -16,7 +16,7 @@ public class BillboardDataSource implements BillboardSources {
             "CREATE TABLE IF NOT EXISTS billboards ("
                     + "idx INTEGER PRIMARY KEY /*!40101 AUTO_INCREMENT */ NOT NULL UNIQUE," // from https://stackoverflow.com/a/41028314
                     + "name VARCHAR(30),"
-                    + "xmlContent TEXT,"
+                    + "xmlContent LONGTEXT,"
                     + "creator VARCHAR(30)" + ");";
 
     private static final String INSERT_BILLBOARD = "INSERT INTO billboards (name, xmlContent, creator) VALUES (?, ?, ?);";
@@ -169,6 +169,8 @@ public class BillboardDataSource implements BillboardSources {
             ex.printStackTrace();
         }
     }
+
+
 
     public void editBillboard(String name, String XMLContent, String previousName) {
         try {

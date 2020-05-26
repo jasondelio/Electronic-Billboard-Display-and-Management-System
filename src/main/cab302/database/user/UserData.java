@@ -91,16 +91,12 @@ public class UserData {
     {
         return userData.isValidUser(username, password);
     }
-    public void edit(String name, String username, String password, String salt, String previousUsername,
+    public void edit(String name, String username, String password, String salt, String email, String previousUsername,
                      String createBillboards, String editAllBillboards,
                      String scheduleBillboards, String editUsers)
     {
-        userData.editUser(name, username, password, salt, previousUsername, createBillboards, editAllBillboards,
+        userData.editUser(name, username, password, salt,email, previousUsername, createBillboards, editAllBillboards,
                 scheduleBillboards, editUsers);
-        if(previousUsername != username) {
-            listModel.removeElement(previousUsername);
-            listModel.addElement(username);
-        }
 
     }
     public Set<String> getUserList() { return  userData.nameSet(); }

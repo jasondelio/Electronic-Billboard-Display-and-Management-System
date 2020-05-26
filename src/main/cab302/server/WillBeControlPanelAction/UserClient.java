@@ -16,13 +16,14 @@ public class UserClient {
 
         ObjectOutputStream oos = new ObjectOutputStream(outputStream);
         ObjectInputStream ois = new ObjectInputStream(inputStream);
+
         String password ="daafda";
         String hashePass = getHashedPass(password);
         Loginrequest loginrequest = new Loginrequest("suzan",hashePass);
         oos.writeObject(loginrequest);
         oos.flush();
-        Object transoO = ois.readObject();
 
+        Object transoO = ois.readObject();
         String sessionToken = null;
         if (transoO instanceof LoginReply){
             LoginReply reply = (LoginReply) transoO;
@@ -33,6 +34,7 @@ public class UserClient {
                 System.out.println("fail to login");
             }
         }
+
         ois.close();
         oos.close();
         socket.close();
@@ -49,6 +51,7 @@ public class UserClient {
         listBillboardRequest lbr = new listBillboardRequest(sessionToken);
         oos.writeObject(lbr);
         oos.flush();
+
         transoO = ois.readObject();
         if (transoO instanceof listBillboardReply){
             listBillboardReply lbrlist =  (listBillboardReply) transoO;
@@ -162,12 +165,14 @@ public class UserClient {
 
         oos = new ObjectOutputStream(outputStream);
         ois = new ObjectInputStream(inputStream);
-        String duration1 = "1";
         String month1 = "5";
         String date1 = "19";
         String hour = "16";
         String minitue = "10";
-        ScheduleBillboardRequest sbbr = new ScheduleBillboardRequest(billboardname, month1, date1, hour, minitue, duration1, sessionToken);
+        String duractionhr = "1";
+        String duractionmin = "16";
+        String ricur = "2";
+        ScheduleBillboardRequest sbbr = new ScheduleBillboardRequest(billboardname, month1, date1, hour, minitue, sessionToken,duractionhr,duractionmin,ricur);
         oos.writeObject(sbbr);
         oos.flush();
         transoO = ois.readObject();
@@ -250,7 +255,7 @@ public class UserClient {
         lists_permission.add("True");
         lists_permission.add("True");
         lists_permission.add("True");
-        CreateUsersRequest cur = new CreateUsersRequest(sessionToken, hashePass1,username, lists_permission);
+        CreateUsersRequest cur = new CreateUsersRequest(sessionToken, hashePass1,username,"suu@gmail.com" , lists_permission);
 
         oos.writeObject(cur);
         oos.flush();
@@ -302,7 +307,9 @@ public class UserClient {
         list_permission.add("True");
         list_permission.add("True");
         list_permission.add("True");
-        SetUserPemmRequest supr = new SetUserPemmRequest("suu", sessionToken, list_permission);
+
+        String hashePass11 = getHashedPass("sfaad");
+        SetUserPemmRequest supr = new SetUserPemmRequest("suu", sessionToken, hashePass11, list_permission);
 
         oos.writeObject(supr);
         oos.flush();
@@ -326,7 +333,7 @@ public class UserClient {
         oos = new ObjectOutputStream(outputStream);
         ois = new ObjectInputStream(inputStream);
         String hashePassd = getHashedPass("sfaad");
-        SetPassRequest spr = new SetPassRequest("suu", hashePassd, sessionToken);
+        SetPassRequest spr = new SetPassRequest("suu", hashePassd, sessionToken,"suu");
 
         oos.writeObject(spr);
         oos.flush();

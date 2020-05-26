@@ -8,6 +8,7 @@ import cab302.database.user.UserData;
 import cab302.database.user.UserInfo;
 import cab302.server.WillBeControlPanelAction.*;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -32,8 +33,8 @@ public class billboardServer {
         String firstsalt = getSaltString();
         String hasedsaltpass = getSaltHashedPass(hashedsalt, firstsalt);
 
-        UserInfo firstUser = new UserInfo("suzan", "suzan", hasedsaltpass, firstsalt, "True",
-                "True", "True", "True");
+        UserInfo firstUser = new UserInfo("suzan", "suzan", hasedsaltpass, firstsalt, "susan@gmail.com" ,"true",
+                "true", "true", "true");
         data.add(firstUser);
 
         BillboardData billboardData = new BillboardData();
@@ -56,13 +57,18 @@ public class billboardServer {
                 String salt = u.getSalt();
                 String saltHashedPass = u.getPasswords();
                 LoginReply reply;
+                ArrayList<String> permissions = new ArrayList<>();
                 // if the password with salting and hashing is same as stored password, return login succeed.
                 if (loginSuccess(saltHashedPass,getSaltHashedPass(loginrequest.getPassword(),salt))){
                     String token = getSessionTokenString();
-                    reply = new LoginReply(true,token);
+                    permissions.add(u.getCreateBillboards());
+                    permissions.add(u.getEditAllBillboards());
+                    permissions.add(u.getScheduleBillboards());
+                    permissions.add(u.getEditUsers());
+                    reply = new LoginReply(true,token, permissions);
                     validSessionTokens.put(token, loginrequest.getUsername());
                 }else {
-                    reply = new LoginReply(false,null);
+                    reply = new LoginReply(false,null, null);
                 }
                 oos.writeObject(reply);
                 oos.flush();
@@ -88,14 +94,11 @@ public class billboardServer {
                 String sessionToken = lbr.getSessionToken();
                 System.out.println("client requested billboard lists with token :"+ sessionToken);
                 if (isValidSessionToken(sessionToken)){
-                    String currentUser = getSessionUsername(sessionToken);
-                    BillboardInfo b = new BillboardInfo("billboard1","fantastic", currentUser);
-                    billboardData.add(b);
-                    listBillboardReply listBillboardReply = new listBillboardReply(billboardData.geBillsLists());
-                    oos.writeObject(listBillboardReply);
+                    listBillboardReply lbbr = new listBillboardReply(billboardData.getModel());
+                    oos.writeObject(lbbr);
                     oos.flush();
                 }else{
-                    Object reply = new Object();
+                    AcknowledgeReply reply = new AcknowledgeReply("error");
                     oos.writeObject(reply);
                     oos.flush();
                 }
@@ -109,37 +112,57 @@ public class billboardServer {
                 if (isValidSessionToken(sessionToken)){
                     String currentUser = getSessionUsername(sessionToken);
                     UserInfo nu = data.get(currentUser);
-                    if (billboardData.get(cbbr.getBillboardname()) != null){
-                        BillboardInfo edit_b = billboardData.get(cbbr.getBillboardname());
-                        ScheduleInfo edit_si = scheduleData.get(cbbr.getBillboardname());
-                        //System.out.println(edit_si.getCreator());
-                        if(edit_b.getCreator().equals(currentUser) && edit_si == null){
-                            if (nu.getCreateBillboards().equals("True")){
-                                billboardData.edit(edit_b.getName(),"beautyBIllboard",edit_b.getName());
+
+                    if (nu.getCreateBillboards().equals("true")){
+                        BillboardInfo new_b = new BillboardInfo(cbbr.getBillboardname(),cbbr.getBillboardContent(),currentUser);
+                        billboardData.add(new_b);
+                        results = "Success to edit billboard";
+                    }
+                    else{
+                        results = "falied to edit";
+                    }
+
+                    AcknowledgeReply createBillboardReply = new AcknowledgeReply(results);
+                    oos.writeObject(createBillboardReply);
+                    oos.flush();
+                }else{
+                    Object reply = new Object();
+                    oos.writeObject(reply);
+                    oos.flush();
+                }
+            }
+            else if(o instanceof EditBillboardRequest){
+                EditBillboardRequest ebbr =(EditBillboardRequest) o;
+                String sessionToken = ebbr.getSessionToken();
+                System.out.println("client requested creating lists with token :"+ sessionToken);
+                boolean Schedule = false;
+                String results = null;
+                if (isValidSessionToken(sessionToken)){
+                    String currentUser = getSessionUsername(sessionToken);
+                    UserInfo nu = data.get(currentUser);
+                    System.out.println(billboardData.get(ebbr.getBillboardname()));
+                    if (billboardData.get(ebbr.getBillboardname()) != null){
+                        BillboardInfo edit_b = billboardData.get(ebbr.getBillboardname());
+//                        ScheduleInfo edit_si = scheduleData.get(cbbr.getBillboardname());
+                        System.out.println(edit_b.getCreator());
+                        if(edit_b.getCreator().equals(currentUser) && Schedule == false){
+                            if (nu.getCreateBillboards().equals("true")){
+                                billboardData.edit(edit_b.getName(),ebbr.getBillboardContent(),edit_b.getName());
                                 results = "Success to edit billboard";
                             }else{
                                 results = "failed to edit billboard";
                             }
                         }else {
-                            if (nu.getEditAllBillboards().equals("True")){
-                                billboardData.edit(edit_b.getName(),"beautyBIllboard",edit_b.getName());
+                            if (nu.getEditAllBillboards().equals("true")){
+                                billboardData.edit(edit_b.getName(),ebbr.getBillboardContent(),edit_b.getName());
                                 results = "Success to edit billboard";
                             }else{
                                 results = "falied to edit billboard";
                             }
                         }
-                    }else{
-                        if (nu.getCreateBillboards().equals("True")){
-                            BillboardInfo new_b = new BillboardInfo(cbbr.getBillboardname(),cbbr.getBillboardContent(),currentUser);
-                            billboardData.add(new_b);
-                            results = "Success to edit billboard";
-                        }
-                        else{
-                            results = "falied to edit";
-                        }
                     }
-                    AcknowledgeReply createBillboardReply = new AcknowledgeReply(results);
-                    oos.writeObject(createBillboardReply);
+                    AcknowledgeReply editBillboardReply = new AcknowledgeReply(results);
+                    oos.writeObject(editBillboardReply);
                     oos.flush();
                 }else{
                     Object reply = new Object();
@@ -151,26 +174,27 @@ public class billboardServer {
                 DelateBillboardRequest dbbr =(DelateBillboardRequest) o;
                 String sessionToken = dbbr.getSessionToken();
                 System.out.println("client requested delating billboard with token :"+ sessionToken);
-
+                boolean schedule = false;
                 String results = null;
                 if (isValidSessionToken(sessionToken)){
                     String currentUser = getSessionUsername(sessionToken);
                     UserInfo nu = data.get(currentUser);
                     BillboardInfo edit_b = billboardData.get(dbbr.getBillboardname());
-                    ScheduleInfo edit_si = scheduleData.get(dbbr.getBillboardname());
-                    if(edit_b.getCreator().equals(currentUser) && edit_si == null){
-                        if (nu.getCreateBillboards().equals("True")){
+                    //ScheduleInfo edit_si = scheduleData.get(dbbr.getBillboardname());
+
+                    if(edit_b.getCreator().equals(currentUser) && schedule == false){
+                        if (nu.getCreateBillboards().equals("true")){
                             billboardData.remove(edit_b.getName());
                             results = "Success to delate";
                         }else{
-                            results = "failed to delate";
+                            results = "You do not have CreateBillboard permission";
                         }
                     }else {
-                        if (nu.getEditAllBillboards() == "True"){
+                        if (nu.getEditAllBillboards() == "true"){
                             billboardData.remove(edit_b.getName());
                             results = "Success to delate";
                         }else{
-                            results = "falied to delate";
+                            results = "You do not have EditAllBillboard permissions";
                         }
                     }
                     AcknowledgeReply delateBillboardReply = new AcknowledgeReply(results);
@@ -190,7 +214,7 @@ public class billboardServer {
                     String currentUser= getSessionUsername(sessionToken);
                     UserInfo nu = data.get(currentUser);
                     Set<String> sche_lists = null;
-                    if(nu.getScheduleBillboards().equals("True")){
+                    if(nu.getScheduleBillboards().equals("true")){
                         sche_lists = scheduleData.getScheduleList();
                     }else{
                         sche_lists = null;
@@ -212,9 +236,9 @@ public class billboardServer {
                     String currentUser = getSessionUsername(sessionToken);
                     UserInfo nu = data.get(currentUser);
                     String results = null;
-                    if (nu.getScheduleBillboards().equals("True")){
+                    if (nu.getScheduleBillboards().equals("true")){
                         ScheduleInfo new_schedule = new ScheduleInfo(sbbr.getBillboardname(),currentUser,sbbr.getMonth(),sbbr.getDate(),
-                                sbbr.getHour(),sbbr.getMinitue(),sbbr.getDuration());
+                                sbbr.getHour(),sbbr.getMinitue(),sbbr.getDurationHr(),sbbr.getDurationMin(),sbbr.getRecur());
                         scheduleData.add(new_schedule);
                         results = "Success to schedule the billboard";
                     }else {
@@ -243,7 +267,7 @@ public class billboardServer {
                         if (new_sche.getBoardTitle().equals(rbbr.getBillboardname()) && new_sche.getMonth().equals(rbbr.getMonth())
                         && new_sche.getDate().equals(rbbr.getDate()) && new_sche.getMinute().equals(rbbr.getMinitue()) )
                         {
-                            scheduleData.remove(rbbr.getBillboardname());
+                            scheduleData.remove(rbbr.getBillboardname(),rbbr.getDate(),rbbr.getHour());
                             result = "Success to remove bb from schedule !";
                         }
                         else{
@@ -267,15 +291,16 @@ public class billboardServer {
                 listUsersRequest lur =(listUsersRequest) o;
                 String sessionToken = lur.getSessionToken();
                 System.out.println("client requested user lists with token :"+ sessionToken);
+                System.out.println(getSessionUsername(sessionToken));
                 UserInfo newu = data.get(getSessionUsername(sessionToken));
 
-                if (isValidSessionToken(sessionToken) & newu.getEditUsers().equals("True")){
-                    Set<String> Userlist = data.getUserList();
+                if (isValidSessionToken(sessionToken) & newu.getEditUsers().equals("true")){
+                    ListModel Userlist = data.getModel();
                     listUsersReply listUsersReply = new listUsersReply(Userlist);
                     oos.writeObject(listUsersReply);
                     oos.flush();
                 }else{
-                    Object reply = new Object();
+                    AcknowledgeReply reply = new AcknowledgeReply("error");
                     oos.writeObject(reply);
                     oos.flush();
                 }
@@ -287,10 +312,10 @@ public class billboardServer {
                 UserInfo u;
                 UserInfo newu = data.get(getSessionUsername(sessionToken));
 
-                if (isValidSessionToken(sessionToken) & newu.getEditUsers().equals("True")){
+                if (isValidSessionToken(sessionToken) & newu.getEditUsers().equals("true")){
                     String salt = getSaltString();
                     String hashedsaltPass = getSaltHashedPass(cur.getPassword(),salt);
-                    UserInfo user = new UserInfo(cur.getUsername(),cur.getUsername(),hasedsaltpass,salt,cur.getLists_Permissions().get(0),
+                    UserInfo user = new UserInfo(cur.getUsername(),cur.getUsername(),hashedsaltPass,salt, cur.getEmail(), cur.getLists_Permissions().get(0),
                             cur.getLists_Permissions().get(1),cur.getLists_Permissions().get(2),cur.getLists_Permissions().get(3));
                     data.add(user);
                     AcknowledgeReply createUsersReply = new AcknowledgeReply("Succeed to create user !");
@@ -307,17 +332,18 @@ public class billboardServer {
                 String sessionToken = gupr.getSessionToken();
                 System.out.println("client requested getting user permissions with token :"+ sessionToken);
                 ArrayList<String> permissions = new ArrayList<>();
+                UserInfo per_u = null;
                 if (isValidSessionToken(sessionToken)){
                     if(getSessionUsername(sessionToken).equals(gupr.getUsername())){
-                        UserInfo new_u = data.get(gupr.getUsername());
-                        permissions.add(new_u.getCreateBillboards());
-                        permissions.add(new_u.getEditAllBillboards());
-                        permissions.add(new_u.getScheduleBillboards());
-                        permissions.add(new_u.getEditUsers());
+                        per_u = data.get(gupr.getUsername());
+                        permissions.add(per_u.getCreateBillboards());
+                        permissions.add(per_u.getEditAllBillboards());
+                        permissions.add(per_u.getScheduleBillboards());
+                        permissions.add(per_u.getEditUsers());
 
                     }else{
-                        UserInfo per_u = data.get(getSessionUsername(sessionToken));
-                        if(per_u.getEditUsers().equals("True")){
+                        per_u = data.get(gupr.getUsername());
+                        if(per_u.getEditUsers().equals("true")){
                             permissions.add(per_u.getCreateBillboards());
                             permissions.add(per_u.getEditAllBillboards());
                             permissions.add(per_u.getScheduleBillboards());
@@ -326,7 +352,7 @@ public class billboardServer {
                             System.out.println("No return");
                         }
                     }
-                    GetUserpemmReply getUserpemmReply = new GetUserpemmReply(permissions);
+                    GetUserpemmReply getUserpemmReply = new GetUserpemmReply(permissions,per_u);
                     oos.writeObject(getUserpemmReply);
                     oos.flush();
                 }else{
@@ -336,21 +362,21 @@ public class billboardServer {
                 }
             }
             else if(o instanceof SetUserPemmRequest){
-                SetUserPemmRequest gupr =(SetUserPemmRequest) o;
-                String sessionToken = gupr.getSessionToken();
+                SetUserPemmRequest supr =(SetUserPemmRequest) o;
+                String sessionToken = supr.getSessionToken();
                 System.out.println("client requested setting permissions with token :"+ sessionToken);
-                ArrayList<String> permissions = gupr.getPermisssions();
+                ArrayList<String> permissions = supr.getPermisssions();
                 String results = null;
                 if (isValidSessionToken(sessionToken)){
-                    if(getSessionUsername(sessionToken).equals(gupr.getUsername())){
+                    if(getSessionUsername(sessionToken).equals(supr.getUsername())){
                         UserInfo spr_user = data.get(getSessionUsername(sessionToken));
-                        data.edit(spr_user.getName(),spr_user.getUsername(),spr_user.getPasswords(), spr_user.getSalt(),spr_user.getName(),
-                        permissions.get(0),permissions.get(1),permissions.get(2),spr_user.getEditUsers());
+                        data.edit(spr_user.getName(),spr_user.getUsername(),spr_user.getPasswords(), spr_user.getSalt(),spr_user.getEmail(),spr_user.getName(),
+                                permissions.get(0),permissions.get(1),permissions.get(2),spr_user.getEditUsers());
                         results = "Succeceed to change same user's permissions";
                     }
                     else{
-                        UserInfo spr_user = data.get(getSessionUsername(sessionToken));
-                        data.edit(spr_user.getName(),spr_user.getUsername(),spr_user.getPasswords(), spr_user.getSalt(),spr_user.getName(),
+                        UserInfo spr_user = data.get(supr.getUsername());
+                        data.edit(spr_user.getName(),spr_user.getUsername(),spr_user.getPasswords(), spr_user.getSalt(),spr_user.getEmail(),spr_user.getName(),
                                 permissions.get(0),permissions.get(1),permissions.get(2),permissions.get(3));
                         results = "Succeed to change other user's permsissions";
                     }
@@ -372,15 +398,15 @@ public class billboardServer {
                 if (newu.getUsername().equals(getSessionUsername(spr.getSessionToken()))){
                     String salt = getSaltString();
                     String hashsaltPaass = getSaltHashedPass(spr.getHashedPassword(),salt);
-                    data.edit(newu.getUsername(),newu.getUsername(),hashsaltPaass,salt,newu.getUsername(),newu.getCreateBillboards(),
+                    data.edit(newu.getUsername(),spr.getUsername(),hashsaltPaass,salt,newu.getEmail(),spr.getPreviousUserName(),newu.getCreateBillboards(),
                             newu.getEditAllBillboards(), newu.getScheduleBillboards(),newu.getEditUsers());
                     results = "Succeed to change password";
                 }
                 else{
-                    if (newu.getEditUsers().equals("True")){
+                    if (newu.getEditUsers().equals("true")){
                         String salt = getSaltString();
                         String hashsaltPaass = getSaltHashedPass(spr.getHashedPassword(),salt);
-                        data.edit(newu.getUsername(),newu.getUsername(),hashsaltPaass,salt,newu.getUsername(),newu.getCreateBillboards(),
+                        data.edit(newu.getUsername(),spr.getUsername(),hashsaltPaass,salt,newu.getEmail(),spr.getPreviousUserName(),newu.getCreateBillboards(),
                                 newu.getEditAllBillboards(), newu.getScheduleBillboards(),newu.getEditUsers());
                         results = "Succeed to change password";
                     }
@@ -398,8 +424,9 @@ public class billboardServer {
                 System.out.println("client requested setting permissions with token :"+ sessiontoken);
                 String results = null;
                 UserInfo del_u = data.get(getSessionUsername(dur.getSessiontoken()));
-                if (isValidSessionToken(sessiontoken) & del_u.getEditUsers().equals("True")){
+                if (isValidSessionToken(sessiontoken) & del_u.getEditUsers().equals("true")){
                     String username = dur.getUsername();
+
                     if (username.equals(getSessionUsername(dur.getSessiontoken()))){
                         results = "USER CANNOT CHANGE OWN PAASSWORD!";
                     }else {

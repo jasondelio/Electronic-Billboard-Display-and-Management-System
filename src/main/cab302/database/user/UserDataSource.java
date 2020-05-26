@@ -23,17 +23,18 @@ public class UserDataSource implements UserSources {
                     + "username VARCHAR(30) UNIQUE,"
                     + "passwords VARCHAR(70),"
                     + "salt VARCHAR(70),"
+                    + "email VARCHAR(70),"
                     + "createBillboards VARCHAR(5),"
                     + "editAllBillboards VARCHAR(5),"
                     + "scheduleBillboards VARCHAR(5),"
                     + "editUsers VARCHAR(5)" + ");";
     public static final String INSERT_ADMINISTRATOR_USER =
-            "INSERT IGNORE INTO users(name, username, passwords, salt, createBillboards, editAllBillboards, " +
-                    "scheduleBillboards, editUsers) VALUES ('admin', 'root', 'password', 'root@gmail.com', " +
+            "INSERT IGNORE INTO users(name, username, passwords, salt, email, createBillboards, editAllBillboards, " +
+                    "scheduleBillboards, editUsers) VALUES ('admin', 'root', 'password', 'salt','root@gmail.com', " +
                     "'true', 'true', 'true', 'true');";
 
-    private static final String INSERT_USER = "INSERT INTO users (name, username, passwords, salt" +
-            ", createBillboards, editAllBillboards, scheduleBillboards, editUsers) VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
+    private static final String INSERT_USER = "INSERT INTO users (name, username, passwords, salt, email" +
+            ", createBillboards, editAllBillboards, scheduleBillboards, editUsers) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
     private static final String GET_USERNAMES = "SELECT username FROM users";
 
@@ -41,7 +42,7 @@ public class UserDataSource implements UserSources {
 
     private static final String DELETE_USER = "DELETE FROM users WHERE username=?";
 
-    private static final String EDIT_USER = "UPDATE users SET name=?, username=?, passwords=?, salt=?" +
+    private static final String EDIT_USER = "UPDATE users SET name=?, username=?, passwords=?, salt=?, email=?" +
             ", createBillboards=?, editAllBillboards=?, scheduleBillboards=?, editUsers=? WHERE username=?";
 
     private static final String COUNT_ROWS = "SELECT COUNT(*) FROM users";
@@ -102,10 +103,11 @@ public class UserDataSource implements UserSources {
             addUser.setString(2, u.getUsername());
             addUser.setString(3, u.getPasswords());
             addUser.setString(4, u.getSalt());
-            addUser.setString(5, u.getCreateBillboards());
-            addUser.setString(6, u.getEditAllBillboards());
-            addUser.setString(7, u.getScheduleBillboards());
-            addUser.setString(8, u.getEditUsers());
+            addUser.setString(5, u.getEmail());
+            addUser.setString(6, u.getCreateBillboards());
+            addUser.setString(7, u.getEditAllBillboards());
+            addUser.setString(8, u.getScheduleBillboards());
+            addUser.setString(9, u.getEditUsers());
             addUser.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -145,6 +147,7 @@ public class UserDataSource implements UserSources {
             u.setUsername(rs.getString("username"));
             u.setPasswords(rs.getString("passwords"));
             u.setSalt(rs.getString("salt"));
+            u.setEmail(rs.getString("email"));
             u.setCreateBillboards(rs.getString("createBillboards"));
             u.setEditAllBillboards(rs.getString("editAllBillboards"));
             u.setEditUsers(rs.getString("editUsers"));
@@ -205,7 +208,7 @@ public class UserDataSource implements UserSources {
      * @see
      * @return
      */
-    public void editUser(String name, String username, String password, String salt, String previousUsername,
+    public void editUser(String name, String username, String password, String salt, String email, String previousUsername,
                          String createBillboards, String editAllBillboards,
                          String scheduleBillboards, String editUsers) {
         try {
@@ -213,11 +216,12 @@ public class UserDataSource implements UserSources {
             editUser.setString(2, username);
             editUser.setString(3, password);
             editUser.setString(4, salt);
-            editUser.setString(5, createBillboards);
-            editUser.setString(6, editAllBillboards);
-            editUser.setString(7, scheduleBillboards);
-            editUser.setString(8, editUsers);
-            editUser.setString(9, previousUsername);
+            editUser.setString(5, email);
+            editUser.setString(6, createBillboards);
+            editUser.setString(7, editAllBillboards);
+            editUser.setString(8, scheduleBillboards);
+            editUser.setString(9, editUsers);
+            editUser.setString(10, previousUsername);
             editUser.execute();
         }
         catch (SQLException ex) {

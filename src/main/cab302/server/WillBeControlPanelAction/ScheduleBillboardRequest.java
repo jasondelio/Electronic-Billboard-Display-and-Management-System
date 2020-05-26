@@ -8,16 +8,22 @@ public class ScheduleBillboardRequest implements Serializable {
     private String date;
     private String hour;
     private String minitue;
-    private String duration;
     private String sessionToken;
-    public ScheduleBillboardRequest(String billboardname, String month, String date, String hour, String minitue, String duration, String sessionToken) {
+    private String durationHr;
+    private String durationMin;
+    private String recur;
+
+
+    public ScheduleBillboardRequest(String billboardname, String month, String date, String hour, String minitue, String sessionToken, String durationHr, String durationMin, String recur) {
         this.billboardname = billboardname;
         this.month = month;
         this.date = date;
         this.hour = hour;
         this.minitue = minitue;
-        this.duration = duration;
         this.sessionToken = sessionToken;
+        this.durationHr = durationHr;
+        this.durationMin = durationMin;
+        this.recur = recur;
     }
 
     public String getSessionToken() {
@@ -28,8 +34,14 @@ public class ScheduleBillboardRequest implements Serializable {
         return billboardname;
     }
 
-    public String getDuration() {
-        return duration;
+    public String getDurationHr() {
+        return durationHr;
+    }
+    public String getDurationMin() {
+        return durationMin;
+    }
+    public String getRecur() {
+        return recur;
     }
 
     public String getMonth() {
