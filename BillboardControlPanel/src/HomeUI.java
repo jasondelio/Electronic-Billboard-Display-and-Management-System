@@ -911,24 +911,39 @@ public class HomeUI extends JFrame implements ActionListener {
             previewPanel.add(pictureLabel, gbc);
         }
 
-        // Create information label if exists and add it to the window
-        if (xmlInfo.containsKey("information")) {
-            JTextPane informationText = new JTextPane();
-            informationText.setText(xmlInfo.get("information"));
-            informationText.setFont(new Font("Arial", Font.PLAIN, 36));
-            informationText.setForeground(
-                    HexToRGB(
-                            xmlInfo.get("informationColour")
-                    )
-            );
-            informationText.setBackground(bgColour);
-            StyleConstants.setFontSize(set, 36);
+        // Create picture label if exists and add it to the window
+        if (xmlInfo.containsKey("picture")) {
+            JLabel pictureLabel = new JLabel();
+            String imgInfo = xmlInfo.get("picture");
 
-            informationText.setParagraphAttributes(set, true);
-            informationText.setEditable(false);
+            try {
+                BufferedImage picture = imgGen.isBase64EncodedImage(imgInfo) ? imgGen.decodeDataString(imgInfo) : imgGen.downloadImage(imgInfo);
 
-            gbc.gridy = 2;
-            previewPanel.add(informationText, gbc);
+                int resizedWidth = picture.getWidth();
+                int resizedHeight = picture.getHeight();
+
+                if (picture.getWidth() > dialogSize.width / 2) {
+                    resizedWidth = dialogSize.width / 2;
+                    resizedHeight = (resizedWidth * picture.getHeight()) / picture.getWidth();
+                }
+
+                if (picture.getHeight() > dialogSize.height / 2) {
+                    resizedHeight = dialogSize.height / 2;
+                    resizedHeight = (resizedHeight * picture.getWidth()) / picture.getHeight();
+                }
+
+                Image resizedImage = picture.getScaledInstance(
+                        resizedWidth,
+                        resizedHeight,
+                        Image.SCALE_SMOOTH
+                );
+                pictureLabel.setIcon(new ImageIcon(resizedImage));
+            } catch (IOException | BadImageFormatException e) {
+                e.printStackTrace();
+            }
+
+            gbc.gridy = 1;
+            previewPanel.add(pictureLabel, gbc);
         }
 
         previewBillboardDialog.add(previewPanel);
