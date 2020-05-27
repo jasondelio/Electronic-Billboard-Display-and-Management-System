@@ -80,8 +80,8 @@ public class UserClient {
         String billboardContent = null;
         if (transoO instanceof BillboardReply){
             BillboardReply bbrcontent =  (BillboardReply) transoO;
-            billboardContent = bbrcontent.getbillboard();
-            System.out.println("billboard content : "+ billboardContent);
+            billboardContent = bbrcontent.getXmlcontent();
+            System.out.println("billboard content : " + billboardContent);
         }else{
             System.out.println("error");
         }

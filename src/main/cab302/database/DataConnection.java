@@ -23,7 +23,7 @@ public class DataConnection {
         Properties props = new Properties();
         FileInputStream in = null;
         try {
-            in = new FileInputStream("src/main/cab302/db.props");
+            in = new FileInputStream("/Users/kitairyuuta/IdeaProjects/CAB302/src/main/cab302/db.props");
             props.load(in);
             in.close();
 

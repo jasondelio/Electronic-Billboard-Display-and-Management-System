@@ -28,10 +28,6 @@ public class UserDataSource implements UserSources {
                     + "editAllBillboards VARCHAR(5),"
                     + "scheduleBillboards VARCHAR(5),"
                     + "editUsers VARCHAR(5)" + ");";
-    public static final String INSERT_ADMINISTRATOR_USER =
-            "INSERT IGNORE INTO users(name, username, passwords, salt, email, createBillboards, editAllBillboards, " +
-                    "scheduleBillboards, editUsers) VALUES ('admin', 'root', 'password', 'salt','root@gmail.com', " +
-                    "'true', 'true', 'true', 'true');";
 
     private static final String INSERT_USER = "INSERT INTO users (name, username, passwords, salt, email" +
             ", createBillboards, editAllBillboards, scheduleBillboards, editUsers) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
@@ -71,7 +67,6 @@ public class UserDataSource implements UserSources {
         try {
             Statement st = connection.createStatement();
             st.execute(CREATE_TABLE);
-            st.execute(INSERT_ADMINISTRATOR_USER);
             addUser = connection.prepareStatement(INSERT_USER);
             getNameList = connection.prepareStatement(GET_USERNAMES);
             getUser = connection.prepareStatement(GET_USER);

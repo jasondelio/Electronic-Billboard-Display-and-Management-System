@@ -3,6 +3,9 @@ package cab302.ControlPanel;
 import cab302.database.user.UserInfo;
 import cab302.server.Billboardserver.*;
 import cab302.server.WillBeControlPanelAction.*;
+import cab302.viewer.exceptions.BadImageFormatException;
+import cab302.viewer.gui.ImageGenerator;
+import cab302.viewer.util.XMLParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -11,11 +14,14 @@ import org.xml.sax.InputSource;
 
 import javax.swing.*;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.net.Socket;
 import java.security.MessageDigest;
@@ -23,6 +29,9 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Date;
+import java.util.HashMap;
+
+import static cab302.viewer.util.HexToRGB.HexToRGB;
 
 public class HomeUI extends JFrame implements ActionListener {
     public static final int WIDTH = 600;
@@ -60,6 +69,7 @@ public class HomeUI extends JFrame implements ActionListener {
     private JTextField username;
     private JTextField password;
     private JTextField email;
+    private JTextField creator;
     private JScrollPane scroller;
     private JDialog addNewUserDialog;
     private JDialog editUserDialog;
@@ -295,6 +305,7 @@ public class HomeUI extends JFrame implements ActionListener {
         JLabel lblMessage = new JLabel("Message");
         JLabel lblPicture = new JLabel("Picture");
         JLabel lblInformation = new JLabel("Information");
+        JLabel lblCreator = new JLabel("Creator");
 
         message = new JTextField(20);
         picture = new JTextField(20);
@@ -306,6 +317,8 @@ public class HomeUI extends JFrame implements ActionListener {
         messageColour.setEnabled(false);
         informationColour = new JTextField(10);
         informationColour.setEnabled(false);
+        creator = new JTextField(20);
+        creator.setEditable(false);
 
         btnBackgroundColour = new JButton("Colour");
         btnBackgroundColour.addActionListener(this);
@@ -335,9 +348,9 @@ public class HomeUI extends JFrame implements ActionListener {
         GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
         hGroup.addGroup(layout.createParallelGroup().addComponent(lblBackground).addComponent(lblMessage)
-                .addComponent(lblPicture).addComponent(lblInformation));
+                .addComponent(lblPicture).addComponent(lblInformation).addComponent(lblCreator));
         hGroup.addGroup(layout.createParallelGroup().addComponent(message)
-                .addComponent(picture).addComponent(information));
+                .addComponent(picture).addComponent(information).addComponent(creator));
         hGroup.addGroup(layout.createParallelGroup().addComponent(btnBackgroundColour)
                 .addComponent(btnMessageColour).addComponent(btnUploadPicture).addComponent(btnInformationColour));
         hGroup.addGroup(layout.createParallelGroup().addComponent(backgroundColour).addComponent(messageColour)
@@ -357,6 +370,8 @@ public class HomeUI extends JFrame implements ActionListener {
         vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(lblInformation).addComponent(information).addComponent(btnInformationColour)
                 .addComponent(informationColour));
+        vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE))
+                .addComponent(lblCreator).addComponent(creator);
         layout.setVerticalGroup(vGroup);
 
         return createBillboardFieldsPanel;
@@ -456,6 +471,7 @@ public class HomeUI extends JFrame implements ActionListener {
         panelBillboardName.add(billboardName);
         createNewBillboardPanel.add(panelBillboardName, BorderLayout.NORTH);
         createNewBillboardPanel.add(makeCreateBillboardFieldsPanel(), BorderLayout.CENTER);
+        creator.setText(currentUsername);
         createNewBillboardDialog.add(createNewBillboardPanel);
         createNewBillboardDialog.add(buttonPanel, BorderLayout.SOUTH);
         createNewBillboardDialog.setVisible(true);
@@ -594,10 +610,12 @@ public class HomeUI extends JFrame implements ActionListener {
             oos.writeObject(billboardRequest);
             oos.flush();
             String billboardContent = null;
+            String billboardCreator = null;
             Object transoO = ois.readObject();
             if (transoO instanceof BillboardReply) {
                 BillboardReply reply = (BillboardReply) transoO;
-                billboardContent = reply.getbillboard();
+                billboardContent = reply.getXmlcontent();
+                billboardCreator = reply.getCreator();
             }
             socketStop();
 
@@ -605,7 +623,7 @@ public class HomeUI extends JFrame implements ActionListener {
             System.out.println(billboardContent);
             System.out.println((String) billboardList.getSelectedValue());
             parseXMLContentsFromDatabase(billboardContent);
-
+            creator.setText(billboardCreator);
             editBillboardDialog.add(buttonPanel, BorderLayout.SOUTH);
             editBillboardDialog.add(editBillboardPanel);
             editBillboardDialog.setVisible(true);
@@ -615,15 +633,15 @@ public class HomeUI extends JFrame implements ActionListener {
     }
 
 
-    private void convertBillboardToXML()
-    {
-        if(backgroundColour.getText() != null && !backgroundColour.getText().equals("")) {
+    private void convertBillboardToXML() {
+        XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+
+        if (backgroundColour.getText() != null && !backgroundColour.getText().equals("")) {
             addToXMLContents("<billboard background=\"" + backgroundColour.getText() + "\">\n");
-        }
-        else {
+        } else {
             addToXMLContents("<billboard>\n");
         }
-        if(message.getText() != null && !message.getText().equals("") &&
+        if (message.getText() != null && !message.getText().equals("") &&
                 messageColour.getText() != null && !messageColour.getText().equals("")) {
             addToXMLContents("<message colour=\"" + messageColour.getText() + "\">" + message.getText() + "</message>\n");
         }
@@ -785,7 +803,7 @@ public class HomeUI extends JFrame implements ActionListener {
             name.setText(u.getName());
             username.setText(u.getUsername());
             username.setEditable(false);
-            password.setText("");
+            password.setText("******");
             email.setText(u.getEmail());
             cbCreateBillboardsPermission.setSelected(Boolean.parseBoolean(u.getCreateBillboards()));
             cbEditAllBillboardsPermission.setSelected(Boolean.parseBoolean(u.getEditAllBillboards()));
@@ -832,7 +850,7 @@ public class HomeUI extends JFrame implements ActionListener {
         name.setText(u.getName());
         username.setText(u.getUsername());
         username.setEditable(false);
-        password.setText("");
+        password.setText("******");
         email.setText(u.getEmail());
         if(permissionsList.get(3).equals("true")){
             cbCreateBillboardsPermission.setSelected(Boolean.parseBoolean(u.getCreateBillboards()));
@@ -920,14 +938,15 @@ public class HomeUI extends JFrame implements ActionListener {
     private void updateUserPressed() throws NoSuchAlgorithmException, IOException, ClassNotFoundException {
         if (name.getText() != null && !name.getText().equals("") &&
                 username.getText() != null && !username.getText().equals("") && password.getText() != null
-                && !password.getText().equals("") && email.getText() != null && !email.getText().equals("")) {ArrayList<String> list_permission = new ArrayList<String>();
+                && email.getText() != null && !email.getText().equals("")) {
+            ArrayList<String> list_permission = new ArrayList<String>();
             socketStart();
             list_permission.add(Boolean.toString(cbCreateBillboardsPermission.isSelected()));
             list_permission.add(Boolean.toString(cbEditAllBillboardsPermission.isSelected()));
             list_permission.add(Boolean.toString(cbScheduleBillboardsPermission.isSelected()));
             list_permission.add(Boolean.toString(cbEditUsersPermission.isSelected()));
 
-            SetUserPemmRequest setUserPemmRequest = new SetUserPemmRequest(username.getText(),sessionToken, email.getText(),  list_permission);
+            SetUserPemmRequest setUserPemmRequest = new SetUserPemmRequest(username.getText(), sessionToken, email.getText(), list_permission);
             oos.writeObject(setUserPemmRequest);
             oos.flush();
             Object transoO = ois.readObject();
@@ -983,14 +1002,15 @@ public class HomeUI extends JFrame implements ActionListener {
     private void updateCurrentUserPressed() throws NoSuchAlgorithmException, IOException, ClassNotFoundException {
         if (name.getText() != null && !name.getText().equals("") &&
                 username.getText() != null && !username.getText().equals("") && password.getText() != null
-                && !password.getText().equals("") && email.getText() != null && !email.getText().equals("")) {ArrayList<String> list_permission = new ArrayList<String>();
+                && email.getText() != null && !email.getText().equals("")) {
+            ArrayList<String> list_permission = new ArrayList<String>();
             socketStart();
             list_permission.add(Boolean.toString(cbCreateBillboardsPermission.isSelected()));
             list_permission.add(Boolean.toString(cbEditAllBillboardsPermission.isSelected()));
             list_permission.add(Boolean.toString(cbScheduleBillboardsPermission.isSelected()));
             list_permission.add(Boolean.toString(cbEditUsersPermission.isSelected()));
 
-            SetUserPemmRequest setUserPemmRequest = new SetUserPemmRequest(username.getText(),sessionToken, email.getText(),  list_permission);
+            SetUserPemmRequest setUserPemmRequest = new SetUserPemmRequest(username.getText(), sessionToken, email.getText(), list_permission);
             oos.writeObject(setUserPemmRequest);
             oos.flush();
             Object transoO = ois.readObject();
@@ -1150,6 +1170,278 @@ public class HomeUI extends JFrame implements ActionListener {
         XMLContents = XMLContents + content;
     }
 
+    //    private void previewBillboardPressed(JButton btnSource)
+//    {
+//        Dimension dialogSize = new Dimension(860, 600);
+//
+//        previewBillboardDialog = new JDialog(this,"Preview Billboard");
+//        previewBillboardDialog.setSize(dialogSize);
+//        previewBillboardDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+//
+//        SimpleAttributeSet set=new SimpleAttributeSet();
+//        StyleConstants.setAlignment(set,StyleConstants.ALIGN_CENTER);
+//        StyleConstants.setFontFamily(set, "Arial");
+//
+//        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+//        previewBillboardDialog.setLocation(dim.width / 2 - 430, dim.height / 2 - 300);
+//
+//        JPanel previewPanel = new JPanel();
+//        XMLParser parser;
+//        HashMap<String,String> xmlInfo;
+//
+//        if (btnSource == btnPreviewEditedBillboard || btnSource == btnPreviewNewBillboard) {
+//            convertBillboardToXML();
+//            parser = new XMLParser(XMLContents);
+//        }
+//        else if (btnSource == btnPreviewBillboard)
+//            parser = new XMLParser(billboardData.get(billboardList.getSelectedValue()).getXMLContent());
+//        else
+//            parser = new XMLParser("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<billboard>\n<message>No Billboard Found</message>\n</billboard>");
+//
+//        xmlInfo = parser.parseXML();
+//
+//        // Layout and closing
+//        GridBagLayout layout = new GridBagLayout();
+//        previewPanel.setLayout(layout);
+//
+//        // Get and set Background
+//        String bgString = xmlInfo.getOrDefault("bgColour", "#FFFFFF");
+//        Color bgColour = HexToRGB(bgString);
+//        previewPanel.setBackground(bgColour);
+//
+//        // ## GridBag Constraints ## \\
+//        GridBagConstraints gbc = new GridBagConstraints();
+//        gbc.fill = GridBagConstraints.NONE;
+//        gbc.weighty = 1;
+//        gbc.weightx = 1;
+//
+//        // ## Utilities and Actions ## \\
+//        // Provide a way to decode and display images
+//        ImageGenerator imgGen = new ImageGenerator();
+//
+//
+//        // ## XML display ## \\
+//        // Create heading label if exists and add it to the window
+//        if (xmlInfo.containsKey("message")) {
+//            JTextPane titleText = new JTextPane();
+//            titleText.setText(xmlInfo.get("message"));
+//            titleText.setFont(new Font("Arial", Font.PLAIN, 84));
+//            titleText.setForeground(
+//                    HexToRGB(
+//                            xmlInfo.getOrDefault("messageColour", "#000000")
+//                    )
+//            );
+//            titleText.setBackground(bgColour);
+//            StyleConstants.setFontSize(set, 84);
+//
+//            titleText.setParagraphAttributes(set,true);
+//            titleText.setEditable(false);
+//
+//            gbc.gridx = 0;
+//            gbc.gridy = 0;
+//            previewPanel.add(titleText, gbc);
+//        }
+//
+//        // Create picture label if exists and add it to the window
+//        // Create picture label if exists and add it to the window
+//        if (xmlInfo.containsKey("picture")) {
+//            JLabel pictureLabel = new JLabel();
+//            String imgInfo = xmlInfo.get("picture");
+//
+//            try {
+//                BufferedImage picture = imgGen.isBase64EncodedImage(imgInfo) ? imgGen.decodeDataString(imgInfo) : imgGen.downloadImage(imgInfo);
+//
+//                int resizedWidth = picture.getWidth();
+//                int resizedHeight = picture.getHeight();
+//
+//                if (picture.getWidth() != dialogSize.width / 2) {
+//                    resizedWidth = dialogSize.width / 2;
+//                    resizedHeight = (resizedWidth * picture.getHeight()) / picture.getWidth();
+//                }
+//
+//                if (picture.getHeight() != dialogSize.height / 2) {
+//                    resizedHeight = dialogSize.height / 2;
+//                    resizedWidth = (resizedHeight * picture.getWidth()) / picture.getHeight();
+//                }
+//
+//                Image resizedImage = picture.getScaledInstance(
+//                        resizedWidth,
+//                        resizedHeight,
+//                        Image.SCALE_SMOOTH
+//                );
+//                pictureLabel.setIcon(new ImageIcon(resizedImage));
+//            } catch (IOException | BadImageFormatException e) {
+//                e.printStackTrace();
+//            }
+//
+//            gbc.gridy = 1;
+//            previewPanel.add(pictureLabel, gbc);
+//        }
+//
+//        // Create information label if exists and add it to the window
+//        if (xmlInfo.containsKey("information")) {
+//            JTextPane informationText = new JTextPane();
+//            informationText.setText(xmlInfo.get("information"));
+//            informationText.setFont(new Font("Arial", Font.PLAIN, 36));
+//            informationText.setForeground(
+//                    HexToRGB(
+//                            xmlInfo.getOrDefault("informationColour", "#000000")
+//                    )
+//            );
+//            informationText.setBackground(bgColour);
+//            StyleConstants.setFontSize(set, 36);
+//
+//            informationText.setParagraphAttributes(set, true);
+//            informationText.setEditable(false);
+//
+//            gbc.gridy = 2;
+//            previewPanel.add(informationText, gbc);
+//        }
+//
+//        previewBillboardDialog.add(previewPanel);
+//        previewBillboardDialog.setVisible(true);
+//    }
+    private void previewBillboardPressed(JButton btnSource) throws IOException, ClassNotFoundException {
+        Dimension dialogSize = new Dimension(860, 600);
+
+        previewBillboardDialog = new JDialog(this, "Preview Billboard");
+        previewBillboardDialog.setSize(dialogSize);
+        previewBillboardDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        SimpleAttributeSet set = new SimpleAttributeSet();
+        StyleConstants.setAlignment(set, StyleConstants.ALIGN_CENTER);
+        StyleConstants.setFontFamily(set, "Arial");
+
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        previewBillboardDialog.setLocation(dim.width / 2 - 430, dim.height / 2 - 300);
+
+        JPanel previewPanel = new JPanel();
+        XMLParser parser;
+        HashMap<String, String> xmlInfo;
+
+        if (btnSource == btnPreviewEditedBillboard || btnSource == btnPreviewNewBillboard) {
+            convertBillboardToXML();
+            System.out.println(XMLContents);
+            parser = new XMLParser(XMLContents);
+        } else if (btnSource == btnPreviewBillboard) {
+            socketStart();
+            BillboardRequest billboardRequest = new BillboardRequest((String) billboardList.getSelectedValue(), sessionToken);
+            oos.writeObject(billboardRequest);
+            oos.flush();
+            String billContent = null;
+            Object trans = ois.readObject();
+            if (trans instanceof BillboardReply) {
+                BillboardReply reply = (BillboardReply) trans;
+                billContent = reply.getXmlcontent();
+            }
+            parser = new XMLParser(billContent);
+        } else
+            parser = new XMLParser("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<billboard>\n<message>No Billboard Found</message>\n</billboard>");
+
+        xmlInfo = parser.parseXML();
+
+        // Layout and closing
+        GridBagLayout layout = new GridBagLayout();
+        previewPanel.setLayout(layout);
+
+        // Get and set Background
+        String bgString = xmlInfo.getOrDefault("bgColour", "#FFFFFF");
+        Color bgColour = HexToRGB(bgString);
+        previewPanel.setBackground(bgColour);
+
+        // ## GridBag Constraints ## \\
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.fill = GridBagConstraints.NONE;
+        gbc.weighty = 1;
+        gbc.weightx = 1;
+
+        // ## Utilities and Actions ## \\
+        // Provide a way to decode and display images
+        ImageGenerator imgGen = new ImageGenerator();
+
+
+        // ## XML display ## \\
+        // Create heading label if exists and add it to the window
+        if (xmlInfo.containsKey("message")) {
+            JTextPane titleText = new JTextPane();
+            titleText.setText(xmlInfo.get("message"));
+            titleText.setFont(new Font("Arial", Font.PLAIN, 84));
+            titleText.setForeground(
+                    HexToRGB(
+                            xmlInfo.getOrDefault("messageColour", "#000000")
+                    )
+            );
+            titleText.setBackground(bgColour);
+            StyleConstants.setFontSize(set, 84);
+
+            titleText.setParagraphAttributes(set, true);
+            titleText.setEditable(false);
+
+            gbc.gridx = 0;
+            gbc.gridy = 0;
+            previewPanel.add(titleText, gbc);
+        }
+
+        // Create picture label if exists and add it to the window
+        // Create picture label if exists and add it to the window
+        if (xmlInfo.containsKey("picture")) {
+            JLabel pictureLabel = new JLabel();
+            String imgInfo = xmlInfo.get("picture");
+
+            try {
+                BufferedImage picture = imgGen.isBase64EncodedImage(imgInfo) ? imgGen.decodeDataString(imgInfo) : imgGen.downloadImage(imgInfo);
+
+                int resizedWidth = picture.getWidth();
+                int resizedHeight = picture.getHeight();
+
+                if (picture.getWidth() != dialogSize.width / 2) {
+                    resizedWidth = dialogSize.width / 2;
+                    resizedHeight = (resizedWidth * picture.getHeight()) / picture.getWidth();
+                }
+
+                if (picture.getHeight() != dialogSize.height / 2) {
+                    resizedHeight = dialogSize.height / 2;
+                    resizedWidth = (resizedHeight * picture.getWidth()) / picture.getHeight();
+                }
+
+                Image resizedImage = picture.getScaledInstance(
+                        resizedWidth,
+                        resizedHeight,
+                        Image.SCALE_SMOOTH
+                );
+                pictureLabel.setIcon(new ImageIcon(resizedImage));
+            } catch (IOException | BadImageFormatException e) {
+                e.printStackTrace();
+            }
+
+            gbc.gridy = 1;
+            previewPanel.add(pictureLabel, gbc);
+        }
+
+        // Create information label if exists and add it to the window
+        if (xmlInfo.containsKey("information")) {
+            JTextPane informationText = new JTextPane();
+            informationText.setText(xmlInfo.get("information"));
+            informationText.setFont(new Font("Arial", Font.PLAIN, 36));
+            informationText.setForeground(
+                    HexToRGB(
+                            xmlInfo.getOrDefault("informationColour", "#000000")
+                    )
+            );
+            informationText.setBackground(bgColour);
+            StyleConstants.setFontSize(set, 36);
+
+            informationText.setParagraphAttributes(set, true);
+            informationText.setEditable(false);
+
+            gbc.gridy = 2;
+            previewPanel.add(informationText, gbc);
+        }
+
+        previewBillboardDialog.add(previewPanel);
+        previewBillboardDialog.setVisible(true);
+    }
+
     private void logout() throws IOException, ClassNotFoundException {
         socketStart();
         LogoutUsersRequest logoutUsersRequest = new LogoutUsersRequest(sessionToken);
@@ -1167,115 +1459,6 @@ public class HomeUI extends JFrame implements ActionListener {
         GUI.setVisible(true);
 
     }
-
-    // WAIT FOR THE GRID BAG LAYOUT
-//    private void previewBillboardPressed(JButton btnSource)
-//    {
-//        previewBillboardDialog = new JDialog(this,"Preview Billboard");
-//        previewBillboardDialog.setSize(new Dimension(860, 600));
-//        previewBillboardDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-//
-//        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-//        previewBillboardDialog.setLocation(dim.width / 2 - 860, dim.height / 2 - 300);
-//
-//        JPanel previewPanel = new JPanel();
-//        XMLParser parser;
-//        HashMap<String,String> xmlInfo;
-//
-//        if (btnSource == btnPreviewEditedBillboard || btnSource == btnPreviewNewBillboard) {
-//            convertBillboardToXML();
-//            System.out.println(XMLContents);
-//            parser = new XMLParser(XMLContents);
-//        }
-//        else if (btnSource == btnPreviewBillboard)
-//            parser = new XMLParser(billboardData.get(billboardList.getSelectedValue()).getXMLContent());
-//        else
-//            parser = new XMLParser("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<billboard>\n<message>No Billboard Found</message>\n</billboard>");
-//
-//        xmlInfo = parser.parseXML();
-//
-//        // Layout and closing
-//        BorderLayout layout = new BorderLayout();
-//        previewPanel.setLayout(layout);
-//
-//        // Get and set Background
-//        String bgString = xmlInfo.getOrDefault("bgColour", "#FFFFFF");
-//        Color bgColour = HexToRGB(bgString);
-//        previewPanel.setBackground(bgColour);
-//
-//        // ## Utilities and Actions ## \\
-//        // Provide a way to decode and display images
-//        ImageGenerator imgGen = new ImageGenerator();
-//
-//
-//        // ## XML display ## \\
-//        // Create heading label if exists and add it to the window
-//        if (xmlInfo.containsKey("message")) {
-//            JTextArea titleText = new JTextArea();
-//            String[] messageStringArr = xmlInfo.get("message").split("%%%%");
-//            titleText.setText(messageStringArr[0]);
-//            titleText.setFont(new Font("Arial", Font.PLAIN, 84));
-//            titleText.setForeground(
-//                    HexToRGB(
-//                            messageStringArr.length != 1 ?
-//                                    (!messageStringArr[messageStringArr.length - 1].equals("") ?
-//                                            messageStringArr[messageStringArr.length - 1] : "#000000")
-//                                    : "#000000"
-//                    )
-//            );
-//            titleText.setBackground(bgColour);
-//
-//            titleText.setEditable(false);
-//            titleText.setLineWrap(true);
-//            titleText.setWrapStyleWord(true);
-//            titleText.setRows(3);
-//            titleText.setColumns(25);
-//
-//            previewPanel.add(titleText, BorderLayout.NORTH);
-//        }
-//
-//        // Create picture label if exists and add it to the window
-//        if (xmlInfo.containsKey("picture")) {
-//            JLabel pictureLabel = new JLabel();
-//            String imgInfo = xmlInfo.get("picture");
-//            try {
-//                pictureLabel.setIcon(new ImageIcon(imgGen.isBase64EncodedImage(imgInfo) ? imgGen.decodeDataString(imgInfo) : imgGen.downloadImage(imgInfo)));
-//            } catch (IOException | BadImageFormatException e) {
-//                e.printStackTrace();
-//            }
-//
-//            previewPanel.add(pictureLabel, BorderLayout.CENTER);
-//        }
-//
-//        // Create information label if exists and add it to the window
-//        if (xmlInfo.containsKey("information")) {
-//            JTextArea informationText = new JTextArea();
-//            String[] infoStringArr = xmlInfo.get("information").split("%%%%");
-//            informationText.setText(infoStringArr[0]);
-//            informationText.setFont(new Font("Arial", Font.PLAIN, 36));
-//            informationText.setForeground(
-//                    HexToRGB(infoStringArr.length > 1
-//                                    ? (
-//                                    !infoStringArr[infoStringArr.length - 1].equals("")
-//                                            ? infoStringArr[infoStringArr.length - 1]
-//                                            : "#000000"
-//                            )
-//                                    : "#000000"
-//                    )
-//            );
-//            informationText.setBackground(bgColour);
-//
-//            informationText.setEditable(false);
-//            informationText.setLineWrap(true);
-//            informationText.setWrapStyleWord(true);
-//            informationText.setColumns(55);
-//
-//            previewPanel.add(informationText, BorderLayout.SOUTH);
-//        }
-//
-//        previewBillboardDialog.add(previewPanel);
-//        previewBillboardDialog.setVisible(true);
-//    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -1405,6 +1588,14 @@ public class HomeUI extends JFrame implements ActionListener {
             try {
                 logout();
             } catch (IOException | ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
+        } else if (btnSource == btnPreviewBillboard || btnSource == btnPreviewEditedBillboard || btnSource == btnPreviewNewBillboard) {
+            try {
+                previewBillboardPressed(btnSource);
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         }

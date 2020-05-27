@@ -27,21 +27,27 @@ public class billboardServer {
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchAlgorithmException {
         ServerSocket serverSocket = new ServerSocket(12345);
-        Map<String,String> tokens = null;
         UserData data = new UserData();
-        String passwords = "daafda";
-        String hashedsalt = getHashedPass(passwords);
+        String rootpassword = "root";
+        String hashedroot = getHashedPass(rootpassword);
         String firstsalt = getSaltString();
-        String hasedsaltpass = getSaltHashedPass(hashedsalt, firstsalt);
-
-        UserInfo firstUser = new UserInfo("suzan", "suzan", hasedsaltpass, firstsalt, "susan@gmail.com" ,"true",
+        String hasedsaltpassroot = getSaltHashedPass(hashedroot, firstsalt);
+        UserInfo rootUser = new UserInfo("admin", "root", hasedsaltpassroot, firstsalt, "root@gmail.com", "true",
                 "true", "true", "true");
-        data.add(firstUser);
+        data.add(rootUser);
+
+        String passwords = "daafda";
+        String hashedsuzan = getHashedPass(passwords);
+        String secondsalt = getSaltString();
+        String hasedsaltpasssuzan = getSaltHashedPass(hashedsuzan, secondsalt);
+        UserInfo suzanUser = new UserInfo("suzan", "suzan", hasedsaltpasssuzan, secondsalt, "susan@gmail.com", "true",
+                "true", "true", "true");
+        data.add(suzanUser);
 
         BillboardData billboardData = new BillboardData();
         ScheduleData scheduleData = new ScheduleData();
 
-        for (;;) {
+        for (; ; ) {
             Socket socket = serverSocket.accept();
             System.out.println("Connected to " + socket.getInetAddress());
 
@@ -119,7 +125,7 @@ public class billboardServer {
                 if (isValidSessionToken(sessionToken)){
                     String billname = br.getBillboardname();
                     BillboardInfo new_b = billboardData.get(billname);
-                    BillboardReply billboardReply = new BillboardReply(new_b.getXMLContent());
+                    BillboardReply billboardReply = new BillboardReply(new_b.getXMLContent(), new_b.getCreator());
                     oos.writeObject(billboardReply);
                     oos.flush();
                 }else{
@@ -445,30 +451,38 @@ public class billboardServer {
                 }
             }
             else if(o instanceof SetPassRequest){
-                SetPassRequest spr =(SetPassRequest) o;
-                String hashedPassword = spr.getHashedPassword();
+                SetPassRequest spr = (SetPassRequest) o;
+                String hashedstar = getHashedPass("******");
                 String results = null;
                 UserInfo editU = data.get(spr.getUsername());
                 UserInfo currentLoginU = data.get(getSessionUsername(spr.getSessionToken()));
 
-                if (editU.getUsername().equals(getSessionUsername(spr.getSessionToken()))){
-                    String salt = getSaltString();
-                    String hashsaltPaass = getSaltHashedPass(spr.getHashedPassword(),salt);
-                    data.edit(spr.getName(),spr.getUsername(),hashsaltPaass,salt,spr.getEmail(),spr.getPreviousUserName(),editU.getCreateBillboards(),
-                            editU.getEditAllBillboards(), editU.getScheduleBillboards(),editU.getEditUsers());
-                    results = "Succeed to change own name, password and/or email";
+                if (editU.getUsername().equals(getSessionUsername(spr.getSessionToken()))) {
+                    if (spr.getHashedPassword().equals(hashedstar)) {
+                        data.edit(spr.getName(), spr.getUsername(), editU.getPasswords(), editU.getSalt(), spr.getEmail(), spr.getPreviousUserName(), editU.getCreateBillboards(),
+                                editU.getEditAllBillboards(), editU.getScheduleBillboards(), editU.getEditUsers());
+                        results = "Succeed to change own name and/or email";
+                    } else {
+                        String salt = getSaltString();
+                        String hashsaltPaass = getSaltHashedPass(spr.getHashedPassword(), salt);
+                        data.edit(spr.getName(), spr.getUsername(), hashsaltPaass, salt, spr.getEmail(), spr.getPreviousUserName(), editU.getCreateBillboards(),
+                                editU.getEditAllBillboards(), editU.getScheduleBillboards(), editU.getEditUsers());
+                        results = "Succeed to change own name, password and/or email";
+                    }
                 }
                 else{
-                    if (currentLoginU.getEditUsers().equals("true")){
-                        String salt = getSaltString();
-                        String hashsaltPaass = getSaltHashedPass(spr.getHashedPassword(),salt);
-                        data.edit(spr.getName(),spr.getUsername(),hashsaltPaass,salt,spr.getEmail(),spr.getPreviousUserName(),editU.getCreateBillboards(),
-                                editU.getEditAllBillboards(), editU.getScheduleBillboards(),editU.getEditUsers());
-                        results = "Succeed to change other's name, password and/or email";
-                        System.out.println(editU.getCreateBillboards());
-                        System.out.println(editU.getEditAllBillboards());
-                        System.out.println(editU.getScheduleBillboards());
-                        System.out.println(editU.getEditUsers());
+                    if (currentLoginU.getEditUsers().equals("true")) {
+                        if (spr.getHashedPassword().equals(hashedstar)) {
+                            data.edit(spr.getName(), spr.getUsername(), editU.getPasswords(), editU.getSalt(), spr.getEmail(), spr.getPreviousUserName(), editU.getCreateBillboards(),
+                                    editU.getEditAllBillboards(), editU.getScheduleBillboards(), editU.getEditUsers());
+                            results = "Succeed to change own name and/or email";
+                        } else {
+                            String salt = getSaltString();
+                            String hashsaltPaass = getSaltHashedPass(spr.getHashedPassword(), salt);
+                            data.edit(spr.getName(), spr.getUsername(), hashsaltPaass, salt, spr.getEmail(), spr.getPreviousUserName(), editU.getCreateBillboards(),
+                                    editU.getEditAllBillboards(), editU.getScheduleBillboards(), editU.getEditUsers());
+                            results = "Succeed to change own name, password and/or email";
+                        }
                     }
                     else {
                         results = "failed to change  name, password and/or email";
@@ -546,8 +560,7 @@ public class billboardServer {
         return token_str;
     }
     private static boolean loginSuccess(String dbpassword, String password){
-        if (password.equals(dbpassword)) return true;
-        return false;
+        return password.equals(dbpassword);
     }
     // get idea from week 9 assignment Q & A
     private static String getSaltString() {

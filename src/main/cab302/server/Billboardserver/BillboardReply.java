@@ -3,14 +3,21 @@ package cab302.server.Billboardserver;
 import java.io.Serializable;
 
 public class BillboardReply implements Serializable {
-    private  String billboard;
+    private String xmlcontent;
+    private String creator;
 
 
-    public BillboardReply(String billboard){
-        this.billboard = billboard;
+    public BillboardReply(String xmlContent, String creator) {
+        this.xmlcontent = xmlContent;
+        this.creator = creator;
     }
-    public String getbillboard(){
-        return billboard;
+
+    public String getXmlcontent() {
+        return xmlcontent;
+    }
+
+    public String getCreator() {
+        return creator;
     }
 
 }

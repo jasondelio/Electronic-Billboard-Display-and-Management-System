@@ -33,18 +33,4 @@ public class Run {
             }
         });
     }
-
-//    public void socketStart() throws IOException{
-//        socket = new Socket("localhost",12345);
-//        outputStream = socket.getOutputStream();
-//        inputStream = socket.getInputStream();
-//        oos = new ObjectOutputStream(outputStream);
-//        ois = new ObjectInputStream(inputStream);
-//    }
-//
-//    public void socketStop() throws IOException{
-//        ois.close();
-//        oos.close();
-//        socket.close();
-//    }
 }
