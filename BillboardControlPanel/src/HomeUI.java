@@ -888,29 +888,6 @@ public class HomeUI extends JFrame implements ActionListener {
         }
 
         // Create picture label if exists and add it to the window
-        if (xmlInfo.containsKey("picture")) {
-            JLabel pictureLabel = new JLabel();
-            String imgInfo = xmlInfo.get("picture");
-            try {
-                BufferedImage picture = imgGen.isBase64EncodedImage(imgInfo) ? imgGen.decodeDataString(imgInfo) : imgGen.downloadImage(imgInfo);
-                Image resizedImage = picture.getScaledInstance(
-                        picture.getWidth() > dialogSize.width
-                                ? dialogSize.width
-                                : picture.getWidth(),
-                        picture.getHeight() > dialogSize.height / 3
-                                ? dialogSize.height / 3
-                                : picture.getHeight(),
-                        Image.SCALE_SMOOTH
-                );
-                pictureLabel.setIcon(new ImageIcon(resizedImage));
-            } catch (IOException | BadImageFormatException e) {
-                e.printStackTrace();
-            }
-
-            gbc.gridy = 1;
-            previewPanel.add(pictureLabel, gbc);
-        }
-
         // Create picture label if exists and add it to the window
         if (xmlInfo.containsKey("picture")) {
             JLabel pictureLabel = new JLabel();
@@ -944,6 +921,26 @@ public class HomeUI extends JFrame implements ActionListener {
 
             gbc.gridy = 1;
             previewPanel.add(pictureLabel, gbc);
+        }
+
+        // Create information label if exists and add it to the window
+        if (xmlInfo.containsKey("information")) {
+            JTextPane informationText = new JTextPane();
+            informationText.setText(xmlInfo.get("information"));
+            informationText.setFont(new Font("Arial", Font.PLAIN, 36));
+            informationText.setForeground(
+                    HexToRGB(
+                            xmlInfo.get("informationColour")
+                    )
+            );
+            informationText.setBackground(bgColour);
+            StyleConstants.setFontSize(set, 36);
+
+            informationText.setParagraphAttributes(set, true);
+            informationText.setEditable(false);
+
+            gbc.gridy = 2;
+            previewPanel.add(informationText, gbc);
         }
 
         previewBillboardDialog.add(previewPanel);
@@ -1035,4 +1032,3 @@ public class HomeUI extends JFrame implements ActionListener {
 
     }
 }
-
