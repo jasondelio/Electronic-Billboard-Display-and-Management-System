@@ -24,6 +24,7 @@ public class billboardServer {
     private static String validSessionToken = null;
     public static HashMap<String, String> validSessionTokens = new HashMap<>();
 
+
     public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchAlgorithmException {
         ServerSocket serverSocket = new ServerSocket(12345);
         Map<String,String> tokens = null;
@@ -61,6 +62,7 @@ public class billboardServer {
                 ArrayList<String> permissions = new ArrayList<>();
                 // if the password with salting and hashing is same as stored password, return login succeed.
                 if (loginSuccess(saltHashedPass,getSaltHashedPass(loginrequest.getPassword(),salt))){
+                    Date LogedInDate = new Date();
                     String token = getSessionTokenString();
                     permissions.add(u.getCreateBillboards());
                     permissions.add(u.getEditAllBillboards());
@@ -68,8 +70,44 @@ public class billboardServer {
                     permissions.add(u.getEditUsers());
                     reply = new LoginReply(true,token, permissions, loggedinUsername);
                     validSessionTokens.put(token, loginrequest.getUsername());
+                    System.out.println(validSessionTokens);
                 }else {
                     reply = new LoginReply(false,null, null,null);
+                }
+                oos.writeObject(reply);
+                oos.flush();
+            }else if (o instanceof UserLoggedInrequest){
+                UserLoggedInrequest userLoggedInrequest = (UserLoggedInrequest) o;
+                System.out.printf("User try to check if sessiontoken is exist or not ");
+                String sessionToken = userLoggedInrequest.getSessionToken();
+                //get salt and stored password from database
+                AlreadyLoginReply reply;
+                ArrayList<String> permissions = new ArrayList<>();
+                // if the password with salting and hashing is same as stored password, return login succeed.
+                if (isValidSessionToken(sessionToken)){
+                    String loggedinUsername = getSessionUsername(sessionToken);
+                    UserInfo newu = data.get(loggedinUsername);
+                    permissions.add(newu.getCreateBillboards());
+                    permissions.add(newu.getEditAllBillboards());
+                    permissions.add(newu.getScheduleBillboards());
+                    permissions.add(newu.getEditUsers());
+                    reply = new AlreadyLoginReply(true,sessionToken, permissions, loggedinUsername);
+                }else {
+                    reply = new AlreadyLoginReply(false,null, null,null);
+                }
+                oos.writeObject(reply);
+                oos.flush();
+            }else if (o instanceof sessionExistRequest){
+                sessionExistRequest ser = (sessionExistRequest) o;
+                System.out.printf("User try to get session token");
+                sessionExistReply reply;
+                System.out.println(validSessionTokens.keySet());
+                // if the password with salting and hashing is same as stored password, return login succeed.
+                if (validSessionTokens.keySet().isEmpty()){
+                    reply = new sessionExistReply(false,null);
+                }else {
+                    ArrayList<String> stringList = new ArrayList<String>(validSessionTokens.keySet());
+                    reply = new sessionExistReply(true,stringList);
                 }
                 oos.writeObject(reply);
                 oos.flush();

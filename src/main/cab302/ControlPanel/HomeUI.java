@@ -22,6 +22,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Base64;
+import java.util.Date;
 
 public class HomeUI extends JFrame implements ActionListener {
     public static final int WIDTH = 600;
@@ -92,21 +93,29 @@ public class HomeUI extends JFrame implements ActionListener {
     Socket socket;
     String sessionToken;
     String currentUsername;
+    Date loggedinTime;
     ArrayList<String> permissionsList;
     OutputStream outputStream;
     InputStream inputStream;
     ObjectOutputStream oos;
     ObjectInputStream ois;
 
-    public HomeUI(String sessiontoken, ArrayList<String> perm_lists, String loggedInuser, int currentTab) throws IOException, ClassNotFoundException {
+    public HomeUI(String sessiontoken, ArrayList<String> perm_lists, String loggedInuser, Date date, int currentTab) throws IOException, ClassNotFoundException {
         super("Billboard Control Panel");
         sessionToken = sessiontoken;
         permissionsList = perm_lists;
         currentUsername = loggedInuser;
+        loggedinTime = date;
         setLayout(new BorderLayout());
         setSize(WIDTH, HEIGHT);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(dim.width / 2 - WIDTH / 2, dim.height / 2 - HEIGHT / 2);
+        Date currentdate = new Date();
+        long diff = currentdate.getTime() - loggedinTime.getTime();
+        long diffHours = diff/(60 * 60 * 1000);
+        if (diffHours >= 24){
+            logout();
+        }
 
         pane = new JTabbedPane();
 
@@ -663,7 +672,7 @@ public class HomeUI extends JFrame implements ActionListener {
         }
         XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         dispose();
-        HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername,pane.getSelectedIndex());
+        HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername, loggedinTime,pane.getSelectedIndex());
         GUI.setVisible(true);
     }
     private void deleteBillboardPressed() throws IOException, ClassNotFoundException {
@@ -678,7 +687,7 @@ public class HomeUI extends JFrame implements ActionListener {
         }
         socketStop();
         dispose();
-        HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername,pane.getSelectedIndex());
+        HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername,loggedinTime,pane.getSelectedIndex());
         GUI.setVisible(true);
     }
     public void exportBillboardPressed()
@@ -860,7 +869,7 @@ public class HomeUI extends JFrame implements ActionListener {
             AcknowledgeReply lurlist = (AcknowledgeReply) transoO;
             System.out.println(lurlist.getAcknowledgement());
             dispose();
-            HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername,pane.getSelectedIndex());
+            HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername, loggedinTime, pane.getSelectedIndex());
             GUI.setVisible(true);
         }
         socketStop();
@@ -895,7 +904,7 @@ public class HomeUI extends JFrame implements ActionListener {
                 AcknowledgeReply lurlist = (AcknowledgeReply) transoO;
                 System.out.println(lurlist.getAcknowledgement());
                 dispose();
-                HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername,pane.getSelectedIndex());
+                HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername, loggedinTime, pane.getSelectedIndex());
                 GUI.setVisible(true);
             }
             socketStop();
@@ -960,7 +969,7 @@ public class HomeUI extends JFrame implements ActionListener {
 //                permissionsList = lurlist.getListPermissions();
 //                disableFeatureBasedOnPermissions();
                 dispose();
-                HomeUI GUI = new HomeUI(sessionToken, lurlist.getListPermissions(), currentUsername, pane.getSelectedIndex());
+                HomeUI GUI = new HomeUI(sessionToken, lurlist.getListPermissions(), currentUsername, loggedinTime, pane.getSelectedIndex());
                 GUI.setVisible(true);
             }
             socketStop();
@@ -1019,7 +1028,7 @@ public class HomeUI extends JFrame implements ActionListener {
                 System.out.println(lurlist.getListPermissions());
 
                 dispose();
-                HomeUI GUI = new HomeUI(sessionToken, lurlist.getListPermissions(), currentUsername, pane.getSelectedIndex());
+                HomeUI GUI = new HomeUI(sessionToken, lurlist.getListPermissions(), currentUsername,loggedinTime, pane.getSelectedIndex());
                 GUI.setVisible(true);
             }
             socketStop();
@@ -1080,7 +1089,7 @@ public class HomeUI extends JFrame implements ActionListener {
         importBillboardDialog.dispose();
         XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         dispose();
-        HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername,pane.getSelectedIndex());
+        HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername, loggedinTime, pane.getSelectedIndex());
         GUI.setVisible(true);
     }
     private void saveEditedBillboardPressed() throws IOException, ClassNotFoundException {

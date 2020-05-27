@@ -1,8 +1,12 @@
 package cab302.ControlPanel;
 
 import cab302.database.user.UserData;
+import cab302.server.Billboardserver.AlreadyLoginReply;
 import cab302.server.Billboardserver.LoginReply;
+import cab302.server.Billboardserver.sessionExistReply;
 import cab302.server.WillBeControlPanelAction.Loginrequest;
+import cab302.server.WillBeControlPanelAction.UserLoggedInrequest;
+import cab302.server.WillBeControlPanelAction.sessionExistRequest;
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,6 +19,8 @@ import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 
 public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
     public static final int WIDTH = 350;
@@ -25,54 +31,104 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
     private JTextField username;
     private JPasswordField password;
 
+    HashMap<Date, String> SessionTokensTimers = new HashMap<>();
     UserData data;
     Socket socket;
     OutputStream outputStream;
     InputStream inputStream;
     ObjectOutputStream oos;
     ObjectInputStream ois;
+    String sessionToken;
+    Date loggedinTime;
+    boolean alreadylogin;
+    public UserLoginUI() throws IOException, ClassNotFoundException {
+//        this.setTitle("User Login");
+//        setSize(WIDTH, HEIGHT);
+//        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+//        setLocation(dim.width / 2 - WIDTH / 2, dim.height / 2 - HEIGHT / 2);
+//        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+//        setLayout(new BorderLayout());
+//        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-    public UserLoginUI() throws IOException {
-        super("Login Page");
-        setSize(WIDTH, HEIGHT);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        setLocation(dim.width / 2 - WIDTH / 2, dim.height / 2 - HEIGHT / 2);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
+        socketStart();
+        sessionExistRequest ser = new sessionExistRequest("get session token");
+        oos.writeObject(ser);
+        oos.flush();
+        Object trans = ois.readObject();
+        if (trans instanceof sessionExistReply) {
+            sessionExistReply reply = (sessionExistReply) trans;
+            alreadylogin = reply.isLoginAlready();
+            System.out.println(alreadylogin);
+            if (alreadylogin == true){
+                sessionToken = reply.getSessiontokens().get(0);
+            }
 
-        JPanel panel = new JPanel(new GridBagLayout());
-        panel.setBackground(Color.GRAY);
-        this.add(panel, BorderLayout.CENTER);
+        }
+        socketStop();
+        if (alreadylogin == true){
+            socketStart();
+            UserLoggedInrequest userLoggedInrequest = new UserLoggedInrequest(sessionToken);
+            oos.writeObject(userLoggedInrequest);
+            oos.flush();
+            loggedinTime = new Date();
+            Object transoO = ois.readObject();
+            if (transoO instanceof AlreadyLoginReply) {
+                AlreadyLoginReply reply = (AlreadyLoginReply) transoO;
+                ArrayList<String > permlists = reply.getPermissionsList();
+                String loggedinuser = reply.getLoggedInUsername();
 
-        JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        btnPanel.setBackground(Color.GRAY);
-        this.add(btnPanel, BorderLayout.SOUTH);
+                HomeUI GUI = new HomeUI(sessionToken,permlists,loggedinuser, loggedinTime,0);
+                GUI.setVisible(true);
+                socketStop();
+                dispose();
+                setVisible(false);
+                setUndecorated(true);
+            }
+        }else{
 
-        btnLogin = new JButton();
-        btnLogin.setText("Login");
-        btnLogin.addActionListener(this);
+            this.setTitle("User Login");
+            setSize(WIDTH, HEIGHT);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            setLocation(dim.width / 2 - WIDTH / 2, dim.height / 2 - HEIGHT / 2);
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            setLayout(new BorderLayout());
+            JPanel panel = new JPanel(new GridBagLayout());
+            panel.setBackground(Color.GRAY);
+            this.add(panel, BorderLayout.CENTER);
 
-        btnCancel = new JButton();
-        btnCancel.setText("Cancel");
-        btnCancel.addActionListener(this);
+            JPanel btnPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+            btnPanel.setBackground(Color.GRAY);
+            this.add(btnPanel, BorderLayout.SOUTH);
 
-        JLabel lblUsername = new JLabel("Username   :");
-        JLabel lblPassword = new JLabel("Password   :");
+            btnLogin = new JButton();
+            btnLogin.setText("Login");
+            btnLogin.addActionListener(this);
 
-        username = new JTextField(15);
-        username.addKeyListener(this);
+            btnCancel = new JButton();
+            btnCancel.setText("Cancel");
+            btnCancel.addActionListener(this);
 
-        password  = new JPasswordField(15);
-        password.addKeyListener(this);
+            JLabel lblUsername = new JLabel("Username   :");
+            JLabel lblPassword = new JLabel("Password   :");
 
-        addToPanel(panel, lblUsername, 0,0,2,1);
-        addToPanel(panel, username, 10, 0,2,1);
-        addToPanel(panel, lblPassword, 0,1,2,1);
-        addToPanel(panel,password,10,1,2,1);
-        btnPanel.add(btnLogin);
-        btnPanel.add(btnCancel);
+            username = new JTextField(15);
+            username.addKeyListener(this);
 
-        setVisible(true);
+            password  = new JPasswordField(15);
+            password.addKeyListener(this);
+
+
+
+
+            addToPanel(panel, lblUsername, 0,0,2,1);
+            addToPanel(panel, username, 10, 0,2,1);
+            addToPanel(panel, lblPassword, 0,1,2,1);
+            addToPanel(panel,password,10,1,2,1);
+            btnPanel.add(btnLogin);
+            btnPanel.add(btnCancel);
+            setVisible(true);
+        }
+
     }
 
     private void addToPanel(JPanel jp,Component c,int x, int y, int w, int h) {
@@ -116,12 +172,10 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
         String hashePass = getHashedPass(password1);
 
         Loginrequest loginrequest = new Loginrequest(username,hashePass);
-
         oos.writeObject(loginrequest);
         oos.flush();
 
         Object transoO = ois.readObject();
-        String sessionToken = null;
         ArrayList<String> permlists = new ArrayList<String>();
         String loggedinuser = null;
         if (transoO instanceof LoginReply) {
@@ -129,12 +183,13 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
             if (reply.isLoginSucceed()) {
                 sessionToken = reply.getSessionToken();
                 loggedinuser = reply.getLoggedInUsername();
+                loggedinTime = new Date();
+                SessionTokensTimers.put(loggedinTime,sessionToken);
                 System.out.println("Success to log in, recieve the token " + sessionToken);
                 permlists = reply.getPermissionsList();
                 System.out.println(permlists);
-                HomeUI GUI = new HomeUI(sessionToken,permlists,loggedinuser,0);
+                HomeUI GUI = new HomeUI(sessionToken,permlists,loggedinuser, loggedinTime,0);
                 GUI.setVisible(true);
-
                 socketStop();
                 dispose();
 
