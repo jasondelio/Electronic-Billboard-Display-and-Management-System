@@ -1,36 +1,55 @@
 package cab302.viewer.util;
 
+import cab302.database.billboard.BillboardInfo;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import java.io.File;
 import java.io.IOException;
+import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Objects;
 
 public class XMLParser {
 
-    private File documentToParse;
+    private BillboardInfo billboard;
+    private String billboardStr;
 
-    public XMLParser(String documentToParse)
+    public XMLParser(BillboardInfo b)
     {
-        this.documentToParse = new File(documentToParse);
+        this.billboard = b;
+    }
+    public XMLParser(String billboardStr) {
+        this.billboardStr = billboardStr;
     }
 
     public HashMap<String, String> parseXML() {
 
         HashMap<String, String> XMLDataMap = new HashMap<>();
 
+        String xmlContent;
+        if (this.billboard != null)
+            xmlContent = this.billboard.getXMLContent();
+        else
+            xmlContent = Objects.requireNonNullElse(
+                this.billboardStr,
+                    "<?xml version=\"1.0\"encoding=\"UTF-8\"?>\n<billboard>\n<message>No Billboard Found</message>\n</billboard>"
+            );
+
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
 
-            Document document = builder.parse(documentToParse);
+            InputSource is = new InputSource();
+            is.setCharacterStream(new StringReader(xmlContent));
+
+            Document document = builder.parse(is);
+            document.getDocumentElement().normalize();
 
             NodeList nodeList = document.getDocumentElement().getChildNodes();
 
@@ -48,10 +67,16 @@ public class XMLParser {
                         XMLDataMap.put(
                                 node.getNodeName(),
                                 node.getTextContent().replaceAll("\n", "")
-                                        .replaceAll(
-                                                "\\s\\s+",
-                                                "")
-                                        + (node.hasAttributes() ? "%%%%" + node.getAttributes().getNamedItem("colour").getTextContent() : ""));
+                                        .replaceAll("\\s\\s+", "")
+                        );
+                        if (node.hasAttributes()) {
+                            XMLDataMap.put(
+                                    node.getNodeName() + "Colour",
+                                    node.getAttributes().getNamedItem("colour").getTextContent()
+                            );
+                        } else {
+                            XMLDataMap.put(node.getNodeName() + "Colour", "#000000");
+                        }
                     } else {
                         if (node.getAttributes().getNamedItem("url") != null)
                             XMLDataMap.put(node.getNodeName(), node.getAttributes().getNamedItem("url").getNodeValue());
