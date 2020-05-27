@@ -929,7 +929,7 @@ public class HomeUI extends JFrame implements ActionListener {
 
                 if (picture.getHeight() > dialogSize.height / 2) {
                     resizedHeight = dialogSize.height / 2;
-                    resizedHeight = (resizedHeight * picture.getWidth()) / picture.getHeight();
+                    resizedWidth = (resizedHeight * picture.getWidth()) / picture.getHeight();
                 }
 
                 Image resizedImage = picture.getScaledInstance(
