@@ -12,7 +12,7 @@ import java.util.TreeSet;
 
 
 /**
- * Class for retrieving data from the XML file holding the address list.
+ * Class for retrieving data from users table in database.
  */
 public class UserDataSource implements UserSources {
 
@@ -48,16 +48,6 @@ public class UserDataSource implements UserSources {
     private static final String COUNT_ROWS = "SELECT COUNT(*) FROM users";
 
     private static final String GET_VALID = "SELECT * FROM users WHERE username=? AND passwords =?";
-
-    private static final String GET_PERMISSION = "SELECT ? from users WHERE username=?";
-
-    private static final String GET_CREATE_BILLBOARDS_PERMISSION = "SELECT createBillboards from users WHERE username=?";
-
-    private static final String GET_EDIT_ALL_BILLBOARDS_PERMISSION = "SELECT editAllBillboards from users WHERE username=?";
-
-    private static final String GET_SCHEDULLE_BILLBOARDS_PERMISSION = "SELECT scheduleBillboards from users WHERE username=?";
-
-    private static final String GET_EDIT_USERS_PERMISSION = "SELECT editUsers from users WHERE username=?";
 
     private Connection connection;
 
@@ -95,7 +85,7 @@ public class UserDataSource implements UserSources {
     }
 
     /**
-     * @see
+     * @see UserSources#addUser(UserInfo)
      */
     public void addUser(UserInfo u) {
         try {
@@ -115,7 +105,7 @@ public class UserDataSource implements UserSources {
     }
 
     /**
-     * @see
+     * @see UserSources#nameSet()
      */
     public Set<String> nameSet() {
         Set<String> usernames = new TreeSet<String>();
@@ -134,7 +124,7 @@ public class UserDataSource implements UserSources {
     }
 
     /**
-     * @see
+     * @see UserSources#getUser(String)
      */
     public UserInfo getUser(String username) {
         UserInfo u = new UserInfo();
@@ -158,23 +148,6 @@ public class UserDataSource implements UserSources {
         return u;
     }
 
-    public boolean isValidUser(String username, String password){
-        ResultSet rs = null;
-        try {
-            isValidUser.setString(1, username);
-            isValidUser.setString(2, password);
-            rs = isValidUser.executeQuery();
-            rs.next();
-            if(rs.getString("username") == null)
-            {
-                return false;
-            }
-        } catch (SQLException ex) {
-            return false;
-        }
-        return true;
-    }
-
     /**
      * @see
      */
@@ -193,7 +166,7 @@ public class UserDataSource implements UserSources {
     }
 
     /**
-     * @see
+     * @see UserSources#deleteUser(String)
      */
     public void deleteUser(String username) {
         try {
@@ -205,8 +178,7 @@ public class UserDataSource implements UserSources {
     }
 
     /**
-     * @see
-     * @return
+     * @see UserSources#editUser(String, String, String, String, String, String, String, String, String, String)
      */
     public void editUser(String name, String username, String password, String salt, String email, String previousUsername,
                          String createBillboards, String editAllBillboards,

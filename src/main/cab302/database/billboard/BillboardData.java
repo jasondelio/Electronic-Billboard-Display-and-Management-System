@@ -1,24 +1,23 @@
 package cab302.database.billboard;
 
 import javax.swing.*;
-import java.util.Set;
 
+/**
+ * This version uses an BillboardDataSource and its methods to retrieve data
+ */
 public class BillboardData {
     DefaultListModel listModel;
 
     BillboardDataSource billboardData;
 
     /**
-     * Constructor initializes the list model that holds names as Strings and
+     * Constructor initializes the list model that holds billboard names as Strings and
      * attempts to read any data saved from previous invocations of the
      * application.
-     *
      */
     public BillboardData() {
         listModel = new DefaultListModel();
-        /* BEGIN MISSING CODE */
         billboardData = new BillboardDataSource();
-        /* END MISSING CODE */
 
         // add the retrieved data to the list model
         for (String name : billboardData.nameSet()) {
@@ -27,14 +26,14 @@ public class BillboardData {
     }
 
     /**
-     * Adds a person to the address book.
+     * Adds a billboard to the billboards table.
      *
-     * @param  b User to add to the address book.
+     * @param b Billboard to add to billboards table.
      */
     public void add(BillboardInfo b) {
 
-        // check to see if the person is already in the book
-        // if not add to the address book and the list model
+        // check to see if the billboard is already in the list model
+        // if not add to the billboard table and the list model
         if (!listModel.contains(b.getName())) {
             listModel.addElement(b.getName());
             billboardData.addBillboard(b);
@@ -42,9 +41,9 @@ public class BillboardData {
     }
 
     /**
-     * Based on the name of the person in the address book, delete the person.
+     * Based on the name of the billboard in the billboards table, delete the billboard.
      *
-     * @param key
+     * @param key the billboard's name
      */
     public void remove(Object key) {
 
@@ -53,20 +52,11 @@ public class BillboardData {
         billboardData.deleteBillboard((String) key);
     }
 
-
-
     /**
-     * Saves the data in the address book using a persistence
-     * mechanism.
-     */
-    public void persist() { billboardData.close();
-    }
-
-    /**
-     * Retrieves Person details from the model.
+     * Retrieves billboard details from the model.
      *
-     * @param key the name to retrieve.
-     * @return the Person object related to the name.
+     * @param key the billboard's name to retrieve.
+     * @return the billboard object related to the name.
      */
     public BillboardInfo get(Object key) {
         return billboardData.getBillboard((String) key);
@@ -82,29 +72,27 @@ public class BillboardData {
     }
 
     /**
-     * @return the number of names in the Address Book.
+     * @return the number of billboards in the billboards table.
      */
     public int getSize() {
         return billboardData.getSize();
     }
 
-    public void edit(String name, String xmlContent, String previousName)
-    {
+    /**
+     * Edit the billboard's information in the billboards table and edit the billboard's name from list model
+     * if the billboard's name is edited
+     *
+     * @param name         the billboard's name
+     * @param xmlContent   the billboard's xml content
+     * @param previousName the billboard's name before edited
+     */
+    public void edit(String name, String xmlContent, String previousName) {
         billboardData.editBillboard(name, xmlContent, previousName);
-        if(previousName != name) {
+        if (previousName != name) {
             listModel.removeElement(previousName);
             listModel.addElement(name);
         }
 
     }
-    /**
-     * @return lists of billboards name
-     */
-    public Set<String> getNameLists (){ return billboardData.nameSet(); }
-
-    /**
-     * @return lists of billboards name
-     */
-    public Set<String> geBillsLists (){ return billboardData.billsSet(); }
 
 }

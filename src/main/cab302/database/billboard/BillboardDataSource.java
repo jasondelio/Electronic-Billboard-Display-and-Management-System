@@ -8,7 +8,7 @@ import java.util.TreeSet;
 
 
 /**
- * Class for retrieving data from the XML file holding the address list.
+ * Class for retrieving data from the billboards table in database.
  */
 public class BillboardDataSource implements BillboardSources {
 
@@ -73,7 +73,7 @@ public class BillboardDataSource implements BillboardSources {
     }
 
     /**
-     * @see
+     * @see BillboardSources#addBillboard(BillboardInfo)
      */
     public void addBillboard(BillboardInfo b) {
         try {
@@ -87,7 +87,7 @@ public class BillboardDataSource implements BillboardSources {
     }
 
     /**
-     * @see
+     * @see BillboardSources#nameSet()
      */
     public Set<String> nameSet() {
         Set<String> billboardNames = new TreeSet<String>();
@@ -104,26 +104,9 @@ public class BillboardDataSource implements BillboardSources {
 
         return billboardNames;
     }
-    /**
-     * @see
-     */
-    public Set<String> billsSet() {
-        Set<String> billboardinfo = new TreeSet<String>();
-        ResultSet rs = null;
 
-        try {
-            rs = getBillsList.executeQuery();
-            while (rs.next()) {
-                billboardinfo.add("billboard name: " + rs.getString("name")+", creator: "+rs.getString("creator"));
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-
-        return billboardinfo;
-    }
     /**
-     * @see
+     * @see BillboardSources#getBillboard(String)
      */
     public BillboardInfo getBillboard(String name) {
         BillboardInfo b = new BillboardInfo();
@@ -159,7 +142,7 @@ public class BillboardDataSource implements BillboardSources {
     }
 
     /**
-     * @see
+     * @see BillboardSources#deleteBillboard(String)
      */
     public void deleteBillboard(String name) {
         try {
@@ -170,16 +153,16 @@ public class BillboardDataSource implements BillboardSources {
         }
     }
 
-
-
+    /**
+     * @see BillboardSources#editBillboard(String, String, String)
+     */
     public void editBillboard(String name, String XMLContent, String previousName) {
         try {
             editBillboard.setString(1, name);
             editBillboard.setString(2, XMLContent);
             editBillboard.setString(3, previousName);
             editBillboard.execute();
-        }
-        catch (SQLException ex) {
+        } catch (SQLException ex) {
             ex.printStackTrace();
         }
     }
