@@ -873,7 +873,7 @@ public class HomeUI extends JFrame implements ActionListener {
             titleText.setFont(new Font("Arial", Font.PLAIN, 84));
             titleText.setForeground(
                     HexToRGB(
-                            xmlInfo.get("messageColour")
+                            xmlInfo.getOrDefault("messageColour", "#000000")
                     )
             );
             titleText.setBackground(bgColour);
@@ -930,7 +930,7 @@ public class HomeUI extends JFrame implements ActionListener {
             informationText.setFont(new Font("Arial", Font.PLAIN, 36));
             informationText.setForeground(
                     HexToRGB(
-                            xmlInfo.get("informationColour")
+                            xmlInfo.getOrDefault("informationColour", "#000000")
                     )
             );
             informationText.setBackground(bgColour);
@@ -1032,3 +1032,4 @@ public class HomeUI extends JFrame implements ActionListener {
 
     }
 }
+
