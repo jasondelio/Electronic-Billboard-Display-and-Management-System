@@ -2,10 +2,10 @@ package cab302.ControlPanel;
 
 import cab302.server.Billboardserver.AlreadyLoginReply;
 import cab302.server.Billboardserver.LoginReply;
-import cab302.server.Billboardserver.sessionExistReply;
+import cab302.server.Billboardserver.SessionExistReply;
 import cab302.server.WillBeControlPanelAction.Loginrequest;
+import cab302.server.WillBeControlPanelAction.SessionExistRequest;
 import cab302.server.WillBeControlPanelAction.UserLoggedInrequest;
-import cab302.server.WillBeControlPanelAction.sessionExistRequest;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,12 +52,12 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
     public UserLoginUI() throws IOException, ClassNotFoundException {
         //if the user is already login before and the session token hasn't expired
         socketStart();
-        sessionExistRequest ser = new sessionExistRequest("get session token");
+        SessionExistRequest ser = new SessionExistRequest("get session token");
         oos.writeObject(ser);
         oos.flush();
         Object trans = ois.readObject();
-        if (trans instanceof sessionExistReply) {
-            sessionExistReply reply = (sessionExistReply) trans;
+        if (trans instanceof SessionExistReply) {
+            SessionExistReply reply = (SessionExistReply) trans;
             isAlreadyLogin = reply.isLoginAlready();
             System.out.println(isAlreadyLogin);
             if (isAlreadyLogin == true) {
@@ -94,7 +94,7 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
             initUI();
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
             setLocation(dim.width / 2 - WIDTH / 2, dim.height / 2 - HEIGHT / 2);
-            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             setVisible(true);
         }
 

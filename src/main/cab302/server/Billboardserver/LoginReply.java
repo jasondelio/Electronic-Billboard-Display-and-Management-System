@@ -3,6 +3,9 @@ package cab302.server.Billboardserver;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Replying to client and the client
+ */
 public class LoginReply implements Serializable {
     private  boolean loginSucceed;
     private  String sessionToken;
@@ -15,9 +18,11 @@ public class LoginReply implements Serializable {
         this.permissionsList  = permissionsList;
         this.LoggedInUsername = loggedInUsername;
     }
+
     public String getSessionToken(){
         return sessionToken;
     }
+
     public boolean isLoginSucceed(){
         return loginSucceed;
     }
