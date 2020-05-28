@@ -2,11 +2,10 @@ package cab302.server.WillBeControlPanelAction;
 
 import java.io.Serializable;
 
-public class DeleteBillboardRequest implements Serializable {
+public class DelateBillboardRequest implements Serializable {
     private String billboardname;
     private String sessionToken;
-
-    public DeleteBillboardRequest(String billboardname, String sessionToken) {
+    public DelateBillboardRequest(String billboardname, String sessionToken) {
         this.billboardname = billboardname;
         this.sessionToken = sessionToken;
     }

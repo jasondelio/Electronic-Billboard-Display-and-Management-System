@@ -11,13 +11,6 @@ public class Run {
 //    private ObjectOutputStream oos;
 
     private static void createAndShowGUI() throws IOException, ClassNotFoundException {
-//        ArrayList<String> lists = new ArrayList<String>();
-//        lists.add("True");
-//        lists.add("True");
-//        lists.add("True");
-//        lists.add("True");
-//
-//        HomeUI GUI  = new HomeUI("c2ca4386faa362c94a556624d3f19ac3fd5a81ca27b19700456e1d8eeade8274",lists);
         UserLoginUI GUI = new UserLoginUI();
         GUI.setVisible(true);
     }

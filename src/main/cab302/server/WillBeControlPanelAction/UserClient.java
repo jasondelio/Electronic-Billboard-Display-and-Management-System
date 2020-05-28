@@ -6,10 +6,11 @@ import java.io.*;
 import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 public class UserClient {
-    public static void main (String[] args) throws IOException, ClassNotFoundException, NoSuchAlgorithmException {
+    public static void run() throws IOException, ClassNotFoundException, NoSuchAlgorithmException {
         Socket socket = new Socket("localhost",12345);
         OutputStream outputStream = socket.getOutputStream();
         InputStream inputStream = socket.getInputStream();
@@ -19,7 +20,8 @@ public class UserClient {
 
         String password ="daafda";
         String hashePass = getHashedPass(password);
-        Loginrequest loginrequest = new Loginrequest("suzan",hashePass);
+        LocalDateTime localDateTime = LocalDateTime.now();
+        Loginrequest loginrequest = new Loginrequest("suzan",hashePass,null);
         oos.writeObject(loginrequest);
         oos.flush();
 
@@ -48,15 +50,15 @@ public class UserClient {
         oos = new ObjectOutputStream(outputStream);
         ois = new ObjectInputStream(inputStream);
 
-        ListBillboardRequest lbr = new ListBillboardRequest(sessionToken);
+        listBillboardRequest lbr = new listBillboardRequest(sessionToken);
         oos.writeObject(lbr);
         oos.flush();
 
         transoO = ois.readObject();
-        if (transoO instanceof ListBillboardReply) {
-            ListBillboardReply lbrlist = (ListBillboardReply) transoO;
-            System.out.println("Billboards List : " + lbrlist.getListofBillboards());
-        } else {
+        if (transoO instanceof listBillboardReply){
+            listBillboardReply lbrlist =  (listBillboardReply) transoO;
+            System.out.println("Billboards List : "+ lbrlist.getListofBillboards());
+        }else{
             System.out.println("error");
         }
         ois.close();
@@ -224,14 +226,14 @@ public class UserClient {
         oos = new ObjectOutputStream(outputStream);
         ois = new ObjectInputStream(inputStream);
 
-        ListUsersRequest lur = new ListUsersRequest(sessionToken);
+        listUsersRequest lur = new listUsersRequest(sessionToken);
         oos.writeObject(lur);
         oos.flush();
         transoO = ois.readObject();
-        if (transoO instanceof ListUsersReply) {
-            ListUsersReply lurlist = (ListUsersReply) transoO;
-            System.out.println("User Lists : " + lurlist.getListOfUsers());
-        } else {
+        if (transoO instanceof listUsersReply){
+            listUsersReply lurlist =  (listUsersReply) transoO;
+            System.out.println("User Lists : "+ lurlist.getListOfUsers());
+        }else{
             System.out.println("error");
         }
         ois.close();
