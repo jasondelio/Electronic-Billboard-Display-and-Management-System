@@ -26,13 +26,11 @@ public class CustomDialog extends JDialog implements ActionListener {
     private JFrame bg;
 
 
-    private JTextField namebox;
     private JTextField hourbox;
     private JTextField minbox;
     BillboardData boradData;
     Integer time;
     private JTextField creatorbox;
-    private JButton rebtn;
     private JTextField duHrbox;
     private JTextField duMinbox;
 
@@ -47,14 +45,10 @@ public class CustomDialog extends JDialog implements ActionListener {
     private DefaultComboBoxModel chooserBox;
     private JLabel lblDuhour;
 
-    private String name;
-    private Integer scheduledMonth;
-    private Integer scheduledDate;
-    private Integer scheduledHour;
-    private Integer scheduledMin;
 
     private JList nameList;
     private JLabel lblDumin;
+    private JList lblRehr;
 
     ScheduleData data;
     private JLabel lblRecur;
@@ -62,7 +56,6 @@ public class CustomDialog extends JDialog implements ActionListener {
     String month;
     String date;
     String year;
-    private JLabel lblRecurHr;
 
     Calendar cal;
 
@@ -178,6 +171,12 @@ public class CustomDialog extends JDialog implements ActionListener {
 
         pnl.add(recurbox, gbc);
 
+        lblRecur = new JLabel("hrs");
+        gbc.gridx = 3;
+        gbc.gridy = 10;
+
+        pnl.add(lblRecur, gbc);
+
 
         // Duration
 
@@ -206,7 +205,7 @@ public class CustomDialog extends JDialog implements ActionListener {
         pnl.add(duMinbox, gbc);
 
         lblDumin = new JLabel("min");
-        gbc.gridx = 3;
+        gbc.gridx = 5;
         gbc.gridy = 11;
 
         pnl.add(lblDuhour, gbc);
@@ -231,12 +230,6 @@ public class CustomDialog extends JDialog implements ActionListener {
 
         pnl.add(edit, gbc);
 
-        rebtn = new JButton("Recurrence");
-        gbc.gridx = 1;
-        gbc.gridy = 13;
-        rebtn.setEnabled(false);
-
-        pnl.add(rebtn, gbc);
 
         delete = new JButton("Delete");
         gbc.gridx = 3;
@@ -253,12 +246,13 @@ public class CustomDialog extends JDialog implements ActionListener {
         add(pnl);
         pack();
 
+        setFieldsEditable(false);
+
         newbtn.addActionListener(this);
         save.addActionListener(this);
         delete.addActionListener(this);
         edit.addActionListener(this);
         close.addActionListener(this);
-        rebtn.addActionListener(this);
 
         billboardChooser.addActionListener(e -> {
 //            if(billboardChooser.getSelectedItem().equals("HH")) {
@@ -364,6 +358,8 @@ public class CustomDialog extends JDialog implements ActionListener {
     private void setFieldsEditable(boolean editable) {
         minbox.setEditable(editable);
         duHrbox.setEditable(editable);
+        duMinbox.setEditable(editable);
+        recurbox.setEditable(editable);
     }
 
 
@@ -376,7 +372,6 @@ public class CustomDialog extends JDialog implements ActionListener {
             clearFields();
             setFieldsEditable(true);
             save.setEnabled(true);
-            rebtn.setEnabled(true);
         } else if (act == save) {
             savePressed();
             this.dispose();
@@ -392,8 +387,6 @@ public class CustomDialog extends JDialog implements ActionListener {
             this.dispose();
 //            setDisplay(date, month);
 
-        } else if (act == rebtn) {
-            recurePressed();
         } else if (act == close) {
             this.dispose();
         }
@@ -447,7 +440,4 @@ public class CustomDialog extends JDialog implements ActionListener {
 //        setDisplay(date, month);
     }
 
-    private void recurePressed() {
-        recurbox.setEditable(true);
-    }
 }
