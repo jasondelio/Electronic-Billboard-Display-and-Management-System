@@ -77,13 +77,10 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
                 AlreadyLoginReply reply = (AlreadyLoginReply) transoO;
                 ArrayList<String> permlists = reply.getPermissionsList();
                 String loggedinuser = reply.getLoggedInUsername();
-
                 HomeUI homeUI = new HomeUI(sessionToken, permlists, loggedinuser, loggedinTime, 0);
                 homeUI.setVisible(true);
                 socketStop();
                 dispose();
-                setVisible(false);
-                setUndecorated(true);
             }
         }
         //Show the user login user interface if the user hasn't login before
@@ -94,7 +91,7 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
             initUI();
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
             setLocation(dim.width / 2 - WIDTH / 2, dim.height / 2 - HEIGHT / 2);
-            setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             setVisible(true);
         }
 
