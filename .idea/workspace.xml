@@ -2,29 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="01508137-4561-4283-97d1-e5c870fef63b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CAB302/cab302/db.props" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CAB302/cab302/db.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/UserLoginUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/UserLoginUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/DataConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/DataConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/db.props" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/db.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/AcknowledgeReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/AcknowledgeReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/AlreadyLoginReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/AlreadyLoginReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/BillboardReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/BillboardReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/GetUserpemmReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/GetUserpemmReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/LoginReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/LoginReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ViewBillboardReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ViewBillboardReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/billboardServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/BillboardServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/listBillboardReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ListBillboardReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/listUsersReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ListUsersReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/sessionExistReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/SessionExistReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/UserAuthentication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/DelateBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/DeleteBillboardRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/DelateUserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/DeleteUserRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/UserClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/UserClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/listBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/ListBillboardRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/listUsersRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/ListUsersRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/sessionExistRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/SessionExistRequest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -85,7 +64,7 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
@@ -143,6 +122,8 @@
       </method>
     </configuration>
     <configuration name="Run" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="13" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="cab302.ControlPanel.Run" />
       <module name="CAB302" />
       <extension name="coverage">
@@ -181,6 +162,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.BillboardClient" />
+      <item itemvalue="Application.BillboardServer" />
+      <item itemvalue="Application.Run" />
+      <item itemvalue="Application.UserAuthentication" />
+      <item itemvalue="Application.UserClient" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Run" />
@@ -297,6 +285,14 @@
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="361" y="71" key="#Project_Structure" timestamp="1590631379285">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="71" key="#Project_Structure/0.0.1536.824@0.0.1536.824" timestamp="1590631379285" />
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1590631698948">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1590631698948" />
     <state x="533" y="162" key="#com.intellij.ide.util.MemberChooser" timestamp="1589952937809">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -315,29 +311,33 @@
     </state>
     <state x="342" y="55" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1590623505667" />
     <state x="365" y="14" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1590630910839" />
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1590630414603">
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog" timestamp="1590631837753">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1590631837753" />
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1590631877181">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="169" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1590623419509" />
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590630414603" />
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590631877181" />
     <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1590630414602">
+    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1590631877180">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="169" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1590623419508" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590630414602" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590631877180" />
     <state width="1398" height="230" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1590630414602">
+    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1590631877180">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="169" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1590623419507" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590630414602" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590631877180" />
     <state width="1398" height="230" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1590630414603">
+    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1590631877181">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="169" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1590623419508" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590630414603" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590631877181" />
     <state width="1398" height="230" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
     <state x="460" y="159" key="MultipleFileMergeDialog" timestamp="1590630970839">
       <screen x="0" y="0" width="1536" height="824" />
@@ -362,11 +362,11 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="424" y="353" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1440.900@0.0.1440.900" timestamp="1589769463259" />
-    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590630958610">
+    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590631738642">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="542" y="359" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1440.900@0.0.1440.900" timestamp="1590623428948" />
-    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1590630958610" />
+    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1590631738642" />
     <state x="411" y="192" width="715" height="618" key="run.anything.popup" timestamp="1590470221742">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
