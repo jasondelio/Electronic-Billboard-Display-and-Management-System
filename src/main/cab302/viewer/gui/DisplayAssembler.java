@@ -6,19 +6,25 @@ import java.util.HashMap;
 
 public class DisplayAssembler {
 
-    public DisplayAssembler(HashMap<String,String> xmlInformation) {
+    public DisplayAssembler(HashMap<String,String> xmlInformation, Dimension frameSize) {
     }
 
-    public DisplayAssembler(String message, String messageColour, String imageData, String information, String informationColour) {
+    public DisplayAssembler(String message, String messageColour, String imageData, String information, String informationColour, Dimension frameSize) {
     }
 
-    public JTextPane assembleMessagePane(Container containerToAddTo) {
+    public DisplayAssembler(HashMap<String,String> xmlInformation, int width, int height) {
     }
 
-    public JTextPane assembleInformationPane(Container containerToAddTo) {
+    public DisplayAssembler(String message, String messageColour, String imageData, String information, String informationColour, int width, int height) {
     }
 
-    public JLabel assembleMessageLabel(Container containerToAddTo) {
+    public JTextPane assembleMessagePane() {
+    }
+
+    public JTextPane assembleInformationPane() {
+    }
+
+    public JLabel assemblePictureLabel() {
     }
 
 }
