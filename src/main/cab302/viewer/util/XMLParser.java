@@ -74,6 +74,7 @@ public class XMLParser {
                                     node.getNodeName() + "Colour",
                                     node.getAttributes().getNamedItem("colour").getTextContent()
                             );
+                            System.out.println("Colour set to " + XMLDataMap.get(node.getNodeName()+"Colour"));
                         } else {
                             XMLDataMap.put(node.getNodeName() + "Colour", "#000000");
                         }

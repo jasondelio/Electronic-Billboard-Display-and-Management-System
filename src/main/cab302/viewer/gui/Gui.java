@@ -3,10 +3,13 @@ package cab302.viewer.gui;
 import cab302.viewer.exceptions.BadImageFormatException;
 
 import javax.swing.*;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -15,6 +18,7 @@ import static cab302.viewer.util.HexToRGB.HexToRGB;
 public class Gui extends JFrame {
 
     private JFrame frame;
+    private static final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
     public Gui(HashMap<String, String> xmlInfo) {
 
@@ -76,29 +80,28 @@ public class Gui extends JFrame {
             }
         });
 
+        SimpleAttributeSet set = new SimpleAttributeSet();
+        StyleConstants.setAlignment(set, StyleConstants.ALIGN_CENTER);
+        StyleConstants.setFontFamily(set, "Arial");
 
         // ## XML display ## \\
         // Create heading label if exists and add it to the window
         if (xmlInfo.containsKey("message")) {
-            JTextArea titleText = new JTextArea();
-            String[] messageStringArr = xmlInfo.get("message").split("%%%%");
-            titleText.setText(messageStringArr[0]);
+            JTextPane titleText = new JTextPane();
+            titleText.setText(xmlInfo.get("message"));
             titleText.setFont(new Font("Arial", Font.PLAIN, 84));
-            titleText.setForeground(
+
+            titleText.setBackground(bgColour);
+            StyleConstants.setFontSize(set, 84);
+            StyleConstants.setForeground(
+                    set,
                     HexToRGB(
-                            messageStringArr.length != 1 ?
-                                    (!messageStringArr[messageStringArr.length - 1].equals("") ?
-                                            messageStringArr[messageStringArr.length - 1] : "#000000")
-                                    : "#000000"
+                            xmlInfo.getOrDefault("messageColour", "#000000")
                     )
             );
-            titleText.setBackground(bgColour);
 
+            titleText.setParagraphAttributes(set, true);
             titleText.setEditable(false);
-            titleText.setLineWrap(true);
-            titleText.setWrapStyleWord(true);
-            titleText.setRows(3);
-            titleText.setColumns(25);
 
             gbc.gridx = 0;
             gbc.gridy = 0;
@@ -109,8 +112,29 @@ public class Gui extends JFrame {
         if (xmlInfo.containsKey("picture")) {
             JLabel pictureLabel = new JLabel();
             String imgInfo = xmlInfo.get("picture");
+
             try {
-                pictureLabel.setIcon(new ImageIcon(imgGen.isBase64EncodedImage(imgInfo) ? imgGen.decodeDataString(imgInfo) : imgGen.downloadImage(imgInfo)));
+                BufferedImage picture = imgGen.isBase64EncodedImage(imgInfo) ? imgGen.decodeDataString(imgInfo) : imgGen.downloadImage(imgInfo);
+
+                int resizedWidth = picture.getWidth();
+                int resizedHeight = picture.getHeight();
+
+                if (picture.getWidth() != screenSize.width / 2) {
+                    resizedWidth = screenSize.width / 2;
+                    resizedHeight = (resizedWidth * picture.getHeight()) / picture.getWidth();
+                }
+
+                if (picture.getHeight() != screenSize.height / 2) {
+                    resizedHeight = screenSize.height / 2;
+                    resizedWidth = (resizedHeight * picture.getWidth()) / picture.getHeight();
+                }
+
+                Image resizedImage = picture.getScaledInstance(
+                        resizedWidth,
+                        resizedHeight,
+                        Image.SCALE_SMOOTH
+                );
+                pictureLabel.setIcon(new ImageIcon(resizedImage));
             } catch (IOException | BadImageFormatException e) {
                 e.printStackTrace();
             }
@@ -121,27 +145,20 @@ public class Gui extends JFrame {
 
         // Create information label if exists and add it to the window
         if (xmlInfo.containsKey("information")) {
-            JTextArea informationText = new JTextArea();
-            String[] infoStringArr = xmlInfo.get("information").split("%%%%");
-            informationText.setText(infoStringArr[0]);
-            informationText.setFont(new Font("Arial", Font.PLAIN, 36));
-            informationText.setForeground(
-                    HexToRGB(
-                            infoStringArr.length > 1
-                                    ? (
-                                    !infoStringArr[infoStringArr.length - 1].equals("")
-                                            ? infoStringArr[infoStringArr.length - 1]
-                                            : "#000000"
-                            )
-                                    : "#000000"
-                    )
-            );
+            JTextPane informationText = new JTextPane();
+            informationText.setText(xmlInfo.get("information"));
             informationText.setBackground(bgColour);
 
+            StyleConstants.setFontSize(set, 36);
+            StyleConstants.setForeground(
+                    set,
+                    HexToRGB(
+                            xmlInfo.getOrDefault("informationColour", "#000000")
+                    )
+            );
+
+            informationText.setParagraphAttributes(set, true);
             informationText.setEditable(false);
-            informationText.setLineWrap(true);
-            informationText.setWrapStyleWord(true);
-            informationText.setColumns(55);
 
             gbc.gridy = 2;
             add(informationText, gbc);

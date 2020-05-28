@@ -1292,7 +1292,6 @@ public class HomeUI extends JFrame implements ActionListener {
         if (xmlInfo.containsKey("information")) {
             JTextPane informationText = new JTextPane();
             informationText.setText(xmlInfo.get("information"));
-            informationText.setFont(new Font("Arial", Font.PLAIN, 36));
             informationText.setBackground(bgColour);
 
             StyleConstants.setFontSize(set, 36);
