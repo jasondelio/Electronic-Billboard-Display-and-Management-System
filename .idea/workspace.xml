@@ -48,8 +48,8 @@
   <component name="Git.Settings">
     <option name="PREVIOUS_COMMIT_AUTHORS">
       <list>
-        <option value="Ryuta Kitai &lt;ryuuta.k@icloud.com&gt;" />
         <option value="jasondelio &lt;63277002+jasondelio@users.noreply.github.com&gt;" />
+        <option value="Ryuta Kitai &lt;ryuuta.k@icloud.com&gt;" />
         <option value="jasondelio &lt;n10333371@qut.edu.au&gt;" />
         <option value="Ethan" />
       </list>
@@ -310,11 +310,11 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="458" y="205" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.900@0.0.1440.900" timestamp="1589775364891" />
-    <state x="342" y="55" key="CommitChangelistDialog2" timestamp="1590623505667">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="365" y="14" key="CommitChangelistDialog2" timestamp="1590630910839">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="342" y="55" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1590623505667" />
-    <state x="365" y="14" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1590475661660" />
+    <state x="365" y="14" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1590630910839" />
     <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1590630414603">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -339,10 +339,11 @@
     <state width="1398" height="169" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1590623419508" />
     <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590630414603" />
     <state width="1398" height="230" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
-    <state x="431" y="174" key="MultipleFileMergeDialog" timestamp="1590622953046">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="460" y="159" key="MultipleFileMergeDialog" timestamp="1590630970839">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="431" y="174" key="MultipleFileMergeDialog/0.0.1440.900@0.0.1440.900" timestamp="1590622953046" />
+    <state x="460" y="159" key="MultipleFileMergeDialog/0.0.1536.824@0.0.1536.824" timestamp="1590630970839" />
     <state x="208" y="33" key="SettingsEditor" timestamp="1589769467764">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -361,11 +362,11 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="424" y="353" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1440.900@0.0.1440.900" timestamp="1589769463259" />
-    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590626036940">
+    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590630958610">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="542" y="359" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1440.900@0.0.1440.900" timestamp="1590623428948" />
-    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1590626036940" />
+    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1590630958610" />
     <state x="411" y="192" width="715" height="618" key="run.anything.popup" timestamp="1590470221742">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
