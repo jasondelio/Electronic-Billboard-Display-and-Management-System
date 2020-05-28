@@ -26,6 +26,7 @@ public class ScheduleInfoStub implements Comparable<ScheduleInfoStub>, Serializa
      * @param boardTitle Title of billboard
      * @param creator Creator of scheduling
      * @param date Date in seconds (from Instant.ofEpochSecond(0L).until(Instant.now(), ChronoUnit.SECONDS)
+     *             https://docs.oracle.com/javase/8/docs/api/java/time/LocalDateTime.html
      * @param duration Duration of billboad in seconds
      * @param recur ???
      */
