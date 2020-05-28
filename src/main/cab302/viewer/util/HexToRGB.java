@@ -1,5 +1,7 @@
 package cab302.viewer.util;
 
+import cab302.viewer.exceptions.MalformedHexadecimalColourException;
+
 import java.awt.*;
 
 public class HexToRGB {
@@ -9,9 +11,9 @@ public class HexToRGB {
      * @param hexColour A hexidecimal colour of length 4 or 7
      * @return RGB Color object
      */
-    public static Color HexToRGB(String hexColour) {
+    public static Color HexToRGB(String hexColour) throws MalformedHexadecimalColourException {
 
-        Color returnedColour = null;
+        Color returnedColour;
 
         // If the hex colour string has length 4, convert to Color object
         if (hexColour.length() == 4)
@@ -29,6 +31,9 @@ public class HexToRGB {
                 Integer.valueOf(hexColour.substring(3,5), 16),
                 Integer.valueOf(hexColour.substring(5,7), 16)
             );
+
+        else
+            throw new MalformedHexadecimalColourException("The hexadecimal colour provided is invalid. They must be 3 or 6 characters long (excluding the #)");
 
         return returnedColour;
     }
