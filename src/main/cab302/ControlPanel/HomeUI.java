@@ -130,7 +130,7 @@ public class HomeUI extends JFrame implements ActionListener {
         pane = new JTabbedPane();
 
         JPanel panelHome = new JPanel(new BorderLayout());
-        JLabel lblWelcome = new JLabel("Welcome to Billboard Control Panel !");
+        JLabel lblWelcome = new JLabel("Welcome to Billboard Control Panel!");
         lblWelcome.setHorizontalAlignment(JLabel.CENTER);
         lblWelcome.setFont(lblWelcome.getFont().deriveFont(24.0f));
         btnLogout = new JButton("Logout");
@@ -190,14 +190,14 @@ public class HomeUI extends JFrame implements ActionListener {
         panelEditUsers = new JPanel();
         panelEditUsers.setLayout(new BorderLayout());
         socketStart();
-        listUsersRequest liur = new listUsersRequest(sessionToken);
+        ListUsersRequest liur = new ListUsersRequest(sessionToken);
 
         oos.writeObject(liur);
         oos.flush();
 
         Object transo = ois.readObject();
-        if (transo instanceof listUsersReply) {
-            listUsersReply reply = (listUsersReply) transo;
+        if (transo instanceof ListUsersReply) {
+            ListUsersReply reply = (ListUsersReply) transo;
             usernameList = new JList(reply.getListOfUsers());
         }
         //usernameList = new JList(userData.getModel());
@@ -212,13 +212,13 @@ public class HomeUI extends JFrame implements ActionListener {
         JPanel panelListBillboards = new JPanel();
         panelListBillboards.setLayout(new BorderLayout());
         socketStart();
-        listBillboardRequest listBillboardRequest = new listBillboardRequest(sessionToken);
+        ListBillboardRequest listBillboardRequest = new ListBillboardRequest(sessionToken);
         oos.writeObject(listBillboardRequest);
         oos.flush();
 
         Object transoO = ois.readObject();
-        if (transoO instanceof listBillboardReply) {
-            listBillboardReply reply = (listBillboardReply) transoO;
+        if (transoO instanceof ListBillboardReply) {
+            ListBillboardReply reply = (ListBillboardReply) transoO;
             billboardList = new JList(reply.getListofBillboards());
         }
         socketStop();
@@ -695,8 +695,8 @@ public class HomeUI extends JFrame implements ActionListener {
     }
     private void deleteBillboardPressed() throws IOException, ClassNotFoundException {
         socketStart();
-        DelateBillboardRequest delateBillboardRequest = new DelateBillboardRequest((String) billboardList.getSelectedValue(), sessionToken);
-        oos.writeObject(delateBillboardRequest);
+        DeleteBillboardRequest deleteBillboardRequest = new DeleteBillboardRequest((String) billboardList.getSelectedValue(), sessionToken);
+        oos.writeObject(deleteBillboardRequest);
         oos.flush();
         Object transoO = ois.readObject();
         if (transoO instanceof AcknowledgeReply) {
@@ -705,7 +705,7 @@ public class HomeUI extends JFrame implements ActionListener {
         }
         socketStop();
         dispose();
-        HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername,loggedinTime,pane.getSelectedIndex());
+        HomeUI GUI = new HomeUI(sessionToken, permissionsList, currentUsername, loggedinTime, pane.getSelectedIndex());
         GUI.setVisible(true);
     }
     public void exportBillboardPressed()
@@ -879,15 +879,15 @@ public class HomeUI extends JFrame implements ActionListener {
     }
     private void deleteUserPressed() throws IOException, ClassNotFoundException {
         socketStart();
-        DelateUserRequest delateUserRequest = new DelateUserRequest((String) usernameList.getSelectedValue(), sessionToken);
-        oos.writeObject(delateUserRequest);
+        DeleteUserRequest deleteUserRequest = new DeleteUserRequest((String) usernameList.getSelectedValue(), sessionToken);
+        oos.writeObject(deleteUserRequest);
         oos.flush();
         Object transoO = ois.readObject();
         if (transoO instanceof AcknowledgeReply) {
             AcknowledgeReply lurlist = (AcknowledgeReply) transoO;
             System.out.println(lurlist.getAcknowledgement());
             dispose();
-            HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername, loggedinTime, pane.getSelectedIndex());
+            HomeUI GUI = new HomeUI(sessionToken, permissionsList, currentUsername, loggedinTime, pane.getSelectedIndex());
             GUI.setVisible(true);
         }
         socketStop();

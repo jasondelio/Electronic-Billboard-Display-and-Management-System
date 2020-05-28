@@ -19,7 +19,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
 
-public class billboardServer {
+public class BillboardServer {
     // from week 10 Q and A session
     private static String validSessionToken = null;
     public static HashMap<String, String> validSessionTokens = new HashMap<>();
@@ -97,23 +97,23 @@ public class billboardServer {
                     permissions.add(newu.getEditAllBillboards());
                     permissions.add(newu.getScheduleBillboards());
                     permissions.add(newu.getEditUsers());
-                    reply = new AlreadyLoginReply(true,sessionToken, permissions, loggedinUsername);
-                }else {
-                    reply = new AlreadyLoginReply(false,null, null,null);
+                    reply = new AlreadyLoginReply(true, sessionToken, permissions, loggedinUsername);
+                } else {
+                    reply = new AlreadyLoginReply(false, null, null, null);
                 }
                 oos.writeObject(reply);
                 oos.flush();
-            }else if (o instanceof sessionExistRequest){
-                sessionExistRequest ser = (sessionExistRequest) o;
+            } else if (o instanceof SessionExistRequest) {
+                SessionExistRequest ser = (SessionExistRequest) o;
                 System.out.printf("User try to get session token");
-                sessionExistReply reply;
+                SessionExistReply reply;
                 System.out.println(validSessionTokens.keySet());
                 // if the password with salting and hashing is same as stored password, return login succeed.
-                if (validSessionTokens.keySet().isEmpty()){
-                    reply = new sessionExistReply(false,null);
-                }else {
+                if (validSessionTokens.keySet().isEmpty()) {
+                    reply = new SessionExistReply(false, null);
+                } else {
                     ArrayList<String> stringList = new ArrayList<String>(validSessionTokens.keySet());
-                    reply = new sessionExistReply(true,stringList);
+                    reply = new SessionExistReply(true, stringList);
                 }
                 oos.writeObject(reply);
                 oos.flush();
@@ -128,21 +128,20 @@ public class billboardServer {
                     BillboardReply billboardReply = new BillboardReply(new_b.getXMLContent(), new_b.getCreator());
                     oos.writeObject(billboardReply);
                     oos.flush();
-                }else{
+                } else {
                     Object reply = new Object();
                     oos.writeObject(reply);
                     oos.flush();
                 }
-            }
-            else if(o instanceof listBillboardRequest){
-                listBillboardRequest lbr =(listBillboardRequest) o;
+            } else if (o instanceof ListBillboardRequest) {
+                ListBillboardRequest lbr = (ListBillboardRequest) o;
                 String sessionToken = lbr.getSessionToken();
-                System.out.println("client requested billboard lists with token :"+ sessionToken);
-                if (isValidSessionToken(sessionToken)){
-                    listBillboardReply lbbr = new listBillboardReply(billboardData.getModel());
+                System.out.println("client requested billboard lists with token :" + sessionToken);
+                if (isValidSessionToken(sessionToken)) {
+                    ListBillboardReply lbbr = new ListBillboardReply(billboardData.getModel());
                     oos.writeObject(lbbr);
                     oos.flush();
-                }else{
+                } else {
                     AcknowledgeReply reply = new AcknowledgeReply("error");
                     oos.writeObject(reply);
                     oos.flush();
@@ -209,19 +208,18 @@ public class billboardServer {
                     AcknowledgeReply editBillboardReply = new AcknowledgeReply(results);
                     oos.writeObject(editBillboardReply);
                     oos.flush();
-                }else{
+                } else {
                     Object reply = new Object();
                     oos.writeObject(reply);
                     oos.flush();
                 }
-            }
-            else if(o instanceof DelateBillboardRequest){
-                DelateBillboardRequest dbbr =(DelateBillboardRequest) o;
+            } else if (o instanceof DeleteBillboardRequest) {
+                DeleteBillboardRequest dbbr = (DeleteBillboardRequest) o;
                 String sessionToken = dbbr.getSessionToken();
-                System.out.println("client requested delating billboard with token :"+ sessionToken);
+                System.out.println("client requested delating billboard with token :" + sessionToken);
                 boolean schedule = false;
                 String results = null;
-                if (isValidSessionToken(sessionToken)){
+                if (isValidSessionToken(sessionToken)) {
                     String currentUser = getSessionUsername(sessionToken);
                     UserInfo nu = data.get(currentUser);
                     BillboardInfo edit_b = billboardData.get(dbbr.getBillboardname());
@@ -325,23 +323,22 @@ public class billboardServer {
                     AcknowledgeReply remove_the_billbord = new AcknowledgeReply(result);
                     oos.writeObject(remove_the_billbord);
                     oos.flush();
-                }else{
+                } else {
                     Object reply = new Object();
                     oos.writeObject(reply);
                     oos.flush();
                 }
-            }
-            else if(o instanceof listUsersRequest){
+            } else if (o instanceof ListUsersRequest) {
                 System.out.println("------------------------------------------------------");
-                listUsersRequest lur =(listUsersRequest) o;
+                ListUsersRequest lur = (ListUsersRequest) o;
                 String sessionToken = lur.getSessionToken();
-                System.out.println("client requested user lists with token :"+ sessionToken);
+                System.out.println("client requested user lists with token :" + sessionToken);
                 System.out.println(getSessionUsername(sessionToken));
                 UserInfo newu = data.get(getSessionUsername(sessionToken));
 
-                if (isValidSessionToken(sessionToken) & newu.getEditUsers().equals("true")){
+                if (isValidSessionToken(sessionToken) & newu.getEditUsers().equals("true")) {
                     ListModel Userlist = data.getModel();
-                    listUsersReply listUsersReply = new listUsersReply(Userlist);
+                    ListUsersReply listUsersReply = new ListUsersReply(Userlist);
                     oos.writeObject(listUsersReply);
                     oos.flush();
                 }else{
@@ -483,27 +480,25 @@ public class billboardServer {
                                     editU.getEditAllBillboards(), editU.getScheduleBillboards(), editU.getEditUsers());
                             results = "Succeed to change own name, password and/or email";
                         }
-                    }
-                    else {
+                    } else {
                         results = "failed to change  name, password and/or email";
                     }
                 }
                 AcknowledgeReply setPassReply = new AcknowledgeReply(results);
                 oos.writeObject(setPassReply);
                 oos.flush();
-            }
-            else if(o instanceof DelateUserRequest){
-                DelateUserRequest dur =(DelateUserRequest) o;
+            } else if (o instanceof DeleteUserRequest) {
+                DeleteUserRequest dur = (DeleteUserRequest) o;
                 String sessiontoken = dur.getSessiontoken();
-                System.out.println("client requested setting permissions with token :"+ sessiontoken);
+                System.out.println("client requested setting permissions with token :" + sessiontoken);
                 String results = null;
                 UserInfo del_u = data.get(getSessionUsername(dur.getSessiontoken()));
-                if (isValidSessionToken(sessiontoken) & del_u.getEditUsers().equals("true")){
+                if (isValidSessionToken(sessiontoken) & del_u.getEditUsers().equals("true")) {
                     String username = dur.getUsername();
 
-                    if (username.equals(getSessionUsername(dur.getSessiontoken()))){
+                    if (username.equals(getSessionUsername(dur.getSessiontoken()))) {
                         results = "USER CANNOT CHANGE OWN PAASSWORD!";
-                    }else {
+                    } else {
                         data.remove(dur.getUsername());
                         results = "Succeed to delate user !";
                     }
