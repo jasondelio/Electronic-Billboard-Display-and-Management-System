@@ -61,6 +61,7 @@ public class CustomDialog extends JDialog implements ActionListener {
 
     String month;
     String date;
+    String year;
     private JLabel lblRecurHr;
 
     Calendar cal;
@@ -68,10 +69,11 @@ public class CustomDialog extends JDialog implements ActionListener {
     JList datalst;
 
 
-    public CustomDialog(String info, int selectedTime, ScheduleData data, BillboardData boradData) {
+    public CustomDialog(String info, String year, int selectedTime, ScheduleData data, BillboardData boradData) {
         this.data = data;
         this.boradData = boradData;
         time = selectedTime;
+        this.year = year;
 
         cal = Calendar.getInstance();
 
@@ -413,7 +415,7 @@ public class CustomDialog extends JDialog implements ActionListener {
                 && duHrbox.getText() != null && !duHrbox.getText().equals("")
                 && duMinbox.getText() != null && !duMinbox.getText().equals("")) {
 
-            ScheduleInfo s = new ScheduleInfo(String.valueOf(billboardChooser.getSelectedItem()), creatorbox.getText(),
+            ScheduleInfo s = new ScheduleInfo(String.valueOf(billboardChooser.getSelectedItem()), creatorbox.getText(), year,
                     month, date, String.valueOf(time), minbox
                     .getText(), duHrbox.getText(), duMinbox.getText(), recurbox.getText());
             data.add(s);
@@ -432,7 +434,7 @@ public class CustomDialog extends JDialog implements ActionListener {
         } else if (billboardChooser.getSelectedItem() != null && !billboardChooser.getSelectedItem().equals("") &&
                 hourbox.getText() != null && !hourbox.getText().equals("")
                 && minbox.getText() != null && !minbox.getText().equals("")) {
-            data.edit(billboardChooser.getSelectedItem().toString(), creatorbox.getText(), month, date, String.valueOf(time), minbox
+            data.edit(billboardChooser.getSelectedItem().toString(), creatorbox.getText(), year, month, date, String.valueOf(time), minbox
                     .getText(), duHrbox.getText(), duMinbox.getText(), recurbox.getText());
             model.removeAllElements();
 //            setDisplay(date, month);
@@ -440,7 +442,7 @@ public class CustomDialog extends JDialog implements ActionListener {
     }
 
     private void deletePressed() {
-        data.remove(billboardChooser.getSelectedItem().toString(), date, hourbox.getText());
+        data.remove(billboardChooser.getSelectedItem().toString(), month, date, hourbox.getText());
         model.removeAllElements();
 //        setDisplay(date, month);
     }

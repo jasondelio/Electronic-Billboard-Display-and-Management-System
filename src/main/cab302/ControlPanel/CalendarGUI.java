@@ -232,7 +232,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                         .split("<br>");
                 chosenDate = title[0] + "/" + month + " (" + title[1] + ")";
                 int time = table.getSelectedRow();
-                CustomDialog dialog = new CustomDialog(chosenDate, time, dataSet, boradData);
+                CustomDialog dialog = new CustomDialog(chosenDate, String.valueOf(year), time, dataSet, boradData);
                 dialog.addWindowListener(new WindowAdapter() {
                     @Override
                     public void windowOpened(WindowEvent e) {
@@ -372,18 +372,18 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                 recurSchedule[index] = dataSet.findRow(index).toString();
 
                 for (int i = 0; i < 7; i++) {
-                    if (Integer.parseInt(recurSchedule[index].split(" ")[3]) + i > last) {
-                        dateRecur[i] = Integer.parseInt(recurSchedule[index].split(" ")[3]) - last + i;
+                    if (Integer.parseInt(recurSchedule[index].split(" ")[4]) + i > last) {
+                        dateRecur[i] = Integer.parseInt(recurSchedule[index].split(" ")[4]) - last + i;
                     } else {
-                        dateRecur[i] = Integer.parseInt(recurSchedule[index].split(" ")[3]) + i;
+                        dateRecur[i] = Integer.parseInt(recurSchedule[index].split(" ")[4]) + i;
                     }
                 }
-                int re = Integer.parseInt(recurSchedule[index].split(" ")[8]);
-                int times = (7 * 24 - Integer.parseInt(recurSchedule[index].split(" ")[4])) / re;
+                int re = Integer.parseInt(recurSchedule[index].split(" ")[9]);
+                int times = (7 * 24 - Integer.parseInt(recurSchedule[index].split(" ")[5])) / re;
 
                 for (int i = 1; i < times; i++) {
                     int in = 0;
-                    int hrs = Integer.parseInt(recurSchedule[index].split(" ")[4]) + re * i;
+                    int hrs = Integer.parseInt(recurSchedule[index].split(" ")[5]) + re * i;
                     in = hrs / 24;
                     if (hrs > 24) {
                         hrs = hrs % 24;
@@ -393,9 +393,10 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                     if (temp.getMonth() == null && temp.getDate() == null && temp.getHour() == null && temp.getMinute() == null &&
                             temp.getRecur() == null) {
                         ScheduleInfo s = new ScheduleInfo(recurSchedule[index].split(" ")[0], recurSchedule[index].split(" ")[1],
+                                recurSchedule[index].split(" ")[2],
                                 String.valueOf(month), String.valueOf(dateRecur[in]), String.valueOf(hrs),
-                                recurSchedule[index].split(" ")[5], recurSchedule[index].split(" ")[6],
-                                recurSchedule[index].split(" ")[7], "");
+                                recurSchedule[index].split(" ")[6], recurSchedule[index].split(" ")[7],
+                                recurSchedule[index].split(" ")[8], "");
                         dataSet.add(s);
                     }
                 }

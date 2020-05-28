@@ -18,6 +18,7 @@ public class SchedulesDatasource implements ScheduleSources {
             "CREATE TABLE IF NOT EXISTS schedules ("
                     + "boardtitle VARCHAR(30),"
                     + "creator VARCHAR(30),"
+                    + "year VARCHAR(3),"
                     + "month VARCHAR(3),"
                     + "date VARCHAR(3),"
                     + "hour VARCHAR(3),"
@@ -27,8 +28,8 @@ public class SchedulesDatasource implements ScheduleSources {
                     + "recur VARCHAR(3)"
                     + ");";
 
-    private static final String INSERT_SCHEDULE = "INSERT INTO schedules (boardtitle, creator, month, date, hour, minute, durationHr, durationMin, recur)" +
-            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
+    private static final String INSERT_SCHEDULE = "INSERT INTO schedules (boardtitle, creator, year, month, date, hour, minute, durationHr, durationMin, recur)" +
+            " VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 
     private static final String GET_TITLE = "SELECT boardtitle FROM schedules";
 
@@ -38,10 +39,10 @@ public class SchedulesDatasource implements ScheduleSources {
 
     private static final String GET_SCHEDULE_List = "SELECT * FROM schedules";
 
-    private static final String DELETE_SCHEDULE = "DELETE FROM schedules WHERE (boardtitle=?) AND (date=?) AND (hour=?)";
+    private static final String DELETE_SCHEDULE = "DELETE FROM schedules WHERE (boardtitle=?) AND (month=?) AND (date=?) AND (hour=?)";
 
-    private static final String EDIT_SCHEDULE = "UPDATE schedules SET boardtitle=?, creator=?, month=?, date=?, hour=?, minute=?, durationHr=?" +
-            ", durationMin=?, recur=? WHERE (boardtitle=?) AND (date=?) AND (hour=?)";
+    private static final String EDIT_SCHEDULE = "UPDATE schedules SET boardtitle=?, creator=?, year=?, month=?, date=?, hour=?, minute=?, durationHr=?" +
+            ", durationMin=?, recur=? WHERE (boardtitle=?) AND (month=?) AND (date=?) AND (hour=?)";
 
     private static final String COUNT_ROWS = "SELECT COUNT(*) FROM schedules";
 
@@ -100,13 +101,14 @@ public class SchedulesDatasource implements ScheduleSources {
         try {
             createSchedule.setString(1, b.getBoardTitle());
             createSchedule.setString(2, b.getCreator());
-            createSchedule.setString(3, b.getMonth());
-            createSchedule.setString(4, b.getDate());
-            createSchedule.setString(5, b.getHour());
-            createSchedule.setString(6, b.getMinute());
-            createSchedule.setString(7, b.getDuHr());
-            createSchedule.setString(8, b.getDuMin());
-            createSchedule.setString(9, b.getRecur());
+            createSchedule.setString(3, b.getYear());
+            createSchedule.setString(4, b.getMonth());
+            createSchedule.setString(5, b.getDate());
+            createSchedule.setString(6, b.getHour());
+            createSchedule.setString(7, b.getMinute());
+            createSchedule.setString(8, b.getDuHr());
+            createSchedule.setString(9, b.getDuMin());
+            createSchedule.setString(10, b.getRecur());
             createSchedule.execute();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -144,6 +146,7 @@ public class SchedulesDatasource implements ScheduleSources {
             while(rs.next()) {
                 b.setBoardTitle(rs.getString("boardtitle"));
                 b.setCreator(rs.getString("creator"));
+                b.setYear(rs.getString("year"));
                 b.setMonth(rs.getString("month"));
                 b.setDate(rs.getString("date"));
                 b.setHour(rs.getString("hour"));
@@ -190,6 +193,7 @@ public class SchedulesDatasource implements ScheduleSources {
             while(rs.next()) {
                 b.setBoardTitle(rs.getString("boardtitle"));
                 b.setCreator(rs.getString("creator"));
+                b.setYear(rs.getString("year"));
                 b.setMonth(rs.getString("month"));
                 b.setDate(rs.getString("date"));
                 b.setHour(rs.getString("hour"));
@@ -266,11 +270,12 @@ public class SchedulesDatasource implements ScheduleSources {
     /**
      * @see
      */
-    public void deleteSchedule(String title, String date, String hour) {
+    public void deleteSchedule(String title, String month, String date, String hour) {
         try {
             deleteSchedule.setString(1, title);
-            deleteSchedule.setString(2, date);
-            deleteSchedule.setString(3, hour);
+            deleteSchedule.setString(2, month);
+            deleteSchedule.setString(3, date);
+            deleteSchedule.setString(4, hour);
             deleteSchedule.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -281,21 +286,23 @@ public class SchedulesDatasource implements ScheduleSources {
      * @return
      * @see
      */
-    public void editSchedule(String boardtitle, String creator, String month, String date, String hour,
+    public void editSchedule(String boardtitle, String creator, String year, String month, String date, String hour,
                              String minute, String duHr, String duMin, String recur) {
         try {
             editSchedule.setString(1, boardtitle);
             editSchedule.setString(2, creator);
-            editSchedule.setString(3, month);
-            editSchedule.setString(4, date);
-            editSchedule.setString(5, hour);
-            editSchedule.setString(6, minute);
-            editSchedule.setString(7, duHr);
-            editSchedule.setString(8, duMin);
-            editSchedule.setString(9, recur);
-            editSchedule.setString(10, boardtitle);
-            editSchedule.setString(11, date);
-            editSchedule.setString(12, hour);
+            editSchedule.setString(3, year);
+            editSchedule.setString(4, month);
+            editSchedule.setString(5, date);
+            editSchedule.setString(6, hour);
+            editSchedule.setString(7, minute);
+            editSchedule.setString(8, duHr);
+            editSchedule.setString(9, duMin);
+            editSchedule.setString(10, recur);
+            editSchedule.setString(11, boardtitle);
+            editSchedule.setString(12, month);
+            editSchedule.setString(13, date);
+            editSchedule.setString(14, hour);
             editSchedule.execute();
         }
         catch (SQLException ex) {

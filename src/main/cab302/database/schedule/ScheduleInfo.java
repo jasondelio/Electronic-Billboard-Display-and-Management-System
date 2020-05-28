@@ -3,6 +3,7 @@ package cab302.database.schedule;
 import java.io.Serializable;
 
 public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
+    private String year;
 
     private String month;
 
@@ -32,7 +33,7 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
     /**
      *
      */
-    public ScheduleInfo(String boardtitle, String creator, String month, String date, String hour, String minute, String durationHr,
+    public ScheduleInfo(String boardtitle, String creator, String year, String month, String date, String hour, String minute, String durationHr,
                         String durationMin, String recur) {
         this.month = month;
         this.hour = hour;
@@ -43,6 +44,7 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
         this.durationHr = durationHr;
         this.durationMin = durationMin;
         this.recur = recur;
+        this.year = year;
     }
 
 
@@ -88,23 +90,41 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
             return month;
         }
 
-        /**
-         * @param month
-         */
-        public void setMonth(String month) {
-            this.month = month;
-        }
 
-        /**
-         * @return
-         */
-        public String getHour() {
-            return hour;
-        }
+    /**
+     * @param
+     */
+    public void setMonth(String month) {
+        this.month = month;
+    }
 
-        /**
-         */
-        public void setHour(String hour) {
+    /**
+     *
+     */
+    public String getYear() {
+        return year;
+    }
+
+
+    /**
+     * @param
+     */
+    public void setYear(String year) {
+        this.year = year;
+    }
+
+
+    /**
+     * @return
+     */
+    public String getHour() {
+        return hour;
+    }
+
+    /**
+     *
+     */
+    public void setHour(String hour) {
             this.hour = hour;
         }
 
@@ -175,7 +195,7 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
      *
      */
     public String toString() {
-        return boardtitle + " " + creator + " " + month + " " + date + " " + hour + " " + minute + " " +
+        return boardtitle + " " + creator + " " + year + " " + month + " " + date + " " + hour + " " + minute + " " +
                 durationHr + " " + durationMin + ", " + recur;
     }
 

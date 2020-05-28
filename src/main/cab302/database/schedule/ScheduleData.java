@@ -37,11 +37,11 @@ public class ScheduleData {
     /**
      *
      */
-    public void remove(String title, String date, String hour) {
+    public void remove(String title, String month, String date, String hour) {
 
         // remove from both list and map
 //        sModel.removeElement(key);
-        data.deleteSchedule(title, date, hour);
+        data.deleteSchedule(title, month, date, hour);
     }
 
 
@@ -61,9 +61,9 @@ public class ScheduleData {
         return data.findRow(index);
     }
 
-    public void edit(String boardtitle, String creator, String month, String date, String hour,
+    public void edit(String boardtitle, String creator, String year, String month, String date, String hour,
                      String minute, String duHr, String duMin, String recur) {
-        data.editSchedule(boardtitle, creator, month, date, hour, minute, duHr, duMin, recur);
+        data.editSchedule(boardtitle, creator, year, month, date, hour, minute, duHr, duMin, recur);
 
     }
 

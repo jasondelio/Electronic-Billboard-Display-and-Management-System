@@ -342,7 +342,7 @@ public class billboardServer {
                         UserInfo nu = data.get(currentUser);
                         String results = null;
                         if (nu.getScheduleBillboards().equals("true")) {
-                            ScheduleInfo new_schedule = new ScheduleInfo(sbbr.getBillboardname(), currentUser, sbbr.getMonth(), sbbr.getDate(),
+                            ScheduleInfo new_schedule = new ScheduleInfo(sbbr.getBillboardname(), currentUser, sbbr.getYear(), sbbr.getMonth(), sbbr.getDate(),
                                     sbbr.getHour(), sbbr.getMinitue(), sbbr.getDurationHr(), sbbr.getDurationMin(), sbbr.getRecur());
                             scheduleData.add(new_schedule);
                             results = "Success to schedule the billboard";
@@ -379,7 +379,7 @@ public class billboardServer {
                             ScheduleInfo new_sche = scheduleData.get(rbbr.getBillboardname());
                             if (new_sche.getBoardTitle().equals(rbbr.getBillboardname()) && new_sche.getMonth().equals(rbbr.getMonth())
                                     && new_sche.getDate().equals(rbbr.getDate()) && new_sche.getMinute().equals(rbbr.getMinitue())) {
-                                scheduleData.remove(rbbr.getBillboardname(), rbbr.getDate(), rbbr.getHour());
+                                scheduleData.remove(rbbr.getBillboardname(), rbbr.getMonth(), rbbr.getDate(), rbbr.getHour());
                                 result = "Success to remove bb from schedule !";
                             } else {
                                 result = "failed to remove cuz no billboard schedule on parameter time!";
@@ -639,8 +639,8 @@ public class billboardServer {
     }
     private static boolean isSessionTokenExpired(String sessionToken) {
         Date newdate = new Date();
-        long diff = newdate.getTime() - TimeSessionTokensmade.get(sessionToken).getTime();;
-        int diffday = (int) (diff/ (24*60*60*1000));
+        long diff = newdate.getTime() - TimeSessionTokensmade.get(sessionToken).getTime();
+        int diffday = (int) (diff / (24 * 60 * 60 * 1000));
 //        int diffmin = (int) (diff/ (60*1000));
         if (diffday >= 1){
             return true;

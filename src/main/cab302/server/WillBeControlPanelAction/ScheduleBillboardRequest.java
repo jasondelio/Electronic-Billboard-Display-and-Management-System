@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 public class ScheduleBillboardRequest implements Serializable {
     private String billboardname;
+    private String year;
     private String month;
     private String date;
     private String hour;
@@ -14,8 +15,9 @@ public class ScheduleBillboardRequest implements Serializable {
     private String recur;
 
 
-    public ScheduleBillboardRequest(String billboardname, String month, String date, String hour, String minitue, String sessionToken, String durationHr, String durationMin, String recur) {
+    public ScheduleBillboardRequest(String billboardname, String year, String month, String date, String hour, String minitue, String sessionToken, String durationHr, String durationMin, String recur) {
         this.billboardname = billboardname;
+        this.year = year;
         this.month = month;
         this.date = date;
         this.hour = hour;
@@ -54,9 +56,13 @@ public class ScheduleBillboardRequest implements Serializable {
     public String getHour() {
         return hour;
     }
+
     public String getMinitue() {
         return minitue;
     }
 
+    public String getYear() {
+        return year;
+    }
 }
 
