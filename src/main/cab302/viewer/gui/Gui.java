@@ -1,6 +1,7 @@
 package cab302.viewer.gui;
 
 import cab302.viewer.exceptions.BadImageFormatException;
+import cab302.viewer.exceptions.MalformedHexadecimalColourException;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,7 +24,12 @@ public class Gui extends JFrame {
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setUndecorated(true);
         String bgString = xmlInfo.getOrDefault("bgColour", "#FFFFFF");
-        Color bgColour = HexToRGB(bgString);
+        Color bgColour;
+        try {
+            bgColour = HexToRGB(bgString);
+        } catch (MalformedHexadecimalColourException e) {
+            bgColour = new Color(255,255,255);
+        }
         getContentPane().setBackground(bgColour);
 
         // Layout and closing
@@ -78,71 +84,30 @@ public class Gui extends JFrame {
 
 
         // ## XML display ## \\
-        // Create heading label if exists and add it to the window
-        if (xmlInfo.containsKey("message")) {
-            JTextArea titleText = new JTextArea();
-            String[] messageStringArr = xmlInfo.get("message").split("%%%%");
-            titleText.setText(messageStringArr[0]);
-            titleText.setFont(new Font("Arial", Font.PLAIN, 84));
-            titleText.setForeground(
-                    HexToRGB(
-                            messageStringArr.length != 1 ?
-                                    (!messageStringArr[messageStringArr.length - 1].equals("") ?
-                                            messageStringArr[messageStringArr.length - 1] : "#000000")
-                                    : "#000000"
-                    )
-            );
-            titleText.setBackground(bgColour);
+        DisplayAssembler displayAssembler = new DisplayAssembler(xmlInfo, Toolkit.getDefaultToolkit().getScreenSize());
 
-            titleText.setEditable(false);
-            titleText.setLineWrap(true);
-            titleText.setWrapStyleWord(true);
-            titleText.setRows(3);
-            titleText.setColumns(25);
+        JTextPane titleText = null;
+        JTextPane informationText = null;
+        JLabel pictureLabel = null;
+        try {
+            titleText = displayAssembler.assembleMessagePane(bgColour);
+            informationText = displayAssembler.assembleInformationPane(bgColour);
+            pictureLabel = displayAssembler.assemblePictureLabel();
+        } catch (MalformedHexadecimalColourException | BadImageFormatException | IOException ignored) {}
 
+
+        if (titleText != null) {
             gbc.gridx = 0;
             gbc.gridy = 0;
             add(titleText, gbc);
         }
 
-        // Create picture label if exists and add it to the window
-        if (xmlInfo.containsKey("picture")) {
-            JLabel pictureLabel = new JLabel();
-            String imgInfo = xmlInfo.get("picture");
-            try {
-                pictureLabel.setIcon(new ImageIcon(imgGen.isBase64EncodedImage(imgInfo) ? imgGen.decodeDataString(imgInfo) : imgGen.downloadImage(imgInfo)));
-            } catch (IOException | BadImageFormatException e) {
-                e.printStackTrace();
-            }
-
+        if (pictureLabel != null) {
             gbc.gridy = 1;
             add(pictureLabel, gbc);
         }
 
-        // Create information label if exists and add it to the window
-        if (xmlInfo.containsKey("information")) {
-            JTextArea informationText = new JTextArea();
-            String[] infoStringArr = xmlInfo.get("information").split("%%%%");
-            informationText.setText(infoStringArr[0]);
-            informationText.setFont(new Font("Arial", Font.PLAIN, 36));
-            informationText.setForeground(
-                    HexToRGB(
-                            infoStringArr.length > 1
-                                    ? (
-                                    !infoStringArr[infoStringArr.length - 1].equals("")
-                                            ? infoStringArr[infoStringArr.length - 1]
-                                            : "#000000"
-                            )
-                                    : "#000000"
-                    )
-            );
-            informationText.setBackground(bgColour);
-
-            informationText.setEditable(false);
-            informationText.setLineWrap(true);
-            informationText.setWrapStyleWord(true);
-            informationText.setColumns(55);
-
+        if (informationText != null) {
             gbc.gridy = 2;
             add(informationText, gbc);
         }

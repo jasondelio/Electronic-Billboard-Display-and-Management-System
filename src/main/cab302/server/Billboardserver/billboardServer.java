@@ -695,7 +695,7 @@ public class billboardServer {
         Properties props = new Properties();
         FileInputStream in = null;
         try {
-            in = new FileInputStream("/src/main/cab302/network.props");
+            in = new FileInputStream("src/main/cab302/network.props");
             props.load(in);
             in.close();
             // get the property value and print it out
