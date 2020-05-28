@@ -2,11 +2,9 @@ package cab302.server.WillBeControlPanelAction;
 
 import java.io.Serializable;
 
-public class ListUsersRequest implements Serializable {
+public class sessionExistRequest implements Serializable {
     private String sessionToken;
-
-    public ListUsersRequest(String sessionToken) {
-
+    public sessionExistRequest(String sessionToken){
         this.sessionToken = sessionToken;
     }
 

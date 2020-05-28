@@ -2,6 +2,7 @@ package cab302.ControlPanel;
 
 import cab302.database.billboard.BillboardData;
 import cab302.database.schedule.ScheduleData;
+import cab302.database.schedule.ScheduleInfo;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -52,6 +53,8 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
     Object[] rowH;
 
     Object[] lblList;
+
+    String[] recurSchedule;
 
     public CalendarGUI(ScheduleData dataSet, BillboardData boradData) {
         this.dataSet = dataSet;
@@ -111,42 +114,6 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
         monthChooser.addActionListener(this);
     }
 
-    public void initializer() {
-
-        current = Calendar.getInstance();
-
-        bg = new JFrame();
-        yearChooser = new JComboBox<>();
-        yearBox = new DefaultComboBoxModel<>();
-        monthChooser = new JComboBox<>();
-        monthBox = new DefaultComboBoxModel<>();
-
-        scrollWeekly = new JScrollPane();
-
-        pnlMain = new JPanel(new GridBagLayout());
-
-        pnlTop = new JPanel();
-
-        pnlDayNames = new JPanel(new GridLayout(1, 7));
-
-        pnlDate = new JPanel(new GridLayout(0, 7));
-
-        pnlWeekly = new JPanel(new GridLayout(0, 8));
-
-        bg.setSize(800, 400);
-
-        ob = new Integer[DAY_HOUR][WEEK_LENGTH + 1];
-        rowH =  new Object[DAY_HOUR];
-        lblList = new Object[WEEK_LENGTH];
-
-        data = new JList(dataSet.take());
-
-        getDate();
-        getMonth();
-        getYear();
-
-    }
-
     public static void main(String[] args) {
 
         new CalendarGUI(new ScheduleData(), new BillboardData()) {
@@ -176,6 +143,43 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
             }
         };
 
+
+    }
+
+    public void initializer() {
+
+        current = Calendar.getInstance();
+
+        bg = new JFrame();
+        yearChooser = new JComboBox<>();
+        yearBox = new DefaultComboBoxModel<>();
+        monthChooser = new JComboBox<>();
+        monthBox = new DefaultComboBoxModel<>();
+
+        scrollWeekly = new JScrollPane();
+
+        pnlMain = new JPanel(new GridBagLayout());
+
+        pnlTop = new JPanel();
+
+        pnlDayNames = new JPanel(new GridLayout(1, 7));
+
+        pnlDate = new JPanel(new GridLayout(0, 7));
+
+        pnlWeekly = new JPanel(new GridLayout(0, 8));
+
+        bg.setSize(800, 400);
+
+        ob = new Integer[DAY_HOUR][WEEK_LENGTH + 1];
+        rowH =  new Object[DAY_HOUR];
+        lblList = new Object[WEEK_LENGTH];
+        recurSchedule = new String[dataSet.take().getSize()];
+
+        data = new JList(dataSet.take());
+
+        getDate();
+        getMonth();
+        getYear();
 
     }
 
@@ -222,11 +226,11 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
         sm.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
         sm.addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()){
+            if (!e.getValueIsAdjusting()) {
                 String[] title = table.getColumnName(table.getSelectedColumn())
                         .replace("<html><center>", "")
                         .split("<br>");
-                chosenDate = title[0] + "/" + month + " (" +title[1] + ")";
+                chosenDate = title[0] + "/" + month + " (" + title[1] + ")";
                 int time = table.getSelectedRow();
                 CustomDialog dialog = new CustomDialog(chosenDate, time, dataSet, boradData);
                 dialog.addWindowListener(new WindowAdapter() {
@@ -236,12 +240,14 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                         dataSet = new ScheduleData();
                         boradData = new BillboardData();
                     }
+
                     @Override
                     public void windowClosed(WindowEvent e) {
                         super.windowClosed(e);
                         dataSet = new ScheduleData();
                         boradData = new BillboardData();
                         data = new JList(dataSet.take());
+                        recurSchedule = new String[dataSet.take().getSize()];
 
                         setTable();
                     }
@@ -270,24 +276,153 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
 
     }
 
+    public void setTableValue(JTable t) {
+        int[][] tC = new int[t.getColumnCount()][2];
+        int index = 0;
+        int[][] d = new int[tC.length][2];
+//        setRecurSchedule();
+        setRecurring();
 
-    public int getYear(){
+
+        while (index < data.getModel().getSize()) {
+            int c = 0;
+            String value = dataSet.findRow(index).getBoardTitle() + " - "
+                    + dataSet.findRow(index).getHour()
+                    + ":" + dataSet.findRow(index).getMinute();
+            for (int i = 0; i < t.getColumnCount(); i++) {
+                String[] m = t.getColumnName(i)
+                        .replace("<html><center>", "")
+                        .replace(" ", "")
+                        .split("<br>");
+                tC[i][0] = Integer.parseInt(m[0]);
+                tC[i][1] = i;
+            }
+
+
+            for (int[] n : tC) {
+
+//                String tempDate = dataSet.get(data.getModel().getElementAt(index)).getDate();
+                if (dataSet.findRow(index).getDate().equals(String.valueOf(n[0]))) {
+                    d[c] = n;
+                } else {
+                    d[c][0] = -1;
+                    d[c][1] = -1;
+                }
+                if (d[c][1] != -1 && d[c][0] != -1) {
+
+//                    System.out.println(d[i][0]);
+                    if (Integer.parseInt(dataSet.findRow(index).getHour()) < 24) {
+                        t.setValueAt(value,
+                                Integer.parseInt(dataSet.findRow(index).getHour()),
+                                d[c][1]);
+                    } else {
+                        if (d[c][1] + 1 < 6) {
+                            t.setValueAt(value,
+                                    Integer.parseInt(dataSet.findRow(index).getHour()) - 24,
+                                    d[c][1] + 1);
+                        }
+                    }
+                    int min = 0;
+                    int hrs = 0;
+                    if (Integer.parseInt(dataSet.findRow(index).getDuMin()) > 0 &&
+                            Integer.parseInt(dataSet.findRow(index).getDuMin()) < 60) {
+                        hrs = 1;
+                    } else if (Integer.parseInt(dataSet.findRow(index).getDuMin()) > 59) {
+                        hrs = Integer.parseInt(dataSet.findRow(index).getDuMin()) / 60;
+                        if (Integer.parseInt(dataSet.findRow(index).getDuMin()) % 60 > 0) {
+                            min = Integer.parseInt(dataSet.findRow(index).getDuMin()) % 60;
+                            if (min > 0) {
+                                hrs++;
+                            }
+                        }
+                    }
+                    int duration = Integer.parseInt(dataSet.findRow(index).getDuHr()) + hrs;
+                    if (duration > 0) {
+                        for (int j = 1; j < duration; j++) {
+                            if (Integer.parseInt(dataSet.findRow(index).getHour()) + j < 24) {
+                                t.setValueAt(" ",
+                                        Integer.parseInt(dataSet.findRow(index).getHour()) + j,
+                                        d[c][1]);
+                            } else {
+                                if (d[c][1] + 1 < 6) {
+                                    t.setValueAt(" ",
+                                            Integer.parseInt(dataSet.findRow(index).getHour()) + j - 24,
+                                            d[c][1] + 1);
+                                }
+                            }
+                        }
+                    }
+                }
+                c++;
+            }
+            index++;
+        }
+    }
+
+    public void setRecurring() {
+        Calendar tempCal = Calendar.getInstance();
+        int last = tempCal.getActualMaximum(Calendar.DAY_OF_MONTH);
+
+        int index = 0;
+        int[] dateRecur = new int[7];
+        int tempData = dataSet.getModel().getSize();
+
+        while (index < recurSchedule.length) {
+            if (dataSet.findRow(index).getRecur() != null && !dataSet.findRow(index).getRecur().equals("")) {
+                recurSchedule[index] = dataSet.findRow(index).toString();
+
+                for (int i = 0; i < 7; i++) {
+                    if (Integer.parseInt(recurSchedule[index].split(" ")[3]) + i > last) {
+                        dateRecur[i] = Integer.parseInt(recurSchedule[index].split(" ")[3]) - last + i;
+                    } else {
+                        dateRecur[i] = Integer.parseInt(recurSchedule[index].split(" ")[3]) + i;
+                    }
+                }
+                int re = Integer.parseInt(recurSchedule[index].split(" ")[8]);
+                int times = (7 * 24 - Integer.parseInt(recurSchedule[index].split(" ")[4])) / re;
+
+                for (int i = 1; i < times; i++) {
+                    int in = 0;
+                    int hrs = Integer.parseInt(recurSchedule[index].split(" ")[4]) + re * i;
+                    in = hrs / 24;
+                    if (hrs > 24) {
+                        hrs = hrs % 24;
+                    }
+                    ScheduleInfo temp = dataSet.findSchedule(recurSchedule[index].split(" ")[0], String.valueOf(dateRecur[in]),
+                            String.valueOf(hrs));
+                    if (temp.getMonth() == null && temp.getDate() == null && temp.getHour() == null && temp.getMinute() == null &&
+                            temp.getRecur() == null) {
+                        ScheduleInfo s = new ScheduleInfo(recurSchedule[index].split(" ")[0], recurSchedule[index].split(" ")[1],
+                                String.valueOf(month), String.valueOf(dateRecur[in]), String.valueOf(hrs),
+                                recurSchedule[index].split(" ")[5], recurSchedule[index].split(" ")[6],
+                                recurSchedule[index].split(" ")[7], "");
+                        dataSet.add(s);
+                    }
+                }
+            }
+            index++;
+        }
+
+    }
+
+
+    public int getYear() {
         year = current.get(Calendar.YEAR);
         return year;
     }
 
-    public int getMonth(){
-        month = current.get(Calendar.MONTH)+1;
+    public int getMonth() {
+        month = current.get(Calendar.MONTH) + 1;
         return month;
     }
 
-    public int getDate(){
+    public int getDate() {
         date = current.get(Calendar.DATE);
         return date;
     }
 
 
-    public void setYearChooser(Box x){
+    public void setYearChooser(Box x) {
 
         for(int i=year-YEAR_DURATION; i<=year+YEAR_DURATION; i++) yearBox.addElement(i);
 
@@ -414,11 +549,14 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
         }
     }
 
+    public void setRecurSchedule() {
+        int index = 0;
 
-    public void setSchedule() {
-
-        for(int i = 0; i < 24; i ++) {
-            rowH[i] = i + ":" + "00";
+        while (index < data.getModel().getSize()) {
+            if (dataSet.findRow(index).getRecur() != null && !dataSet.findRow(index).getRecur().equals("")) {
+                recurSchedule[index] = dataSet.findRow(index).toString();
+            }
+            index++;
         }
     }
 
@@ -436,65 +574,11 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
         }
     }
 
-    public void setTableValue(JTable t) {
-        int[][] tC = new int[t.getColumnCount()][2];
-        int index = 0;
-        int[][] d = new int[tC.length][2];
+    public void setSchedule() {
 
-
-        while (index < data.getModel().getSize()) {
-            for (int i = 0; i < t.getColumnCount(); i++) {
-                String[] m = t.getColumnName(i)
-                        .replace("<html><center>", "")
-                        .replace(" ", "")
-                        .split("<br>");
-                tC[i][0] = Integer.parseInt(m[0]);
-                tC[i][1] = i;
-            }
-
-            for (int[] n : tC) {
-//                String tempDate = dataSet.get(data.getModel().getElementAt(index)).getDate();
-                if (dataSet.findRow(index).getDate().equals(String.valueOf(n[0]))) {
-                    d[index] = n;
-                } else {
-                    d[index][0] = -1;
-                    d[index][1] = -1;
-                }
-                if (d[index][1] != -1 && d[index][0] != -1) {
-                    String value = dataSet.findRow(index).getBoardTitle() + " - "
-                            + dataSet.findRow(index).getHour()
-                            + ":" + dataSet.findRow(index).getMinute();
-//                    System.out.println(d[i][0]);
-                    t.setValueAt(value,
-                            Integer.parseInt(dataSet.findRow(index).getHour()),
-                            d[index][1]);
-                    int min = 0;
-                    int hrs = 0;
-                    if (Integer.parseInt(dataSet.findRow(index).getDuMin()) > 0 &&
-                            Integer.parseInt(dataSet.findRow(index).getDuMin()) < 60) {
-                        hrs = 1;
-                    } else if (Integer.parseInt(dataSet.findRow(index).getDuMin()) > 59) {
-                        hrs = Integer.parseInt(dataSet.findRow(index).getDuMin()) / 60;
-                        if (Integer.parseInt(dataSet.findRow(index).getDuMin()) % 60 > 0) {
-                            min = Integer.parseInt(dataSet.findRow(index).getDuMin()) % 60;
-                            if (min > 0) {
-                                hrs++;
-                            }
-                        }
-                    }
-                    int duration = Integer.parseInt(dataSet.findRow(index).getDuHr()) + hrs;
-                    if (duration > 0) {
-                        for (int j = 1; j < duration; j++) {
-                            t.setValueAt(" ",
-                                    Integer.parseInt(dataSet.findRow(index).getHour()) + j,
-                                    d[index][1]);
-                        }
-                    }
-                }
-            }
-            index++;
+        for (int i = 0; i < 24; i++) {
+            rowH[i] = i + ":" + "00";
         }
-//        index++;
     }
 
     @Override

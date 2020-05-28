@@ -3,13 +3,9 @@ package cab302.server.Billboardserver;
 import javax.swing.*;
 import java.io.Serializable;
 
-/**
- * Replying to client and client is able to retrieve the billboard list model
- */
-public class ListBillboardReply implements Serializable {
+public class listBillboardReply implements Serializable {
     private ListModel listofBillboards;
-
-    public ListBillboardReply(ListModel listBillboardRequest) {
+    public listBillboardReply(ListModel listBillboardRequest){
         this.listofBillboards = listBillboardRequest;
     }
 

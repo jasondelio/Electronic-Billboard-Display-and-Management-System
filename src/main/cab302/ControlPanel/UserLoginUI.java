@@ -1,11 +1,12 @@
 package cab302.ControlPanel;
 
+import cab302.server.Billboardserver.AcknowledgeReply;
 import cab302.server.Billboardserver.AlreadyLoginReply;
 import cab302.server.Billboardserver.LoginReply;
-import cab302.server.Billboardserver.SessionExistReply;
+import cab302.server.Billboardserver.sessionExistReply;
 import cab302.server.WillBeControlPanelAction.Loginrequest;
-import cab302.server.WillBeControlPanelAction.SessionExistRequest;
 import cab302.server.WillBeControlPanelAction.UserLoggedInrequest;
+import cab302.server.WillBeControlPanelAction.sessionExistRequest;
 
 import javax.swing.*;
 import java.awt.*;
@@ -19,7 +20,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.Properties;
 
 /**
  * Initiates user login's user interface for Billboard Control Panel application.
@@ -33,15 +34,17 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
     private JTextField username;
     private JPasswordField password;
 
-    HashMap<Date, String> SessionTokensTimers = new HashMap<>();
     Socket socket;
     OutputStream outputStream;
     InputStream inputStream;
     ObjectOutputStream oos;
     ObjectInputStream ois;
     String sessionToken;
-    Date loggedinTime;
     boolean isAlreadyLogin;
+    private String port;
+    private String host;
+//    private Date loginTime;
+
 
     /**
      * Constructor sets up the user interface and displays
@@ -51,15 +54,15 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
      */
     public UserLoginUI() throws IOException, ClassNotFoundException {
         //if the user is already login before and the session token hasn't expired
+        getPropValues();
         socketStart();
-        SessionExistRequest ser = new SessionExistRequest("get session token");
+        sessionExistRequest ser = new sessionExistRequest("get session token");
         oos.writeObject(ser);
         oos.flush();
         Object trans = ois.readObject();
-        if (trans instanceof SessionExistReply) {
-            SessionExistReply reply = (SessionExistReply) trans;
+        if (trans instanceof sessionExistReply) {
+            sessionExistReply reply = (sessionExistReply) trans;
             isAlreadyLogin = reply.isLoginAlready();
-            System.out.println(isAlreadyLogin);
             if (isAlreadyLogin == true) {
                 sessionToken = reply.getSessiontokens().get(0);
             }
@@ -71,16 +74,27 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
             UserLoggedInrequest userLoggedInrequest = new UserLoggedInrequest(sessionToken);
             oos.writeObject(userLoggedInrequest);
             oos.flush();
-            loggedinTime = new Date();
             Object transoO = ois.readObject();
             if (transoO instanceof AlreadyLoginReply) {
                 AlreadyLoginReply reply = (AlreadyLoginReply) transoO;
                 ArrayList<String> permlists = reply.getPermissionsList();
                 String loggedinuser = reply.getLoggedInUsername();
-                HomeUI homeUI = new HomeUI(sessionToken, permlists, loggedinuser, loggedinTime, 0);
+//                LocalDateTime loginTime = LocalDateTime.parse(reply.getLogintime());
+                HomeUI homeUI = new HomeUI(sessionToken, permlists, loggedinuser, 0);
                 homeUI.setVisible(true);
                 socketStop();
                 dispose();
+                setVisible(false);
+                setUndecorated(true);
+            }else if(transoO instanceof AcknowledgeReply){
+                socketStop();
+                setTitle("User Login");
+                setSize(WIDTH, HEIGHT);
+                initUI();
+                Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+                setLocation(dim.width / 2 - WIDTH / 2, dim.height / 2 - HEIGHT / 2);
+                setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+                setVisible(true);
             }
         }
         //Show the user login user interface if the user hasn't login before
@@ -226,8 +240,9 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
         String username = this.username.getText();
         String password1 = String.valueOf(password.getPassword());
         String hashePass = getHashedPass(password1);
+        Date now = new Date();
 
-        Loginrequest loginrequest = new Loginrequest(username, hashePass);
+        Loginrequest loginrequest = new Loginrequest(username, hashePass, now);
         oos.writeObject(loginrequest);
         oos.flush();
 
@@ -239,12 +254,12 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
             if (reply.isLoginSucceed()) {
                 sessionToken = reply.getSessionToken();
                 loggedinuser = reply.getLoggedInUsername();
-                loggedinTime = new Date();
-                SessionTokensTimers.put(loggedinTime,sessionToken);
+//                LocalDateTime loginTime = LocalDateTime.parse(reply.getLogintime());
+
                 System.out.println("Success to log in, recieve the token " + sessionToken);
                 permlists = reply.getPermissionsList();
                 System.out.println(permlists);
-                HomeUI GUI = new HomeUI(sessionToken,permlists,loggedinuser, loggedinTime,0);
+                HomeUI GUI = new HomeUI(sessionToken,permlists,loggedinuser,0);
                 GUI.setVisible(true);
                 socketStop();
                 dispose();
@@ -290,7 +305,7 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
      * @throws IOException
      */
     public void socketStart() throws IOException {
-        socket = new Socket("localhost", 12345);
+        socket = new Socket(host,Integer.parseInt(port));
         outputStream = socket.getOutputStream();
         inputStream = socket.getInputStream();
         oos = new ObjectOutputStream(outputStream);
@@ -306,6 +321,20 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
         ois.close();
         oos.close();
         socket.close();
+    }
+    public void getPropValues() throws IOException {
+        Properties props = new Properties();
+        FileInputStream in = null;
+        try {
+            in = new FileInputStream("/Users/kitairyuuta/IdeaProjects/CAB302/src/main/cab302/network.props");
+            props.load(in);
+            in.close();
+            // get the property value and print it out
+            host = props.getProperty("host");
+            port = props.getProperty("port");
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
     }
 }
 

@@ -5,9 +5,6 @@ import cab302.database.user.UserInfo;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-/**
- * Replying to client and the client is able to retrieve user permissions
- */
 public class GetUserpemmReply implements Serializable {
     private ArrayList<String> listPermissions;
     private UserInfo u;
@@ -17,7 +14,6 @@ public class GetUserpemmReply implements Serializable {
         this.listPermissions = listPermissions;
         this.u = u;
     }
-
     public ArrayList<String> getListPermissions(){
         return listPermissions;
     }

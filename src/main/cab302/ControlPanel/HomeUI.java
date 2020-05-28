@@ -28,8 +28,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Base64;
-import java.util.Date;
 import java.util.HashMap;
+import java.util.Properties;
 
 import static cab302.viewer.util.HexToRGB.HexToRGB;
 
@@ -97,40 +97,44 @@ public class HomeUI extends JFrame implements ActionListener {
     private String hexColour;
     private String XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
     private String content;
-
+    private String port;
+    private String host;
 
     //UserData data;
     Socket socket;
     String sessionToken;
     String currentUsername;
-    Date loggedinTime;
+//    LocalDateTime loggedinTime;
     ArrayList<String> permissionsList;
     OutputStream outputStream;
     InputStream inputStream;
+    InputStream inputStream1;
     ObjectOutputStream oos;
     ObjectInputStream ois;
 
-    public HomeUI(String sessiontoken, ArrayList<String> perm_lists, String loggedInuser, Date date, int currentTab) throws IOException, ClassNotFoundException {
+    public HomeUI(String sessiontoken, ArrayList<String> perm_lists, String loggedInuser, int currentTab) throws IOException, ClassNotFoundException {
         super("Billboard Control Panel");
+        getPropValues(); 
         sessionToken = sessiontoken;
         permissionsList = perm_lists;
         currentUsername = loggedInuser;
-        loggedinTime = date;
+//        String loginTime = date;
+//        loggedinTime = LocalDateTime.parse(loginTime);
         setLayout(new BorderLayout());
         setSize(WIDTH, HEIGHT);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         setLocation(dim.width / 2 - WIDTH / 2, dim.height / 2 - HEIGHT / 2);
-        Date currentdate = new Date();
-        long diff = currentdate.getTime() - loggedinTime.getTime();
-        long diffHours = diff/(60 * 60 * 1000);
-        if (diffHours >= 24){
-            logout();
-        }
+//        LocalDateTime currentdate = LocalDateTime.now();
+//        int year = currentdate.getYear();
+//        int month = currentdate.getMonthValue();
+//        int day = currentdate.getDayOfMonth();
+//        int hour = currentdate.getHour();
+//        int minute = currentdate.getMinute();
 
         pane = new JTabbedPane();
 
         JPanel panelHome = new JPanel(new BorderLayout());
-        JLabel lblWelcome = new JLabel("Welcome to Billboard Control Panel!");
+        JLabel lblWelcome = new JLabel("Welcome to Billboard Control Panel !");
         lblWelcome.setHorizontalAlignment(JLabel.CENTER);
         lblWelcome.setFont(lblWelcome.getFont().deriveFont(24.0f));
         btnLogout = new JButton("Logout");
@@ -190,14 +194,14 @@ public class HomeUI extends JFrame implements ActionListener {
         panelEditUsers = new JPanel();
         panelEditUsers.setLayout(new BorderLayout());
         socketStart();
-        ListUsersRequest liur = new ListUsersRequest(sessionToken);
+        listUsersRequest liur = new listUsersRequest(sessionToken);
 
         oos.writeObject(liur);
         oos.flush();
 
         Object transo = ois.readObject();
-        if (transo instanceof ListUsersReply) {
-            ListUsersReply reply = (ListUsersReply) transo;
+        if (transo instanceof listUsersReply) {
+            listUsersReply reply = (listUsersReply) transo;
             usernameList = new JList(reply.getListOfUsers());
         }
         //usernameList = new JList(userData.getModel());
@@ -212,21 +216,29 @@ public class HomeUI extends JFrame implements ActionListener {
         JPanel panelListBillboards = new JPanel();
         panelListBillboards.setLayout(new BorderLayout());
         socketStart();
-        ListBillboardRequest listBillboardRequest = new ListBillboardRequest(sessionToken);
+        listBillboardRequest listBillboardRequest = new listBillboardRequest(sessionToken);
         oos.writeObject(listBillboardRequest);
         oos.flush();
-
+        boolean Logout = false;
         Object transoO = ois.readObject();
-        if (transoO instanceof ListBillboardReply) {
-            ListBillboardReply reply = (ListBillboardReply) transoO;
+        if (transoO instanceof listBillboardReply) {
+            listBillboardReply reply = (listBillboardReply) transoO;
             billboardList = new JList(reply.getListofBillboards());
+        } else if (transoO instanceof AcknowledgeReply){
+            Logout = true;
+            logout();
         }
         socketStop();
-        scroller = new JScrollPane(billboardList);
-        scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        panelListBillboards.add(scroller, BorderLayout.CENTER);
-        panelListBillboards.add(makeButtonsPanelListBillboards(), BorderLayout.SOUTH);
-        return panelListBillboards;
+        if(Logout == false){
+            scroller = new JScrollPane(billboardList);
+            scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+            panelListBillboards.add(scroller, BorderLayout.CENTER);
+            panelListBillboards.add(makeButtonsPanelListBillboards(), BorderLayout.SOUTH);
+            return panelListBillboards;
+        }else{
+            System.out.println("dfa");
+            return  null;
+        }
     }
     private JPanel makeButtonsPanelCreateBillboards()
     {
@@ -318,7 +330,7 @@ public class HomeUI extends JFrame implements ActionListener {
         informationColour = new JTextField(10);
         informationColour.setEnabled(false);
         creator = new JTextField(20);
-        creator.setEnabled(false);
+        creator.setEditable(false);
 
         btnBackgroundColour = new JButton("Colour");
         btnBackgroundColour.addActionListener(this);
@@ -370,8 +382,8 @@ public class HomeUI extends JFrame implements ActionListener {
         vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(lblInformation).addComponent(information).addComponent(btnInformationColour)
                 .addComponent(informationColour));
-        vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-                .addComponent(lblCreator).addComponent(creator));
+        vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE))
+                .addComponent(lblCreator).addComponent(creator);
         layout.setVerticalGroup(vGroup);
 
         return createBillboardFieldsPanel;
@@ -606,27 +618,34 @@ public class HomeUI extends JFrame implements ActionListener {
             panelBillboardName.add(billboardName);
             editBillboardPanel.add(panelBillboardName, BorderLayout.NORTH);
             socketStart();
+
             BillboardRequest billboardRequest = new BillboardRequest((String) billboardList.getSelectedValue(),sessionToken);
             oos.writeObject(billboardRequest);
             oos.flush();
             String billboardContent = null;
             String billboardCreator = null;
             Object transoO = ois.readObject();
+            boolean Logout = false;
             if (transoO instanceof BillboardReply) {
                 BillboardReply reply = (BillboardReply) transoO;
                 billboardContent = reply.getXmlcontent();
                 billboardCreator = reply.getCreator();
+            }else if(transoO instanceof AcknowledgeReply){
+                Logout = true;
+                logout();
             }
             socketStop();
+            if(Logout == false){
+                billboardName.setText((String) billboardList.getSelectedValue());
+//                System.out.println(billboardContent);
+//                System.out.println((String) billboardList.getSelectedValue());
+                parseXMLContentsFromDatabase(billboardContent);
+                creator.setText(billboardCreator);
+                editBillboardDialog.add(buttonPanel, BorderLayout.SOUTH);
+                editBillboardDialog.add(editBillboardPanel);
+                editBillboardDialog.setVisible(true);
+            }
 
-            billboardName.setText((String) billboardList.getSelectedValue());
-            System.out.println(billboardContent);
-            System.out.println((String) billboardList.getSelectedValue());
-            parseXMLContentsFromDatabase(billboardContent);
-            creator.setText(billboardCreator);
-            editBillboardDialog.add(buttonPanel, BorderLayout.SOUTH);
-            editBillboardDialog.add(editBillboardPanel);
-            editBillboardDialog.setVisible(true);
         }
 
 
@@ -673,40 +692,55 @@ public class HomeUI extends JFrame implements ActionListener {
         oos.writeObject(billboardRequest);
         oos.flush();
         Object transoO = ois.readObject();
+        boolean Logout = false;
         if (transoO instanceof AcknowledgeReply) {
             AcknowledgeReply reply = (AcknowledgeReply) transoO;
+            if(reply.getAcknowledgement().equals("Expired")){
+                Logout = true;
+            }
             System.out.println(reply.getAcknowledgement());
         }
         socketStop();
-        if (billboardName.getText() != null && !billboardName.getText().equals("")) {
+        if(Logout == false) {
+            if (billboardName.getText() != null && !billboardName.getText().equals("")) {
 //            BillboardInfo b = new BillboardInfo(billboardName.getText(), XMLContents, null);
 
-            createNewBillboardDialog.dispose();
+                createNewBillboardDialog.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Billboard name must be filled",
+                        "Error", JOptionPane.WARNING_MESSAGE);
+            }
+            XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+            dispose();
+            HomeUI GUI = new HomeUI(sessionToken, permissionsList, currentUsername, pane.getSelectedIndex());
+            GUI.setVisible(true);
+        } else{
+            logout();
         }
-        else
-        {
-            JOptionPane.showMessageDialog(this,"Billboard name must be filled",
-                    "Error", JOptionPane.WARNING_MESSAGE);
-        }
-        XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-        dispose();
-        HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername, loggedinTime,pane.getSelectedIndex());
-        GUI.setVisible(true);
     }
     private void deleteBillboardPressed() throws IOException, ClassNotFoundException {
         socketStart();
-        DeleteBillboardRequest deleteBillboardRequest = new DeleteBillboardRequest((String) billboardList.getSelectedValue(), sessionToken);
-        oos.writeObject(deleteBillboardRequest);
+        DelateBillboardRequest delateBillboardRequest = new DelateBillboardRequest((String) billboardList.getSelectedValue(), sessionToken);
+        oos.writeObject(delateBillboardRequest);
         oos.flush();
+        boolean Logout = false;
         Object transoO = ois.readObject();
         if (transoO instanceof AcknowledgeReply) {
             AcknowledgeReply lurlist = (AcknowledgeReply) transoO;
+            if(lurlist.getAcknowledgement().equals("Expired")){
+                Logout = true;
+            }
             System.out.println(lurlist.getAcknowledgement());
         }
         socketStop();
-        dispose();
-        HomeUI GUI = new HomeUI(sessionToken, permissionsList, currentUsername, loggedinTime, pane.getSelectedIndex());
-        GUI.setVisible(true);
+        if(Logout == false){
+            dispose();
+            HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername,pane.getSelectedIndex());
+            GUI.setVisible(true);
+        }else{
+            logout();
+        }
+
     }
     public void exportBillboardPressed()
     {
@@ -791,6 +825,7 @@ public class HomeUI extends JFrame implements ActionListener {
             GetUserPemmRequest getUserPemmRequest = new GetUserPemmRequest((String) usernameList.getSelectedValue(), sessionToken);
             oos.writeObject(getUserPemmRequest);
             oos.flush();
+            boolean Logout = false;
             UserInfo u = null;
             Object transoO = ois.readObject();
             if (transoO instanceof GetUserpemmReply) {
@@ -798,26 +833,33 @@ public class HomeUI extends JFrame implements ActionListener {
                 System.out.println(lurlist.getListPermissions());
                 u = lurlist.getU();
             }
-            socketStop();
-
-            name.setText(u.getName());
-            username.setText(u.getUsername());
-            username.setEditable(false);
-            password.setText("******");
-            email.setText(u.getEmail());
-            cbCreateBillboardsPermission.setSelected(Boolean.parseBoolean(u.getCreateBillboards()));
-            cbEditAllBillboardsPermission.setSelected(Boolean.parseBoolean(u.getEditAllBillboards()));
-            cbScheduleBillboardsPermission.setSelected(Boolean.parseBoolean(u.getScheduleBillboards()));
-            if(usernameList.getSelectedValue().equals(currentUsername)){
-                cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
-                cbEditUsersPermission.setEnabled(false);
-            }else{
-                cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
+            else if (transoO instanceof AcknowledgeReply){
+                Logout = true;
             }
+            socketStop();
+            if(Logout == false) {
+                name.setText(u.getName());
+                username.setText(u.getUsername());
+                username.setEditable(false);
+                password.setText("******");
+                email.setText(u.getEmail());
+                cbCreateBillboardsPermission.setSelected(Boolean.parseBoolean(u.getCreateBillboards()));
+                cbEditAllBillboardsPermission.setSelected(Boolean.parseBoolean(u.getEditAllBillboards()));
+                cbScheduleBillboardsPermission.setSelected(Boolean.parseBoolean(u.getScheduleBillboards()));
+                if (usernameList.getSelectedValue().equals(currentUsername)) {
+                    cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
+                    cbEditUsersPermission.setEnabled(false);
+                } else {
+                    cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
+                }
 
-            editUserDialog.add(buttonPanel, BorderLayout.SOUTH);
-            editUserDialog.add(editUserPanel);
-            editUserDialog.setVisible(true);
+                editUserDialog.add(buttonPanel, BorderLayout.SOUTH);
+                editUserDialog.add(editUserPanel);
+                editUserDialog.setVisible(true);
+            }
+            else{
+                logout();
+            }
         }
     }
     private void editCurrentUser() throws IOException, ClassNotFoundException{
@@ -839,56 +881,63 @@ public class HomeUI extends JFrame implements ActionListener {
         oos.writeObject(getUserPemmRequest);
         oos.flush();
         UserInfo u = null;
+        boolean Logout = false;
         Object transoO = ois.readObject();
         if (transoO instanceof GetUserpemmReply) {
             GetUserpemmReply lurlist = (GetUserpemmReply) transoO;
             System.out.println(lurlist.getListPermissions());
             u = lurlist.getU();
         }
-        socketStop();
-
-        name.setText(u.getName());
-        username.setText(u.getUsername());
-        username.setEditable(false);
-        password.setText("******");
-        email.setText(u.getEmail());
-        if(permissionsList.get(3).equals("true")){
-            cbCreateBillboardsPermission.setSelected(Boolean.parseBoolean(u.getCreateBillboards()));
-            cbEditAllBillboardsPermission.setSelected(Boolean.parseBoolean(u.getEditAllBillboards()));
-            cbScheduleBillboardsPermission.setSelected(Boolean.parseBoolean(u.getScheduleBillboards()));
-            cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
-            cbEditUsersPermission.setEnabled(false);
-        }else{
-            cbCreateBillboardsPermission.setSelected(Boolean.parseBoolean(u.getCreateBillboards()));
-            cbCreateBillboardsPermission.setEnabled(false);
-            cbEditAllBillboardsPermission.setSelected(Boolean.parseBoolean(u.getEditAllBillboards()));
-            cbEditAllBillboardsPermission.setEnabled(false);
-            cbScheduleBillboardsPermission.setSelected(Boolean.parseBoolean(u.getScheduleBillboards()));
-            cbScheduleBillboardsPermission.setEnabled(false);
-            cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
-            cbEditUsersPermission.setEnabled(false);
+        else if (transoO instanceof AcknowledgeReply){
+            Logout = true;
         }
+        socketStop();
+        if (Logout == false) {
+            name.setText(u.getName());
+            username.setText(u.getUsername());
+            username.setEditable(false);
+            password.setText("******");
+            email.setText(u.getEmail());
+            if (permissionsList.get(3).equals("true")) {
+                cbCreateBillboardsPermission.setSelected(Boolean.parseBoolean(u.getCreateBillboards()));
+                cbEditAllBillboardsPermission.setSelected(Boolean.parseBoolean(u.getEditAllBillboards()));
+                cbScheduleBillboardsPermission.setSelected(Boolean.parseBoolean(u.getScheduleBillboards()));
+                cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
+                cbEditUsersPermission.setEnabled(false);
+            } else {
+                cbCreateBillboardsPermission.setSelected(Boolean.parseBoolean(u.getCreateBillboards()));
+                cbCreateBillboardsPermission.setEnabled(false);
+                cbEditAllBillboardsPermission.setSelected(Boolean.parseBoolean(u.getEditAllBillboards()));
+                cbEditAllBillboardsPermission.setEnabled(false);
+                cbScheduleBillboardsPermission.setSelected(Boolean.parseBoolean(u.getScheduleBillboards()));
+                cbScheduleBillboardsPermission.setEnabled(false);
+                cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
+                cbEditUsersPermission.setEnabled(false);
+            }
 
-
-
-
-        editUserDialog.add(buttonPanel, BorderLayout.SOUTH);
-        editUserDialog.add(editUserPanel);
-        editUserDialog.setVisible(true);
-
+            editUserDialog.add(buttonPanel, BorderLayout.SOUTH);
+            editUserDialog.add(editUserPanel);
+            editUserDialog.setVisible(true);
+        }else {
+            logout();
+        }
     }
     private void deleteUserPressed() throws IOException, ClassNotFoundException {
         socketStart();
-        DeleteUserRequest deleteUserRequest = new DeleteUserRequest((String) usernameList.getSelectedValue(), sessionToken);
-        oos.writeObject(deleteUserRequest);
+        DelateUserRequest delateUserRequest = new DelateUserRequest((String) usernameList.getSelectedValue(), sessionToken);
+        oos.writeObject(delateUserRequest);
         oos.flush();
         Object transoO = ois.readObject();
         if (transoO instanceof AcknowledgeReply) {
             AcknowledgeReply lurlist = (AcknowledgeReply) transoO;
             System.out.println(lurlist.getAcknowledgement());
-            dispose();
-            HomeUI GUI = new HomeUI(sessionToken, permissionsList, currentUsername, loggedinTime, pane.getSelectedIndex());
-            GUI.setVisible(true);
+            if (lurlist.getAcknowledgement().equals("Expired")){
+                logout();
+            }else{
+                dispose();
+                HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername, pane.getSelectedIndex());
+                GUI.setVisible(true);
+            }
         }
         socketStop();
     }
@@ -921,9 +970,13 @@ public class HomeUI extends JFrame implements ActionListener {
             if (transoO instanceof AcknowledgeReply) {
                 AcknowledgeReply lurlist = (AcknowledgeReply) transoO;
                 System.out.println(lurlist.getAcknowledgement());
-                dispose();
-                HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername, loggedinTime, pane.getSelectedIndex());
-                GUI.setVisible(true);
+                if (lurlist.getAcknowledgement().equals("Expired")){
+                    logout();
+                }else{
+                    dispose();
+                    HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername,  pane.getSelectedIndex());
+                    GUI.setVisible(true);
+                }
             }
             socketStop();
 
@@ -980,7 +1033,7 @@ public class HomeUI extends JFrame implements ActionListener {
             GetUserPemmRequest getUserPemmRequest = new GetUserPemmRequest(currentUsername, sessionToken);
             oos.writeObject(getUserPemmRequest);
             oos.flush();
-
+            boolean Logout = true;
             Object getPermm = ois.readObject();
             if (getPermm instanceof GetUserpemmReply) {
                 GetUserpemmReply lurlist = (GetUserpemmReply) getPermm;
@@ -988,11 +1041,16 @@ public class HomeUI extends JFrame implements ActionListener {
 //                permissionsList = lurlist.getListPermissions();
 //                disableFeatureBasedOnPermissions();
                 dispose();
-                HomeUI GUI = new HomeUI(sessionToken, lurlist.getListPermissions(), currentUsername, loggedinTime, pane.getSelectedIndex());
+                HomeUI GUI = new HomeUI(sessionToken, lurlist.getListPermissions(), currentUsername, pane.getSelectedIndex());
                 GUI.setVisible(true);
+            }else if (getPermm instanceof AcknowledgeReply){
+                Logout = true;
+                logout();
             }
             socketStop();
-            editUserDialog.dispose();
+            if(Logout == false){
+                editUserDialog.dispose();
+            }
         }
         else{
             JOptionPane.showMessageDialog(this,"Data cannot be null",
@@ -1043,17 +1101,25 @@ public class HomeUI extends JFrame implements ActionListener {
             oos.flush();
             UserInfo u = null;
             Object getPermm = ois.readObject();
+            boolean Logout = false;
             if (getPermm instanceof GetUserpemmReply) {
                 GetUserpemmReply lurlist = (GetUserpemmReply) getPermm;
                 System.out.println(lurlist.getListPermissions());
 
                 dispose();
-                HomeUI GUI = new HomeUI(sessionToken, lurlist.getListPermissions(), currentUsername,loggedinTime, pane.getSelectedIndex());
+                HomeUI GUI = new HomeUI(sessionToken, lurlist.getListPermissions(), currentUsername, pane.getSelectedIndex());
                 GUI.setVisible(true);
+            } else if (getPermm instanceof AcknowledgeReply){
+                AcknowledgeReply lurlist = (AcknowledgeReply) getPermm;
+                if(lurlist.getAcknowledgement().equals("Expired")){
+                    Logout = true;
+                    logout();
+                }
             }
             socketStop();
-
-            editUserDialog.dispose();
+            if(Logout == false){
+                editUserDialog.dispose();
+            }
         }
         else{
             JOptionPane.showMessageDialog(this,"Data cannot be null",
@@ -1098,22 +1164,31 @@ public class HomeUI extends JFrame implements ActionListener {
                 XMLContents, sessionToken);
         oos.writeObject(billboardRequest);
         oos.flush();
-        String billboardContent = null;
+        boolean Logout = false;
+
         Object transoO = ois.readObject();
         if (transoO instanceof AcknowledgeReply) {
             AcknowledgeReply reply = (AcknowledgeReply) transoO;
+            if(reply.getAcknowledgement().equals("Expired")){
+                Logout = true;
+            }
             System.out.println(reply.getAcknowledgement());
         }
         socketStop();
+        if(Logout == false){
+            importBillboardDialog.dispose();
+            XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+            dispose();
+            HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername,  pane.getSelectedIndex());
+            GUI.setVisible(true);
+        }else{
+            logout();
+        }
 
-        importBillboardDialog.dispose();
-        XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-        dispose();
-        HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername, loggedinTime, pane.getSelectedIndex());
-        GUI.setVisible(true);
     }
     private void saveEditedBillboardPressed() throws IOException, ClassNotFoundException {
         convertBillboardToXML();
+        boolean Logout = false;
         if (billboardName.getText() != null && !billboardName.getText().equals("")) {
             socketStart();
             EditBillboardRequest editBillboardRequest = new EditBillboardRequest(billboardName.getText(),
@@ -1124,6 +1199,9 @@ public class HomeUI extends JFrame implements ActionListener {
             Object transoO = ois.readObject();
             if (transoO instanceof AcknowledgeReply) {
                 AcknowledgeReply reply = (AcknowledgeReply) transoO;
+                if(reply.getAcknowledgement().equals("Expired")){
+                    Logout = true;
+                }
                 System.out.println(reply.getAcknowledgement());
             }
             socketStop();
@@ -1135,7 +1213,11 @@ public class HomeUI extends JFrame implements ActionListener {
             JOptionPane.showMessageDialog(this,"Billboard name must be filled",
                     "Error", JOptionPane.WARNING_MESSAGE);
         }
-        XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        if(Logout == true){
+            logout();
+        }else {
+            XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+        }
     }
 
     private void resetNewBillboardPressed(){
@@ -1170,6 +1252,137 @@ public class HomeUI extends JFrame implements ActionListener {
         XMLContents = XMLContents + content;
     }
 
+    //    private void previewBillboardPressed(JButton btnSource)
+//    {
+//        Dimension dialogSize = new Dimension(860, 600);
+//
+//        previewBillboardDialog = new JDialog(this,"Preview Billboard");
+//        previewBillboardDialog.setSize(dialogSize);
+//        previewBillboardDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+//
+//        SimpleAttributeSet set=new SimpleAttributeSet();
+//        StyleConstants.setAlignment(set,StyleConstants.ALIGN_CENTER);
+//        StyleConstants.setFontFamily(set, "Arial");
+//
+//        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+//        previewBillboardDialog.setLocation(dim.width / 2 - 430, dim.height / 2 - 300);
+//
+//        JPanel previewPanel = new JPanel();
+//        XMLParser parser;
+//        HashMap<String,String> xmlInfo;
+//
+//        if (btnSource == btnPreviewEditedBillboard || btnSource == btnPreviewNewBillboard) {
+//            convertBillboardToXML();
+//            parser = new XMLParser(XMLContents);
+//        }
+//        else if (btnSource == btnPreviewBillboard)
+//            parser = new XMLParser(billboardData.get(billboardList.getSelectedValue()).getXMLContent());
+//        else
+//            parser = new XMLParser("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<billboard>\n<message>No Billboard Found</message>\n</billboard>");
+//
+//        xmlInfo = parser.parseXML();
+//
+//        // Layout and closing
+//        GridBagLayout layout = new GridBagLayout();
+//        previewPanel.setLayout(layout);
+//
+//        // Get and set Background
+//        String bgString = xmlInfo.getOrDefault("bgColour", "#FFFFFF");
+//        Color bgColour = HexToRGB(bgString);
+//        previewPanel.setBackground(bgColour);
+//
+//        // ## GridBag Constraints ## \\
+//        GridBagConstraints gbc = new GridBagConstraints();
+//        gbc.fill = GridBagConstraints.NONE;
+//        gbc.weighty = 1;
+//        gbc.weightx = 1;
+//
+//        // ## Utilities and Actions ## \\
+//        // Provide a way to decode and display images
+//        ImageGenerator imgGen = new ImageGenerator();
+//
+//
+//        // ## XML display ## \\
+//        // Create heading label if exists and add it to the window
+//        if (xmlInfo.containsKey("message")) {
+//            JTextPane titleText = new JTextPane();
+//            titleText.setText(xmlInfo.get("message"));
+//            titleText.setFont(new Font("Arial", Font.PLAIN, 84));
+//            titleText.setForeground(
+//                    HexToRGB(
+//                            xmlInfo.getOrDefault("messageColour", "#000000")
+//                    )
+//            );
+//            titleText.setBackground(bgColour);
+//            StyleConstants.setFontSize(set, 84);
+//
+//            titleText.setParagraphAttributes(set,true);
+//            titleText.setEditable(false);
+//
+//            gbc.gridx = 0;
+//            gbc.gridy = 0;
+//            previewPanel.add(titleText, gbc);
+//        }
+//
+//        // Create picture label if exists and add it to the window
+//        // Create picture label if exists and add it to the window
+//        if (xmlInfo.containsKey("picture")) {
+//            JLabel pictureLabel = new JLabel();
+//            String imgInfo = xmlInfo.get("picture");
+//
+//            try {
+//                BufferedImage picture = imgGen.isBase64EncodedImage(imgInfo) ? imgGen.decodeDataString(imgInfo) : imgGen.downloadImage(imgInfo);
+//
+//                int resizedWidth = picture.getWidth();
+//                int resizedHeight = picture.getHeight();
+//
+//                if (picture.getWidth() != dialogSize.width / 2) {
+//                    resizedWidth = dialogSize.width / 2;
+//                    resizedHeight = (resizedWidth * picture.getHeight()) / picture.getWidth();
+//                }
+//
+//                if (picture.getHeight() != dialogSize.height / 2) {
+//                    resizedHeight = dialogSize.height / 2;
+//                    resizedWidth = (resizedHeight * picture.getWidth()) / picture.getHeight();
+//                }
+//
+//                Image resizedImage = picture.getScaledInstance(
+//                        resizedWidth,
+//                        resizedHeight,
+//                        Image.SCALE_SMOOTH
+//                );
+//                pictureLabel.setIcon(new ImageIcon(resizedImage));
+//            } catch (IOException | BadImageFormatException e) {
+//                e.printStackTrace();
+//            }
+//
+//            gbc.gridy = 1;
+//            previewPanel.add(pictureLabel, gbc);
+//        }
+//
+//        // Create information label if exists and add it to the window
+//        if (xmlInfo.containsKey("information")) {
+//            JTextPane informationText = new JTextPane();
+//            informationText.setText(xmlInfo.get("information"));
+//            informationText.setFont(new Font("Arial", Font.PLAIN, 36));
+//            informationText.setForeground(
+//                    HexToRGB(
+//                            xmlInfo.getOrDefault("informationColour", "#000000")
+//                    )
+//            );
+//            informationText.setBackground(bgColour);
+//            StyleConstants.setFontSize(set, 36);
+//
+//            informationText.setParagraphAttributes(set, true);
+//            informationText.setEditable(false);
+//
+//            gbc.gridy = 2;
+//            previewPanel.add(informationText, gbc);
+//        }
+//
+//        previewBillboardDialog.add(previewPanel);
+//        previewBillboardDialog.setVisible(true);
+//    }
     private void previewBillboardPressed(JButton btnSource) throws IOException, ClassNotFoundException {
         Dimension dialogSize = new Dimension(860, 600);
 
@@ -1187,10 +1400,10 @@ public class HomeUI extends JFrame implements ActionListener {
         JPanel previewPanel = new JPanel();
         XMLParser parser;
         HashMap<String, String> xmlInfo;
-
+        boolean Logout = false;
         if (btnSource == btnPreviewEditedBillboard || btnSource == btnPreviewNewBillboard) {
             convertBillboardToXML();
-            System.out.println(XMLContents);
+//            System.out.println(XMLContents);
             parser = new XMLParser(XMLContents);
         } else if (btnSource == btnPreviewBillboard) {
             socketStart();
@@ -1202,116 +1415,266 @@ public class HomeUI extends JFrame implements ActionListener {
             if (trans instanceof BillboardReply) {
                 BillboardReply reply = (BillboardReply) trans;
                 billContent = reply.getXmlcontent();
+            }else if (trans instanceof AcknowledgeReply){
+                AcknowledgeReply reply = (AcknowledgeReply) trans;
+                if(reply.getAcknowledgement().equals("Expired")){
+                    Logout = true;
+                    logout();
+                }
             }
             parser = new XMLParser(billContent);
         } else
             parser = new XMLParser("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<billboard>\n<message>No Billboard Found</message>\n</billboard>");
-
-        xmlInfo = parser.parseXML();
-
-        // Layout and closing
-        GridBagLayout layout = new GridBagLayout();
-        previewPanel.setLayout(layout);
-
-        // Get and set Background
-        String bgString = xmlInfo.getOrDefault("bgColour", "#FFFFFF");
-        Color bgColour = HexToRGB(bgString);
-        previewPanel.setBackground(bgColour);
-
-        // ## GridBag Constraints ## \\
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.fill = GridBagConstraints.NONE;
-        gbc.weighty = 1;
-        gbc.weightx = 1;
-
-        // ## Utilities and Actions ## \\
-        // Provide a way to decode and display images
-        ImageGenerator imgGen = new ImageGenerator();
+        if (Logout == false) {
 
 
-        // ## XML display ## \\
-        // Create heading label if exists and add it to the window
-        if (xmlInfo.containsKey("message")) {
-            JTextPane titleText = new JTextPane();
-            titleText.setText(xmlInfo.get("message"));
-            titleText.setFont(new Font("Arial", Font.PLAIN, 84));
+            xmlInfo = parser.parseXML();
 
-            titleText.setBackground(bgColour);
-            StyleConstants.setFontSize(set, 84);
-            StyleConstants.setForeground(
-                    set,
-                    HexToRGB(
-                        xmlInfo.getOrDefault("messageColour", "#000000")
-                    )
-            );
+            // Layout and closing
+            GridBagLayout layout = new GridBagLayout();
+            previewPanel.setLayout(layout);
 
-            titleText.setParagraphAttributes(set, true);
-            titleText.setEditable(false);
+            // Get and set Background
+            String bgString = xmlInfo.getOrDefault("bgColour", "#FFFFFF");
+            Color bgColour = HexToRGB(bgString);
+            previewPanel.setBackground(bgColour);
 
-            gbc.gridx = 0;
-            gbc.gridy = 0;
-            previewPanel.add(titleText, gbc);
-        }
+            // ## GridBag Constraints ## \\
+            GridBagConstraints gbc = new GridBagConstraints();
+            gbc.fill = GridBagConstraints.NONE;
+            gbc.weighty = 1;
+            gbc.weightx = 1;
 
-        // Create picture label if exists and add it to the window
-        if (xmlInfo.containsKey("picture")) {
-            JLabel pictureLabel = new JLabel();
-            String imgInfo = xmlInfo.get("picture");
+            // ## Utilities and Actions ## \\
+            // Provide a way to decode and display images
+            ImageGenerator imgGen = new ImageGenerator();
 
-            try {
-                BufferedImage picture = imgGen.isBase64EncodedImage(imgInfo) ? imgGen.decodeDataString(imgInfo) : imgGen.downloadImage(imgInfo);
 
-                int resizedWidth = picture.getWidth();
-                int resizedHeight = picture.getHeight();
+            // ## XML display ## \\
+            // Create heading label if exists and add it to the window
+            if (xmlInfo.containsKey("message")) {
+                JTextPane titleText = new JTextPane();
+                titleText.setText(xmlInfo.get("message"));
+                titleText.setFont(new Font("Arial", Font.PLAIN, 84));
 
-                if (picture.getWidth() != dialogSize.width / 2) {
-                    resizedWidth = dialogSize.width / 2;
-                    resizedHeight = (resizedWidth * picture.getHeight()) / picture.getWidth();
-                }
-
-                if (picture.getHeight() != dialogSize.height / 2) {
-                    resizedHeight = dialogSize.height / 2;
-                    resizedWidth = (resizedHeight * picture.getWidth()) / picture.getHeight();
-                }
-
-                Image resizedImage = picture.getScaledInstance(
-                        resizedWidth,
-                        resizedHeight,
-                        Image.SCALE_SMOOTH
+                titleText.setBackground(bgColour);
+                StyleConstants.setFontSize(set, 84);
+                StyleConstants.setForeground(
+                        set,
+                        HexToRGB(
+                                xmlInfo.getOrDefault("messageColour", "#000000")
+                        )
                 );
-                pictureLabel.setIcon(new ImageIcon(resizedImage));
-            } catch (IOException | BadImageFormatException e) {
-                e.printStackTrace();
+
+                titleText.setParagraphAttributes(set, true);
+                titleText.setEditable(false);
+
+                gbc.gridx = 0;
+                gbc.gridy = 0;
+                previewPanel.add(titleText, gbc);
             }
 
-            gbc.gridy = 1;
-            previewPanel.add(pictureLabel, gbc);
+            // Create picture label if exists and add it to the window
+            if (xmlInfo.containsKey("picture")) {
+                JLabel pictureLabel = new JLabel();
+                String imgInfo = xmlInfo.get("picture");
+
+                try {
+                    BufferedImage picture = imgGen.isBase64EncodedImage(imgInfo) ? imgGen.decodeDataString(imgInfo) : imgGen.downloadImage(imgInfo);
+
+                    int resizedWidth = picture.getWidth();
+                    int resizedHeight = picture.getHeight();
+
+                    if (picture.getWidth() != dialogSize.width / 2) {
+                        resizedWidth = dialogSize.width / 2;
+                        resizedHeight = (resizedWidth * picture.getHeight()) / picture.getWidth();
+                    }
+
+                    if (picture.getHeight() != dialogSize.height / 2) {
+                        resizedHeight = dialogSize.height / 2;
+                        resizedWidth = (resizedHeight * picture.getWidth()) / picture.getHeight();
+                    }
+
+                    Image resizedImage = picture.getScaledInstance(
+                            resizedWidth,
+                            resizedHeight,
+                            Image.SCALE_SMOOTH
+                    );
+                    pictureLabel.setIcon(new ImageIcon(resizedImage));
+                } catch (IOException | BadImageFormatException e) {
+                    e.printStackTrace();
+                }
+
+                gbc.gridy = 1;
+                previewPanel.add(pictureLabel, gbc);
+            }
+
+            // Create information label if exists and add it to the window
+            if (xmlInfo.containsKey("information")) {
+                JTextPane informationText = new JTextPane();
+                informationText.setText(xmlInfo.get("information"));
+                informationText.setFont(new Font("Arial", Font.PLAIN, 36));
+                informationText.setBackground(bgColour);
+
+                StyleConstants.setFontSize(set, 36);
+                StyleConstants.setForeground(
+                        set,
+                        HexToRGB(
+                                xmlInfo.getOrDefault("informationColour", "#000000")
+                        )
+                );
+
+                informationText.setParagraphAttributes(set, true);
+                informationText.setEditable(false);
+
+                gbc.gridy = 2;
+                previewPanel.add(informationText, gbc);
+            }
+
+            previewBillboardDialog.add(previewPanel);
+            previewBillboardDialog.setVisible(true);
         }
-
-        // Create information label if exists and add it to the window
-        if (xmlInfo.containsKey("information")) {
-            JTextPane informationText = new JTextPane();
-            informationText.setText(xmlInfo.get("information"));
-            informationText.setBackground(bgColour);
-
-            StyleConstants.setFontSize(set, 36);
-            StyleConstants.setForeground(
-                    set,
-                    HexToRGB(
-                            xmlInfo.getOrDefault("informationColour", "#000000")
-                    )
-            );
-
-            informationText.setParagraphAttributes(set, true);
-            informationText.setEditable(false);
-
-            gbc.gridy = 2;
-            previewPanel.add(informationText, gbc);
-        }
-
-        previewBillboardDialog.add(previewPanel);
-        previewBillboardDialog.setVisible(true);
     }
+//    private void previewBillboardPressed(JButton btnSource) throws IOException, ClassNotFoundException {
+//        Dimension dialogSize = new Dimension(860, 600);
+//
+//        previewBillboardDialog = new JDialog(this, "Preview Billboard");
+//        previewBillboardDialog.setSize(dialogSize);
+//        previewBillboardDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+//
+//        SimpleAttributeSet set = new SimpleAttributeSet();
+//        StyleConstants.setAlignment(set, StyleConstants.ALIGN_CENTER);
+//        StyleConstants.setFontFamily(set, "Arial");
+//
+//        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+//        previewBillboardDialog.setLocation(dim.width / 2 - 430, dim.height / 2 - 300);
+//
+//        JPanel previewPanel = new JPanel();
+//        XMLParser parser;
+//        HashMap<String, String> xmlInfo;
+//
+//        if (btnSource == btnPreviewEditedBillboard || btnSource == btnPreviewNewBillboard) {
+//            convertBillboardToXML();
+//            System.out.println(XMLContents);
+//            parser = new XMLParser(XMLContents);
+//        } else if (btnSource == btnPreviewBillboard) {
+//            socketStart();
+//            BillboardRequest billboardRequest = new BillboardRequest((String) billboardList.getSelectedValue(), sessionToken);
+//            oos.writeObject(billboardRequest);
+//            oos.flush();
+//            String billContent = null;
+//            Object trans = ois.readObject();
+//            if (trans instanceof BillboardReply) {
+//                BillboardReply reply = (BillboardReply) trans;
+//                billContent = reply.getXmlcontent();
+//            }
+//            parser = new XMLParser(billContent);
+//        } else
+//            parser = new XMLParser("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<billboard>\n<message>No Billboard Found</message>\n</billboard>");
+//
+//        xmlInfo = parser.parseXML();
+//
+//        // Layout and closing
+//        GridBagLayout layout = new GridBagLayout();
+//        previewPanel.setLayout(layout);
+//
+//        // Get and set Background
+//        String bgString = xmlInfo.getOrDefault("bgColour", "#FFFFFF");
+//        Color bgColour = HexToRGB(bgString);
+//        previewPanel.setBackground(bgColour);
+//
+//        // ## GridBag Constraints ## \\
+//        GridBagConstraints gbc = new GridBagConstraints();
+//        gbc.fill = GridBagConstraints.NONE;
+//        gbc.weighty = 1;
+//        gbc.weightx = 1;
+//
+//        // ## Utilities and Actions ## \\
+//        // Provide a way to decode and display images
+//        ImageGenerator imgGen = new ImageGenerator();
+//
+//
+//        // ## XML display ## \\
+//        // Create heading label if exists and add it to the window
+//        if (xmlInfo.containsKey("message")) {
+//            JTextPane titleText = new JTextPane();
+//            titleText.setText(xmlInfo.get("message"));
+//            titleText.setFont(new Font("Arial", Font.PLAIN, 84));
+//            titleText.setForeground(
+//                    HexToRGB(
+//                            xmlInfo.getOrDefault("messageColour", "#000000")
+//                    )
+//            );
+//            titleText.setBackground(bgColour);
+//            StyleConstants.setFontSize(set, 84);
+//
+//            titleText.setParagraphAttributes(set, true);
+//            titleText.setEditable(false);
+//
+//            gbc.gridx = 0;
+//            gbc.gridy = 0;
+//            previewPanel.add(titleText, gbc);
+//        }
+//
+//        // Create picture label if exists and add it to the window
+//        // Create picture label if exists and add it to the window
+//        if (xmlInfo.containsKey("picture")) {
+//            JLabel pictureLabel = new JLabel();
+//            String imgInfo = xmlInfo.get("picture");
+//
+//            try {
+//                BufferedImage picture = imgGen.isBase64EncodedImage(imgInfo) ? imgGen.decodeDataString(imgInfo) : imgGen.downloadImage(imgInfo);
+//
+//                int resizedWidth = picture.getWidth();
+//                int resizedHeight = picture.getHeight();
+//
+//                if (picture.getWidth() != dialogSize.width / 2) {
+//                    resizedWidth = dialogSize.width / 2;
+//                    resizedHeight = (resizedWidth * picture.getHeight()) / picture.getWidth();
+//                }
+//
+//                if (picture.getHeight() != dialogSize.height / 2) {
+//                    resizedHeight = dialogSize.height / 2;
+//                    resizedWidth = (resizedHeight * picture.getWidth()) / picture.getHeight();
+//                }
+//
+//                Image resizedImage = picture.getScaledInstance(
+//                        resizedWidth,
+//                        resizedHeight,
+//                        Image.SCALE_SMOOTH
+//                );
+//                pictureLabel.setIcon(new ImageIcon(resizedImage));
+//            } catch (IOException | BadImageFormatException e) {
+//                e.printStackTrace();
+//            }
+//
+//            gbc.gridy = 1;
+//            previewPanel.add(pictureLabel, gbc);
+//        }
+//
+//        // Create information label if exists and add it to the window
+//        if (xmlInfo.containsKey("information")) {
+//            JTextPane informationText = new JTextPane();
+//            informationText.setText(xmlInfo.get("information"));
+//            informationText.setFont(new Font("Arial", Font.PLAIN, 36));
+//            informationText.setForeground(
+//                    HexToRGB(
+//                            xmlInfo.getOrDefault("informationColour", "#000000")
+//                    )
+//            );
+//            informationText.setBackground(bgColour);
+//            StyleConstants.setFontSize(set, 36);
+//
+//            informationText.setParagraphAttributes(set, true);
+//            informationText.setEditable(false);
+//
+//            gbc.gridy = 2;
+//            previewPanel.add(informationText, gbc);
+//        }
+//
+//        previewBillboardDialog.add(previewPanel);
+//        previewBillboardDialog.setVisible(true);
+//    }
 
     private void logout() throws IOException, ClassNotFoundException {
         socketStart();
@@ -1486,7 +1849,7 @@ public class HomeUI extends JFrame implements ActionListener {
         return str_buff.toString();
     }
     public void socketStart() throws IOException{
-        socket = new Socket("localhost",12345);
+        socket = new Socket(host,Integer.parseInt(port));
         outputStream = socket.getOutputStream();
         inputStream = socket.getInputStream();
         oos = new ObjectOutputStream(outputStream);
@@ -1497,6 +1860,20 @@ public class HomeUI extends JFrame implements ActionListener {
         ois.close();
         oos.close();
         socket.close();
+    }
+    public void getPropValues() throws IOException {
+        Properties props = new Properties();
+        FileInputStream in = null;
+        try {
+            in = new FileInputStream("/Users/kitairyuuta/IdeaProjects/CAB302/src/main/cab302/network.props");
+            props.load(in);
+            in.close();
+            // get the property value and print it out
+            host = props.getProperty("host");
+            port = props.getProperty("port");
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        } 
     }
 }
 
