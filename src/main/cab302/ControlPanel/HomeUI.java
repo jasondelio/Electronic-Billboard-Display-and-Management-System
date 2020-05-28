@@ -318,7 +318,7 @@ public class HomeUI extends JFrame implements ActionListener {
         informationColour = new JTextField(10);
         informationColour.setEnabled(false);
         creator = new JTextField(20);
-        creator.setEditable(false);
+        creator.setEnabled(false);
 
         btnBackgroundColour = new JButton("Colour");
         btnBackgroundColour.addActionListener(this);
@@ -370,8 +370,8 @@ public class HomeUI extends JFrame implements ActionListener {
         vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
                 .addComponent(lblInformation).addComponent(information).addComponent(btnInformationColour)
                 .addComponent(informationColour));
-        vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE))
-                .addComponent(lblCreator).addComponent(creator);
+        vGroup.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
+                .addComponent(lblCreator).addComponent(creator));
         layout.setVerticalGroup(vGroup);
 
         return createBillboardFieldsPanel;

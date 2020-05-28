@@ -160,10 +160,10 @@ public class BillboardServer {
                     if (nu.getCreateBillboards().equals("true")){
                         BillboardInfo new_b = new BillboardInfo(cbbr.getBillboardname(),cbbr.getBillboardContent(),currentUser);
                         billboardData.add(new_b);
-                        results = "Success to edit billboard";
+                        results = "Success to create a new billboard";
                     }
                     else{
-                        results = "falied to edit";
+                        results = "falied to create a new billboard";
                     }
 
                     AcknowledgeReply createBillboardReply = new AcknowledgeReply(results);
