@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="01508137-4561-4283-97d1-e5c870fef63b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/CloseAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/CloseAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/ImageGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/ImageGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/util/HexToRGB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/util/HexToRGB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/util/XMLParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/util/XMLParser.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,126 +15,6 @@
   </component>
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
-  </component>
-  <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/cab302/db.props">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="51">
-              <caret line="3" column="14" selection-start-line="3" selection-start-column="14" selection-end-line="3" selection-end-column="14" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/cab302/viewer/gui/Gui.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="221">
-              <caret line="50" column="6" selection-start-line="50" selection-start-column="6" selection-end-line="50" selection-end-column="6" />
-              <folding>
-                <element signature="class#717:1304" />
-                <element signature="docComment;method#createMessagePane#0;class#Gui#0" />
-                <element signature="method#createMessagePane#0;class#Gui#0" />
-                <element signature="docComment;method#createPictureLabel#0;class#Gui#0" />
-                <element signature="method#createPictureLabel#0;class#Gui#0" />
-                <element signature="docComment;method#createInformationPane#0;class#Gui#0" />
-                <element signature="method#createInformationPane#0;class#Gui#0" />
-                <element signature="docComment;method#Gui#0;class#Gui#0" />
-                <element signature="method#Gui#0;class#Gui#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/cab302/viewer/gui/CloseAction.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="323">
-              <caret line="21" column="7" lean-forward="true" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/cab302/viewer/gui/ImageGenerator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="75" column="101" selection-start-line="75" selection-start-column="101" selection-end-line="75" selection-end-column="101" />
-              <folding>
-                <element signature="docComment;method#ImageGenerator#0;class#ImageGenerator#0" />
-                <element signature="docComment;method#isBase64EncodedImage#0;class#ImageGenerator#0" />
-                <element signature="method#isBase64EncodedImage#0;class#ImageGenerator#0" />
-                <element signature="docComment;method#decodeDataString#0;class#ImageGenerator#0" />
-                <element signature="method#decodeDataString#0;class#ImageGenerator#0" />
-                <element signature="docComment;method#downloadImage#0;class#ImageGenerator#0" />
-                <element signature="method#downloadImage#0;class#ImageGenerator#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/cab302/viewer/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="13" column="83" selection-start-line="13" selection-start-column="83" selection-end-line="13" selection-end-column="83" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/cab302/database/schedule/SchedulesDatasource.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1615">
-              <caret line="25" column="47" selection-start-line="25" selection-start-column="47" selection-end-line="25" selection-end-column="47" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleInfo.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-646">
-              <caret line="4" column="13" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/cab302/viewer/util/XMLParser.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="411">
-              <caret line="122" column="29" selection-start-line="122" selection-start-column="29" selection-end-line="122" selection-end-column="29" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#665#666#0" expanded="true" />
-                <element signature="e#699#700#0" expanded="true" />
-                <element signature="e#743#744#0" expanded="true" />
-                <element signature="e#791#792#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/cab302/viewer/util/HexToRGB.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="187">
-              <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
-              <folding>
-                <element signature="method#HexToRGB#0;class#HexToRGB#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -156,137 +33,10 @@
         <option value="Ethan" />
       </list>
     </option>
-    <option name="UPDATE_TYPE" value="MERGE" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
-  </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/.idea/workspace.xml" />
-        <option value="$PROJECT_DIR$/src/main/cab302/viewer/gui/CloseAction.java" />
-        <option value="$PROJECT_DIR$/src/main/cab302/viewer/gui/ImageGenerator.java" />
-        <option value="$PROJECT_DIR$/src/main/cab302/viewer/util/HexToRGB.java" />
-        <option value="$PROJECT_DIR$/src/main/cab302/viewer/util/XMLParser.java" />
-      </list>
-    </option>
+    <option name="UPDATE_TYPE" value="MERGE" />
   </component>
   <component name="ProjectId" id="1bLxClkoQalmJ8SZHZHhuTXKLxV" />
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="PackagesPane" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name=".idea" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="cab302" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="cab302" type="462c0819:PsiDirectoryNode" />
-              <item name="ControlPanel" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="cab302" type="462c0819:PsiDirectoryNode" />
-              <item name="database" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="cab302" type="462c0819:PsiDirectoryNode" />
-              <item name="database" type="462c0819:PsiDirectoryNode" />
-              <item name="billboard" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="cab302" type="462c0819:PsiDirectoryNode" />
-              <item name="database" type="462c0819:PsiDirectoryNode" />
-              <item name="schedule" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="cab302" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="cab302" type="462c0819:PsiDirectoryNode" />
-              <item name="viewer" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="cab302" type="462c0819:PsiDirectoryNode" />
-              <item name="viewer" type="462c0819:PsiDirectoryNode" />
-              <item name="gui" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="cab302" type="462c0819:PsiDirectoryNode" />
-              <item name="viewer" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="xml-exmaples" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-    </panes>
-  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -314,13 +64,16 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Libraries" />
+    <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.0" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="cab302.viewer.exceptions" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\[University\CAB302\CAB302\xml-exmaples" />
+      <recent name="D:\[University\CAB302\CAB302" />
+      <recent name="D:\[University\CAB302\CAB302\src\main\java\cab302" />
+      <recent name="D:\[University\CAB302\CAB302\src\main\java\viewer" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
@@ -337,24 +90,9 @@
       <recent name="cab302.server.Billboardserver" />
       <recent name="cab302.server" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\[University\CAB302\CAB302\xml-exmaples" />
-      <recent name="D:\[University\CAB302\CAB302" />
-      <recent name="D:\[University\CAB302\CAB302\src\main\java\cab302" />
-      <recent name="D:\[University\CAB302\CAB302\src\main\java\viewer" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="cab302.viewer.exceptions" />
     </key>
-  </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
   </component>
   <component name="RunManager" selected="Application.Run">
     <configuration name="BillboardClient" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -384,6 +122,8 @@
       </method>
     </configuration>
     <configuration name="Run" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="13" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="cab302.ControlPanel.Run" />
       <module name="CAB302" />
       <extension name="coverage">
@@ -422,6 +162,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.BillboardClient" />
+      <item itemvalue="Application.BillboardServer" />
+      <item itemvalue="Application.Run" />
+      <item itemvalue="Application.UserAuthentication" />
+      <item itemvalue="Application.UserClient" />
+    </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Run" />
@@ -492,43 +239,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="46477000" />
-  </component>
-  <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
-    <editor active="true" />
-    <layout>
-      <window_info id="Designer" />
-      <window_info id="Image Layers" />
-      <window_info id="Capture Tool" />
-      <window_info id="UI Designer" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info id="Learn" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="bottom" id="Terminal" visible="true" weight="0.32917964" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Database Changes" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Messages" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32917964" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Maven" />
-      <window_info anchor="right" id="Palette" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="right" id="Database" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info anchor="right" id="Theme Preview" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-    </layout>
+    <option name="totallyTimeSpent" value="43932000" />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
@@ -539,12 +250,6 @@
         <entry key="MAIN">
           <value>
             <State>
-              <option name="RECENTLY_FILTERED_USER_GROUPS">
-                <collection />
-              </option>
-              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-                <collection />
-              </option>
               <option name="COLUMN_ORDER" />
             </State>
           </value>
@@ -580,6 +285,14 @@
     <option name="REARRANGE_BEFORE_PROJECT_COMMIT" value="true" />
   </component>
   <component name="WindowStateProjectService">
+    <state x="361" y="71" key="#Project_Structure" timestamp="1590631379285">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="361" y="71" key="#Project_Structure/0.0.1536.824@0.0.1536.824" timestamp="1590631379285" />
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1590631698948">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1590631698948" />
     <state x="533" y="162" key="#com.intellij.ide.util.MemberChooser" timestamp="1589952937809">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -598,29 +311,33 @@
     </state>
     <state x="342" y="55" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1590623505667" />
     <state x="365" y="14" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1590630910839" />
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1590630414603">
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog" timestamp="1590631837753">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1590631837753" />
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom" timestamp="1590631877181">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="169" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1590623419509" />
-    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590630414603" />
+    <state width="1493" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590631877181" />
     <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1590630414602">
+    <state width="1493" height="210" key="GridCell.Tab.0.center" timestamp="1590631877180">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="169" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1590623419508" />
-    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590630414602" />
+    <state width="1493" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590631877180" />
     <state width="1398" height="230" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1590630414602">
+    <state width="1493" height="210" key="GridCell.Tab.0.left" timestamp="1590631877180">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="169" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1590623419507" />
-    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590630414602" />
+    <state width="1493" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590631877180" />
     <state width="1398" height="230" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1590630414603">
+    <state width="1493" height="210" key="GridCell.Tab.0.right" timestamp="1590631877181">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="169" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1590623419508" />
-    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590630414603" />
+    <state width="1493" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590631877181" />
     <state width="1398" height="230" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
     <state x="460" y="159" key="MultipleFileMergeDialog" timestamp="1590630970839">
       <screen x="0" y="0" width="1536" height="824" />
@@ -645,11 +362,11 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="424" y="353" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1440.900@0.0.1440.900" timestamp="1589769463259" />
-    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590630958610">
+    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590631738642">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="542" y="359" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1440.900@0.0.1440.900" timestamp="1590623428948" />
-    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1590630958610" />
+    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1590631738642" />
     <state x="411" y="192" width="715" height="618" key="run.anything.popup" timestamp="1590470221742">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -659,90 +376,5 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1589774669504" />
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/cab302/viewer/gui/CloseAction.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="323">
-          <caret line="21" column="7" lean-forward="true" selection-start-line="21" selection-start-column="7" selection-end-line="21" selection-end-column="7" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-23134">
-          <caret line="112" column="4" selection-start-line="112" selection-start-column="4" selection-end-line="112" selection-end-column="4" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#42481#42489#0" expanded="true" />
-            <element signature="e#44212#44220#0" expanded="true" />
-            <element signature="e#47744#47752#0" expanded="true" />
-            <element signature="e#55069#55070#0" expanded="true" />
-            <element signature="e#55120#55121#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/cab302/viewer/gui/ImageGenerator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="75" column="101" selection-start-line="75" selection-start-column="101" selection-end-line="75" selection-end-column="101" />
-          <folding>
-            <element signature="docComment;method#ImageGenerator#0;class#ImageGenerator#0" />
-            <element signature="docComment;method#isBase64EncodedImage#0;class#ImageGenerator#0" />
-            <element signature="method#isBase64EncodedImage#0;class#ImageGenerator#0" />
-            <element signature="docComment;method#decodeDataString#0;class#ImageGenerator#0" />
-            <element signature="method#decodeDataString#0;class#ImageGenerator#0" />
-            <element signature="docComment;method#downloadImage#0;class#ImageGenerator#0" />
-            <element signature="method#downloadImage#0;class#ImageGenerator#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/cab302/viewer/gui/Gui.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="221">
-          <caret line="50" column="6" selection-start-line="50" selection-start-column="6" selection-end-line="50" selection-end-column="6" />
-          <folding>
-            <element signature="class#717:1304" />
-            <element signature="docComment;method#createMessagePane#0;class#Gui#0" />
-            <element signature="method#createMessagePane#0;class#Gui#0" />
-            <element signature="docComment;method#createPictureLabel#0;class#Gui#0" />
-            <element signature="method#createPictureLabel#0;class#Gui#0" />
-            <element signature="docComment;method#createInformationPane#0;class#Gui#0" />
-            <element signature="method#createInformationPane#0;class#Gui#0" />
-            <element signature="docComment;method#Gui#0;class#Gui#0" />
-            <element signature="method#Gui#0;class#Gui#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/cab302/viewer/util/HexToRGB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="187">
-          <caret line="11" column="28" selection-start-line="11" selection-start-column="28" selection-end-line="11" selection-end-column="28" />
-          <folding>
-            <element signature="method#HexToRGB#0;class#HexToRGB#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/cab302/viewer/util/XMLParser.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="411">
-          <caret line="122" column="29" selection-start-line="122" selection-start-column="29" selection-end-line="122" selection-end-column="29" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#665#666#0" expanded="true" />
-            <element signature="e#699#700#0" expanded="true" />
-            <element signature="e#743#744#0" expanded="true" />
-            <element signature="e#791#792#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
   </component>
 </project>
