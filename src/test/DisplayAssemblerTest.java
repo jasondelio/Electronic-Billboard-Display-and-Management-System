@@ -432,6 +432,67 @@ public class DisplayAssemblerTest {
         assertEquals(expectedLabel, testLabel);
     }
 
+    @Test
+    public void DoesNotThrowOnCreateTextPane_TextOnly_Information() {
 
+        assertDoesNotThrow(() -> {
+            JTextPane testPane = new DisplayAssembler(
+                    "A message string", "#000",
+                    "https://cloudstor.aarnet.edu.au/plus/s/62e0uExNviPanZE/download",
+                    "Text goes here", "#000",
+                    new Dimension(1920, 1080)
+            ).assembleInformationPane(this.defaultBgColour);
+        });
+    }
+
+    @Test
+    public void DoesNotThrowOnCreateTextPane_TextOnly_Message() {
+
+        assertDoesNotThrow(() -> {
+            JTextPane testPane = new DisplayAssembler(
+                    "A message string", "#000",
+                    "https://cloudstor.aarnet.edu.au/plus/s/62e0uExNviPanZE/download",
+                    "Text goes here", "#000",
+                    new Dimension(1920, 1080)
+            ).assembleMessagePane(this.defaultBgColour);
+        });
+    }
+
+    @Test
+    public void DoesNotThrowOnCreateCorrectImageLabel_URL() {
+
+        assertDoesNotThrow(() -> {
+            JLabel testLabel = new DisplayAssembler(
+                    "A message string", "#000",
+                    "https://cloudstor.aarnet.edu.au/plus/s/62e0uExNviPanZE/download",
+                    "Text goes here", "#FFF",
+                    new Dimension(1920, 1080)
+            ).assemblePictureLabel();
+        });
+    }
+
+    @Test
+    public void DoesNotThrowOnCreateCorrectTextPane_TextAndColour_Information() {
+        assertDoesNotThrow(() -> {
+            JTextPane testPane = new DisplayAssembler(
+                    "A message string", "#000",
+                    "https://cloudstor.aarnet.edu.au/plus/s/62e0uExNviPanZE/download",
+                    "Text goes here", "#FFF",
+                    new Dimension(1920, 1080)
+            ).assembleInformationPane(this.defaultBgColour);
+        });
+    }
+
+    @Test
+    public void DoesNotThrowOnCreateCorrectTextPane_TextAndColour_Message() {
+        assertDoesNotThrow(() -> {
+            JTextPane testPane = new DisplayAssembler(
+                    "A message string", "#FDF",
+                    "https://cloudstor.aarnet.edu.au/plus/s/62e0uExNviPanZE/download",
+                    "Text goes here", "#000",
+                    new Dimension(1920, 1080)
+            ).assembleMessagePane(this.defaultBgColour);
+        });
+    }
 
 }

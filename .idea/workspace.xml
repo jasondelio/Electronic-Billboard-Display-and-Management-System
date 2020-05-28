@@ -2,15 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f7ab41c5-c651-45b3-bca9-a3afafe74f5f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/out/production/CAB302/META-INF/CAB302.kotlin_module" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/CAB302/META-INF/CAB302.kotlin_module" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/UserLoginUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/UserLoginUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/DataConnection.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/DataConnection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/billboardServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/billboardServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/DisplayAssembler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/DisplayAssembler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Gui.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/util/HexToRGB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/util/HexToRGB.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/DisplayAssemblerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/DisplayAssemblerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -72,15 +63,6 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="1484" column="16" selection-start-line="1484" selection-start-column="16" selection-end-line="1484" selection-end-column="16" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/cab302/server/Billboardserver/billboardServer.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="309">
@@ -104,10 +86,15 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/DisplayAssemblerTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="425">
-              <caret line="317" column="102" selection-start-line="317" selection-start-column="102" selection-end-line="317" selection-end-column="102" />
+            <state relative-caret-position="293">
+              <caret line="316" lean-forward="true" selection-start-line="316" selection-end-line="316" />
               <folding>
                 <element signature="imports" expanded="true" />
+                <element signature="method#createsCorrectTextPane_TextOnly_Message#0;class#DisplayAssemblerTest#0" />
+                <element signature="method#createsCorrectTextPane_TextOnly_Information#0;class#DisplayAssemblerTest#0" />
+                <element signature="method#createsCorrectTextPane_TextAndColour_Message#0;class#DisplayAssemblerTest#0" />
+                <element signature="method#createsCorrectTextPane_TextAndColour_Information#0;class#DisplayAssemblerTest#0" />
+                <element signature="method#createsCorrectImageLabel_URL#0;class#DisplayAssemblerTest#0" />
               </folding>
             </state>
           </provider>
@@ -497,15 +484,6 @@
     <servers />
   </component>
   <component name="TestHistory">
-    <history-entry file="DisplayAssemblerTest - 2020.05.28 at 21h 07m 48s.xml">
-      <configuration name="DisplayAssemblerTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="DisplayAssemblerTest - 2020.05.28 at 21h 08m 23s.xml">
-      <configuration name="DisplayAssemblerTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="DisplayAssemblerTest_createsCorrectTextPane_TextAndColour_Information - 2020.05.28 at 21h 09m 10s.xml">
-      <configuration name="DisplayAssemblerTest.createsCorrectTextPane_TextAndColour_Information" configurationId="JUnit" />
-    </history-entry>
     <history-entry file="DisplayAssemblerTest_throwsMalformedHexadecimalColourExceptionWhenGivenNonThreeOrSixHexadecimalNumber_GreaterThanSixDigit_InformationColour - 2020.05.28 at 21h 10m 28s.xml">
       <configuration name="DisplayAssemblerTest.throwsMalformedHexadecimalColourExceptionWhenGivenNonThreeOrSixHexadecimalNumber_GreaterThanSixDigit_InformationColour" configurationId="JUnit" />
     </history-entry>
@@ -527,9 +505,18 @@
     <history-entry file="DisplayAssemblerTest - 2020.05.28 at 21h 26m 19s.xml">
       <configuration name="DisplayAssemblerTest" configurationId="JUnit" />
     </history-entry>
+    <history-entry file="DisplayAssemblerTest - 2020.05.28 at 21h 27m 39s.xml">
+      <configuration name="DisplayAssemblerTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="DisplayAssemblerTest - 2020.05.28 at 21h 40m 31s.xml">
+      <configuration name="DisplayAssemblerTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="DisplayAssemblerTest - 2020.05.28 at 21h 43m 13s.xml">
+      <configuration name="DisplayAssemblerTest" configurationId="JUnit" />
+    </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="53076000" />
+    <option name="totallyTimeSpent" value="54019000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
@@ -544,14 +531,14 @@
       <window_info content_ui="combo" id="Project" order="6" visible="true" weight="0.25" />
       <window_info id="Structure" order="7" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" order="0" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" order="1" sideWeight="0.5026652" side_tool="true" visible="true" weight="0.32917964" />
+      <window_info anchor="bottom" id="Event Log" order="1" sideWeight="0.50319827" side_tool="true" visible="true" weight="0.32917964" />
       <window_info anchor="bottom" id="Database Changes" order="2" />
       <window_info anchor="bottom" id="Messages" order="3" sideWeight="0.49626866" weight="0.32917964" />
       <window_info anchor="bottom" id="Version Control" order="4" />
-      <window_info anchor="bottom" id="Terminal" order="5" sideWeight="0.4989339" weight="0.32917964" />
+      <window_info anchor="bottom" id="Terminal" order="5" sideWeight="0.49840087" weight="0.32917964" />
       <window_info anchor="bottom" id="Message" order="6" />
       <window_info anchor="bottom" id="Find" order="7" weight="0.32917964" />
-      <window_info active="true" anchor="bottom" id="Run" order="8" sideWeight="0.49733475" visible="true" weight="0.32917964" />
+      <window_info active="true" anchor="bottom" id="Run" order="8" sideWeight="0.4968017" visible="true" weight="0.32917964" />
       <window_info anchor="bottom" id="Debug" order="9" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="10" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="11" weight="0.4" />
@@ -806,12 +793,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/cab302/network.props">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/test/DisplayAssemblerTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="425">
-          <caret line="317" column="102" selection-start-line="317" selection-start-column="102" selection-end-line="317" selection-end-column="102" />
+        <state relative-caret-position="293">
+          <caret line="316" lean-forward="true" selection-start-line="316" selection-end-line="316" />
           <folding>
             <element signature="imports" expanded="true" />
+            <element signature="method#createsCorrectTextPane_TextOnly_Message#0;class#DisplayAssemblerTest#0" />
+            <element signature="method#createsCorrectTextPane_TextOnly_Information#0;class#DisplayAssemblerTest#0" />
+            <element signature="method#createsCorrectTextPane_TextAndColour_Message#0;class#DisplayAssemblerTest#0" />
+            <element signature="method#createsCorrectTextPane_TextAndColour_Information#0;class#DisplayAssemblerTest#0" />
+            <element signature="method#createsCorrectImageLabel_URL#0;class#DisplayAssemblerTest#0" />
           </folding>
         </state>
       </provider>
