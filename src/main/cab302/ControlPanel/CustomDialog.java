@@ -10,6 +10,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Calendar;
 
+import static javax.swing.JOptionPane.ERROR_MESSAGE;
+import static javax.swing.JOptionPane.showMessageDialog;
+
 public class CustomDialog extends JDialog implements ActionListener {
 
     private JButton save;
@@ -17,6 +20,7 @@ public class CustomDialog extends JDialog implements ActionListener {
     private JButton delete;
     private JButton close;
     private JButton newbtn;
+    DefaultListModel model;
     private JPanel pnl;
     private JScrollPane pnlList;
     private JFrame bg;
@@ -25,23 +29,23 @@ public class CustomDialog extends JDialog implements ActionListener {
     private JTextField namebox;
     private JTextField hourbox;
     private JTextField minbox;
+    BillboardData boradData;
+    Integer time;
+    private JTextField creatorbox;
+    private JButton rebtn;
     private JTextField duHrbox;
     private JTextField duMinbox;
-    private JTextField creatorbox;
-    private JTextField recurbox;
-
-    private JComboBox billboardChooser;
-    private DefaultComboBoxModel chooserBox;
 
     private JLabel lblName;
-    private JLabel lblDuhour;
-    private JLabel lblDumin;
+    private JTextField recurbox;
+    private JComboBox billboardChooser;
     private JLabel lblTime;
     private JLabel lblHour;
     private JLabel lblMin;
     private JLabel lblduration;
     private JLabel lblCreator;
-    private JLabel lblRecur;
+    private DefaultComboBoxModel chooserBox;
+    private JLabel lblDuhour;
 
     private String name;
     private Integer scheduledMonth;
@@ -50,14 +54,14 @@ public class CustomDialog extends JDialog implements ActionListener {
     private Integer scheduledMin;
 
     private JList nameList;
-    DefaultListModel model;
+    private JLabel lblDumin;
 
     ScheduleData data;
-    BillboardData boradData;
+    private JLabel lblRecur;
 
     String month;
     String date;
-    Integer time;
+    private JLabel lblRecurHr;
 
     Calendar cal;
 
@@ -168,6 +172,7 @@ public class CustomDialog extends JDialog implements ActionListener {
         recurbox = new JTextField(3);
         gbc.gridx = 2;
         gbc.gridy = 10;
+        recurbox.setEditable(false);
 
         pnl.add(recurbox, gbc);
 
@@ -224,6 +229,13 @@ public class CustomDialog extends JDialog implements ActionListener {
 
         pnl.add(edit, gbc);
 
+        rebtn = new JButton("Recurrence");
+        gbc.gridx = 1;
+        gbc.gridy = 13;
+        rebtn.setEnabled(false);
+
+        pnl.add(rebtn, gbc);
+
         delete = new JButton("Delete");
         gbc.gridx = 3;
         gbc.gridy = 13;
@@ -244,6 +256,7 @@ public class CustomDialog extends JDialog implements ActionListener {
         delete.addActionListener(this);
         edit.addActionListener(this);
         close.addActionListener(this);
+        rebtn.addActionListener(this);
 
         billboardChooser.addActionListener(e -> {
 //            if(billboardChooser.getSelectedItem().equals("HH")) {
@@ -267,7 +280,7 @@ public class CustomDialog extends JDialog implements ActionListener {
         setVisible(true);
     }
 
-    public JComboBox setBillboardChooser(){
+    public JComboBox setBillboardChooser() {
         billboardChooser = new JComboBox();
         chooserBox = new DefaultComboBoxModel<>();
 
@@ -275,7 +288,8 @@ public class CustomDialog extends JDialog implements ActionListener {
         chooserBox.addElement("");
 //        chooserBox.addElement("HH");
 
-        for(int i=0; i<boradData.getModel().getSize(); i++) chooserBox.addElement(boradData.getModel().getElementAt(i));
+        for (int i = 0; i < boradData.getModel().getSize(); i++)
+            chooserBox.addElement(boradData.getModel().getElementAt(i));
 
         billboardChooser.setModel(chooserBox);
 
@@ -302,13 +316,17 @@ public class CustomDialog extends JDialog implements ActionListener {
                 d[index] = -1;
             }
             if (d[index] != -1) {
+                String setrehrs = data.findRow(index).getRecur();
+                if (data.findRow(index).getRecur() == null || data.findRow(index).getRecur().equals("")) {
+                    setrehrs = "0";
+                }
                 String value = data.findRow(index).getBoardTitle() + " - "
                         + data.findRow(index).getHour()
                         + " : " + data.findRow(index).getMinute()
                         + " during " + data.findRow(index).getDuHr()
                         + " hrs " + data.findRow(index).getDuMin()
                         + " mins frequently "
-                        + data.findRow(index).getRecur() + " hrs";
+                        + setrehrs + " hrs";
                 model.addElement(value);
 
             }
@@ -352,12 +370,12 @@ public class CustomDialog extends JDialog implements ActionListener {
 //        dispose();
         JButton act = (JButton) e.getSource();
 
-        if (act == newbtn){
+        if (act == newbtn) {
             clearFields();
             setFieldsEditable(true);
             save.setEnabled(true);
-        }
-        else if(act == save){
+            rebtn.setEnabled(true);
+        } else if (act == save) {
             savePressed();
             this.dispose();
 //            setDisplay(date, month);
@@ -372,15 +390,29 @@ public class CustomDialog extends JDialog implements ActionListener {
             this.dispose();
 //            setDisplay(date, month);
 
+        } else if (act == rebtn) {
+            recurePressed();
         } else if (act == close) {
             this.dispose();
         }
     }
 
     private void savePressed() {
-        if (billboardChooser.getSelectedItem() != null && !billboardChooser.getSelectedItem().equals("") &&
+        if (Integer.parseInt(duHrbox.getText()) + Integer.parseInt(hourbox.getText()) > 24) {
+            showMessageDialog(null, "Duration cannot be over selected date", "Title", ERROR_MESSAGE);
+            clearFields();
+        } else if (!recurbox.getText().equals("") && recurbox.getText() != null && Integer.parseInt(recurbox.getText()) < Integer.parseInt(duHrbox.getText())) {
+//                if(Integer.parseInt(recurbox.getText()) < Integer.parseInt(duHrbox.getText()))
+//            {
+            showMessageDialog(null, "Recurring time cannot be lesser than duration", "Title", ERROR_MESSAGE);
+            clearFields();
+//            }
+        } else if (billboardChooser.getSelectedItem() != null && !billboardChooser.getSelectedItem().equals("") &&
                 hourbox.getText() != null && !hourbox.getText().equals("")
-        && minbox.getText() != null && !minbox.getText().equals("")) {
+                && minbox.getText() != null && !minbox.getText().equals("")
+                && duHrbox.getText() != null && !duHrbox.getText().equals("")
+                && duMinbox.getText() != null && !duMinbox.getText().equals("")) {
+
             ScheduleInfo s = new ScheduleInfo(String.valueOf(billboardChooser.getSelectedItem()), creatorbox.getText(),
                     month, date, String.valueOf(time), minbox
                     .getText(), duHrbox.getText(), duMinbox.getText(), recurbox.getText());
@@ -391,7 +423,13 @@ public class CustomDialog extends JDialog implements ActionListener {
     }
 
     private void editPressed() {
-        if (billboardChooser.getSelectedItem() != null && !billboardChooser.getSelectedItem().equals("") &&
+        if (Integer.parseInt(duHrbox.getText()) + Integer.parseInt(duMinbox.getText()) + time > 24) {
+            showMessageDialog(null, "Duration cannot be over selected date", "Title", ERROR_MESSAGE);
+            clearFields();
+        } else if (Integer.parseInt(recurbox.getText()) < Integer.parseInt(duHrbox.getText()) + Integer.parseInt(duMinbox.getText())) {
+            showMessageDialog(null, "Recurring time cannot be lesser than duration", "Title", ERROR_MESSAGE);
+            clearFields();
+        } else if (billboardChooser.getSelectedItem() != null && !billboardChooser.getSelectedItem().equals("") &&
                 hourbox.getText() != null && !hourbox.getText().equals("")
                 && minbox.getText() != null && !minbox.getText().equals("")) {
             data.edit(billboardChooser.getSelectedItem().toString(), creatorbox.getText(), month, date, String.valueOf(time), minbox
@@ -405,5 +443,9 @@ public class CustomDialog extends JDialog implements ActionListener {
         data.remove(billboardChooser.getSelectedItem().toString(), date, hourbox.getText());
         model.removeAllElements();
 //        setDisplay(date, month);
+    }
+
+    private void recurePressed() {
+        recurbox.setEditable(true);
     }
 }
