@@ -3,19 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="f7ab41c5-c651-45b3-bca9-a3afafe74f5f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/CAB302.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/CAB302.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/CAB302/META-INF/CAB302.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/test/CAB302/tempTestsFile" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CalendarGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CalendarGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CustomDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CustomDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleSources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleSources.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/SchedulesDatasource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/SchedulesDatasource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/billboardServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/billboardServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/ScheduleBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/ScheduleBillboardRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/UserClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/UserClient.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,8 +71,8 @@
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="nodejs_package_manager_path" value="npm" />
-    <property name="project.structure.last.edited" value="Project" />
-    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
@@ -112,7 +101,7 @@
       <recent name="cab302.viewer.exceptions" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.billboardServer">
+  <component name="RunManager" selected="Application.Run">
     <configuration name="CalendarGUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cab302.ControlPanel.CalendarGUI" />
       <module name="CAB302" />
@@ -140,7 +129,7 @@
       </method>
     </configuration>
     <configuration name="Run" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="13.0.2" />
+      <option name="ALTERNATIVE_JRE_PATH" value="13" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="cab302.ControlPanel.Run" />
       <module name="CAB302" />
@@ -192,14 +181,14 @@
       <item itemvalue="Application.billboardServer" />
       <item itemvalue="Application.Run" />
       <item itemvalue="Application.Main" />
+      <item itemvalue="Application.CalendarGUI" />
       <item itemvalue="JUnit.DisplayAssemblerTest" />
       <item itemvalue="JUnit.DisplayAssemblerTest.throwsMalformedHexadecimalColourExceptionWhenGivenNonThreeOrSixHexadecimalNumber_GreaterThanSixDigit_InformationColour" />
-      <item itemvalue="Application.CalendarGUI" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.billboardServer" />
         <item itemvalue="Application.Run" />
+        <item itemvalue="Application.billboardServer" />
         <item itemvalue="Application.CalendarGUI" />
         <item itemvalue="JUnit.DisplayAssemblerTest.throwsMalformedHexadecimalColourExceptionWhenGivenNonThreeOrSixHexadecimalNumber_GreaterThanSixDigit_InformationColour" />
         <item itemvalue="Application.Main" />
@@ -272,38 +261,6 @@
     <option name="localTasksCounter" value="8" />
     <servers />
   </component>
-  <component name="TestHistory">
-    <history-entry file="DisplayAssemblerTest_throwsMalformedHexadecimalColourExceptionWhenGivenNonThreeOrSixHexadecimalNumber_GreaterThanSixDigit_InformationColour - 2020.05.28 at 21h 10m 28s.xml">
-      <configuration name="DisplayAssemblerTest.throwsMalformedHexadecimalColourExceptionWhenGivenNonThreeOrSixHexadecimalNumber_GreaterThanSixDigit_InformationColour" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="DisplayAssemblerTest_throwsMalformedHexadecimalColourExceptionWhenGivenNonThreeOrSixHexadecimalNumber_GreaterThanSixDigit_InformationColour - 2020.05.28 at 21h 11m 28s.xml">
-      <configuration name="DisplayAssemblerTest.throwsMalformedHexadecimalColourExceptionWhenGivenNonThreeOrSixHexadecimalNumber_GreaterThanSixDigit_InformationColour" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="DisplayAssemblerTest_throwsMalformedHexadecimalColourExceptionWhenGivenNonThreeOrSixHexadecimalNumber_GreaterThanSixDigit_InformationColour - 2020.05.28 at 21h 16m 07s.xml">
-      <configuration name="DisplayAssemblerTest.throwsMalformedHexadecimalColourExceptionWhenGivenNonThreeOrSixHexadecimalNumber_GreaterThanSixDigit_InformationColour" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="DisplayAssemblerTest_throwsMalformedHexadecimalColourExceptionWhenGivenNonThreeOrSixHexadecimalNumber_GreaterThanSixDigit_InformationColour - 2020.05.28 at 21h 17m 38s.xml">
-      <configuration name="DisplayAssemblerTest.throwsMalformedHexadecimalColourExceptionWhenGivenNonThreeOrSixHexadecimalNumber_GreaterThanSixDigit_InformationColour" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="DisplayAssemblerTest - 2020.05.28 at 21h 17m 50s.xml">
-      <configuration name="DisplayAssemblerTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="DisplayAssemblerTest - 2020.05.28 at 21h 23m 49s.xml">
-      <configuration name="DisplayAssemblerTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="DisplayAssemblerTest - 2020.05.28 at 21h 26m 19s.xml">
-      <configuration name="DisplayAssemblerTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="DisplayAssemblerTest - 2020.05.28 at 21h 27m 39s.xml">
-      <configuration name="DisplayAssemblerTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="DisplayAssemblerTest - 2020.05.28 at 21h 40m 31s.xml">
-      <configuration name="DisplayAssemblerTest" configurationId="JUnit" />
-    </history-entry>
-    <history-entry file="DisplayAssemblerTest - 2020.05.28 at 21h 43m 13s.xml">
-      <configuration name="DisplayAssemblerTest" configurationId="JUnit" />
-    </history-entry>
-  </component>
   <component name="TimeTrackingManager">
     <option name="totallyTimeSpent" value="54019000" />
   </component>
@@ -356,10 +313,14 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="361" y="71" key="#Project_Structure/0.0.1536.824@0.0.1536.824" timestamp="1590635637794" />
-    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1590631698948">
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1590672717061">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1590631698948" />
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1590672717061" />
+    <state x="517" y="249" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog" timestamp="1590671887044">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="517" y="249" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog/0.0.1536.824@0.0.1536.824" timestamp="1590671887044" />
     <state x="533" y="162" key="#com.intellij.ide.util.MemberChooser" timestamp="1589952937809">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -390,39 +351,40 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1590631837753" />
-    <state width="1493" height="191" key="GridCell.Tab.0.bottom" timestamp="1590668486221">
+    <state width="746" height="210" key="GridCell.Tab.0.bottom" timestamp="1590672743430">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="169" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1590623419509" />
-    <state width="1493" height="191" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590668486221" />
+    <state width="746" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590672743430" />
     <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
-    <state width="1493" height="191" key="GridCell.Tab.0.center" timestamp="1590668486221">
+    <state width="746" height="210" key="GridCell.Tab.0.center" timestamp="1590672743430">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="169" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1590623419508" />
-    <state width="1493" height="191" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590668486221" />
+    <state width="746" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590672743430" />
     <state width="1398" height="230" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1493" height="191" key="GridCell.Tab.0.left" timestamp="1590668486220">
+    <state width="746" height="210" key="GridCell.Tab.0.left" timestamp="1590672743429">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="169" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1590623419507" />
-    <state width="1493" height="191" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590668486220" />
+    <state width="746" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590672743429" />
     <state width="1398" height="230" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1493" height="191" key="GridCell.Tab.0.right" timestamp="1590668486221">
+    <state width="746" height="210" key="GridCell.Tab.0.right" timestamp="1590672743430">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="169" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1590623419508" />
-    <state width="1493" height="191" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590668486221" />
+    <state width="746" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590672743430" />
     <state width="1398" height="230" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
     <state x="460" y="159" key="MultipleFileMergeDialog" timestamp="1590635593479">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="431" y="174" key="MultipleFileMergeDialog/0.0.1440.900@0.0.1440.900" timestamp="1590622953046" />
     <state x="460" y="159" key="MultipleFileMergeDialog/0.0.1536.824@0.0.1536.824" timestamp="1590635593479" />
-    <state x="208" y="33" key="SettingsEditor" timestamp="1589769467764">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="108" y="0" key="SettingsEditor" timestamp="1590672691919">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="208" y="33" key="SettingsEditor/0.0.1440.900@0.0.1440.900" timestamp="1589769467764" />
+    <state x="108" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1590672691919" />
     <state x="208" y="55" key="SettingsEditor/0.23.1440.877@0.23.1440.877" timestamp="1589559659741" />
     <state x="361" y="145" key="Vcs.Push.Dialog.v2" timestamp="1590650283785">
       <screen x="0" y="0" width="1536" height="824" />
@@ -442,11 +404,11 @@
     </state>
     <state x="424" y="353" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1440.900@0.0.1440.900" timestamp="1589769463259" />
     <state x="452" y="323" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1536.824@0.0.1536.824" timestamp="1590668182140" />
-    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590650237386">
+    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590669771037">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="542" y="359" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1440.900@0.0.1440.900" timestamp="1590623428948" />
-    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1590650237386" />
+    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1590669771037" />
     <state x="411" y="192" width="715" height="618" key="run.anything.popup" timestamp="1590470221742">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -456,5 +418,10 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1589774669504" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="coverage/CAB302$Run.ic" NAME="Run Coverage Results" MODIFIED="1590671763771" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>cab302.ControlPanel.*</FILTER>
+    </SUITE>
   </component>
 </project>

@@ -114,37 +114,6 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
         monthChooser.addActionListener(this);
     }
 
-    public static void main(String[] args) {
-
-        new CalendarGUI(new ScheduleData(), new BillboardData()) {
-            @Override
-            public void mousePressed(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseReleased(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseEntered(MouseEvent e) {
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-
-            }
-
-            @Override
-            public void run() {
-
-            }
-        };
-
-
-    }
 
     public void initializer() {
 
