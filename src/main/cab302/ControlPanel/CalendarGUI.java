@@ -1,21 +1,28 @@
 package cab302.ControlPanel;
 
-import cab302.database.billboard.BillboardData;
-import cab302.database.schedule.ScheduleData;
 import cab302.database.schedule.ScheduleInfo;
+import cab302.server.Billboardserver.AcknowledgeReply;
+import cab302.server.Billboardserver.FindScheduleReply;
+import cab302.server.Billboardserver.ViewBillboardReply;
+import cab302.server.Billboardserver.listBillboardReply;
+import cab302.server.WillBeControlPanelAction.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellRenderer;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.*;
+import java.net.Socket;
 import java.util.Calendar;
+import java.util.Properties;
 
 //sorry i just change public to firsly run the server to create tables
 public class CalendarGUI extends JFrame implements ActionListener, Runnable, MouseListener {
     public static final int YEAR_DURATION = 10;
     public static final int WEEK_LENGTH = 7;
     public static final int DAY_HOUR = 24;
+    private static String port;
 
     private JFrame bg;
     private JPanel pnlTop;
@@ -43,10 +50,20 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
     protected String[] monthNames = {"Jan", "Feb",
             "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
-    ScheduleData dataSet;
-    BillboardData boradData;
+//    ScheduleData dataSet;
+//    BillboardData boradData;
+    private String host;
+    ListModel billboardsList;
+    ListModel scheduleList;
+    ListModel scheduleDupleList;
 
+    //UserData data;
+    Socket socket;
     JList data;
+    OutputStream outputStream;
+    InputStream inputStream;
+    ObjectOutputStream oos;
+    ObjectInputStream ois;
 
     Integer[][] ob;
 
@@ -56,9 +73,13 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
 
     String[] recurSchedule;
 
-    public CalendarGUI(ScheduleData dataSet, BillboardData boradData) {
-        this.dataSet = dataSet;
-        this.boradData = boradData;
+    String sessionToken;
+
+    public CalendarGUI(String sessiontoken) throws IOException, ClassNotFoundException {
+//        this.dataSet = dataSet;
+//        this.boradData = boradData;
+        getPropValues();
+        sessionToken = sessiontoken;
         initializer();
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -112,10 +133,13 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
 
         yearChooser.addActionListener(this);
         monthChooser.addActionListener(this);
+
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
 
-    public void initializer() {
+
+    public void initializer() throws IOException, ClassNotFoundException {
 
         current = Calendar.getInstance();
 
@@ -142,9 +166,34 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
         ob = new Integer[DAY_HOUR][WEEK_LENGTH + 1];
         rowH =  new Object[DAY_HOUR];
         lblList = new Object[WEEK_LENGTH];
-        recurSchedule = new String[dataSet.take().getSize()];
 
-        data = new JList(dataSet.take());
+        socketStart();
+        listBillboardRequest lbr = new listBillboardRequest(sessionToken);
+        oos.writeObject(lbr);
+        oos.flush();
+
+        Object transo = ois.readObject();
+        if (transo instanceof listBillboardReply){
+            listBillboardReply listreply = (listBillboardReply) transo;
+            billboardsList = listreply.getListofBillboards();
+        }
+        socketStop();
+
+        socketStart();
+        ViewBillboardRequest vBbr = new ViewBillboardRequest(sessionToken);
+        oos.writeObject(vBbr);
+        oos.flush();
+
+        Object trans = ois.readObject();
+        if (trans instanceof ViewBillboardReply){
+            ViewBillboardReply reply = (ViewBillboardReply) trans;
+            scheduleList = reply.getScheduledBillboard();
+            scheduleDupleList = reply.getDuplicatedModel();
+        }
+        socketStop();
+
+        recurSchedule = new String[scheduleDupleList.getSize()];
+        data = new JList(scheduleDupleList);
 
         getDate();
         getMonth();
@@ -152,7 +201,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
 
     }
 
-    public void setTable() {
+    public void setTable() throws IOException, ClassNotFoundException {
         ListModel Rlm = new AbstractListModel() {
             @Override
             public int getSize() {
@@ -201,24 +250,195 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                         .split("<br>");
                 chosenDate = title[0] + "/" + month + " (" + title[1] + ")";
                 int time = table.getSelectedRow();
-                CustomDialog dialog = new CustomDialog(chosenDate, String.valueOf(year), time, dataSet, boradData);
+
+                CustomDialog dialog = null;
+                try {
+                    dialog = new CustomDialog(bg, chosenDate, String.valueOf(year), time, billboardsList, scheduleList, scheduleDupleList, sessionToken);
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                } catch (ClassNotFoundException ex) {
+                    ex.printStackTrace();
+                }
+
+
                 dialog.addWindowListener(new WindowAdapter() {
                     @Override
                     public void windowOpened(WindowEvent e) {
                         super.windowOpened(e);
-                        dataSet = new ScheduleData();
-                        boradData = new BillboardData();
+                        try {
+                            socketStart();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        listBillboardRequest lbr = new listBillboardRequest(sessionToken);
+                        try {
+                            oos.writeObject(lbr);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            oos.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+
+                        Object transo = null;
+                        try {
+                            transo = ois.readObject();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        } catch (ClassNotFoundException ex) {
+                            ex.printStackTrace();
+                        }
+                        if (transo instanceof listBillboardReply){
+                            listBillboardReply listreply = (listBillboardReply) transo;
+                            billboardsList = listreply.getListofBillboards();
+                        }
+                        try {
+                            socketStop();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+
+                        try {
+                            socketStart();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        ViewBillboardRequest vBbr = new ViewBillboardRequest(sessionToken);
+                        try {
+                            oos.writeObject(vBbr);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            oos.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+
+                        Object trans = null;
+                        try {
+                            trans = ois.readObject();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        } catch (ClassNotFoundException ex) {
+                            ex.printStackTrace();
+                        }
+                        if (trans instanceof ViewBillboardReply){
+                            ViewBillboardReply reply = (ViewBillboardReply) trans;
+                            scheduleList = reply.getScheduledBillboard();
+                            scheduleDupleList = reply.getDuplicatedModel();
+                        }
+                        try {
+                            socketStop();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+//                        dataSet = new ScheduleData();
+//                        boradData = new BillboardData();
+//                        System.out.println(scheduleDupleList);
+//                        System.out.println(scheduleList);
+//                        System.out.println(billboardsList);
                     }
 
                     @Override
                     public void windowClosed(WindowEvent e) {
                         super.windowClosed(e);
-                        dataSet = new ScheduleData();
-                        boradData = new BillboardData();
-                        data = new JList(dataSet.take());
-                        recurSchedule = new String[dataSet.take().getSize()];
+                        try {
+                            socketStart();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        listBillboardRequest lbr = new listBillboardRequest(sessionToken);
+                        try {
+                            oos.writeObject(lbr);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            oos.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
 
-                        setTable();
+                        Object transo = null;
+                        try {
+                            transo = ois.readObject();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        } catch (ClassNotFoundException ex) {
+                            ex.printStackTrace();
+                        }
+                        if (transo instanceof listBillboardReply){
+                            listBillboardReply listreply = (listBillboardReply) transo;
+                            billboardsList = listreply.getListofBillboards();
+                        }
+                        try {
+                            socketStop();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+
+                        try {
+                            socketStart();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        ViewBillboardRequest vBbr = new ViewBillboardRequest(sessionToken);
+                        try {
+                            oos.writeObject(vBbr);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+                        try {
+                            oos.flush();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+
+                        Object trans = null;
+                        try {
+                            trans = ois.readObject();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        } catch (ClassNotFoundException ex) {
+                            ex.printStackTrace();
+                        }
+                        if (trans instanceof ViewBillboardReply){
+                            ViewBillboardReply reply = (ViewBillboardReply) trans;
+                            scheduleList = reply.getScheduledBillboard();
+                            scheduleDupleList = reply.getDuplicatedModel();
+                        }
+                        try {
+                            socketStop();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        }
+//                        dataSet = new ScheduleData();
+//                        boradData = new BillboardData();
+                        data = new JList(scheduleDupleList);
+                        recurSchedule = new String[scheduleDupleList.getSize()];
+                        try {
+                            setTable();
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        } catch (ClassNotFoundException ex) {
+                            ex.printStackTrace();
+                        }
+//                        System.out.println(scheduleDupleList);
+//                        System.out.println(scheduleList);
+//                        System.out.println(billboardsList);
+
+                        try {
+                            CalendarGUI GUI = new CalendarGUI(sessionToken);
+                            GUI.setVisible(true);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
+                        } catch (ClassNotFoundException ex) {
+                            ex.printStackTrace();
+                        }
+
                     }
 
                 });
@@ -245,7 +465,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
 
     }
 
-    public void setTableValue(JTable t) {
+    public void setTableValue(JTable t) throws IOException, ClassNotFoundException {
         int[][] tC = new int[t.getColumnCount()][2];
         int index = 0;
         int[][] d = new int[tC.length][2];
@@ -254,10 +474,26 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
 
 
         while (index < data.getModel().getSize()) {
+//            System.out.println(data.getModel().getSize());
+//            System.out.println(index);
+            socketStart();
+            GetIndexSchedule GIS = new GetIndexSchedule(sessionToken,index);
+            oos.writeObject(GIS);
+            oos.flush();
+
+            ScheduleInfo sche = new ScheduleInfo();
+            Object transo = ois.readObject();
+            if (transo instanceof FindScheduleReply){
+                FindScheduleReply reply = (FindScheduleReply) transo;
+                sche  = reply.getScheduleInfo();
+//                System.out.println(sche);
+            }
+            socketStop();
+
             int c = 0;
-            String value = dataSet.findRow(index).getBoardTitle() + " - "
-                    + dataSet.findRow(index).getHour()
-                    + ":" + dataSet.findRow(index).getMinute();
+            String value = sche.getBoardTitle() + " - "
+                    + sche.getHour()
+                    + ":" + sche.getMinute();
             for (int i = 0; i < t.getColumnCount(); i++) {
                 String[] m = t.getColumnName(i)
                         .replace("<html><center>", "")
@@ -271,7 +507,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
             for (int[] n : tC) {
 
 //                String tempDate = dataSet.get(data.getModel().getElementAt(index)).getDate();
-                if (dataSet.findRow(index).getDate().equals(String.valueOf(n[0]))) {
+                if (sche.getDate().equals(String.valueOf(n[0]))) {
                     d[c] = n;
                 } else {
                     d[c][0] = -1;
@@ -280,42 +516,42 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                 if (d[c][1] != -1 && d[c][0] != -1) {
 
 //                    System.out.println(d[i][0]);
-                    if (Integer.parseInt(dataSet.findRow(index).getHour()) < 24) {
+                    if (Integer.parseInt(sche.getHour()) < 24) {
                         t.setValueAt(value,
-                                Integer.parseInt(dataSet.findRow(index).getHour()),
+                                Integer.parseInt(sche.getHour()),
                                 d[c][1]);
                     } else {
                         if (d[c][1] + 1 < 6) {
                             t.setValueAt(value,
-                                    Integer.parseInt(dataSet.findRow(index).getHour()) - 24,
+                                    Integer.parseInt(sche.getHour()) - 24,
                                     d[c][1] + 1);
                         }
                     }
                     int min = 0;
                     int hrs = 0;
-                    if (Integer.parseInt(dataSet.findRow(index).getDuMin()) > 0 &&
-                            Integer.parseInt(dataSet.findRow(index).getDuMin()) < 60) {
+                    if (Integer.parseInt(sche.getDuMin()) > 0 &&
+                            Integer.parseInt(sche.getDuMin()) < 60) {
                         hrs = 1;
-                    } else if (Integer.parseInt(dataSet.findRow(index).getDuMin()) > 59) {
-                        hrs = Integer.parseInt(dataSet.findRow(index).getDuMin()) / 60;
-                        if (Integer.parseInt(dataSet.findRow(index).getDuMin()) % 60 > 0) {
-                            min = Integer.parseInt(dataSet.findRow(index).getDuMin()) % 60;
+                    } else if (Integer.parseInt(sche.getDuMin()) > 59) {
+                        hrs = Integer.parseInt(sche.getDuMin()) / 60;
+                        if (Integer.parseInt(sche.getDuMin()) % 60 > 0) {
+                            min = Integer.parseInt(sche.getDuMin()) % 60;
                             if (min > 0) {
                                 hrs++;
                             }
                         }
                     }
-                    int duration = Integer.parseInt(dataSet.findRow(index).getDuHr()) + hrs;
+                    int duration = Integer.parseInt(sche.getDuHr()) + hrs;
                     if (duration > 0) {
                         for (int j = 1; j < duration; j++) {
-                            if (Integer.parseInt(dataSet.findRow(index).getHour()) + j < 24) {
+                            if (Integer.parseInt(sche.getHour()) + j < 24) {
                                 t.setValueAt(" ",
-                                        Integer.parseInt(dataSet.findRow(index).getHour()) + j,
+                                        Integer.parseInt(sche.getHour()) + j,
                                         d[c][1]);
                             } else {
                                 if (d[c][1] + 1 < 6) {
                                     t.setValueAt(" ",
-                                            Integer.parseInt(dataSet.findRow(index).getHour()) + j - 24,
+                                            Integer.parseInt(sche.getHour()) + j - 24,
                                             d[c][1] + 1);
                                 }
                             }
@@ -328,17 +564,40 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
         }
     }
 
-    public void setRecurring() {
+    public void setRecurring() throws IOException, ClassNotFoundException {
         Calendar tempCal = Calendar.getInstance();
         int last = tempCal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         int index = 0;
         int[] dateRecur = new int[7];
-        int tempData = dataSet.getModel().getSize();
+//        socketStart();
+//        ViewBillboardRequest vbr = new ViewBillboardRequest(sessionToken,1);
+//        oos.writeObject(vbr);
+//        oos.flush();
+//
+//        Object transo = ois.readObject();
+//        if (transo instanceof ViewBillboardReply){
+//            ViewBillboardReply reply = (ViewBillboardReply) transo;
+//            schemodel = reply.getSchModel();
+//        }
+//        socketStop();
+//        int tempData = schemodel.getSize();
 
         while (index < recurSchedule.length) {
-            if (dataSet.findRow(index).getRecur() != null && !dataSet.findRow(index).getRecur().equals("")) {
-                recurSchedule[index] = dataSet.findRow(index).toString();
+            socketStart();
+            GetIndexSchedule gis = new GetIndexSchedule(sessionToken,index);
+            oos.writeObject(gis);
+            oos.flush();
+            ScheduleInfo sche = new ScheduleInfo();
+            Object transo = ois.readObject();
+            if (transo instanceof FindScheduleReply){
+                FindScheduleReply reply = (FindScheduleReply) transo;
+                sche  = reply.getScheduleInfo();
+            }
+            socketStop();
+
+            if (sche.getRecur() != null && !sche.getRecur().equals("")) {
+                recurSchedule[index] = sche.toString();
 
                 for (int i = 0; i < 7; i++) {
                     if (Integer.parseInt(recurSchedule[index].split(" ")[4]) + i > last) {
@@ -357,16 +616,37 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                     if (hrs > 24) {
                         hrs = hrs % 24;
                     }
-                    ScheduleInfo temp = dataSet.findSchedule(recurSchedule[index].split(" ")[0], String.valueOf(dateRecur[in]),
+                    socketStart();
+                    FindScheduleRequest fsr = new FindScheduleRequest(sessionToken, recurSchedule[index].split(" ")[0], String.valueOf(dateRecur[in]),
                             String.valueOf(hrs));
+                    oos.writeObject(fsr);
+                    oos.flush();
+                    ScheduleInfo sch = new ScheduleInfo();
+                    Object trans = ois.readObject();
+                    if (trans instanceof FindScheduleReply){
+                        FindScheduleReply reply = (FindScheduleReply) trans;
+                        sch  = reply.getScheduleInfo();
+                    }
+                    socketStop();
+                    ScheduleInfo temp = sch;
+                    System.out.println("yey");
+                    System.out.println(temp);
                     if (temp.getMonth() == null && temp.getDate() == null && temp.getHour() == null && temp.getMinute() == null &&
                             temp.getRecur() == null) {
-                        ScheduleInfo s = new ScheduleInfo(recurSchedule[index].split(" ")[0], recurSchedule[index].split(" ")[1],
-                                recurSchedule[index].split(" ")[2],
-                                String.valueOf(month), String.valueOf(dateRecur[in]), String.valueOf(hrs),
-                                recurSchedule[index].split(" ")[6], recurSchedule[index].split(" ")[7],
+                        socketStart();
+                        ScheduleBillboardRequest scheduleBillboardRequest = new ScheduleBillboardRequest(recurSchedule[index].split(" ")[0], recurSchedule[index].split(" ")[1],
+                                recurSchedule[index].split(" ")[2],String.valueOf(month), String.valueOf(dateRecur[in]), String.valueOf(hrs),
+                                recurSchedule[index].split(" ")[6], sessionToken, recurSchedule[index].split(" ")[7],
                                 recurSchedule[index].split(" ")[8], "");
-                        dataSet.add(s);
+                        oos.writeObject(scheduleBillboardRequest);
+                        oos.flush();
+                        ScheduleInfo s = new ScheduleInfo();
+                        Object transoO = ois.readObject();
+                        if (transoO instanceof AcknowledgeReply){
+                            AcknowledgeReply reply = (AcknowledgeReply) transoO;
+                            System.out.println(reply.getAcknowledgement());
+                        }
+                        socketStop();
                     }
                 }
             }
@@ -519,16 +799,27 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
         }
     }
 
-    public void setRecurSchedule() {
-        int index = 0;
-
-        while (index < data.getModel().getSize()) {
-            if (dataSet.findRow(index).getRecur() != null && !dataSet.findRow(index).getRecur().equals("")) {
-                recurSchedule[index] = dataSet.findRow(index).toString();
-            }
-            index++;
-        }
-    }
+//    public void setRecurSchedule() throws IOException, ClassNotFoundException {
+//        int index = 0;
+//
+//        while (index < data.getModel().getSize()) {
+//            socketStart();
+//            ViewBillboardRequest viewBillboardRequest = new ViewBillboardRequest(sessionToken,index);
+//            oos.writeObject(viewBillboardRequest);
+//            oos.flush();
+//            ScheduleInfo sche = new ScheduleInfo();
+//            Object transo = ois.readObject();
+//            if (transo instanceof ViewBillboardReply){
+//                ViewBillboardReply reply = (ViewBillboardReply) transo;
+//                sche  = reply.getScheduleInfo();
+//            }
+//            socketStop();
+//            if (sche.getRecur() != null && !sche.getRecur().equals("")) {
+//                recurSchedule[index] = sche.toString();
+//            }
+//            index++;
+//        }
+//    }
 
 
     public void mouseClicked(MouseEvent e) {
@@ -539,7 +830,13 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
             pnlWeekly.removeAll();
             weeklyPlanner(((JLabel) e.getSource()).getText());
             setSchedule();
-            setTable();
+            try {
+                setTable();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            } catch (ClassNotFoundException ex) {
+                ex.printStackTrace();
+            }
             pnlWeekly.setVisible(true);
         }
     }
@@ -593,5 +890,31 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
     @Override
     public void run() {
 
+    }
+    public void socketStart() throws IOException{
+        socket = new Socket(host,Integer.parseInt(port));
+        outputStream = socket.getOutputStream();
+        inputStream = socket.getInputStream();
+        oos = new ObjectOutputStream(outputStream);
+        ois = new ObjectInputStream(inputStream);
+    }
+
+    public void socketStop() throws IOException{
+        ois.close();
+        oos.close();
+        socket.close();
+    }
+    private static void getPropValues() throws IOException {
+        Properties props = new Properties();
+        FileInputStream in = null;
+        try {
+            in = new FileInputStream("src/main/cab302/network.props");
+            props.load(in);
+            in.close();
+            // get the property value and print it out
+            port = props.getProperty("port");
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
     }
 }

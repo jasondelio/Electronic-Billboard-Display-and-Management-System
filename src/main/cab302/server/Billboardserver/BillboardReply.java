@@ -1,7 +1,9 @@
 package cab302.server.Billboardserver;
 
 import java.io.Serializable;
-
+/**
+ * Replying to client and the client is able to retrieve billboard details
+ */
 public class BillboardReply implements Serializable {
     private String xmlcontent;
     private String creator;

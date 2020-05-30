@@ -18,7 +18,7 @@ public class SchedulesDatasource implements ScheduleSources {
             "CREATE TABLE IF NOT EXISTS schedules ("
                     + "boardtitle VARCHAR(30),"
                     + "creator VARCHAR(30),"
-                    + "year VARCHAR(3),"
+                    + "year VARCHAR(4),"
                     + "month VARCHAR(3),"
                     + "date VARCHAR(3),"
                     + "hour VARCHAR(3),"
@@ -172,6 +172,9 @@ public class SchedulesDatasource implements ScheduleSources {
             while (rs.next()) {
                 b.setBoardTitle(rs.getString("boardtitle"));
                 b.setCreator(rs.getString("creator"));
+                b.setYear(rs.getString("year"));
+                b.setMonth(rs.getString("month"));
+                b.setDate(rs.getString("date"));
                 b.setHour(rs.getString("hour"));
                 b.setMinute(rs.getString("minute"));
                 b.setDuHr(rs.getString("durationHr"));

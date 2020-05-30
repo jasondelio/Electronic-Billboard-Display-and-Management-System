@@ -2,7 +2,9 @@ package cab302.server.Billboardserver;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-
+/**
+ * Replying to client and the client is able to retrieve user details
+ */
 public class AlreadyLoginReply implements Serializable {
     private  boolean loginSucceed;
     private  String sessionToken;

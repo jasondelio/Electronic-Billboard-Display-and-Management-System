@@ -12,5 +12,6 @@ public class ViewBillboardRequest implements Serializable {
     public String getSessionToken() {
         return sessionToken;
     }
+
 }
 

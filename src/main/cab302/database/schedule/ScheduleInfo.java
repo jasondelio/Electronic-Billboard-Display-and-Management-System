@@ -58,35 +58,39 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
     /**
      *
      */
-        public void setBoardTitle(String boardtitle) {
+    public void setBoardTitle(String boardtitle) {
             this.boardtitle = boardtitle;
         }
-        /**
-         */
-        public String getCreator() {
+    /**
+     *
+     */
+    public String getCreator() {
             return creator;
         }
-
-        /**
-         */
-        public void setCreator(String creator) {
+    /**
+     *
+     */
+    public void setCreator(String creator) {
             this.creator = creator;
         }
-        /**
-         */
-        public String getDate() {
+    /**
+     *
+     */
+    public String getDate() {
             return date;
         }
 
-        /**
-         */
-        public void setDate(String date) {
+    /**
+     *
+     */
+    public void setDate(String date) {
             this.date = date;
         }
 
-        /**
-         */
-        public String getMonth() {
+    /**
+     *
+     */
+    public String getMonth() {
             return month;
         }
 
@@ -196,7 +200,7 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
      */
     public String toString() {
         return boardtitle + " " + creator + " " + year + " " + month + " " + date + " " + hour + " " + minute + " " +
-                durationHr + " " + durationMin + ", " + recur;
+                durationHr + " " + durationMin + " " + recur;
     }
 
 }

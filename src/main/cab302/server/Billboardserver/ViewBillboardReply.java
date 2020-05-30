@@ -1,18 +1,20 @@
 package cab302.server.Billboardserver;
 
+import javax.swing.*;
 import java.io.Serializable;
-import java.util.Set;
 
 public class ViewBillboardReply implements Serializable {
-    private Set<String> billboard;
+    private ListModel scheduledBillboard;
+    private ListModel duplicatedModel;
 
-
-    public ViewBillboardReply(Set<String> billboard){
-        this.billboard = billboard;
+    public ViewBillboardReply(ListModel schebillboards, ListModel duplicatedMOdel){
+        this.scheduledBillboard = schebillboards;
+        this.duplicatedModel = duplicatedMOdel;
     }
-    public Set<String> getbillboard(){
-        return billboard;
+    public ListModel getScheduledBillboard(){
+        return scheduledBillboard;
     }
+    public ListModel getDuplicatedModel(){return duplicatedModel;}
 
 }
 

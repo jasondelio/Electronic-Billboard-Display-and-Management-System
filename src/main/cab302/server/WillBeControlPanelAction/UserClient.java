@@ -135,59 +135,59 @@ public class UserClient {
 //        oos.close();
 //        socket.close();
 
-        if (sessionToken.isEmpty()) return;
+//        if (sessionToken.isEmpty()) return;
+//
+//        socket = new Socket("localhost",12345);
+//        outputStream = socket.getOutputStream();
+//        inputStream = socket.getInputStream();
+//
+//        oos = new ObjectOutputStream(outputStream);
+//        ois = new ObjectInputStream(inputStream);
+//        int time = 10;
+//        int duration = 100;
+//        ViewBillboardRequest vbbr = new ViewBillboardRequest(sessionToken);
+//        oos.writeObject(vbbr);
+//        oos.flush();
+//        transoO = ois.readObject();
+//        if (transoO instanceof ViewBillboardReply){
+//            ViewBillboardReply vbbrcontent =  (ViewBillboardReply) transoO;
+//            System.out.println("server replied with "+ vbbrcontent.getbillboard());
+//        }else{
+//            System.out.println("error");
+//        }
+//        ois.close();
+//        oos.close();
+//        socket.close();
 
-        socket = new Socket("localhost",12345);
-        outputStream = socket.getOutputStream();
-        inputStream = socket.getInputStream();
-
-        oos = new ObjectOutputStream(outputStream);
-        ois = new ObjectInputStream(inputStream);
-        int time = 10;
-        int duration = 100;
-        ViewBillboardRequest vbbr = new ViewBillboardRequest(sessionToken);
-        oos.writeObject(vbbr);
-        oos.flush();
-        transoO = ois.readObject();
-        if (transoO instanceof ViewBillboardReply){
-            ViewBillboardReply vbbrcontent =  (ViewBillboardReply) transoO;
-            System.out.println("server replied with "+ vbbrcontent.getbillboard());
-        }else{
-            System.out.println("error");
-        }
-        ois.close();
-        oos.close();
-        socket.close();
-
-        if (sessionToken.isEmpty()) return;
-
-        socket = new Socket("localhost",12345);
-        outputStream = socket.getOutputStream();
-        inputStream = socket.getInputStream();
-
-        oos = new ObjectOutputStream(outputStream);
-        ois = new ObjectInputStream(inputStream);
-        String year1 = "2020";
-        String month1 = "5";
-        String date1 = "19";
-        String hour = "16";
-        String minitue = "10";
-        String duractionhr = "1";
-        String duractionmin = "16";
-        String ricur = "2";
-        ScheduleBillboardRequest sbbr = new ScheduleBillboardRequest(billboardname, year1, month1, date1, hour, minitue, sessionToken, duractionhr, duractionmin, ricur);
-        oos.writeObject(sbbr);
-        oos.flush();
-        transoO = ois.readObject();
-        if (transoO instanceof AcknowledgeReply){
-            AcknowledgeReply sbbrcontent =  (AcknowledgeReply) transoO;
-            System.out.println("Scheduled billboard list : "+ sbbrcontent.getAcknowledgement());
-        }else{
-            System.out.println("error");
-        }
-        ois.close();
-        oos.close();
-        socket.close();
+//        if (sessionToken.isEmpty()) return;
+//
+//        socket = new Socket("localhost",12345);
+//        outputStream = socket.getOutputStream();
+//        inputStream = socket.getInputStream();
+//
+//        oos = new ObjectOutputStream(outputStream);
+//        ois = new ObjectInputStream(inputStream);
+//        String year1 = "2020";
+//        String month1 = "5";
+//        String date1 = "19";
+//        String hour = "16";
+//        String minitue = "10";
+//        String duractionhr = "1";
+//        String duractionmin = "16";
+//        String ricur = "2";
+//        ScheduleBillboardRequest sbbr = new ScheduleBillboardRequest(billboardname, year1, month1, date1, hour, minitue, sessionToken, duractionhr, duractionmin, ricur);
+//        oos.writeObject(sbbr);
+//        oos.flush();
+//        transoO = ois.readObject();
+//        if (transoO instanceof AcknowledgeReply){
+//            AcknowledgeReply sbbrcontent =  (AcknowledgeReply) transoO;
+//            System.out.println("Scheduled billboard list : "+ sbbrcontent.getAcknowledgement());
+//        }else{
+//            System.out.println("error");
+//        }
+//        ois.close();
+//        oos.close();
+//        socket.close();
 //
 //        if (sessionToken.isEmpty()) return;
 //

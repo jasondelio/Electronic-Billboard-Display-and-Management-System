@@ -2,7 +2,7 @@ package cab302.server.WillBeControlPanelAction;
 
 import java.io.Serializable;
 
-public class ScheduleBillboardRequest implements Serializable {
+public class EditScheduleBillboard implements Serializable {
     private String billboardname;
     private String creator;
     private String year;
@@ -16,17 +16,18 @@ public class ScheduleBillboardRequest implements Serializable {
     private String recur;
 
 
-    public ScheduleBillboardRequest(String billboardname,String creator, String year, String month, String date, String hour, String minitue, String sessionToken, String durationHr, String durationMin, String recur) {
-        this.billboardname = billboardname;
+    public EditScheduleBillboard(String sessionToken, String boardtitle, String creator, String year, String month, String date, String hour,
+                                 String minute, String duHr, String duMin, String recur) {
+        this.sessionToken = sessionToken;
+        this.billboardname = boardtitle;
         this.creator = creator;
         this.year = year;
         this.month = month;
         this.date = date;
         this.hour = hour;
-        this.minitue = minitue;
-        this.sessionToken = sessionToken;
-        this.durationHr = durationHr;
-        this.durationMin = durationMin;
+        this.minitue = minute;
+        this.durationHr = duHr;
+        this.durationMin = duMin;
         this.recur = recur;
     }
 

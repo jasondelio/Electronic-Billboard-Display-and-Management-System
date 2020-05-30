@@ -10,7 +10,7 @@ public class RemoveBillboardRequest implements Serializable {
     private String minitue;
     private String sessionToken;
 
-    public RemoveBillboardRequest(String billboardname, String sessionToken, String month, String date, String hour, String minitue) {
+    public RemoveBillboardRequest(String billboardname, String sessionToken, String month, String date, String hour) {
         this.billboardname = billboardname;
         this.sessionToken = sessionToken;
         this.month = month;

@@ -1,7 +1,6 @@
 package cab302.database.schedule;
 
 import javax.swing.*;
-import java.util.Set;
 
 public class ScheduleData {
 
@@ -64,7 +63,6 @@ public class ScheduleData {
     public void edit(String boardtitle, String creator, String year, String month, String date, String hour,
                      String minute, String duHr, String duMin, String recur) {
         data.editSchedule(boardtitle, creator, year, month, date, hour, minute, duHr, duMin, recur);
-
     }
 
     public ListModel take() {
@@ -83,7 +81,7 @@ public class ScheduleData {
         return data.getSize();
     }
 
-    public Set<String> getScheduleList (){ return data.GetScheduleList(); }
+//    public Set<String> getScheduleList (){ return data.GetScheduleList(); }
 
 }
 
