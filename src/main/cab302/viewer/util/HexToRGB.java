@@ -11,15 +11,15 @@ public class HexToRGB {
      *
      * @param hexColour A hexidecimal colour of length 4 or 7
      * @return RGB Color object
+     * @throws MalformedHexadecimalColourException if the Hexadecimal colour string provided is invalid
      */
     public static Color HexToRGB(String hexColour) throws MalformedHexadecimalColourException {
 
         Color returnedColour;
-        // If the hex colour string has length 4, convert to Color object
+        // If the hexadecimal colour matches a regex, parse it as a colour
         if (hexColour.matches("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"))
             returnedColour = Color.decode(hexColour);
-        // Else, if the hex colour string has length 7, convert to Color
-        // object
+        // Otherwise, throw an exception
         else
             throw new MalformedHexadecimalColourException("The hexadecimal string is not a valid Hexadecimal Colour Code");
 
