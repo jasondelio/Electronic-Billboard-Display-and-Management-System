@@ -193,14 +193,14 @@ public class HomeUI extends JFrame implements ActionListener {
         panelEditUsers = new JPanel();
         panelEditUsers.setLayout(new BorderLayout());
         socketStart();
-        listUsersRequest liur = new listUsersRequest(sessionToken);
+        ListUsersRequest liur = new ListUsersRequest(sessionToken);
 
         oos.writeObject(liur);
         oos.flush();
 
         Object transo = ois.readObject();
-        if (transo instanceof listUsersReply) {
-            listUsersReply reply = (listUsersReply) transo;
+        if (transo instanceof ListUsersReply) {
+            ListUsersReply reply = (ListUsersReply) transo;
             usernameList = new JList(reply.getListOfUsers());
         }
         //usernameList = new JList(userData.getModel());
@@ -215,21 +215,21 @@ public class HomeUI extends JFrame implements ActionListener {
         JPanel panelListBillboards = new JPanel();
         panelListBillboards.setLayout(new BorderLayout());
         socketStart();
-        listBillboardRequest listBillboardRequest = new listBillboardRequest(sessionToken);
+        ListBillboardRequest listBillboardRequest = new ListBillboardRequest(sessionToken);
         oos.writeObject(listBillboardRequest);
         oos.flush();
         boolean Logout = false;
         Object transoO = ois.readObject();
-        if (transoO instanceof listBillboardReply) {
-            listBillboardReply reply = (listBillboardReply) transoO;
+        if (transoO instanceof ListBillboardReply) {
+            ListBillboardReply reply = (ListBillboardReply) transoO;
             billboards = reply.getListofBillboards();
             billboardList = new JList(reply.getListofBillboards());
-        } else if (transoO instanceof AcknowledgeReply){
+        } else if (transoO instanceof AcknowledgeReply) {
             Logout = true;
             logout();
         }
         socketStop();
-        if(Logout == false){
+        if (Logout == false) {
             scroller = new JScrollPane(billboardList);
             scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
             panelListBillboards.add(scroller, BorderLayout.CENTER);
@@ -720,14 +720,14 @@ public class HomeUI extends JFrame implements ActionListener {
     }
     private void deleteBillboardPressed() throws IOException, ClassNotFoundException {
         socketStart();
-        DelateBillboardRequest delateBillboardRequest = new DelateBillboardRequest((String) billboardList.getSelectedValue(), sessionToken);
-        oos.writeObject(delateBillboardRequest);
+        DeleteBillboardRequest deleteBillboardRequest = new DeleteBillboardRequest((String) billboardList.getSelectedValue(), sessionToken);
+        oos.writeObject(deleteBillboardRequest);
         oos.flush();
         boolean Logout = false;
         Object transoO = ois.readObject();
         if (transoO instanceof AcknowledgeReply) {
             AcknowledgeReply lurlist = (AcknowledgeReply) transoO;
-            if(lurlist.getAcknowledgement().equals("Expired")){
+            if (lurlist.getAcknowledgement().equals("Expired")) {
                 Logout = true;
             }
             System.out.println(lurlist.getAcknowledgement());
@@ -924,18 +924,18 @@ public class HomeUI extends JFrame implements ActionListener {
     }
     private void deleteUserPressed() throws IOException, ClassNotFoundException {
         socketStart();
-        DelateUserRequest delateUserRequest = new DelateUserRequest((String) usernameList.getSelectedValue(), sessionToken);
-        oos.writeObject(delateUserRequest);
+        DeleteUserRequest deleteUserRequest = new DeleteUserRequest((String) usernameList.getSelectedValue(), sessionToken);
+        oos.writeObject(deleteUserRequest);
         oos.flush();
         Object transoO = ois.readObject();
         if (transoO instanceof AcknowledgeReply) {
             AcknowledgeReply lurlist = (AcknowledgeReply) transoO;
             System.out.println(lurlist.getAcknowledgement());
-            if (lurlist.getAcknowledgement().equals("Expired")){
+            if (lurlist.getAcknowledgement().equals("Expired")) {
                 logout();
-            }else{
+            } else {
                 dispose();
-                HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername, pane.getSelectedIndex());
+                HomeUI GUI = new HomeUI(sessionToken, permissionsList, currentUsername, pane.getSelectedIndex());
                 GUI.setVisible(true);
             }
         }

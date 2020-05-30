@@ -5,10 +5,10 @@ import java.io.Serializable;
 /**
  * Replying to client and client is able to retrieve the billboard list model
  */
-public class listBillboardReply implements Serializable {
+public class ListBillboardReply implements Serializable {
     private ListModel listofBillboards;
 
-    public listBillboardReply(ListModel listBillboardRequest){
+    public ListBillboardReply(ListModel listBillboardRequest) {
         this.listofBillboards = listBillboardRequest;
     }
 

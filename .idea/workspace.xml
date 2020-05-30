@@ -3,7 +3,19 @@
   <component name="ChangeListManager">
     <list default="true" id="f7ab41c5-c651-45b3-bca9-a3afafe74f5f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/db.props" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/db.props" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CalendarGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CalendarGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/UserLoginUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/UserLoginUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/billboardServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/BillboardServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/listBillboardReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ListBillboardReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/listUsersReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ListUsersReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/sessionExistReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/SessionExistReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/DelateBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/DeleteBillboardRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/DelateUserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/DeleteUserRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/UserClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/UserClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/listBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/ListBillboardRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/listUsersRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/ListUsersRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/sessionExistRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/SessionExistRequest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,6 +107,19 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.Run">
+    <configuration name="BillboardServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cab302.server.Billboardserver.BillboardServer" />
+      <module name="CAB302" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cab302.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="CalendarGUI" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cab302.ControlPanel.CalendarGUI" />
       <module name="CAB302" />
@@ -136,19 +161,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="billboardServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="cab302.server.Billboardserver.billboardServer" />
-      <module name="CAB302" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="cab302.server.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="DisplayAssemblerTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
       <module name="CAB302" />
       <option name="PACKAGE_NAME" value="" />
@@ -171,17 +183,17 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.billboardServer" />
       <item itemvalue="Application.Run" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.CalendarGUI" />
       <item itemvalue="JUnit.DisplayAssemblerTest" />
       <item itemvalue="JUnit.DisplayAssemblerTest.throwsMalformedHexadecimalColourExceptionWhenGivenNonThreeOrSixHexadecimalNumber_GreaterThanSixDigit_InformationColour" />
+      <item itemvalue="Application.BillboardServer" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="Application.Run" />
-        <item itemvalue="Application.billboardServer" />
+        <item itemvalue="Application.BillboardServer" />
         <item itemvalue="Application.CalendarGUI" />
         <item itemvalue="JUnit.DisplayAssemblerTest.throwsMalformedHexadecimalColourExceptionWhenGivenNonThreeOrSixHexadecimalNumber_GreaterThanSixDigit_InformationColour" />
         <item itemvalue="Application.Main" />
@@ -326,11 +338,11 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="349" y="67" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor/0.0.1536.824@0.0.1536.824" timestamp="1590666676344" />
-    <state x="138" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1590630752503">
+    <state x="138" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1590821798406">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="290" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.900@0.0.1440.900" timestamp="1589548262143" />
-    <state x="138" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1590630752503" />
+    <state x="138" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1590821798406" />
     <state x="458" y="205" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1589775364891">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
@@ -344,29 +356,29 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1590631837753" />
-    <state width="1398" height="189" key="GridCell.Tab.0.bottom" timestamp="1590821114131">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="746" height="210" key="GridCell.Tab.0.bottom" timestamp="1590821911002">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="189" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1590821114131" />
-    <state width="746" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590672743430" />
+    <state width="746" height="210" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590821911002" />
     <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
-    <state width="1398" height="189" key="GridCell.Tab.0.center" timestamp="1590821114127">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="746" height="210" key="GridCell.Tab.0.center" timestamp="1590821911001">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="189" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1590821114127" />
-    <state width="746" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590672743430" />
+    <state width="746" height="210" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590821911001" />
     <state width="1398" height="230" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1398" height="189" key="GridCell.Tab.0.left" timestamp="1590821114124">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="746" height="210" key="GridCell.Tab.0.left" timestamp="1590821911001">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="189" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1590821114124" />
-    <state width="746" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590672743429" />
+    <state width="746" height="210" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590821911001" />
     <state width="1398" height="230" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1398" height="189" key="GridCell.Tab.0.right" timestamp="1590821114129">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="746" height="210" key="GridCell.Tab.0.right" timestamp="1590821911002">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="189" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1590821114129" />
-    <state width="746" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590672743430" />
+    <state width="746" height="210" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590821911002" />
     <state width="1398" height="230" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
     <state x="460" y="159" key="MultipleFileMergeDialog" timestamp="1590635593479">
       <screen x="0" y="0" width="1536" height="824" />

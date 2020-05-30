@@ -3,8 +3,8 @@ package cab302.ControlPanel;
 import cab302.database.schedule.ScheduleInfo;
 import cab302.server.Billboardserver.AcknowledgeReply;
 import cab302.server.Billboardserver.FindScheduleReply;
+import cab302.server.Billboardserver.ListBillboardReply;
 import cab302.server.Billboardserver.ViewBillboardReply;
-import cab302.server.Billboardserver.listBillboardReply;
 import cab302.server.WillBeControlPanelAction.*;
 
 import javax.swing.*;
@@ -164,17 +164,17 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
         bg.setSize(800, 400);
 
         ob = new Integer[DAY_HOUR][WEEK_LENGTH + 1];
-        rowH =  new Object[DAY_HOUR];
+        rowH = new Object[DAY_HOUR];
         lblList = new Object[WEEK_LENGTH];
 
         socketStart();
-        listBillboardRequest lbr = new listBillboardRequest(sessionToken);
+        ListBillboardRequest lbr = new ListBillboardRequest(sessionToken);
         oos.writeObject(lbr);
         oos.flush();
 
         Object transo = ois.readObject();
-        if (transo instanceof listBillboardReply){
-            listBillboardReply listreply = (listBillboardReply) transo;
+        if (transo instanceof ListBillboardReply) {
+            ListBillboardReply listreply = (ListBillboardReply) transo;
             billboardsList = listreply.getListofBillboards();
         }
         socketStop();
@@ -270,7 +270,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
-                        listBillboardRequest lbr = new listBillboardRequest(sessionToken);
+                        ListBillboardRequest lbr = new ListBillboardRequest(sessionToken);
                         try {
                             oos.writeObject(lbr);
                         } catch (IOException ex) {
@@ -290,8 +290,8 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                         } catch (ClassNotFoundException ex) {
                             ex.printStackTrace();
                         }
-                        if (transo instanceof listBillboardReply){
-                            listBillboardReply listreply = (listBillboardReply) transo;
+                        if (transo instanceof ListBillboardReply) {
+                            ListBillboardReply listreply = (ListBillboardReply) transo;
                             billboardsList = listreply.getListofBillboards();
                         }
                         try {
@@ -350,7 +350,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
-                        listBillboardRequest lbr = new listBillboardRequest(sessionToken);
+                        ListBillboardRequest lbr = new ListBillboardRequest(sessionToken);
                         try {
                             oos.writeObject(lbr);
                         } catch (IOException ex) {
@@ -370,8 +370,8 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                         } catch (ClassNotFoundException ex) {
                             ex.printStackTrace();
                         }
-                        if (transo instanceof listBillboardReply){
-                            listBillboardReply listreply = (listBillboardReply) transo;
+                        if (transo instanceof ListBillboardReply) {
+                            ListBillboardReply listreply = (ListBillboardReply) transo;
                             billboardsList = listreply.getListofBillboards();
                         }
                         try {
