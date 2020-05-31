@@ -9,6 +9,7 @@ import cab302.server.WillBeControlPanelAction.SessionExistRequest;
 import cab302.server.WillBeControlPanelAction.UserLoggedInrequest;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -237,12 +238,11 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
      */
     public void processInformation() throws NoSuchAlgorithmException, IOException, ClassNotFoundException {
         socketStart();
-        String username = this.username.getText();
         String password1 = String.valueOf(password.getPassword());
         String hashePass = getHashedPass(password1);
         Date now = new Date();
 
-        Loginrequest loginrequest = new Loginrequest(username, hashePass, now);
+        Loginrequest loginrequest = new Loginrequest(username.getText(), hashePass, now);
         oos.writeObject(loginrequest);
         oos.flush();
 
@@ -254,7 +254,6 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
             if (reply.isLoginSucceed()) {
                 sessionToken = reply.getSessionToken();
                 loggedinuser = reply.getLoggedInUsername();
-//                LocalDateTime loginTime = LocalDateTime.parse(reply.getLogintime());
 
                 System.out.println("Success to log in, recieve the token " + sessionToken);
                 permlists = reply.getPermissionsList();
@@ -265,6 +264,10 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
                 dispose();
 
             } else {
+                username.setBorder(new LineBorder(Color.RED));
+                password.setBorder(new LineBorder(Color.RED));
+                JOptionPane.showMessageDialog(this, "Invalid username or password",
+                        "Error", JOptionPane.WARNING_MESSAGE);
                 System.out.println("fail to login");
             }
         }
