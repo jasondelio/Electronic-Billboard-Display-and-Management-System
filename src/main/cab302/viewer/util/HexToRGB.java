@@ -17,11 +17,19 @@ public class HexToRGB {
 
         Color returnedColour;
         // If the hexadecimal colour matches a regex, parse it as a colour
-        if (hexColour.matches("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$"))
+        if (hexColour.matches("^#([A-Fa-f0-9]{6})$"))
             returnedColour = Color.decode(hexColour);
-        // Otherwise, throw an exception
+        else if (hexColour.matches("^#([A-Fa-f0-9]{3})$"))
+            returnedColour = Color.decode(
+                    "#" +
+                            hexColour.substring(1,2) + hexColour.substring(1,2) +
+                            hexColour.substring(2,3) + hexColour.substring(2,3) +
+                            hexColour.substring(3,4) + hexColour.substring(3,4)
+            );
+            // Otherwise, throw an exception
         else
             throw new MalformedHexadecimalColourException("The hexadecimal string is not a valid Hexadecimal Colour Code");
+
 
         return returnedColour;
     }
