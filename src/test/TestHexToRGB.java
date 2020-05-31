@@ -7,7 +7,7 @@ import static cab302.viewer.util.HexToRGB.HexToRGB;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-public class HexToRGBTest {
+public class TestHexToRGB {
 
     @Test
     public void throwsExceptionWhenProvidedSingleDigitHexColour() {

@@ -18,7 +18,7 @@ import java.net.URL;
 import static org.junit.jupiter.api.Assertions.*;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class DisplayAssemblerTest {
+public class TestDisplayAssembler {
 
     private SimpleAttributeSet set = new SimpleAttributeSet();
     private Color defaultBgColour = new Color(255,255,255);
