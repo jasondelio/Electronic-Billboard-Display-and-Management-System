@@ -2,15 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f7ab41c5-c651-45b3-bca9-a3afafe74f5f" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/Run.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/Run.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/UserLoginUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/UserLoginUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/exceptions/MalformedHexadecimalColourException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/exceptions/MalformedHexadecimalColourException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/util/XMLParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/util/XMLParser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/TestDisplayAssembler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/TestDisplayAssembler.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,13 +93,26 @@
       <recent name="D:\[University\CAB302\CAB302\src\main\java\viewer" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Run">
+  <component name="RunManager" selected="JUnit.TestHexToRGB">
     <configuration name="BillboardServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cab302.server.Billboardserver.BillboardServer" />
       <module name="CAB302" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="cab302.server.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cab302.viewer.Main" />
+      <module name="CAB302" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cab302.viewer.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -130,17 +135,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="DisplayAssemblerTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
-      <module name="CAB302" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="DisplayAssemblerTest" />
-      <option name="METHOD_NAME" value="" />
-      <option name="TEST_OBJECT" value="class" />
-      <option name="PARAMETERS" value="" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="TestDisplayAssembler" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="CAB302" />
       <option name="PACKAGE_NAME" value="" />
@@ -150,11 +144,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestHexToRGB" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="TestHexToRGB" type="JUnit" factoryName="JUnit">
       <module name="CAB302" />
+      <useClassPathOnly />
       <option name="PACKAGE_NAME" value="" />
       <option name="MAIN_CLASS_NAME" value="TestHexToRGB" />
+      <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
+      <option name="PARAMETERS" value="" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -171,16 +168,16 @@
     <list>
       <item itemvalue="Application.Run" />
       <item itemvalue="Application.BillboardServer" />
-      <item itemvalue="JUnit.DisplayAssemblerTest" />
-      <item itemvalue="JUnit.TestDisplayAssembler" />
+      <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.TestHexToRGB" />
+      <item itemvalue="JUnit.TestDisplayAssembler" />
       <item itemvalue="JUnit.TestImageGenerator" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.Run" />
         <item itemvalue="Application.BillboardServer" />
-        <item itemvalue="JUnit.TestHexToRGB" />
         <item itemvalue="JUnit.TestImageGenerator" />
         <item itemvalue="JUnit.TestDisplayAssembler" />
       </list>
@@ -304,10 +301,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="361" y="71" key="#Project_Structure/0.0.1536.824@0.0.1536.824" timestamp="1590635637794" />
-    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1590672717061">
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1590897156807">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1590672717061" />
+    <state x="223" y="67" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1590897156807" />
     <state x="517" y="249" key="#com.intellij.ide.actions.ChooseComponentsToExportDialog" timestamp="1590671887044">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
@@ -342,29 +339,29 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1590631837753" />
-    <state width="746" height="166" key="GridCell.Tab.0.bottom" timestamp="1590896626179">
+    <state width="1493" height="166" key="GridCell.Tab.0.bottom" timestamp="1590897158733">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="189" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1590821114131" />
-    <state width="746" height="166" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590896626179" />
+    <state width="1493" height="166" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590897158733" />
     <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
-    <state width="746" height="166" key="GridCell.Tab.0.center" timestamp="1590896626179">
+    <state width="1493" height="166" key="GridCell.Tab.0.center" timestamp="1590897158732">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="189" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1590821114127" />
-    <state width="746" height="166" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590896626179" />
+    <state width="1493" height="166" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590897158732" />
     <state width="1398" height="230" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="746" height="166" key="GridCell.Tab.0.left" timestamp="1590896626179">
+    <state width="1493" height="166" key="GridCell.Tab.0.left" timestamp="1590897158732">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="189" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1590821114124" />
-    <state width="746" height="166" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590896626179" />
+    <state width="1493" height="166" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590897158732" />
     <state width="1398" height="230" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="746" height="166" key="GridCell.Tab.0.right" timestamp="1590896626179">
+    <state width="1493" height="166" key="GridCell.Tab.0.right" timestamp="1590897158733">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="189" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1590821114129" />
-    <state width="746" height="166" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590896626179" />
+    <state width="1493" height="166" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590897158733" />
     <state width="1398" height="230" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
     <state x="460" y="159" key="MultipleFileMergeDialog" timestamp="1590895965304">
       <screen x="0" y="0" width="1536" height="824" />
@@ -395,11 +392,11 @@
     </state>
     <state x="424" y="353" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1440.900@0.0.1440.900" timestamp="1589769463259" />
     <state x="452" y="323" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1536.824@0.0.1536.824" timestamp="1590668182140" />
-    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590896433691">
+    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590897165524">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="542" y="359" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1440.900@0.0.1440.900" timestamp="1590623428948" />
-    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1590896433691" />
+    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1590897165524" />
     <state x="500" y="204" key="git4idea.merge.GitPullDialog" timestamp="1590895459465">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
