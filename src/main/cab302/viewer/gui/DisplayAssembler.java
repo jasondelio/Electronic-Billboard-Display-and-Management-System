@@ -106,6 +106,7 @@ public class DisplayAssembler {
             // Add text to the pane
             titleText = new JTextPane();
             titleText.setText(xmlInfo.get("message"));
+            titleText.setPreferredSize(new Dimension(this.screenSize.width, this.screenSize.height/3));
 
             // Setup styling
             titleText.setBackground(bgColour);
@@ -143,6 +144,7 @@ public class DisplayAssembler {
             // Set the text
             informationText = new JTextPane();
             informationText.setText(xmlInfo.get("information"));
+            informationText.setPreferredSize(new Dimension(this.screenSize.width, this.screenSize.height/3));
 
             // Set up styling attributes
             informationText.setBackground(bgColour);

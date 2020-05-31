@@ -11,7 +11,7 @@ public class Main {
     public static void main(String[] args) {
 
         // Get data from the XML parser
-        XMLParser parser = new XMLParser(new BillboardDataSource().getBillboard("13"));
+        XMLParser parser = new XMLParser(new BillboardDataSource().getBillboard("5"));
         HashMap<String, String> xmlData = parser.parseXML();
 
         new Gui(xmlData);

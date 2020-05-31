@@ -1252,137 +1252,6 @@ public class HomeUI extends JFrame implements ActionListener {
         XMLContents = XMLContents + content;
     }
 
-    //    private void previewBillboardPressed(JButton btnSource)
-//    {
-//        Dimension dialogSize = new Dimension(860, 600);
-//
-//        previewBillboardDialog = new JDialog(this,"Preview Billboard");
-//        previewBillboardDialog.setSize(dialogSize);
-//        previewBillboardDialog.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-//
-//        SimpleAttributeSet set=new SimpleAttributeSet();
-//        StyleConstants.setAlignment(set,StyleConstants.ALIGN_CENTER);
-//        StyleConstants.setFontFamily(set, "Arial");
-//
-//        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-//        previewBillboardDialog.setLocation(dim.width / 2 - 430, dim.height / 2 - 300);
-//
-//        JPanel previewPanel = new JPanel();
-//        XMLParser parser;
-//        HashMap<String,String> xmlInfo;
-//
-//        if (btnSource == btnPreviewEditedBillboard || btnSource == btnPreviewNewBillboard) {
-//            convertBillboardToXML();
-//            parser = new XMLParser(XMLContents);
-//        }
-//        else if (btnSource == btnPreviewBillboard)
-//            parser = new XMLParser(billboardData.get(billboardList.getSelectedValue()).getXMLContent());
-//        else
-//            parser = new XMLParser("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<billboard>\n<message>No Billboard Found</message>\n</billboard>");
-//
-//        xmlInfo = parser.parseXML();
-//
-//        // Layout and closing
-//        GridBagLayout layout = new GridBagLayout();
-//        previewPanel.setLayout(layout);
-//
-//        // Get and set Background
-//        String bgString = xmlInfo.getOrDefault("bgColour", "#FFFFFF");
-//        Color bgColour = HexToRGB(bgString);
-//        previewPanel.setBackground(bgColour);
-//
-//        // ## GridBag Constraints ## \\
-//        GridBagConstraints gbc = new GridBagConstraints();
-//        gbc.fill = GridBagConstraints.NONE;
-//        gbc.weighty = 1;
-//        gbc.weightx = 1;
-//
-//        // ## Utilities and Actions ## \\
-//        // Provide a way to decode and display images
-//        ImageGenerator imgGen = new ImageGenerator();
-//
-//
-//        // ## XML display ## \\
-//        // Create heading label if exists and add it to the window
-//        if (xmlInfo.containsKey("message")) {
-//            JTextPane titleText = new JTextPane();
-//            titleText.setText(xmlInfo.get("message"));
-//            titleText.setFont(new Font("Arial", Font.PLAIN, 84));
-//            titleText.setForeground(
-//                    HexToRGB(
-//                            xmlInfo.getOrDefault("messageColour", "#000000")
-//                    )
-//            );
-//            titleText.setBackground(bgColour);
-//            StyleConstants.setFontSize(set, 84);
-//
-//            titleText.setParagraphAttributes(set,true);
-//            titleText.setEditable(false);
-//
-//            gbc.gridx = 0;
-//            gbc.gridy = 0;
-//            previewPanel.add(titleText, gbc);
-//        }
-//
-//        // Create picture label if exists and add it to the window
-//        // Create picture label if exists and add it to the window
-//        if (xmlInfo.containsKey("picture")) {
-//            JLabel pictureLabel = new JLabel();
-//            String imgInfo = xmlInfo.get("picture");
-//
-//            try {
-//                BufferedImage picture = imgGen.isBase64EncodedImage(imgInfo) ? imgGen.decodeDataString(imgInfo) : imgGen.downloadImage(imgInfo);
-//
-//                int resizedWidth = picture.getWidth();
-//                int resizedHeight = picture.getHeight();
-//
-//                if (picture.getWidth() != dialogSize.width / 2) {
-//                    resizedWidth = dialogSize.width / 2;
-//                    resizedHeight = (resizedWidth * picture.getHeight()) / picture.getWidth();
-//                }
-//
-//                if (picture.getHeight() != dialogSize.height / 2) {
-//                    resizedHeight = dialogSize.height / 2;
-//                    resizedWidth = (resizedHeight * picture.getWidth()) / picture.getHeight();
-//                }
-//
-//                Image resizedImage = picture.getScaledInstance(
-//                        resizedWidth,
-//                        resizedHeight,
-//                        Image.SCALE_SMOOTH
-//                );
-//                pictureLabel.setIcon(new ImageIcon(resizedImage));
-//            } catch (IOException | BadImageFormatException e) {
-//                e.printStackTrace();
-//            }
-//
-//            gbc.gridy = 1;
-//            previewPanel.add(pictureLabel, gbc);
-//        }
-//
-//        // Create information label if exists and add it to the window
-//        if (xmlInfo.containsKey("information")) {
-//            JTextPane informationText = new JTextPane();
-//            informationText.setText(xmlInfo.get("information"));
-//            informationText.setFont(new Font("Arial", Font.PLAIN, 36));
-//            informationText.setForeground(
-//                    HexToRGB(
-//                            xmlInfo.getOrDefault("informationColour", "#000000")
-//                    )
-//            );
-//            informationText.setBackground(bgColour);
-//            StyleConstants.setFontSize(set, 36);
-//
-//            informationText.setParagraphAttributes(set, true);
-//            informationText.setEditable(false);
-//
-//            gbc.gridy = 2;
-//            previewPanel.add(informationText, gbc);
-//        }
-//
-//        previewBillboardDialog.add(previewPanel);
-//        previewBillboardDialog.setVisible(true);
-//    }
     private void previewBillboardPressed(JButton btnSource) throws IOException, ClassNotFoundException {
         Dimension dialogSize = new Dimension(860, 600);
 
@@ -1395,7 +1264,7 @@ public class HomeUI extends JFrame implements ActionListener {
         StyleConstants.setFontFamily(set, "Arial");
 
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        previewBillboardDialog.setLocation(dim.width / 2 - 430, dim.height / 2 - 300);
+        previewBillboardDialog.setLocation(dim.width / 2 - dialogSize.width/2, dim.height / 2 - dialogSize.height/2);
 
         JPanel previewPanel = new JPanel();
         XMLParser parser;
