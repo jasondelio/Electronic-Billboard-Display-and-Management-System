@@ -16,6 +16,7 @@ public class HexToRGB {
     public static Color HexToRGB(String hexColour) throws MalformedHexadecimalColourException {
 
         Color returnedColour;
+
         // If the hexadecimal colour matches a regex, parse it as a colour
         if (hexColour.matches("^#([A-Fa-f0-9]{6})$"))
             returnedColour = Color.decode(hexColour);
