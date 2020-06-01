@@ -467,10 +467,10 @@ public class BillboardServer {
                         if (nu.getScheduleBillboards().equals("true")) {
                             ScheduleInfo previousSche = scheduleData.findSchedule(esbb.getBillboardname(), esbb.getMonth(),esbb.getDate(), esbb.getHour());
                             System.out.println(previousSche);
-                            if(previousSche.getDuHr().equals(esbb.getDurationHr()) && previousSche.getMinute().equals(esbb.getMinitue())
+                            if(previousSche.getDuHr().equals(esbb.getDurationHr()) && previousSche.getMinute().equals(esbb.getMinute())
                                     && previousSche.getDuMin().equals(esbb.getDurationMin())){
                                 scheduleData.edit(esbb.getBillboardname(), esbb.getCreator(), esbb.getYear(), esbb.getMonth(),esbb.getDate(), esbb.getHour(),
-                                        esbb.getMinitue(), esbb.getDurationHr(), esbb.getDurationMin(), esbb.getRecur());
+                                        esbb.getMinute(), esbb.getDurationHr(), esbb.getDurationMin(), esbb.getRecur());
                                 results = "Success to edit the scheduled billboard";
                                 System.out.println("yyyeeeeeyyy");
 
@@ -481,7 +481,7 @@ public class BillboardServer {
                                         previousSche.getRecur());
                                 removedScheduleData.add(delatedSched);
                                 scheduleData.edit(esbb.getBillboardname(), esbb.getCreator(), esbb.getYear(), esbb.getMonth(),esbb.getDate(), esbb.getHour(),
-                                        esbb.getMinitue(), esbb.getDurationHr(), esbb.getDurationMin(), esbb.getRecur());
+                                        esbb.getMinute(), esbb.getDurationHr(), esbb.getDurationMin(), esbb.getRecur());
                                 results = "Success to edit the scheduled billboard";
                             }
                         } else {
