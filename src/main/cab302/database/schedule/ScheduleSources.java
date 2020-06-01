@@ -1,5 +1,6 @@
 package cab302.database.schedule;
 
+import java.util.ArrayList;
 import java.util.Set;
 
 public interface ScheduleSources {
@@ -10,15 +11,20 @@ public interface ScheduleSources {
     /**
      */
     ScheduleInfo getSchedule(String boradtitle);
-
+    ScheduleInfo findSame(String title, String month, String date, String hour, String minute, String durationHr, String durationMin, String recur);
+    ScheduleInfo findSchedule(String title, String month, String date, String hour);
     /**
      */
     int getSize();
-
+    ArrayList<ScheduleInfo> getCurrentBillboardTitle(String year, String month, String date);
     /**
      *
      */
     void deleteSchedule(String title, String month, String date, String hour);
+    /**
+     *
+     */
+    void deleteallSchedule(String title);
 
     /**
      * @return

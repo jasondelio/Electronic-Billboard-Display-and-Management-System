@@ -1,5 +1,7 @@
 package cab302.server.Billboardserver;
 
+import cab302.database.RemovedSchedule.RemovedScheduleData;
+import cab302.database.RemovedSchedule.RemovedScheduleInfo;
 import cab302.database.billboard.BillboardData;
 import cab302.database.billboard.BillboardInfo;
 import cab302.database.schedule.ScheduleData;
@@ -17,6 +19,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 
@@ -25,7 +29,7 @@ public class BillboardServer {
     private static String validSessionToken = null;
     public static HashMap<String, String> validSessionTokens = new HashMap<>();
     public static HashMap<String, Date> TimeSessionTokensmade = new HashMap<>();
-    public static HashMap<String, ScheduleInfo> RemovedOnce = new HashMap<>();
+//    public static HashMap<String, ScheduleInfo> RemovedOnce = new HashMap<>();
     private static String port;
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchAlgorithmException {
@@ -50,10 +54,11 @@ public class BillboardServer {
 
         BillboardData billboardData = new BillboardData();
         ScheduleData scheduleData = new ScheduleData();
+        RemovedScheduleData removedScheduleData = new RemovedScheduleData();
 
         for (; ; ) {
             Socket socket = serverSocket.accept();
-            System.out.println("Connected to " + socket.getInetAddress());
+//            System.out.println("Connected to " + socket.getInetAddress());
 
             ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
             ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
@@ -114,23 +119,23 @@ public class BillboardServer {
                     }
                     oos.writeObject(reply);
                     oos.flush();
-                } else {
+                } else{
 //                    System.out.println(TimeSessionTokensmade);
                     AcknowledgeReply reply = new AcknowledgeReply("Expired");
                     TimeSessionTokensmade.remove(sessionToken);
                     oos.writeObject(reply);
                     oos.flush();
                 }
-            } else if (o instanceof SessionExistRequest) {
-                SessionExistRequest ser = (SessionExistRequest) o;
+            }else if (o instanceof sessionExistRequest){
+                sessionExistRequest ser = (sessionExistRequest) o;
                 System.out.printf("User try to get session token");
                 SessionExistReply reply;
                 // if the password with salting and hashing is same as stored password, return login succeed.
-                if (validSessionTokens.keySet().isEmpty()) {
-                    reply = new SessionExistReply(false, null);
+                if (validSessionTokens.keySet().isEmpty()){
+                    reply = new SessionExistReply(false,null);
                 } else {
                     ArrayList<String> stringList = new ArrayList<String>(validSessionTokens.keySet());
-                    reply = new SessionExistReply(true, stringList);
+                    reply = new SessionExistReply(true,stringList);
                 }
                 oos.writeObject(reply);
                 oos.flush();
@@ -157,8 +162,9 @@ public class BillboardServer {
                     oos.writeObject(reply);
                     oos.flush();
                 }
-            } else if (o instanceof ListBillboardRequest) {
-                ListBillboardRequest lbr = (ListBillboardRequest) o;
+            }
+            else if(o instanceof ListBillboardRequest){
+                ListBillboardRequest lbr =(ListBillboardRequest) o;
                 String sessionToken = lbr.getSessionToken();
                 System.out.println("client requested billboard lists with token :" + sessionToken);
 //                System.out.println(isSessionTokenExpired(sessionToken));
@@ -172,7 +178,7 @@ public class BillboardServer {
                         oos.writeObject(reply);
                         oos.flush();
                     }
-                }else{
+                } else {
 //                    System.out.println(TimeSessionTokensmade);
                     AcknowledgeReply reply = new AcknowledgeReply("Expired");
                     oos.writeObject(reply);
@@ -183,7 +189,6 @@ public class BillboardServer {
                 CreateBillboardRequest cbbr =(CreateBillboardRequest) o;
                 String sessionToken = cbbr.getSessionToken();
                 System.out.println("client requested creating lists with token :"+ sessionToken);
-                boolean Schedule = false;
                 String results = null;
                 if (isSessionTokenExpired(sessionToken) == false) {
                     if (isValidSessionToken(sessionToken)) {
@@ -206,7 +211,7 @@ public class BillboardServer {
                         oos.writeObject(reply);
                         oos.flush();
                     }
-                }else{
+                } else {
 //                    System.out.println(TimeSessionTokensmade);
                     AcknowledgeReply reply = new AcknowledgeReply("Expired");
                     oos.writeObject(reply);
@@ -226,9 +231,9 @@ public class BillboardServer {
 //                        System.out.println(billboardData.get(ebbr.getBillboardname()));
                         if (billboardData.get(ebbr.getBillboardname()) != null) {
                             BillboardInfo edit_b = billboardData.get(ebbr.getBillboardname());
-//                        ScheduleInfo edit_si = scheduleData.get(cbbr.getBillboardname());
+                            ScheduleInfo edit_si = scheduleData.get(ebbr.getBillboardname());
 //                            System.out.println(edit_b.getCreator());
-                            if (edit_b.getCreator().equals(currentUser) && Schedule == false) {
+                            if (edit_b.getCreator().equals(currentUser) && edit_si.getBoardTitle() == null) {
                                 if (nu.getCreateBillboards().equals("true")) {
                                     billboardData.edit(edit_b.getName(), ebbr.getBillboardContent(), edit_b.getName());
                                     results = "Success to edit billboard";
@@ -252,16 +257,17 @@ public class BillboardServer {
                         oos.writeObject(reply);
                         oos.flush();
                     }
-                } else {
+                }else{
                     System.out.println(TimeSessionTokensmade);
                     AcknowledgeReply reply = new AcknowledgeReply("Expired");
                     oos.writeObject(reply);
                     oos.flush();
                 }
-            } else if (o instanceof DeleteBillboardRequest) {
-                DeleteBillboardRequest dbbr = (DeleteBillboardRequest) o;
+            }
+            else if(o instanceof DeleteBillboardRequest){
+                DeleteBillboardRequest dbbr =(DeleteBillboardRequest) o;
                 String sessionToken = dbbr.getSessionToken();
-                System.out.println("client requested delating billboard with token :" + sessionToken);
+                System.out.println("client requested delating billboard with token :"+ sessionToken);
                 boolean schedule = false;
                 String results = null;
                 if (isSessionTokenExpired(sessionToken) == false) {
@@ -269,11 +275,13 @@ public class BillboardServer {
                         String currentUser = getSessionUsername(sessionToken);
                         UserInfo nu = data.get(currentUser);
                         BillboardInfo edit_b = billboardData.get(dbbr.getBillboardname());
-                        //ScheduleInfo edit_si = scheduleData.get(dbbr.getBillboardname());
+                        ScheduleInfo edit_si = scheduleData.get(dbbr.getBillboardname());
 
-                        if (edit_b.getCreator().equals(currentUser) && schedule == false) {
+                        if (edit_b.getCreator().equals(currentUser) && edit_si.getBoardTitle() == null) {
                             if (nu.getCreateBillboards().equals("true")) {
                                 billboardData.remove(edit_b.getName());
+                                scheduleData.removeAll(edit_b.getName());
+                                removedScheduleData.remove(edit_b.getName());
                                 results = "Success to delate";
                             } else {
                                 results = "You do not have CreateBillboard permission";
@@ -281,6 +289,8 @@ public class BillboardServer {
                         } else {
                             if (nu.getEditAllBillboards().equals("true")) {
                                 billboardData.remove(edit_b.getName());
+                                scheduleData.removeAll(edit_b.getName());
+                                removedScheduleData.remove(edit_b.getName());
                                 results = "Success to delate";
                             } else {
                                 results = "You do not have EditAllBillboard permissions";
@@ -304,7 +314,7 @@ public class BillboardServer {
             else if(o instanceof ViewBillboardRequest){
                 ViewBillboardRequest vbbr =(ViewBillboardRequest) o;
                 String sessionToken = vbbr.getSessionToken();
-                System.out.println("client requested viewing schedule with token :"+ sessionToken);
+//                System.out.println("client requested viewing schedule with token :"+ sessionToken);
                 if (isSessionTokenExpired(sessionToken) == false) {
                     if (isValidSessionToken(sessionToken)) {
 //                        System.out.println("yes");
@@ -339,17 +349,18 @@ public class BillboardServer {
                     oos.writeObject(reply);
                     oos.flush();
                 }
-            }else if(o instanceof FindScheduleRequest){
+            }
+            else if(o instanceof FindScheduleRequest){
                 FindScheduleRequest sBbr =(FindScheduleRequest) o;
                 String sessionToken = sBbr.getSessiontoken();
-                System.out.println("client requested viewing schedule with token :"+ sessionToken);
+//                System.out.println("client requested viewing schedule with token :"+ sessionToken);
                 if (isSessionTokenExpired(sessionToken) == false) {
                     if (isValidSessionToken(sessionToken)) {
                         String currentUser = getSessionUsername(sessionToken);
                         UserInfo nu = data.get(currentUser);
                         ScheduleInfo sch = new ScheduleInfo();
                         if (nu.getScheduleBillboards().equals("true")) {
-                            sch = scheduleData.findSchedule(sBbr.getTitle(),sBbr.getDate(),sBbr.getHour());
+                            sch = scheduleData.findSchedule(sBbr.getTitle(), sBbr.getMonth(),sBbr.getDate(),sBbr.getHour());
                         } else {
                             sch = null;
                         }
@@ -371,7 +382,7 @@ public class BillboardServer {
             else if(o instanceof GetIndexSchedule){
                 GetIndexSchedule gis =(GetIndexSchedule) o;
                 String sessionToken = gis.getSessiontoken();
-                System.out.println("client requested viewing schedule with token :"+ sessionToken);
+//                System.out.println("client requested viewing schedule with token :"+ sessionToken);
                 if (isSessionTokenExpired(sessionToken) == false) {
                     if (isValidSessionToken(sessionToken)) {
                         String currentUser = getSessionUsername(sessionToken);
@@ -412,12 +423,15 @@ public class BillboardServer {
 //                            System.out.println(new_schedule);
 //                            System.out.println(RemovedOnce);
 //                            System.out.println(RemovedOnce.get(new_schedule.getBoardTitle()));
-                            String onlyoneTime = new_schedule.getBoardTitle() + new_schedule.getYear() +  new_schedule.getMonth() + new_schedule.getDate()+
-                                    new_schedule.getHour() + new_schedule.getMinute();
-                            System.out.println(isAlreadyRemodeOnce(onlyoneTime,new_schedule));
-                            if (isAlreadyRemodeOnce(onlyoneTime,new_schedule)){
+                            System.out.println(isAlreadyRemodeOnce(new_schedule,removedScheduleData));
+                            System.out.println(scheduleData.findSameSchedule(sbbr.getBillboardname(), sbbr.getMonth(), sbbr.getDate(),
+                                    sbbr.getHour(), sbbr.getMinitue(), sbbr.getDurationHr(), sbbr.getDurationMin(), sbbr.getRecur()).getDuMin());
+                            if (isAlreadyRemodeOnce(new_schedule,removedScheduleData)){
                                 results = "Failed becuase already removed.";
-                            }else{
+                            } else if (scheduleData.findSameSchedule(sbbr.getBillboardname(), sbbr.getMonth(), sbbr.getDate(),
+                                    sbbr.getHour(), sbbr.getMinitue(), sbbr.getDurationHr(), sbbr.getDurationMin(), sbbr.getRecur()).getDuMin() != null){
+                                results = "Failed becuase there is already";
+                            } else {
                                 scheduleData.add(new_schedule);
                                 results = "Success to schedule the billboard";
                             }
@@ -440,21 +454,36 @@ public class BillboardServer {
                     oos.writeObject(reply);
                     oos.flush();
                 }
-            }else if(o instanceof EditScheduleBillboard){
+            }
+            else if(o instanceof EditScheduleBillboard){
                 EditScheduleBillboard esbb =(EditScheduleBillboard) o;
                 String sessionToken = esbb.getSessionToken();
-                System.out.println("client requested scheduling the billboard with token :"+ sessionToken);
+                System.out.println("client requested editing the billboard with token :"+ sessionToken);
                 if (isSessionTokenExpired(sessionToken) == false) {
                     if (isValidSessionToken(sessionToken)) {
                         String currentUser = getSessionUsername(sessionToken);
                         UserInfo nu = data.get(currentUser);
                         String results = null;
                         if (nu.getScheduleBillboards().equals("true")) {
+                            ScheduleInfo previousSche = scheduleData.findSchedule(esbb.getBillboardname(), esbb.getMonth(),esbb.getDate(), esbb.getHour());
+                            System.out.println(previousSche);
+                            if(previousSche.getDuHr().equals(esbb.getDurationHr()) && previousSche.getMinute().equals(esbb.getMinitue())
+                                    && previousSche.getDuMin().equals(esbb.getDurationMin())){
+                                scheduleData.edit(esbb.getBillboardname(), esbb.getCreator(), esbb.getYear(), esbb.getMonth(),esbb.getDate(), esbb.getHour(),
+                                        esbb.getMinitue(), esbb.getDurationHr(), esbb.getDurationMin(), esbb.getRecur());
+                                results = "Success to edit the scheduled billboard";
+                                System.out.println("yyyeeeeeyyy");
 
-
-                            scheduleData.edit(esbb.getBillboardname(), esbb.getCreator(), esbb.getYear(), esbb.getMonth(),esbb.getDate(), esbb.getHour(),
-                                    esbb.getMinitue(), esbb.getDurationHr(), esbb.getDurationMin(), esbb.getRecur());
-                            results = "Success to edit the scheduled billboard";
+                            }
+                            else{
+                                RemovedScheduleInfo delatedSched = new RemovedScheduleInfo(previousSche.getBoardTitle(),previousSche.getCreator(),previousSche.getYear(),
+                                        previousSche.getMonth(),previousSche.getDate(),previousSche.getHour(),previousSche.getMinute(),previousSche.getDuHr(),previousSche.getDuMin(),
+                                        previousSche.getRecur());
+                                removedScheduleData.add(delatedSched);
+                                scheduleData.edit(esbb.getBillboardname(), esbb.getCreator(), esbb.getYear(), esbb.getMonth(),esbb.getDate(), esbb.getHour(),
+                                        esbb.getMinitue(), esbb.getDurationHr(), esbb.getDurationMin(), esbb.getRecur());
+                                results = "Success to edit the scheduled billboard";
+                            }
                         } else {
                             results = "No permission";
                         }
@@ -494,7 +523,7 @@ public class BillboardServer {
                         UserInfo un = data.get(currentUser);
                         String result = null;
                         if (un.getScheduleBillboards().equals("true")) {
-                            ScheduleInfo new_sche = scheduleData.findSchedule(rbbr.getBillboardname(),rbbr.getDate(),rbbr.getHour());
+                            ScheduleInfo new_sche = scheduleData.findSchedule(rbbr.getBillboardname(),rbbr.getMonth(), rbbr.getDate(),rbbr.getHour());
                             System.out.println(new_sche.getBoardTitle());
                             System.out.println(rbbr.getBillboardname());
                             System.out.println(new_sche.getMonth());
@@ -503,12 +532,16 @@ public class BillboardServer {
                             System.out.println(rbbr.getDate());
                             System.out.println(new_sche.getHour());
                             System.out.println(rbbr.getHour());
-                            String onlyoneTime = new_sche.getBoardTitle() + new_sche.getYear() +  new_sche.getMonth() + new_sche.getDate()+
-                                    new_sche.getHour() + new_sche.getMinute();
-                            RemovedOnce.put(onlyoneTime,new_sche);
-                            System.out.println(RemovedOnce);
+//                            String onlyoneTime = new_sche.getBoardTitle() + new_sche.getYear() +  new_sche.getMonth() + new_sche.getDate()+
+//                                    new_sche.getHour() + new_sche.getMinute() + new_sche.getDuHr();
+//                            RemovedOnce.put(onlyoneTime,new_sche);
+//                            System.out.println(RemovedOnce);
+                            RemovedScheduleInfo delatedSched = new RemovedScheduleInfo(new_sche.getBoardTitle(),new_sche.getCreator(),new_sche.getYear(),
+                                    new_sche.getMonth(),new_sche.getDate(),new_sche.getHour(),new_sche.getMinute(),new_sche.getDuHr(),new_sche.getDuMin(),
+                                    new_sche.getRecur());
+                            removedScheduleData.add(delatedSched);
                             if (new_sche.getBoardTitle().equals(rbbr.getBillboardname()) && new_sche.getMonth().equals(rbbr.getMonth())
-                                    && new_sche.getDate().equals(rbbr.getDate()) && new_sche.getDate().equals(rbbr.getDate())) {
+                                    && new_sche.getDate().equals(rbbr.getDate()) && new_sche.getHour().equals(rbbr.getHour())) {
                                 scheduleData.remove(rbbr.getBillboardname(), rbbr.getMonth(), rbbr.getDate(), rbbr.getHour());
                                 result = "Success to remove bb from schedule !";
                             } else {
@@ -525,17 +558,19 @@ public class BillboardServer {
                         oos.writeObject(reply);
                         oos.flush();
                     }
-                } else {
+                }
+                else{
                     System.out.println(TimeSessionTokensmade);
                     AcknowledgeReply reply = new AcknowledgeReply("Expired");
                     oos.writeObject(reply);
                     oos.flush();
                 }
-            } else if (o instanceof ListUsersRequest) {
+            }
+            else if (o instanceof listUsersRequest) {
                 System.out.println("------------------------------------------------------");
-                ListUsersRequest lur = (ListUsersRequest) o;
+                listUsersRequest lur =(listUsersRequest) o;
                 String sessionToken = lur.getSessionToken();
-                System.out.println("client requested user lists with token :" + sessionToken);
+                System.out.println("client requested user lists with token :"+ sessionToken);
                 System.out.println(getSessionUsername(sessionToken));
                 UserInfo newu = data.get(getSessionUsername(sessionToken));
                 if (isSessionTokenExpired(sessionToken) == false) {
@@ -549,7 +584,7 @@ public class BillboardServer {
                         oos.writeObject(reply);
                         oos.flush();
                     }
-                }else{
+                } else {
                     System.out.println(TimeSessionTokensmade);
                     AcknowledgeReply reply = new AcknowledgeReply("Expired");
                     oos.writeObject(reply);
@@ -713,10 +748,11 @@ public class BillboardServer {
                     oos.writeObject(reply);
                     oos.flush();
                 }
-            } else if (o instanceof DeleteUserRequest) {
-                DeleteUserRequest dur = (DeleteUserRequest) o;
+            }
+            else if(o instanceof DelateUserRequest){
+                DelateUserRequest dur =(DelateUserRequest) o;
                 String sessiontoken = dur.getSessiontoken();
-                System.out.println("client requested setting permissions with token :" + sessiontoken);
+                System.out.println("client requested setting permissions with token :"+ sessiontoken);
                 String results = null;
                 UserInfo del_u = data.get(getSessionUsername(dur.getSessiontoken()));
                 if (isSessionTokenExpired(sessiontoken) == false) {
@@ -735,14 +771,13 @@ public class BillboardServer {
                     AcknowledgeReply delateUserReply = new AcknowledgeReply(results);
                     oos.writeObject(delateUserReply);
                     oos.flush();
-                }else{
+                } else {
                     System.out.println(TimeSessionTokensmade);
                     AcknowledgeReply reply = new AcknowledgeReply("Expired");
                     oos.writeObject(reply);
                     oos.flush();
                 }
-            }
-            else if(o instanceof LogoutUsersRequest){
+            } else if(o instanceof LogoutUsersRequest){
                 LogoutUsersRequest lour =(LogoutUsersRequest) o;
                 String sessiontoken = lour.getSessionToken();
                 System.out.println("client requested expireds with token :"+ sessiontoken);
@@ -750,6 +785,75 @@ public class BillboardServer {
                 TimeSessionTokensmade.remove(sessiontoken);
                 AcknowledgeReply logoutUserReply = new AcknowledgeReply("Successfully logout user");
                 oos.writeObject(logoutUserReply);
+                oos.flush();
+            }else if(o instanceof ViewerRequest){
+                ViewerRequest lour =(ViewerRequest) o;
+                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy:MM:dd:HH:mm:ss");
+                LocalDateTime now = LocalDateTime.now();
+
+                String year = dtf.format(now).split(":")[0];
+                String month = dtf.format(now).split(":")[1];
+                if (Character.toString(month.charAt(0)).equals("0")){
+                    month = Character.toString(month.charAt(1));
+                }
+                String date = dtf.format(now).split(":")[2];
+                if (Character.toString(date.charAt(0)).equals("0")){
+                    date = Character.toString(date.charAt(1));
+                }
+                String hour = dtf.format(now).split(":")[3];
+                if (Character.toString(hour.charAt(0)).equals("0")){
+                    hour = Character.toString(hour.charAt(1));
+                }
+                String minute = dtf.format(now).split(":")[4];
+                if (Character.toString(minute.charAt(0)).equals("0")){
+                    minute = Character.toString(minute.charAt(1));
+                }
+
+                System.out.println(month);
+                System.out.println(date);
+                System.out.println(hour);
+                System.out.println(minute);
+
+                ArrayList<ScheduleInfo> currentSchedules = scheduleData.findCurrenttime(year,month,date);
+                ScheduleInfo currentSche = new ScheduleInfo();
+                BillboardInfo billboardInfo = new BillboardInfo();
+
+                System.out.println(currentSchedules);
+                for (int i = 0; i < currentSchedules.size();i++){
+                    String scheduledDuHr = currentSchedules.get(i).getDuHr();
+                    if (Character.toString(scheduledDuHr.charAt(0)).equals("0")){
+                        scheduledDuHr = Character.toString(scheduledDuHr.charAt(1));
+                    }
+                    String scheduledDuMin = currentSchedules.get(i).getDuMin();
+                    if (Character.toString(scheduledDuMin.charAt(0)).equals("0")){
+                        scheduledDuMin = Character.toString(scheduledDuMin.charAt(1));
+                    }
+                    String scheduledHr = currentSchedules.get(i).getHour();
+
+                    String scheduledMin = currentSchedules.get(i).getMinute();
+                    if (Character.toString(scheduledMin.charAt(0)).equals("0")){
+                        scheduledMin = Character.toString(scheduledMin.charAt(1));
+                    }
+                    int durtionWholeMinute = 60 * Integer.parseInt(scheduledDuHr) + Integer.parseInt(scheduledDuMin);
+                    int durtionCurrentWholeMinute = 60 * ((Integer.parseInt(hour) - Integer.parseInt(scheduledHr))) + (Integer.parseInt(minute) - Integer.parseInt(scheduledMin));
+                    System.out.println(durtionWholeMinute);
+                    System.out.println(durtionCurrentWholeMinute);
+
+                    if (0 <= durtionCurrentWholeMinute &&  durtionCurrentWholeMinute < durtionWholeMinute){
+                        System.out.println("there is schedule");
+                        currentSche = currentSchedules.get(i);
+
+                    }
+                }
+
+                if (currentSche.getBoardTitle() == null){
+                    billboardInfo = billboardData.get("NotScheduled");
+                }else{
+                    billboardInfo = billboardData.get(currentSche.getBoardTitle());
+                }
+
+                ViewerReply viewerReply = new ViewerReply(billboardInfo);
+                oos.writeObject(viewerReply);
                 oos.flush();
             }
             else{
@@ -764,15 +868,22 @@ public class BillboardServer {
     private static boolean isValidSessionToken(String sessionToken) {
         return validSessionTokens.containsKey(sessionToken);
     }
-    private static boolean isAlreadyRemodeOnce(String key, ScheduleInfo shce) {
-        ScheduleInfo removeOne = RemovedOnce.get(key);
+    private static boolean isAlreadyRemodeOnce(ScheduleInfo shce, RemovedScheduleData data) {
+        RemovedScheduleInfo removeOne = data.get(shce.getBoardTitle(),shce.getYear(),shce.getMonth(),shce.getDate(),shce.getHour(),shce.getMinute(),
+                shce.getDuHr(),shce.getDuMin());
+//        System.out.println(removeOne);
+//        System.out.println(shce);
         System.out.println(removeOne);
-        System.out.println(shce);
-        if (removeOne != null){
-            return removeOne.getBoardTitle().equals(shce.getBoardTitle()) && removeOne.getYear().equals(shce.getYear()) && removeOne.getMonth().equals(shce.getMonth())
+        if (removeOne.getBoardTitle() != null){
+            if(removeOne.getBoardTitle().equals(shce.getBoardTitle()) && removeOne.getYear().equals(shce.getYear()) && removeOne.getMonth().equals(shce.getMonth())
                     && removeOne.getDate().equals(shce.getDate()) && removeOne.getHour().equals(shce.getHour())
-                    && removeOne.getMinute().equals(shce.getMinute()) && removeOne.getDuHr().equals(shce.getDuHr())
-                    && removeOne.getDuMin().equals(shce.getDuMin());
+                    && removeOne.getMinute().equals(shce.getMinute())  && removeOne.getDuHr().equals(shce.getDuHr())
+                    && removeOne.getDuMin().equals(shce.getDuMin())){
+                return  true;
+            }
+            else{
+                return false;
+            }
         }
         else{
             return false;

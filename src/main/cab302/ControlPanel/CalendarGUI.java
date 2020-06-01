@@ -3,8 +3,8 @@ package cab302.ControlPanel;
 import cab302.database.schedule.ScheduleInfo;
 import cab302.server.Billboardserver.AcknowledgeReply;
 import cab302.server.Billboardserver.FindScheduleReply;
-import cab302.server.Billboardserver.ListBillboardReply;
 import cab302.server.Billboardserver.ViewBillboardReply;
+import cab302.server.Billboardserver.ListBillboardReply;
 import cab302.server.WillBeControlPanelAction.*;
 
 import javax.swing.*;
@@ -64,6 +64,8 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
     InputStream inputStream;
     ObjectOutputStream oos;
     ObjectInputStream ois;
+
+    Integer[][] tableItem;
 
     Integer[][] ob;
 
@@ -163,6 +165,8 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
 
         bg.setSize(800, 400);
 
+        tableItem = new Integer[7][2];
+
         ob = new Integer[DAY_HOUR][WEEK_LENGTH + 1];
         rowH = new Object[DAY_HOUR];
         lblList = new Object[WEEK_LENGTH];
@@ -173,7 +177,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
         oos.flush();
 
         Object transo = ois.readObject();
-        if (transo instanceof ListBillboardReply) {
+        if (transo instanceof ListBillboardReply){
             ListBillboardReply listreply = (ListBillboardReply) transo;
             billboardsList = listreply.getListofBillboards();
         }
@@ -248,7 +252,15 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                 String[] title = table.getColumnName(table.getSelectedColumn())
                         .replace("<html><center>", "")
                         .split("<br>");
-                chosenDate = title[0] + "/" + month + " (" + title[1] + ")";
+                int mon = 0;
+                for(Integer[] i : tableItem) {
+                    if(i[1].equals(Integer.valueOf(title[0]))) {
+                        mon = i[0];
+                        break;
+                    }
+                }
+
+                chosenDate = title[0] + "/" + String.valueOf(mon) + " (" + title[1] + ")";
                 int time = table.getSelectedRow();
 
                 CustomDialog dialog = null;
@@ -290,7 +302,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                         } catch (ClassNotFoundException ex) {
                             ex.printStackTrace();
                         }
-                        if (transo instanceof ListBillboardReply) {
+                        if (transo instanceof ListBillboardReply){
                             ListBillboardReply listreply = (ListBillboardReply) transo;
                             billboardsList = listreply.getListofBillboards();
                         }
@@ -370,7 +382,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                         } catch (ClassNotFoundException ex) {
                             ex.printStackTrace();
                         }
-                        if (transo instanceof ListBillboardReply) {
+                        if (transo instanceof ListBillboardReply){
                             ListBillboardReply listreply = (ListBillboardReply) transo;
                             billboardsList = listreply.getListofBillboards();
                         }
@@ -569,7 +581,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
         int last = tempCal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
         int index = 0;
-        int[] dateRecur = new int[7];
+        int[][] dateRecur = new int[7][2];
 //        socketStart();
 //        ViewBillboardRequest vbr = new ViewBillboardRequest(sessionToken,1);
 //        oos.writeObject(vbr);
@@ -601,9 +613,11 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
 
                 for (int i = 0; i < 7; i++) {
                     if (Integer.parseInt(recurSchedule[index].split(" ")[4]) + i > last) {
-                        dateRecur[i] = Integer.parseInt(recurSchedule[index].split(" ")[4]) - last + i;
+                        dateRecur[i][0] = Integer.parseInt(recurSchedule[index].split(" ")[4]) - last + i;
+                        dateRecur[i][1] = Integer.parseInt(recurSchedule[index].split(" ")[3])+1 ;
                     } else {
-                        dateRecur[i] = Integer.parseInt(recurSchedule[index].split(" ")[4]) + i;
+                        dateRecur[i][0] = Integer.parseInt(recurSchedule[index].split(" ")[4]) + i;
+                        dateRecur[i][1] = Integer.parseInt(recurSchedule[index].split(" ")[3]);
                     }
                 }
                 int re = Integer.parseInt(recurSchedule[index].split(" ")[9]);
@@ -616,8 +630,10 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                     if (hrs > 24) {
                         hrs = hrs % 24;
                     }
+                    System.out.println(dateRecur[in][0]);
+                    System.out.println(dateRecur[in][1]);
                     socketStart();
-                    FindScheduleRequest fsr = new FindScheduleRequest(sessionToken, recurSchedule[index].split(" ")[0], String.valueOf(dateRecur[in]),
+                    FindScheduleRequest fsr = new FindScheduleRequest(sessionToken, recurSchedule[index].split(" ")[0], String.valueOf(dateRecur[in][1])  ,String.valueOf(dateRecur[in][0]),
                             String.valueOf(hrs));
                     oos.writeObject(fsr);
                     oos.flush();
@@ -629,13 +645,13 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                     }
                     socketStop();
                     ScheduleInfo temp = sch;
-                    System.out.println("yey");
-                    System.out.println(temp);
+//                    System.out.println("yey");
+//                    System.out.println(temp);
                     if (temp.getMonth() == null && temp.getDate() == null && temp.getHour() == null && temp.getMinute() == null &&
                             temp.getRecur() == null) {
                         socketStart();
                         ScheduleBillboardRequest scheduleBillboardRequest = new ScheduleBillboardRequest(recurSchedule[index].split(" ")[0], recurSchedule[index].split(" ")[1],
-                                recurSchedule[index].split(" ")[2],String.valueOf(month), String.valueOf(dateRecur[in]), String.valueOf(hrs),
+                                recurSchedule[index].split(" ")[2],String.valueOf(dateRecur[in][1]), String.valueOf(dateRecur[in][0]), String.valueOf(hrs),
                                 recurSchedule[index].split(" ")[6], sessionToken, recurSchedule[index].split(" ")[7],
                                 recurSchedule[index].split(" ")[8], "");
                         oos.writeObject(scheduleBillboardRequest);
@@ -742,6 +758,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
         Calendar tempCal = Calendar.getInstance();
         int last = tempCal.getActualMaximum(Calendar.DAY_OF_MONTH);
 
+
         int d = Integer.parseInt(comp);
 
         int ind = 0;
@@ -749,18 +766,26 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
         for(int i = -3; i <= 3; i++) {
 
             int j;
+            int m;
 
             if(d + i <= 0) {
                 j = last + i;
-                tempCal.set(year, month - 2, j);
+                m = month - 2;
+                tempCal.set(year, m, j);
+
             }
             else if(d + i > last) {
                 j = (d - last) + i;
-                tempCal.set(year, month, j);
+                m = month;
+                tempCal.set(year, m, j);
             } else {
                 j = d + i;
-                tempCal.set(year, month -1, j);
+                m = month - 1;
+                tempCal.set(year, m, j);
             }
+
+            tableItem[ind][0] = m + 1;
+            tableItem[ind][1] = j;
 
             JLabel names = new JLabel(dayNames[tempCal.get(Calendar.DAY_OF_WEEK) - 1]);
             lblList[ind] = "<html><center>" + j + "<br>" + names.getText();
@@ -777,20 +802,28 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
         int ind = 0;
 
         for(int i = -3; i <= 3; i++) {
+
             int j;
+            int m;
 
             if(d + i <= 0) {
                 j = last + i;
-                tempCal.set(year, month - 2, j);
+                m = month - 2;
+                tempCal.set(year, m, j);
+
             }
             else if(d + i > last) {
                 j = (d - last) + i;
-                tempCal.set(year, month, j);
+                m = month;
+                tempCal.set(year, m, j);
             } else {
                 j = d + i;
-                tempCal.set(year, month -1, j);
+                m = month - 1;
+                tempCal.set(year, m, j);
             }
 
+            tableItem[ind][0] = m + 1;
+            tableItem[ind][1] = j;
             JLabel names = new JLabel(dayNames[tempCal.get(Calendar.DAY_OF_WEEK) - 1]);
 
             lblList[ind] = "<html><center>" + j + "<br>" + names.getText();

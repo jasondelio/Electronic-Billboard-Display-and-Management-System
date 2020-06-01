@@ -1,26 +1,21 @@
 package cab302.viewer.gui;
 
+import cab302.database.billboard.BillboardInfo;
+import cab302.server.Billboardserver.ViewerReply;
+import cab302.server.WillBeControlPanelAction.ViewerRequest;
 import cab302.viewer.exceptions.BadImageFormatException;
 import cab302.viewer.exceptions.MalformedHexadecimalColourException;
+import cab302.viewer.util.XMLParser;
 
-import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextPane;
-import javax.swing.Action;
-import javax.swing.JRootPane;
-import javax.swing.JComponent;
-import javax.swing.KeyStroke;
-import java.awt.Dimension;
-import java.awt.Color;
-import java.awt.Toolkit;
-import java.awt.Frame;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.io.IOException;
+import java.io.*;
+import java.net.Socket;
 import java.util.HashMap;
+import java.util.Properties;
 
 import static cab302.viewer.util.HexToRGB.HexToRGB;
 
@@ -28,18 +23,43 @@ public class Gui extends JFrame {
 
     private JFrame frame;
 
+    private static String port;
+    private String host;
+
+    Socket socket;
+    JList data;
+    OutputStream outputStream;
+    InputStream inputStream;
+    ObjectOutputStream oos;
+    ObjectInputStream ois;
+
     /**
      * Constructor to assemble the GUI
-     * @param xmlInfo The XML data HashMap from the XMLParser.parseXML() method
      */
-    public Gui(HashMap<String, String> xmlInfo) {
+    public Gui() throws IOException, ClassNotFoundException {
+        // get the current scheduled billboard info from server
+        getPropValues();
+        BillboardInfo billBoardInfo = new BillboardInfo();
+
+        socketStart();
+        ViewerRequest viewerRequest = new ViewerRequest("Get current time shcedule");
+        oos.writeObject(viewerRequest);
+        oos.flush();
+        Object reply_ois = ois.readObject();
+        if (reply_ois instanceof ViewerReply){
+            ViewerReply reply = (ViewerReply) reply_ois;
+            billBoardInfo = reply.getBillboardInfo();
+        }
+        socketStop();
+//        System.out.println(billBoardInfo);
+
+        XMLParser parser = new XMLParser(billBoardInfo);
+        HashMap<String, String> xmlInfo = parser.parseXML();
 
         // Window Configuration
         // Set window to fullscreen
         setExtendedState(JFrame.MAXIMIZED_BOTH);
         setUndecorated(true);
-
-        // Create background colour, if it fails, create default colour as white (#FFF)
         String bgString = xmlInfo.getOrDefault("bgColour", "#FFFFFF");
         Color bgColour;
         try {
@@ -66,6 +86,7 @@ public class Gui extends JFrame {
         gbc.fill = GridBagConstraints.NONE;
         gbc.weighty = 1;
         gbc.weightx = 1;
+
 
         // Input Handling
         // Set up root pane to handle inputs
@@ -101,19 +122,16 @@ public class Gui extends JFrame {
         // XML display
         // Create a display assembler
         DisplayAssembler displayAssembler = new DisplayAssembler(xmlInfo, screenSize);
-
         // Initialise all as null
         JTextPane titleText = null;
         JTextPane informationText = null;
         JLabel pictureLabel = null;
-
         // Attempt to create components, fail quietly if Exception occurs
         try {
             titleText = displayAssembler.assembleMessagePane(bgColour);
             informationText = displayAssembler.assembleInformationPane(bgColour);
             pictureLabel = displayAssembler.assemblePictureLabel();
         } catch (MalformedHexadecimalColourException | BadImageFormatException | IOException ignored) {}
-
 
         // Add components to JFrame if not null
         if (titleText != null) {
@@ -134,5 +152,31 @@ public class Gui extends JFrame {
 
         // Show window
         setVisible(true);
+    }
+    public void socketStart() throws IOException {
+        socket = new Socket(host,Integer.parseInt(port));
+        outputStream = socket.getOutputStream();
+        inputStream = socket.getInputStream();
+        oos = new ObjectOutputStream(outputStream);
+        ois = new ObjectInputStream(inputStream);
+    }
+
+    public void socketStop() throws IOException{
+        ois.close();
+        oos.close();
+        socket.close();
+    }
+    private static void getPropValues() throws IOException {
+        Properties props = new Properties();
+        FileInputStream in = null;
+        try {
+            in = new FileInputStream("src/main/cab302/network.props");
+            props.load(in);
+            in.close();
+            // get the property value and print it out
+            port = props.getProperty("port");
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
     }
 }

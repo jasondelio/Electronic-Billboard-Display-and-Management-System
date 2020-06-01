@@ -5,8 +5,8 @@ import cab302.server.Billboardserver.AlreadyLoginReply;
 import cab302.server.Billboardserver.LoginReply;
 import cab302.server.Billboardserver.SessionExistReply;
 import cab302.server.WillBeControlPanelAction.Loginrequest;
-import cab302.server.WillBeControlPanelAction.SessionExistRequest;
 import cab302.server.WillBeControlPanelAction.UserLoggedInrequest;
+import cab302.server.WillBeControlPanelAction.sessionExistRequest;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -57,7 +57,7 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
         //if the user is already login before and the session token hasn't expired
         getPropValues();
         socketStart();
-        SessionExistRequest ser = new SessionExistRequest("get session token");
+        sessionExistRequest ser = new sessionExistRequest("get session token");
         oos.writeObject(ser);
         oos.flush();
         Object trans = ois.readObject();

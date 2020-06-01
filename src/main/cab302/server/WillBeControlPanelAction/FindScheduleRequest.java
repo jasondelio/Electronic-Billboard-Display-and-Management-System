@@ -5,16 +5,22 @@ import java.io.Serializable;
 public class FindScheduleRequest  implements Serializable {
     private String sessiontoken;
     private String title;
+    private String month;
     private String date;
     private String hour;
-    public FindScheduleRequest(String sessiontoken, String title, String date, String hour){
+    public FindScheduleRequest(String sessiontoken, String title, String month, String date, String hour){
         this.sessiontoken =sessiontoken;
         this.title = title;
+        this.month = month;
         this.date = date;
         this.hour = hour;
     }
     public String getSessiontoken(){
         return sessiontoken;
+    }
+
+    public String getMonth() {
+        return month;
     }
 
     public String getTitle() {

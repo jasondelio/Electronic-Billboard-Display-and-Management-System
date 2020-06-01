@@ -35,9 +35,7 @@ import java.util.HashMap;
 import java.util.Properties;
 
 import static cab302.viewer.util.HexToRGB.HexToRGB;
-/**
- * Initiates home's user interface for Billboard Control Panel application.
- */
+
 public class HomeUI extends JFrame implements ActionListener {
     public static final int WIDTH = 600;
     public static final int HEIGHT = 600;
@@ -113,30 +111,23 @@ public class HomeUI extends JFrame implements ActionListener {
     private String previousInformation;
     private String previousInformationColour;
     ListModel billboards;
+    //UserData data;
     Socket socket;
     String sessionToken;
     String currentUsername;
+
     ArrayList<String> permissionsList;
     OutputStream outputStream;
     InputStream inputStream;
     ObjectOutputStream oos;
     ObjectInputStream ois;
 
-    /**
-     * Constructor sets up the home user interface and displays it
-     *
-     * @param sessionToken
-     * @param perm_lists
-     * @param loggedInUser
-     * @param currentTab
-     * @throws IOException
-     * @throws ClassNotFoundException
-     */
-    public HomeUI(String sessionToken, ArrayList<String> perm_lists, String loggedInUser, int currentTab) throws IOException, ClassNotFoundException {
-        getPropValues();
-        this.sessionToken = sessionToken;
-        this.permissionsList = perm_lists;
-        this.currentUsername = loggedInUser;
+    public HomeUI(String sessiontoken, ArrayList<String> perm_lists, String loggedInuser, int currentTab) throws IOException, ClassNotFoundException {
+        super("Billboard Control Panel");
+        getPropValues(); 
+        sessionToken = sessiontoken;
+        permissionsList = perm_lists;
+        currentUsername = loggedInuser;
 
         //decorate the frame and make it visible
         setTitle("Billboard Control Panel");
@@ -146,7 +137,6 @@ public class HomeUI extends JFrame implements ActionListener {
         setLocation(dim.width / 2 - WIDTH / 2, dim.height / 2 - HEIGHT / 2);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
-
         //init UI
         pane = new JTabbedPane();
 
@@ -178,18 +168,18 @@ public class HomeUI extends JFrame implements ActionListener {
         pane.add("Create Billboards", makePanelCreateBillboards());
         pane.add("Edit Users", makePanelEditUsers());
         pane.add("Schedule Billboards", panelScheduleBillboards);
+
         this.add(pane, BorderLayout.CENTER);
         pane.setSelectedIndex(currentTab);
         disableFeatureBasedOnPermissions();
     }
-
     /**
      * Encodes the image to base64 so the user can save the image as string base64
      *
      * @param imagePath the image's file location from the computer
      * @return the string of encoded image to base64
      */
-    public static String encodeImageToBase64(String imagePath) {   //from https://grokonez.com/java/java-advanced/java-8-encode-decode-an-image-base64
+    public static String encodeImageToBase64(String imagePath) {    //from https://grokonez.com/java/java-advanced/java-8-encode-decode-an-image-base64
         String base64Image = "";
         File file = new File(imagePath);
         try (FileInputStream imageInFile = new FileInputStream(file)) {
@@ -206,35 +196,6 @@ public class HomeUI extends JFrame implements ActionListener {
     }
 
     /**
-     * Makes the plain text password to the hashed password
-     *
-     * @param password The plain text password
-     * @return The hashed password
-     * @throws NoSuchAlgorithmException
-     */
-    public static String getHashedPass(String password) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        byte[] temp_byte = md.digest(password.getBytes());
-        String hashedPassword = bytesToString(temp_byte);
-
-        return hashedPassword;
-    }
-
-    /**
-     * Makes the bytes from hashed password to string
-     *
-     * @param hash the bytes of hashed password
-     * @return hashed password after be converted to string
-     */
-    public static String bytesToString(byte[] hash) {
-        StringBuffer str_buff = new StringBuffer();
-        for (byte b : hash) {
-            str_buff.append(String.format("%02x", b & 0xFF));
-        }
-        return str_buff.toString();
-    }
-
-    /**
      * Disables some features that the user not allowed to do based on his permissions
      */
     private void disableFeatureBasedOnPermissions() {
@@ -248,7 +209,6 @@ public class HomeUI extends JFrame implements ActionListener {
             pane.setEnabledAt(3, false);
         }
     }
-
     /**
      * Makes a JPanel for create billboards tab with border layout
      *
@@ -273,7 +233,7 @@ public class HomeUI extends JFrame implements ActionListener {
         panelEditUsers = new JPanel();
         panelEditUsers.setLayout(new BorderLayout());
         socketStart();
-        ListUsersRequest liur = new ListUsersRequest(sessionToken);
+        listUsersRequest liur = new listUsersRequest(sessionToken);
 
         oos.writeObject(liur);
         oos.flush();
@@ -312,7 +272,7 @@ public class HomeUI extends JFrame implements ActionListener {
             ListBillboardReply reply = (ListBillboardReply) transoO;
             billboards = reply.getListofBillboards();
             billboardList = new JList(reply.getListofBillboards());
-        } else if (transoO instanceof AcknowledgeReply) {
+        } else if (transoO instanceof AcknowledgeReply){
             Logout = true;
             logout();
         }
@@ -323,9 +283,9 @@ public class HomeUI extends JFrame implements ActionListener {
             panelListBillboards.add(scroller, BorderLayout.CENTER);
             panelListBillboards.add(makeButtonsPanelListBillboards(), BorderLayout.SOUTH);
             return panelListBillboards;
-        } else {
+        }else{
             System.out.println("dfa");
-            return null;
+            return  null;
         }
     }
 
@@ -334,7 +294,8 @@ public class HomeUI extends JFrame implements ActionListener {
      *
      * @return the button panel for create billboards JPanel
      */
-    private JPanel makeButtonsPanelCreateBillboards() {
+    private JPanel makeButtonsPanelCreateBillboards()
+    {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
         btnCreateNewBillboard = new JButton("Create a new billboard");
@@ -383,7 +344,8 @@ public class HomeUI extends JFrame implements ActionListener {
      *
      * @return the buttons panel for list billboards JPanel
      */
-    private JPanel makeButtonsPanelListBillboards() {
+    private JPanel makeButtonsPanelListBillboards()
+    {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
         btnEditBillboard = new JButton("Edit");
@@ -412,7 +374,7 @@ public class HomeUI extends JFrame implements ActionListener {
      *
      * @return a panel containing the billboard fields
      */
-    private JPanel makeCreateBillboardFieldsPanel() {
+    private JPanel makeCreateBillboardFieldsPanel(){
         JPanel createBillboardFieldsPanel = new JPanel();
         GroupLayout layout = new GroupLayout(createBillboardFieldsPanel);
         createBillboardFieldsPanel.setLayout(layout);
@@ -457,17 +419,17 @@ public class HomeUI extends JFrame implements ActionListener {
         cbUrl.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (cbUrl.isSelected()) {
+                if(cbUrl.isSelected()) {
                     picture.setEnabled(true);
                     btnUploadPicture.setEnabled(false);
-                } else {
+                }
+                else{
                     picture.setText("");
                     picture.setEnabled(false);
                     btnUploadPicture.setEnabled(true);
                 }
             }
         });
-
         // Create a sequential group for the horizontal axis.
         GroupLayout.SequentialGroup hGroup = layout.createSequentialGroup();
 
@@ -576,7 +538,8 @@ public class HomeUI extends JFrame implements ActionListener {
      * save new billboard, preview new billboard, reset new billboard, and export billboard buttons
      * will be shown
      */
-    private void createNewBillboardPressed() {
+    private void createNewBillboardPressed()
+    {
         createNewBillboardDialog = new JDialog(this, "Create new billboard");
         createNewBillboardDialog.setSize(430, 300);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -613,13 +576,13 @@ public class HomeUI extends JFrame implements ActionListener {
         createNewBillboardDialog.add(buttonPanel, BorderLayout.SOUTH);
         createNewBillboardDialog.setVisible(true);
     }
-
     /**
      * When import billboard button pressed, the user can import the contents
      * of a billboard which are described in an XML file. The user will only be able to import
      * xml documents, any other file extensions will not be accepted
      */
-    private void importBillboardPressed() {
+    private void importBillboardPressed()
+    {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -665,7 +628,8 @@ public class HomeUI extends JFrame implements ActionListener {
      *
      * @param billboardContent billboard's content which has xml format
      */
-    private void parseXMLContentsFromDatabase(String billboardContent) {
+    private void parseXMLContentsFromDatabase(String billboardContent)
+    {
         content = billboardContent;
         try {
             DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
@@ -684,22 +648,27 @@ public class HomeUI extends JFrame implements ActionListener {
                     Element pictureElement = (Element) eElement.getElementsByTagName("picture").item(0);
                     Element informationElement = (Element) eElement.getElementsByTagName("information").item(0);
                     backgroundColour.setText(eElement.getAttribute("background"));
-                    if (messageElement != null) {
+                    if (messageElement != null)
+                    {
                         messageColour.setText(messageElement.getAttribute("colour"));
                         message.setText(messageElement.getTextContent());
                     }
-                    if (informationElement != null) {
+                    if (informationElement != null)
+                    {
                         informationColour.setText(informationElement.getAttribute("colour"));
                         information.setText(informationElement.getTextContent());
                     }
-                    if (pictureElement != null) {
-                        if (!pictureElement.getAttribute("url").equals("")) {
+                    if (pictureElement != null)
+                    {
+                        if(!pictureElement.getAttribute("url").equals(""))
+                        {
                             btnUploadPicture.setEnabled(false);
                             cbUrl.setSelected(true);
                             picture.setEnabled(true);
                             picture.setText(pictureElement.getAttribute("url"));
                         }
-                        if (!pictureElement.getAttribute("data").equals("")) {
+                        if(!pictureElement.getAttribute("data").equals(""))
+                        {
                             picture.setText(pictureElement.getAttribute("data"));
                         }
                     }
@@ -721,7 +690,7 @@ public class HomeUI extends JFrame implements ActionListener {
      * @throws ClassNotFoundException
      */
     private void editBillboardPressed() throws IOException, ClassNotFoundException {
-        if (billboardList.getSelectedValue() != null) {
+        if(billboardList.getSelectedValue() != null) {
             editBillboardDialog = new JDialog(this, "Edit billboard");
             editBillboardDialog.setSize(430, 300);
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -767,13 +736,15 @@ public class HomeUI extends JFrame implements ActionListener {
                 BillboardReply reply = (BillboardReply) transoO;
                 billboardContent = reply.getXmlcontent();
                 billboardCreator = reply.getCreator();
-            }else if(transoO instanceof AcknowledgeReply){
+            } else if (transoO instanceof AcknowledgeReply) {
                 Logout = true;
                 logout();
             }
             socketStop();
             if (Logout == false) {
                 billboardName.setText((String) billboardList.getSelectedValue());
+//                System.out.println(billboardContent);
+//                System.out.println((String) billboardList.getSelectedValue());
                 parseXMLContentsFromDatabase(billboardContent);
                 creator.setText(billboardCreator);
                 previousBillboardName = billboardName.getText();
@@ -787,7 +758,10 @@ public class HomeUI extends JFrame implements ActionListener {
                 editBillboardDialog.add(editBillboardPanel);
                 editBillboardDialog.setVisible(true);
             }
+
         }
+
+
     }
 
     /**
@@ -804,24 +778,25 @@ public class HomeUI extends JFrame implements ActionListener {
         if (message.getText() != null && !message.getText().equals("") &&
                 messageColour.getText() != null && !messageColour.getText().equals("")) {
             addToXMLContents("<message colour=\"" + messageColour.getText() + "\">" + message.getText() + "</message>\n");
-        } else if (message.getText() != null && !message.getText().equals("")) {
+        }
+        else if (message.getText() != null && !message.getText().equals("")) {
             addToXMLContents("<message>" + message.getText() + "</message>\n");
         }
         if (picture.getText() != null && !picture.getText().equals("") && cbUrl.isSelected()) {
             addToXMLContents("<picture url=\"" + picture.getText() + "\"/>\n");
-        } else if (picture.getText() != null && !picture.getText().equals("") && !cbUrl.isSelected()) {
+        }
+        else if (picture.getText() != null && !picture.getText().equals("") && !cbUrl.isSelected()) {
             addToXMLContents("<picture data=\"" + picture.getText() + "\"/>\n");
         }
         if (information.getText() != null && !information.getText().equals("") &&
                 informationColour.getText() != null && !informationColour.getText().equals("")) {
             addToXMLContents("<information colour=\"" + informationColour.getText() + "\">" + information.getText()
                     + "</information>\n");
-        } else if (information.getText() != null && !information.getText().equals("")) {
-            addToXMLContents("<information>" + information.getText() + "</information>\n");
+        } else if (information.getText() != null && !message.getText().equals("")){
+            addToXMLContents("<information>" + information.getText()+ "</information>\n");
         }
         addToXMLContents("</billboard>");
     }
-
     /**
      * When the save new billboard button pressed, the billboard with the xml format will be saved
      * into database
@@ -879,37 +854,33 @@ public class HomeUI extends JFrame implements ActionListener {
         Object transoO = ois.readObject();
         if (transoO instanceof AcknowledgeReply) {
             AcknowledgeReply lurlist = (AcknowledgeReply) transoO;
-            if (lurlist.getAcknowledgement().equals("Expired")) {
+            if (lurlist.getAcknowledgement().equals("Expired")){
                 Logout = true;
             }
             System.out.println(lurlist.getAcknowledgement());
         }
         socketStop();
-        if (Logout == false) {
+        if(Logout == false){
             dispose();
-            HomeUI GUI = new HomeUI(sessionToken, permissionsList, currentUsername, pane.getSelectedIndex());
+            HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername, pane.getSelectedIndex());
             GUI.setVisible(true);
         } else {
             logout();
         }
 
     }
-
-    /**
-     * When export billboard button pressed, the user will be able to save his billboard content in xml format
-     * into his computer
-     */
-    public void exportBillboardPressed() {
+    public void exportBillboardPressed()
+    {
         if (billboardName.getText() != null && !billboardName.getText().equals("")) {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setDialogType(JFileChooser.SAVE_DIALOG);
             fileChooser.setSelectedFile(new File(billboardName.getText() + ".xml"));
-            fileChooser.setFileFilter(new FileNameExtensionFilter("XML file", "xml"));
+            fileChooser.setFileFilter(new FileNameExtensionFilter("XML file","xml"));
             fileChooser.setAcceptAllFileFilterUsed(false);
             int result = fileChooser.showSaveDialog(this);
             String fileName = fileChooser.getSelectedFile().toString();
             if (result == JFileChooser.APPROVE_OPTION) {
-                if (!fileName.endsWith(".xml"))
+                if (!fileName .endsWith(".xml"))
                     fileName += ".xml";
                 BufferedWriter writer = null;
                 try {
@@ -919,30 +890,31 @@ public class HomeUI extends JFrame implements ActionListener {
                     XMLContents = "";
                 } catch (Exception e1) {
                     e1.printStackTrace();
-                }finally {
+                } finally {
                     try {
                         if (null != writer) {
                             writer.close();
                         }
-                    } catch (Exception e1) {
+                    }
+                    catch (Exception e1) {
                         e1.printStackTrace();
                     }
                 }
             }
 
         } else {
-            JOptionPane.showMessageDialog(this, "Billboard name must be filled",
+            JOptionPane.showMessageDialog(this,"Billboard name must be filled",
                     "Error", JOptionPane.WARNING_MESSAGE);
         }
     }
-
     /**
      * When new user button pressed, a dialog which contains user fields panel, save new user, and reset new user
      * buttons will be shown
      */
-    private void newUserPressed() {
+    private void newUserPressed()
+    {
         addNewUserDialog = new JDialog(this, "Add new user");
-        addNewUserDialog.setSize(300, 300);
+        addNewUserDialog.setSize(300,300);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
         addNewUserDialog.setLocation(dim.width / 2 - 150, dim.height / 2 - 150);
         JPanel addNewUserPanel = new JPanel();
@@ -962,7 +934,6 @@ public class HomeUI extends JFrame implements ActionListener {
         addNewUserDialog.add(addNewUserPanel);
         addNewUserDialog.setVisible(true);
     }
-
     /**
      * When edit user button pressed, a dialog which contains user fields panel and update button
      * will be shown. The user fields will be filled with the selected user's information from database.
@@ -992,11 +963,12 @@ public class HomeUI extends JFrame implements ActionListener {
             boolean Logout = false;
             UserInfo u = null;
             Object transoO = ois.readObject();
+
             if (transoO instanceof GetUserpemmReply) {
                 GetUserpemmReply lurlist = (GetUserpemmReply) transoO;
                 System.out.println(lurlist.getListPermissions());
                 u = lurlist.getU();
-            } else if (transoO instanceof AcknowledgeReply) {
+            } else if (transoO instanceof AcknowledgeReply){
                 Logout = true;
             }
             socketStop();
@@ -1032,7 +1004,7 @@ public class HomeUI extends JFrame implements ActionListener {
      * @throws IOException
      * @throws ClassNotFoundException
      */
-    private void editProfilePressed() throws IOException, ClassNotFoundException {
+    private void editProfilePressed() throws IOException, ClassNotFoundException{
         editUserDialog = new JDialog(this, "Edit Current User");
         editUserDialog.setSize(300, 300);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
@@ -1101,18 +1073,18 @@ public class HomeUI extends JFrame implements ActionListener {
      */
     private void deleteUserPressed() throws IOException, ClassNotFoundException {
         socketStart();
-        DeleteUserRequest deleteUserRequest = new DeleteUserRequest((String) usernameList.getSelectedValue(), sessionToken);
-        oos.writeObject(deleteUserRequest);
+        DelateUserRequest delateUserRequest = new DelateUserRequest((String) usernameList.getSelectedValue(), sessionToken);
+        oos.writeObject(delateUserRequest);
         oos.flush();
         Object transoO = ois.readObject();
         if (transoO instanceof AcknowledgeReply) {
             AcknowledgeReply lurlist = (AcknowledgeReply) transoO;
             System.out.println(lurlist.getAcknowledgement());
-            if (lurlist.getAcknowledgement().equals("Expired")) {
+            if (lurlist.getAcknowledgement().equals("Expired")){
                 logout();
-            } else {
+            }else{
                 dispose();
-                HomeUI GUI = new HomeUI(sessionToken, permissionsList, currentUsername, pane.getSelectedIndex());
+                HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername, pane.getSelectedIndex());
                 GUI.setVisible(true);
             }
         }
@@ -1168,8 +1140,10 @@ public class HomeUI extends JFrame implements ActionListener {
                 }
             }
             socketStop();
+
+//            addNewUserDialog.dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "Data cannot be null",
+            JOptionPane.showMessageDialog(this,"Data cannot be null",
                     "Error", JOptionPane.WARNING_MESSAGE);
         }
     }
@@ -1216,7 +1190,6 @@ public class HomeUI extends JFrame implements ActionListener {
             if (transo instanceof AcknowledgeReply) {
                 AcknowledgeReply lurlist = (AcknowledgeReply) transo;
                 System.out.println(lurlist.getAcknowledgement());
-
             }
             socketStop();
             socketStart();
@@ -1228,19 +1201,21 @@ public class HomeUI extends JFrame implements ActionListener {
             if (getPermm instanceof GetUserpemmReply) {
                 GetUserpemmReply lurlist = (GetUserpemmReply) getPermm;
                 System.out.println(lurlist.getListPermissions());
+//                permissionsList = lurlist.getListPermissions();
+//                disableFeatureBasedOnPermissions();
                 dispose();
                 HomeUI GUI = new HomeUI(sessionToken, lurlist.getListPermissions(), currentUsername, pane.getSelectedIndex());
                 GUI.setVisible(true);
-            } else if (getPermm instanceof AcknowledgeReply) {
+            } else if (getPermm instanceof AcknowledgeReply){
                 Logout = true;
                 logout();
             }
             socketStop();
-            if (Logout == false) {
+            if(Logout == false){
                 editUserDialog.dispose();
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Data cannot be null",
+            JOptionPane.showMessageDialog(this,"Data cannot be null",
                     "Error", JOptionPane.WARNING_MESSAGE);
         }
     }
@@ -1307,7 +1282,7 @@ public class HomeUI extends JFrame implements ActionListener {
                 GUI.setVisible(true);
             } else if (getPermm instanceof AcknowledgeReply){
                 AcknowledgeReply lurlist = (AcknowledgeReply) getPermm;
-                if (lurlist.getAcknowledgement().equals("Expired")) {
+                if(lurlist.getAcknowledgement().equals("Expired")){
                     Logout = true;
                     logout();
                 }
@@ -1317,7 +1292,7 @@ public class HomeUI extends JFrame implements ActionListener {
                 editUserDialog.dispose();
             }
         } else {
-            JOptionPane.showMessageDialog(this, "Data cannot be null",
+            JOptionPane.showMessageDialog(this,"Data cannot be null",
                     "Error", JOptionPane.WARNING_MESSAGE);
         }
     }
@@ -1326,7 +1301,8 @@ public class HomeUI extends JFrame implements ActionListener {
      * The user will be able to choose any colour from JColorChooser and it will be converted to hex
      * colour format
      */
-    private void displayColorChooser() {
+    private void displayColorChooser()
+    {
         Color color = JColorChooser.showDialog(this,
                 "Select a color", initialColor);
         if (color != null) {
@@ -1350,7 +1326,6 @@ public class HomeUI extends JFrame implements ActionListener {
         information.setText(previousInformation);
         informationColour.setText(previousInformationColour);
     }
-
     /**
      * When upload picture button pressed, the user will be able to choose picture from computer
      * with bmp, jpeg, and png format only. This picture will be used for the billboard content
@@ -1371,7 +1346,6 @@ public class HomeUI extends JFrame implements ActionListener {
             picture.setText(encodeImageToBase64(selectedFile.toString()));
         }
     }
-
     /**
      * Saves the imported billboard xml file from computer into database
      *
@@ -1399,17 +1373,13 @@ public class HomeUI extends JFrame implements ActionListener {
             importBillboardDialog.dispose();
             XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
             dispose();
-            HomeUI GUI = new HomeUI(sessionToken, permissionsList, currentUsername, pane.getSelectedIndex());
+            HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername, pane.getSelectedIndex());
             GUI.setVisible(true);
         } else {
             logout();
         }
-    }
 
-    private void addToXMLContents(String content) {
-        XMLContents = XMLContents + content;
     }
-
     /**
      * When save edited billboard pressed, the current billboard content of the selected billboard will
      * be replaced with edited one
@@ -1430,7 +1400,7 @@ public class HomeUI extends JFrame implements ActionListener {
             Object transoO = ois.readObject();
             if (transoO instanceof AcknowledgeReply) {
                 AcknowledgeReply reply = (AcknowledgeReply) transoO;
-                if (reply.getAcknowledgement().equals("Expired")) {
+                if( reply.getAcknowledgement().equals("Expired") ){
                     Logout = true;
                 }
                 System.out.println(reply.getAcknowledgement());
@@ -1439,7 +1409,7 @@ public class HomeUI extends JFrame implements ActionListener {
 
             editBillboardDialog.dispose();
         } else {
-            JOptionPane.showMessageDialog(this, "Billboard name must be filled",
+            JOptionPane.showMessageDialog(this,"Billboard name must be filled",
                     "Error", JOptionPane.WARNING_MESSAGE);
         }
         if (Logout == true) {
@@ -1448,11 +1418,10 @@ public class HomeUI extends JFrame implements ActionListener {
             XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
         }
     }
-
     /**
      *
      */
-    private void resetNewBillboardPressed() {
+    private void resetNewBillboardPressed(){
         cbUrl.setSelected(false);
         initialColor = Color.BLACK;
         billboardName.setText("");
@@ -1464,6 +1433,10 @@ public class HomeUI extends JFrame implements ActionListener {
         informationColour.setText("");
     }
 
+
+    private void addToXMLContents(String content) {
+        XMLContents = XMLContents + content;
+    }
     /**
      * When the preview billboard button pressed, it will show the billboard viewer in the small size
      *
@@ -1491,6 +1464,7 @@ public class HomeUI extends JFrame implements ActionListener {
         boolean Logout = false;
         if (btnSource == btnPreviewEditedBillboard || btnSource == btnPreviewNewBillboard) {
             convertBillboardToXML();
+//            System.out.println(XMLContents);
             parser = new XMLParser(XMLContents);
         } else if (btnSource == btnPreviewBillboard) {
             socketStart();
@@ -1588,17 +1562,17 @@ public class HomeUI extends JFrame implements ActionListener {
         oos.writeObject(logoutUsersRequest);
         oos.flush();
         Object logoutO = ois.readObject();
-        if (logoutO instanceof AcknowledgeReply) {
+        if (logoutO instanceof AcknowledgeReply){
             AcknowledgeReply reply = (AcknowledgeReply) logoutO;
             System.out.println(reply.getAcknowledgement());
         }
         socketStop();
         dispose();
+        dispose();
         UserLoginUI GUI = new UserLoginUI();
         GUI.setVisible(true);
 
     }
-
     /**
      * @see ActionListener#actionPerformed(ActionEvent)
      */
@@ -1706,7 +1680,8 @@ public class HomeUI extends JFrame implements ActionListener {
             } catch (ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
-        } else if (btnSource == btnEditProfile) {
+        }
+        else if (btnSource == btnEditProfile) {
             try {
                 editProfilePressed();
             } catch (IOException ex) {
@@ -1738,7 +1713,7 @@ public class HomeUI extends JFrame implements ActionListener {
             } catch (ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
-        } else if (btnSource == btnSchedule) {
+        } else if(btnSource == btnSchedule) {
             try {
                 CalendarGUI GUI = new CalendarGUI(sessionToken);
                 GUI.addWindowListener(new WindowAdapter() {
@@ -1763,35 +1738,47 @@ public class HomeUI extends JFrame implements ActionListener {
             }
         }
     }
+    public static String getHashedPass(String password) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] temp_byte = md.digest(password.getBytes());
+        String hashedPassword= bytesToString(temp_byte);
+
+        return hashedPassword;
+    }
+    public static String bytesToString(byte[] hash){
+        StringBuffer str_buff = new StringBuffer();
+        for (byte b : hash){
+            str_buff.append(String.format("%02x", b & 0xFF));
+        }
+        return str_buff.toString();
+    }
 
     /**
      * Creates a new connection to socket to make request
      *
      * @throws IOException
      */
-    public void socketStart() throws IOException {
-        socket = new Socket(host, Integer.parseInt(port));
+    public void socketStart() throws IOException{
+        socket = new Socket(host,Integer.parseInt(port));
         outputStream = socket.getOutputStream();
         inputStream = socket.getInputStream();
         oos = new ObjectOutputStream(outputStream);
         ois = new ObjectInputStream(inputStream);
     }
-
     /**
      * Stops the connection to socket after request and getting the reply
      *
      * @throws IOException
      */
-    public void socketStop() throws IOException {
+    public void socketStop() throws IOException{
         ois.close();
         oos.close();
         socket.close();
     }
-
     /**
      * Gets the port and host for connecting to the billboard server
      */
-    public void getPropValues() {
+    public void getPropValues() throws IOException {
         Properties props = new Properties();
         FileInputStream in = null;
         try {
@@ -1803,7 +1790,7 @@ public class HomeUI extends JFrame implements ActionListener {
             port = props.getProperty("port");
         } catch (Exception e) {
             System.out.println("Exception: " + e);
-        }
+        } 
     }
 }
 

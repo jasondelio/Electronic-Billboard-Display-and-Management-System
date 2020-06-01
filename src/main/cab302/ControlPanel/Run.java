@@ -3,10 +3,8 @@ package cab302.ControlPanel;
 import javax.swing.*;
 import java.io.IOException;
 
-/**
- * Invokes the billboard control panel application.
- */
 public class Run {
+
     /**
      * Create the UserLoginUI. For thread safety,
      * this method should be invoked from the
@@ -19,7 +17,6 @@ public class Run {
         UserLoginUI GUI = new UserLoginUI();
         GUI.setVisible(true);
     }
-
     /**
      * @param args
      */

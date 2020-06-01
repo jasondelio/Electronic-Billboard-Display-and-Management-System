@@ -329,7 +329,7 @@ public class CustomDialog extends JDialog implements ActionListener {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                FindScheduleRequest findScheduleRequest = new FindScheduleRequest(sessionToken,nameList.getSelectedValue().toString().split(" ")[0], date,
+                FindScheduleRequest findScheduleRequest = new FindScheduleRequest(sessionToken,nameList.getSelectedValue().toString().split(" ")[0], month ,date,
                         nameList.getSelectedValue().toString().split(" ")[2]);
                 try {
                     oos.writeObject(findScheduleRequest);
@@ -513,11 +513,23 @@ public class CustomDialog extends JDialog implements ActionListener {
         if (Integer.parseInt(duHrbox.getText()) + Integer.parseInt(hourbox.getText()) > 24) {
             showMessageDialog(null, "Duration cannot be over selected date", "Title", ERROR_MESSAGE);
             clearFields();
-        } else if (!recurbox.getText().equals("") && recurbox.getText() != null && Integer.parseInt(recurbox.getText()) < Integer.parseInt(duHrbox.getText())) {
+            bg.dispose();
+        } else if(duHrbox.getText().length() <= 1 || duHrbox.getText().length() > 2) {
+            showMessageDialog(null, "Input must be 2 digits eg.00, 01,...,12", "Title", ERROR_MESSAGE);
+            clearFields();
+            bg.dispose();
+        }else if(duMinbox.getText().length() <= 1 || duMinbox.getText().length() > 2) {
+            showMessageDialog(null, "Input must be 2 digits eg.00, 01,...,12", "Title", ERROR_MESSAGE);
+            clearFields();
+            bg.dispose();
+        }
+
+        else if (!recurbox.getText().equals("") && recurbox.getText() != null && Integer.parseInt(recurbox.getText()) < Integer.parseInt(duHrbox.getText())) {
 //                if(Integer.parseInt(recurbox.getText()) < Integer.parseInt(duHrbox.getText()))
 //            {
             showMessageDialog(null, "Recurring time cannot be lesser than duration", "Title", ERROR_MESSAGE);
             clearFields();
+            bg.dispose();
 //            }
         } else if (billboardChooser.getSelectedItem() != null && !billboardChooser.getSelectedItem().equals("") &&
                 hourbox.getText() != null && !hourbox.getText().equals("")
@@ -547,19 +559,34 @@ public class CustomDialog extends JDialog implements ActionListener {
         if (Integer.parseInt(duHrbox.getText()) + Integer.parseInt(duMinbox.getText()) + time > 24) {
             showMessageDialog(null, "Duration cannot be over selected date", "Title", ERROR_MESSAGE);
             clearFields();
+            bg.dispose();
         } else if (!billboardChooser.getSelectedItem().toString().equals(nameList.getSelectedValue().toString().split(" ")[0])){
            showMessageDialog(null, "Billboard name should be same !", "Title", ERROR_MESSAGE);
            clearFields();
-        }
-        else if (!recurbox.getText().equals("")){
-            if ( Integer.parseInt(recurbox.getText()) < Integer.parseInt(duHrbox.getText()) + Integer.parseInt(duMinbox.getText())) {
-            showMessageDialog(null, "Recurring time cannot be lesser than duration", "Title", ERROR_MESSAGE);
+           bg.dispose();
+        }else if(duHrbox.getText().length() <= 1 || duHrbox.getText().length() > 2) {
+            showMessageDialog(null, "Input must be 2 digits eg.00, 01,...,12", "Title", ERROR_MESSAGE);
             clearFields();
-            }
-        } else if (billboardChooser.getSelectedItem() != null && !billboardChooser.getSelectedItem().equals("") &&
+            bg.dispose();
+
+        }else if(duMinbox.getText().length() <= 1 || duMinbox.getText().length() > 2) {
+            showMessageDialog(null, "Input must be 2 digits eg.00, 01,...,12", "Title", ERROR_MESSAGE);
+            clearFields();
+            bg.dispose();
+
+        }
+//        else if (!recurbox.getText().equals("")){
+//            if ( Integer.parseInt(recurbox.getText()) < Integer.parseInt(duHrbox.getText()) + Integer.parseInt(duMinbox.getText())) {
+//            showMessageDialog(null, "Recurring time cannot be lesser than duration", "Title", ERROR_MESSAGE);
+//            clearFields();
+//                bg.dispose();
+//
+//            }
+//        }
+        else if (billboardChooser.getSelectedItem() != null && !billboardChooser.getSelectedItem().equals("") &&
                 hourbox.getText() != null && !hourbox.getText().equals("")
                 && minbox.getText() != null && !minbox.getText().equals("")) {
-
+//            if (minbox.getText() && hourbox.getText() && duHrbox.getText() && duMinbox.getText())
             socketStart();
             EditScheduleBillboard esbr = new EditScheduleBillboard(sessionToken, String.valueOf(billboardChooser.getSelectedItem()), creatorbox.getText(), year1, month, date, hourbox.getText(), minbox
                     .getText(),  duHrbox.getText(), duMinbox.getText(), recurbox.getText());

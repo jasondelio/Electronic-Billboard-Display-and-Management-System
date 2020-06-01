@@ -35,11 +35,19 @@ public class SchedulesDatasource implements ScheduleSources {
 
     private static final String TAKE_SCHEDULE = "SELECT boardtitle FROM schedules";
 
+    private static final String GET_CURRENT_BOARD_TITLE = "SELECT * FROM schedules where (year=?) AND (month=?) AND (date=?)";
+
     private static final String GET_SCHEDULE = "SELECT * FROM schedules WHERE boardtitle=?";
 
     private static final String GET_SCHEDULE_List = "SELECT * FROM schedules";
 
+    private static final String GET_SAME_SCHEDULE = "SELECT * FROM schedules  WHERE (boardtitle=?) AND (month=?) AND (date=?) AND (hour=?)" +
+            "AND (minute=?) AND (durationHr=?) AND (durationMin=?) AND (recur=?)";
+
     private static final String DELETE_SCHEDULE = "DELETE FROM schedules WHERE (boardtitle=?) AND (month=?) AND (date=?) AND (hour=?)";
+
+    private static final String DELETE_ALLSCHEDULE = "DELETE FROM schedules WHERE boardtitle=?";
+
 
     private static final String EDIT_SCHEDULE = "UPDATE schedules SET boardtitle=?, creator=?, year=?, month=?, date=?, hour=?, minute=?, durationHr=?" +
             ", durationMin=?, recur=? WHERE (boardtitle=?) AND (month=?) AND (date=?) AND (hour=?)";
@@ -48,7 +56,7 @@ public class SchedulesDatasource implements ScheduleSources {
 
     private static final String ROW_ITEM = "SELECT * FROM schedules LIMIT ?, 1;";
 
-    private static final String FIND_SCHEDULE = "SELECT * From schedules WHERE (boardtitle=?) AND (date=?) AND (hour=?)";
+    private static final String FIND_SCHEDULE = "SELECT * From schedules WHERE (boardtitle=?) AND  (month=?) AND(date=?) AND (hour=?)";
 
     private Connection connection;
 
@@ -56,11 +64,17 @@ public class SchedulesDatasource implements ScheduleSources {
 
     private PreparedStatement getTitleList;
 
+    private PreparedStatement getCurrentBoardTitle;
+
     private PreparedStatement getSchedule;
+
+    private PreparedStatement getSameSchedule;
 
     private PreparedStatement getScheduleList;
 
     private PreparedStatement deleteSchedule;
+
+    private PreparedStatement deleteAllSchedule;
 
     private PreparedStatement editSchedule;
 
@@ -80,8 +94,11 @@ public class SchedulesDatasource implements ScheduleSources {
             createSchedule = connection.prepareStatement(INSERT_SCHEDULE);
             getTitleList = connection.prepareStatement(GET_TITLE);
             getSchedule = connection.prepareStatement(GET_SCHEDULE);
+            getCurrentBoardTitle = connection.prepareStatement(GET_CURRENT_BOARD_TITLE);
             getScheduleList = connection.prepareStatement(GET_SCHEDULE_List);
+            getSameSchedule = connection.prepareStatement(GET_SAME_SCHEDULE);
             deleteSchedule = connection.prepareStatement(DELETE_SCHEDULE);
+            deleteAllSchedule = connection.prepareStatement(DELETE_ALLSCHEDULE);
             editSchedule = connection.prepareStatement(EDIT_SCHEDULE);
             rowCount = connection.prepareStatement(COUNT_ROWS);
             findSchedule = connection.prepareStatement(FIND_SCHEDULE);
@@ -161,13 +178,45 @@ public class SchedulesDatasource implements ScheduleSources {
         return b;
     }
 
-    public ScheduleInfo findSchedule(String title, String date, String hour) {
+    public ScheduleInfo findSame(String title,String month,String date, String hour, String minute, String durationHr,String durationMin, String recur){
+        ScheduleInfo b = new ScheduleInfo();
+        ResultSet rs = null;
+        try {
+            getSameSchedule.setString(1, title);
+            getSameSchedule.setString(2, month);
+            getSameSchedule.setString(3, date);
+            getSameSchedule.setString(4, hour);
+            getSameSchedule.setString(5, minute);
+            getSameSchedule.setString(6, durationHr);
+            getSameSchedule.setString(7, durationMin);
+            getSameSchedule.setString(8, recur);
+            rs = getSameSchedule.executeQuery();
+            while (rs.next()) {
+                b.setBoardTitle(rs.getString("boardtitle"));
+                b.setCreator(rs.getString("creator"));
+                b.setYear(rs.getString("year"));
+                b.setMonth(rs.getString("month"));
+                b.setDate(rs.getString("date"));
+                b.setHour(rs.getString("hour"));
+                b.setMinute(rs.getString("minute"));
+                b.setDuHr(rs.getString("durationHr"));
+                b.setDuMin(rs.getString("durationMin"));
+                b.setRecur(rs.getString("recur"));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return b;
+    }
+
+    public ScheduleInfo findSchedule(String title, String month ,String date, String hour) {
         ScheduleInfo b = new ScheduleInfo();
         ResultSet rs = null;
         try {
             findSchedule.setString(1, title);
-            findSchedule.setString(2, date);
-            findSchedule.setString(3, hour);
+            findSchedule.setString(2, month);
+            findSchedule.setString(3, date);
+            findSchedule.setString(4, hour);
             rs = findSchedule.executeQuery();
             while (rs.next()) {
                 b.setBoardTitle(rs.getString("boardtitle"));
@@ -185,6 +234,37 @@ public class SchedulesDatasource implements ScheduleSources {
             ex.printStackTrace();
         }
         return b;
+    }
+
+    public ArrayList<ScheduleInfo> getCurrentBillboardTitle(String year, String month, String date) {
+
+       ArrayList<ScheduleInfo> titles = new ArrayList<ScheduleInfo>();
+       ResultSet rs = null;
+
+        try {
+            getCurrentBoardTitle.setString(1,year);
+            getCurrentBoardTitle.setString(2,month);
+            getCurrentBoardTitle.setString(3,date);
+            rs = getCurrentBoardTitle.executeQuery();
+            while (rs.next()) {
+                ScheduleInfo si = new ScheduleInfo();
+                si.setBoardTitle(rs.getString("boardtitle"));
+                si.setCreator(rs.getString("creator"));
+                si.setYear(rs.getString("year"));
+                si.setMonth(rs.getString("month"));
+                si.setDate(rs.getString("date"));
+                si.setHour(rs.getString("hour"));
+                si.setMinute(rs.getString("minute"));
+                si.setDuHr(rs.getString("durationHr"));
+                si.setDuMin(rs.getString("durationMin"));
+                si.setRecur(rs.getString("recur"));
+                titles.add(si);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        return titles;
     }
 
     public ScheduleInfo findRow(int index) {
@@ -280,6 +360,18 @@ public class SchedulesDatasource implements ScheduleSources {
             deleteSchedule.setString(3, date);
             deleteSchedule.setString(4, hour);
             deleteSchedule.executeUpdate();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    /**
+     * @see
+     */
+    public void deleteallSchedule(String title) {
+        try {
+            deleteAllSchedule.setString(1, title);
+            deleteAllSchedule.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
         }

@@ -9,7 +9,7 @@ public class ListUsersReply implements Serializable {
 
     private ListModel listOfUsers;
 
-    public ListUsersReply(ListModel listOfUsers) {
+    public ListUsersReply(ListModel listOfUsers){
         this.listOfUsers = listOfUsers;
     }
 

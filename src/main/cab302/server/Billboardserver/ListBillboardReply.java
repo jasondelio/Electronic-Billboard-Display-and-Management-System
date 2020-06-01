@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class ListBillboardReply implements Serializable {
     private ListModel listofBillboards;
 
-    public ListBillboardReply(ListModel listBillboardRequest) {
+    public ListBillboardReply(ListModel listBillboardRequest){
         this.listofBillboards = listBillboardRequest;
     }
 

@@ -1,6 +1,7 @@
 package cab302.database.schedule;
 
 import javax.swing.*;
+import java.util.ArrayList;
 
 public class ScheduleData {
 
@@ -43,6 +44,14 @@ public class ScheduleData {
         data.deleteSchedule(title, month, date, hour);
     }
 
+    public void removeAll(String title) {
+
+        // remove from both list and map
+        listModel.removeElement(title);
+        sModel.removeElement(title);
+        data.deleteallSchedule(title);
+    }
+
 
     /**
      *
@@ -51,9 +60,17 @@ public class ScheduleData {
         return data.getSchedule((String) key);
     }
 
+    public ArrayList<ScheduleInfo> findCurrenttime(String year, String month, String date) {
+        return data.getCurrentBillboardTitle(year, month, date);
+    }
 
-    public ScheduleInfo findSchedule(String title, String date, String hour) {
-        return data.findSchedule(title, date, hour);
+    public ScheduleInfo findSchedule(Object title, Object month ,Object date, Object hour) {
+        return data.findSchedule((String) title,(String) month,(String) date,(String) hour);
+    }
+
+    public ScheduleInfo findSameSchedule(Object title, Object month, Object date, Object hour, Object minute, Object durationHr, Object durationMin
+    ,Object recur) {
+        return data.findSame((String) title,(String) month,(String) date,(String) hour, (String) minute, (String) durationHr,(String) durationMin, (String) recur);
     }
 
     public ScheduleInfo findRow(int index) {

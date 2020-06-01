@@ -4,8 +4,7 @@ import java.io.Serializable;
 
 public class ListBillboardRequest implements Serializable {
     private String sessionToken;
-
-    public ListBillboardRequest(String sessionToken) {
+    public ListBillboardRequest(String sessionToken){
         this.sessionToken = sessionToken;
     }
 

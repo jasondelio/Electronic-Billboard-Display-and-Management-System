@@ -55,10 +55,10 @@ public class UserClient {
         oos.flush();
 
         transoO = ois.readObject();
-        if (transoO instanceof ListBillboardReply) {
-            ListBillboardReply lbrlist = (ListBillboardReply) transoO;
-            System.out.println("Billboards List : " + lbrlist.getListofBillboards());
-        } else {
+        if (transoO instanceof ListBillboardReply){
+            ListBillboardReply lbrlist =  (ListBillboardReply) transoO;
+            System.out.println("Billboards List : "+ lbrlist.getListofBillboards());
+        }else{
             System.out.println("error");
         }
         ois.close();
@@ -227,14 +227,14 @@ public class UserClient {
         oos = new ObjectOutputStream(outputStream);
         ois = new ObjectInputStream(inputStream);
 
-        ListUsersRequest lur = new ListUsersRequest(sessionToken);
+        listUsersRequest lur = new listUsersRequest(sessionToken);
         oos.writeObject(lur);
         oos.flush();
         transoO = ois.readObject();
-        if (transoO instanceof ListUsersReply) {
-            ListUsersReply lurlist = (ListUsersReply) transoO;
-            System.out.println("User Lists : " + lurlist.getListOfUsers());
-        } else {
+        if (transoO instanceof ListUsersReply){
+            ListUsersReply lurlist =  (ListUsersReply) transoO;
+            System.out.println("User Lists : "+ lurlist.getListOfUsers());
+        }else{
             System.out.println("error");
         }
         ois.close();

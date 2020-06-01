@@ -2,6 +2,39 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="f7ab41c5-c651-45b3-bca9-a3afafe74f5f" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/cab302/database/RemovedSchedule/RemovedScheduleData.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/cab302/database/RemovedSchedule/RemovedScheduleInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/cab302/database/RemovedSchedule/RemovedScheduleSources.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/cab302/database/RemovedSchedule/RemovedSchedulesDatasource.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ViewerReply.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/ViewerRequest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/RunViewr.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Timer15.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/test/CAB302/META-INF/CAB302.kotlin_module" beforeDir="false" afterPath="$PROJECT_DIR$/out/test/CAB302/META-INF/CAB302.kotlin_module" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CalendarGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CalendarGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CustomDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CustomDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/Run.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/Run.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/UserLoginUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/UserLoginUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleSources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleSources.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/SchedulesDatasource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/SchedulesDatasource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/BillboardServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/BillboardServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ListBillboardReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ListBillboardReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ListUsersReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/ListUsersReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/SessionExistReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/SessionExistReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/DeleteBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/DeleteBillboardRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/DeleteUserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/DelateUserRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/FindScheduleRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/FindScheduleRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/ListBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/ListBillboardRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/ListUsersRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/listUsersRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/SessionExistRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/sessionExistRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/UserClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/UserClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/DisplayAssembler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/DisplayAssembler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Gui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/ImageGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/ImageGenerator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/util/HexToRGB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/util/HexToRGB.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -14,55 +47,6 @@
   </component>
   <component name="DefaultGradleProjectSettings">
     <option name="isMigrated" value="true" />
-  </component>
-  <component name="FileEditorManager">
-    <leaf>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/cab302/viewer/Main.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="153">
-              <caret line="13" column="82" selection-start-line="13" selection-start-column="82" selection-end-line="13" selection-end-column="82" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3909">
-              <caret line="1473" column="26" selection-start-line="1473" selection-start-column="26" selection-end-line="1473" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/cab302/viewer/gui/DisplayAssembler.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="109" selection-start-line="109" selection-end-line="109" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/main/cab302/viewer/gui/Gui.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="37" column="8" selection-start-line="37" selection-start-column="8" selection-end-line="39" selection-end-column="29" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/src/main/cab302/viewer/util/HexToRGB.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="18" column="8" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -84,132 +68,7 @@
     <option name="UPDATE_TYPE" value="MERGE" />
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="IdeDocumentHistory">
-    <option name="CHANGED_PATHS">
-      <list>
-        <option value="$PROJECT_DIR$/.gitignore" />
-        <option value="$PROJECT_DIR$/src/main/cab302/viewer/util/HexToRGB.java" />
-      </list>
-    </option>
-  </component>
   <component name="ProjectId" id="1bLxClkoQalmJ8SZHZHhuTXKLxV" />
-  <component name="ProjectView">
-    <navigator proportions="" version="1">
-      <foldersAlwaysOnTop value="true" />
-    </navigator>
-    <panes>
-      <pane id="Scope" />
-      <pane id="ProjectPane">
-        <subPane>
-          <expand>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-              <item name="production" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="out" type="462c0819:PsiDirectoryNode" />
-              <item name="production" type="462c0819:PsiDirectoryNode" />
-              <item name="CAB302" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="cab302" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="cab302" type="462c0819:PsiDirectoryNode" />
-              <item name="ControlPanel" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="cab302" type="462c0819:PsiDirectoryNode" />
-              <item name="database" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="cab302" type="462c0819:PsiDirectoryNode" />
-              <item name="server" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="cab302" type="462c0819:PsiDirectoryNode" />
-              <item name="viewer" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="cab302" type="462c0819:PsiDirectoryNode" />
-              <item name="viewer" type="462c0819:PsiDirectoryNode" />
-              <item name="gui" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="main" type="462c0819:PsiDirectoryNode" />
-              <item name="cab302" type="462c0819:PsiDirectoryNode" />
-              <item name="viewer" type="462c0819:PsiDirectoryNode" />
-              <item name="util" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="test" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="CAB302-Update" type="b2602c69:ProjectViewProjectNode" />
-              <item name="CAB302-Update" type="462c0819:PsiDirectoryNode" />
-              <item name="xml-exmaples" type="462c0819:PsiDirectoryNode" />
-            </path>
-          </expand>
-          <select />
-        </subPane>
-      </pane>
-      <pane id="PackagesPane" />
-    </panes>
-  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -242,8 +101,11 @@
     <property name="project.structure.side.proportion" value="0.2" />
   </component>
   <component name="RecentsManager">
-    <key name="CreateClassDialog.RecentsKey">
-      <recent name="cab302.viewer.exceptions" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\[University\CAB302\CAB302\xml-exmaples" />
+      <recent name="D:\[University\CAB302\CAB302" />
+      <recent name="D:\[University\CAB302\CAB302\src\main\java\cab302" />
+      <recent name="D:\[University\CAB302\CAB302\src\main\java\viewer" />
     </key>
     <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
       <recent name="" />
@@ -260,26 +122,11 @@
       <recent name="cab302.server.Billboardserver" />
       <recent name="cab302.server" />
     </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="D:\[University\CAB302\CAB302\xml-exmaples" />
-      <recent name="D:\[University\CAB302\CAB302" />
-      <recent name="D:\[University\CAB302\CAB302\src\main\java\cab302" />
-      <recent name="D:\[University\CAB302\CAB302\src\main\java\viewer" />
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="cab302.viewer.exceptions" />
     </key>
   </component>
-  <component name="RunDashboard">
-    <option name="ruleStates">
-      <list>
-        <RuleState>
-          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
-        </RuleState>
-        <RuleState>
-          <option name="name" value="StatusDashboardGroupingRule" />
-        </RuleState>
-      </list>
-    </option>
-  </component>
-  <component name="RunManager" selected="JUnit.TestHexToRGB">
+  <component name="RunManager" selected="Application.RunViewr">
     <configuration name="BillboardServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cab302.server.Billboardserver.BillboardServer" />
       <module name="CAB302" />
@@ -321,11 +168,15 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="TestDisplayAssembler" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="RunViewr" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cab302.viewer.gui.RunViewr" />
       <module name="CAB302" />
-      <option name="PACKAGE_NAME" value="" />
-      <option name="MAIN_CLASS_NAME" value="TestDisplayAssembler" />
-      <option name="TEST_OBJECT" value="class" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="cab302.viewer.gui.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -355,16 +206,16 @@
       <item itemvalue="Application.BillboardServer" />
       <item itemvalue="Application.Main" />
       <item itemvalue="JUnit.TestHexToRGB" />
-      <item itemvalue="JUnit.TestDisplayAssembler" />
       <item itemvalue="JUnit.TestImageGenerator" />
+      <item itemvalue="Application.RunViewr" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.RunViewr" />
         <item itemvalue="Application.Run" />
         <item itemvalue="Application.BillboardServer" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.TestImageGenerator" />
-        <item itemvalue="JUnit.TestDisplayAssembler" />
       </list>
     </recent_temporary>
   </component>
@@ -437,42 +288,6 @@
   <component name="TimeTrackingManager">
     <option name="totallyTimeSpent" value="54318000" />
   </component>
-  <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1936" height="1096" extended-state="6" />
-    <editor active="true" />
-    <layout>
-      <window_info id="Designer" />
-      <window_info id="Image Layers" />
-      <window_info id="Capture Tool" />
-      <window_info id="UI Designer" />
-      <window_info id="Favorites" side_tool="true" />
-      <window_info id="Learn" />
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.25" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info active="true" anchor="bottom" id="Terminal" visible="true" weight="0.32917964" />
-      <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
-      <window_info anchor="bottom" id="Event Log" side_tool="true" />
-      <window_info anchor="bottom" id="Database Changes" />
-      <window_info anchor="bottom" id="Version Control" />
-      <window_info anchor="bottom" id="Messages" weight="0.32917964" />
-      <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.32917964" />
-      <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" />
-      <window_info anchor="right" id="Maven" />
-      <window_info anchor="right" id="Palette" />
-      <window_info anchor="right" id="Capture Analysis" />
-      <window_info anchor="right" id="Database" />
-      <window_info anchor="right" id="Palette&#9;" />
-      <window_info anchor="right" id="Theme Preview" />
-      <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
-    </layout>
-  </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
   </component>
@@ -482,12 +297,6 @@
         <entry key="MAIN">
           <value>
             <State>
-              <option name="RECENTLY_FILTERED_USER_GROUPS">
-                <collection />
-              </option>
-              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
-                <collection />
-              </option>
               <option name="COLUMN_ORDER" />
             </State>
           </value>
@@ -566,28 +375,28 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1590631837753" />
-    <state width="1493" height="166" key="GridCell.Tab.0.bottom" timestamp="1590897158733">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1398" height="255" key="GridCell.Tab.0.bottom" timestamp="1591001594843">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="189" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1590821114131" />
+    <state width="1398" height="255" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1591001594843" />
     <state width="1493" height="166" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590897158733" />
     <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
-    <state width="1493" height="166" key="GridCell.Tab.0.center" timestamp="1590897158732">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1398" height="255" key="GridCell.Tab.0.center" timestamp="1591001594842">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="189" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1590821114127" />
+    <state width="1398" height="255" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1591001594842" />
     <state width="1493" height="166" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590897158732" />
     <state width="1398" height="230" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1493" height="166" key="GridCell.Tab.0.left" timestamp="1590897158732">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1398" height="255" key="GridCell.Tab.0.left" timestamp="1591001594841">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="189" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1590821114124" />
+    <state width="1398" height="255" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1591001594841" />
     <state width="1493" height="166" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590897158732" />
     <state width="1398" height="230" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1493" height="166" key="GridCell.Tab.0.right" timestamp="1590897158733">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1398" height="255" key="GridCell.Tab.0.right" timestamp="1591001594842">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="189" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1590821114129" />
+    <state width="1398" height="255" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1591001594842" />
     <state width="1493" height="166" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590897158733" />
     <state width="1398" height="230" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
     <state x="460" y="159" key="MultipleFileMergeDialog" timestamp="1590895965304">
@@ -642,27 +451,6 @@
     <SUITE FILE_PATH="coverage/CAB302$Run.ic" NAME="Run Coverage Results" MODIFIED="1590671763771" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>cab302.ControlPanel.*</FILTER>
     </SUITE>
-  </component>
-  <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/.gitignore">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="459">
-          <caret line="27" column="19" selection-start-line="27" selection-start-column="19" selection-end-line="27" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-7185" />
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/main/cab302/viewer/util/HexToRGB.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="18" column="8" selection-start-line="18" selection-start-column="8" selection-end-line="18" selection-end-column="8" />
-        </state>
-      </provider>
-    </entry>
   </component>
   <component name="masterDetails">
     <states>

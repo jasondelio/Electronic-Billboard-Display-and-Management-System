@@ -14,16 +14,12 @@ public class ImageGenerator {
      *
      * @param imageData The image that is provided
      * @return A boolean that symbolises whether the image is base64 or not
+     * @throws BadImageFormatException Throws exception if the image format is not Base64 or a URL
      */
 
-    public boolean isBase64EncodedImage(String imageData) throws BadImageFormatException {
+    public boolean isBase64EncodedImage(String imageData) {
 
-        if (imageData.matches("^([A-Za-z0-9+/]{4})*([A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)?$"))
-            return true;
-        else if (imageData.startsWith("https") || imageData.startsWith("http"))
-            return false;
-        else
-            throw new BadImageFormatException("Not a valid image string");
+        return !imageData.startsWith("https");
     }
     /**
      * Image Generator Constructor
