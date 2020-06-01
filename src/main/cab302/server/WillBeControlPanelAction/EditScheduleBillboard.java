@@ -2,6 +2,9 @@ package cab302.server.WillBeControlPanelAction;
 
 import java.io.Serializable;
 
+/**
+ * Request editing schedule to server and the server get sessiontoken, creator, time, duration time and billnboard name from client
+ */
 public class EditScheduleBillboard implements Serializable {
     private String billboardname;
     private String creator;
@@ -9,7 +12,7 @@ public class EditScheduleBillboard implements Serializable {
     private String month;
     private String date;
     private String hour;
-    private String minitue;
+    private String minute;
     private String sessionToken;
     private String durationHr;
     private String durationMin;
@@ -25,7 +28,7 @@ public class EditScheduleBillboard implements Serializable {
         this.month = month;
         this.date = date;
         this.hour = hour;
-        this.minitue = minute;
+        this.minute = minute;
         this.durationHr = duHr;
         this.durationMin = duMin;
         this.recur = recur;
@@ -60,8 +63,8 @@ public class EditScheduleBillboard implements Serializable {
         return hour;
     }
 
-    public String getMinitue() {
-        return minitue;
+    public String getMinute() {
+        return minute;
     }
 
     public String getYear() {

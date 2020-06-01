@@ -2,12 +2,15 @@ package cab302.server.WillBeControlPanelAction;
 
 import java.io.Serializable;
 
+/**
+ * Request removing billboard to server and the server get sessiontoken, month, date, hour, minute and billboard title from client
+ */
 public class RemoveBillboardRequest implements Serializable {
     private String billboardname;
     private String month;
     private String date;
     private String hour;
-    private String minitue;
+    private String minute;
     private String sessionToken;
 
     public RemoveBillboardRequest(String billboardname, String sessionToken, String month, String date, String hour) {
@@ -16,7 +19,7 @@ public class RemoveBillboardRequest implements Serializable {
         this.month = month;
         this.date = date;
         this.hour = hour;
-        this.minitue = minitue;
+        this.minute = minute;
 
     }
 
@@ -40,8 +43,8 @@ public class RemoveBillboardRequest implements Serializable {
         return hour;
     }
 
-    public String getMinitue() {
-        return minitue;
+    public String getMinute() {
+        return minute;
     }
 }
 

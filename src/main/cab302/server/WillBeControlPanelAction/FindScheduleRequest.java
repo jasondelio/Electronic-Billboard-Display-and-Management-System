@@ -1,7 +1,9 @@
 package cab302.server.WillBeControlPanelAction;
 
 import java.io.Serializable;
-
+/**
+ * Request finding schedule to server and the server get sessiontoken, creator, time, duration time and billnboard name from client
+ */
 public class FindScheduleRequest  implements Serializable {
     private String sessiontoken;
     private String title;

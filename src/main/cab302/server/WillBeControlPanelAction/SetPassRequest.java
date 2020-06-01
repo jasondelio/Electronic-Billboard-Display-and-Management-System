@@ -1,7 +1,9 @@
 package cab302.server.WillBeControlPanelAction;
 
 import java.io.Serializable;
-
+/**
+ * Request setting password to server and the server get sessiontoken, name, username, email, hashedpassword and previousUsername from client
+ */
 public class SetPassRequest implements Serializable {
     private String name;
     private String username;

@@ -2,6 +2,9 @@ package cab302.server.WillBeControlPanelAction;
 
 import java.io.Serializable;
 
+/**
+ * Request creating billboard to server and the server get billboard name, billboard content and sessiontoken in username from client
+ */
 public class CreateBillboardRequest implements Serializable {
     private String billboardname;
     private String billboardContent;

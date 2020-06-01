@@ -3,6 +3,9 @@ package cab302.server.WillBeControlPanelAction;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Request creating user to server and the server get sessiontoken, email, permissionslist ,username and password from client
+ */
 public class CreateUsersRequest implements Serializable {
     private String sessionToken;
     private String username;

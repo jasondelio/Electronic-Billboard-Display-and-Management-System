@@ -5,7 +5,7 @@ import cab302.database.billboard.BillboardInfo;
 import java.io.Serializable;
 
 /**
- * Replying to client and client is able to retrieve the billboard list model
+ * Replying to client and client is able to retrieve the billboarddInfo
  */
 public class ViewerReply implements Serializable {
     private BillboardInfo billboardInfo;

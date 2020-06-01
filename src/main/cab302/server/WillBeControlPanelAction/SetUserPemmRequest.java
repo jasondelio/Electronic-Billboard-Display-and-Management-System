@@ -3,6 +3,9 @@ package cab302.server.WillBeControlPanelAction;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+/**
+ * Request setting user permissions to server and the server get sessiontoken, username, email and permissions from client
+ */
 public class SetUserPemmRequest implements Serializable {
     private String username;
     private String sessionToken;

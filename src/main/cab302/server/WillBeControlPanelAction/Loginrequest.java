@@ -3,6 +3,9 @@ package cab302.server.WillBeControlPanelAction;
 import java.io.Serializable;
 import java.util.Date;
 
+/**
+ * Request login to server and the server get password, logintime and username from client
+ */
 public class Loginrequest implements Serializable {
     private String username;
     private String password;
