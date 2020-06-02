@@ -2,6 +2,9 @@ package cab302.database.RemovedSchedule;
 
 import java.io.Serializable;
 
+/**
+ * Class of removed schedule information
+ */
 public class RemovedScheduleInfo implements Comparable<RemovedScheduleInfo>, Serializable {
     private String year;
 
@@ -23,15 +26,9 @@ public class RemovedScheduleInfo implements Comparable<RemovedScheduleInfo>, Ser
 
     private String recur;
 
-
+    public RemovedScheduleInfo(){};
     /**
-     *
-     */
-    public RemovedScheduleInfo() {
-    }
-
-    /**
-     *
+     * Constructor of removed schedule information
      */
     public RemovedScheduleInfo(String boardtitle, String creator, String year, String month, String date, String hour, String minute, String durationHr,
                                String durationMin, String recur) {
@@ -49,46 +46,46 @@ public class RemovedScheduleInfo implements Comparable<RemovedScheduleInfo>, Ser
 
 
     /**
-     *
+     * get billboard title
      */
     public String getBoardTitle() {
         return boardtitle;
     }
 
     /**
-     *
+     * set billboard title
      */
     public void setBoardTitle(String boardtitle) {
             this.boardtitle = boardtitle;
         }
     /**
-     *
+     * get creator
      */
     public String getCreator() {
             return creator;
         }
     /**
-     *
+     * set creator
      */
     public void setCreator(String creator) {
             this.creator = creator;
         }
     /**
-     *
+     * get date
      */
     public String getDate() {
             return date;
         }
 
     /**
-     *
+     * set date
      */
     public void setDate(String date) {
             this.date = date;
         }
 
     /**
-     *
+     * get month
      */
     public String getMonth() {
             return month;
@@ -96,14 +93,14 @@ public class RemovedScheduleInfo implements Comparable<RemovedScheduleInfo>, Ser
 
 
     /**
-     * @param
+     * set month
      */
     public void setMonth(String month) {
         this.month = month;
     }
 
     /**
-     *
+     * get year
      */
     public String getYear() {
         return year;
@@ -111,7 +108,7 @@ public class RemovedScheduleInfo implements Comparable<RemovedScheduleInfo>, Ser
 
 
     /**
-     * @param
+     * set year
      */
     public void setYear(String year) {
         this.year = year;
@@ -119,84 +116,84 @@ public class RemovedScheduleInfo implements Comparable<RemovedScheduleInfo>, Ser
 
 
     /**
-     * @return
+     * get hour
      */
     public String getHour() {
         return hour;
     }
 
     /**
-     *
+     * set hour
      */
     public void setHour(String hour) {
             this.hour = hour;
         }
 
     /**
-     * @return
+     *  get minute
      */
     public String getMinute() {
         return minute;
     }
 
     /**
-     *
+     * set minute
      */
     public void setMinute(String minute) {
         this.minute = minute;
     }
 
     /**
-     * @return
+     *  get Duration hour
      */
     public String getDuHr() {
         return durationHr;
     }
 
     /**
-     *
+     * set Duration hour
      */
     public void setDuHr(String duHr) {
         this.durationHr = duHr;
     }
 
     /**
-     * @return
+     *  get Duration minute
      */
     public String getDuMin() {
         return durationMin;
     }
 
     /**
-     *
+     * set Duration minute
      */
     public void setDuMin(String duMin) {
         this.durationMin = duMin;
     }
 
     /**
-     * @return
+     *  get recur
      */
     public String getRecur() {
         return recur;
     }
 
     /**
-     *
+     * set recur
      */
     public void setRecur(String recur) {
         this.recur = recur;
     }
 
     /**
-     *
+     * compare
      */
     public int compareTo(RemovedScheduleInfo other) {
         return this.month.compareTo(other.month);
     }
 
     /**
-     *
+     * set to string
      */
     public String toString() {
         return boardtitle + " " + creator + " " + year + " " + month + " " + date + " " + hour + " " + minute + " " +

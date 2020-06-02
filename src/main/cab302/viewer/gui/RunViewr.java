@@ -4,8 +4,13 @@ import javax.swing.*;
 import java.io.IOException;
 import java.util.Timer;
 
+
+/**
+ * Class running Viewer Gui
+ */
 public class RunViewr {
     private static void createAndShowGUI(Gui GUI) throws IOException, ClassNotFoundException{
+        // set timer to update 15 seconds
         Timer time = new Timer();
         time.scheduleAtFixedRate(new Timer15(GUI),15000,15000);
     }

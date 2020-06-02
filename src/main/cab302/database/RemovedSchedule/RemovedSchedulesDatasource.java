@@ -56,6 +56,10 @@ public class RemovedSchedulesDatasource implements RemovedScheduleSources {
 
         System.out.println("Table created");
     }
+
+    /**
+     * delete schedule info
+     */
     public void delateSchedules(String title) {
         try {
             delateSchedules.setString(1, title);
@@ -65,7 +69,7 @@ public class RemovedSchedulesDatasource implements RemovedScheduleSources {
         }
     }
     /**
-     * @see
+     * create schedule
      */
     public void createSchedule(RemovedScheduleInfo b) {
         try {
@@ -86,7 +90,7 @@ public class RemovedSchedulesDatasource implements RemovedScheduleSources {
     }
 
     /**
-     * @see
+     * get removed schedule info
      */
     public RemovedScheduleInfo getSchedule(String title, String year, String month, String date,String hour, String minute, String durationHr, String durationMin) {
         RemovedScheduleInfo b = new RemovedScheduleInfo();
@@ -119,7 +123,7 @@ public class RemovedSchedulesDatasource implements RemovedScheduleSources {
         return b;
     }
     /**
-     * @see
+     * title set
      */
     public Set<String> titleSet() {
         Set<String> titles = new TreeSet<String>();
