@@ -25,6 +25,8 @@ public class CloseAction extends AbstractAction {
     public void actionPerformed(ActionEvent e) {
         for (Frame frame : JFrame.getFrames()) {
             frame.dispose();
+            RunViewr run = new RunViewr();
+            run.time.cancel();
         }
     }
 }

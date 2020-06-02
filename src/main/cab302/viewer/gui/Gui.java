@@ -74,7 +74,7 @@ public class Gui extends JFrame {
 
         // Set layout and default closing
         GridBagLayout layout = new GridBagLayout();
-        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(layout);
 
         // Utilities and Actions
@@ -98,6 +98,8 @@ public class Gui extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 for (Frame frame : Frame.getFrames()) {
                     frame.dispose();
+                    RunViewr run = new RunViewr();
+                    run.time.cancel();
                 }
             }
 

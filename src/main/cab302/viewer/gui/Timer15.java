@@ -18,6 +18,7 @@ public class Timer15 extends TimerTask {
                 GUI.dispose();
                 GUI = new Gui();
                 GUI.setVisible(true);
+
             } catch (IOException e) {
                 e.printStackTrace();
             } catch (ClassNotFoundException e) {

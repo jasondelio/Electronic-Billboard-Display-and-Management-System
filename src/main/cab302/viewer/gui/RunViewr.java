@@ -9,9 +9,10 @@ import java.util.Timer;
  * Class running Viewer Gui
  */
 public class RunViewr {
+    public static Timer time;
     private static void createAndShowGUI(Gui GUI) throws IOException, ClassNotFoundException{
         // set timer to update 15 seconds
-        Timer time = new Timer();
+        time = new Timer();
         time.scheduleAtFixedRate(new Timer15(GUI),15000,15000);
     }
     public static void main(String[] args) {
