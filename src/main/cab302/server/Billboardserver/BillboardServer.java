@@ -23,14 +23,20 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-
+/**
+ * Server connecting database and two applications
+ */
 public class BillboardServer {
     // from week 10 Q and A session
     public static HashMap<String, String> validSessionTokens = new HashMap<>();
     public static HashMap<String, Date> TimeSessionTokensmade = new HashMap<>();
     private static String port;
+
     /**
-     * Server connecting database and two applications
+     * Main running the server
+     * @throws IOException
+     * @throws ClassNotFoundException
+     * @throws NoSuchAlgorithmException
      */
     public static void main(String[] args) throws IOException, ClassNotFoundException, NoSuchAlgorithmException {
         // waiting connection from GUIs with listening port
@@ -68,8 +74,6 @@ public class BillboardServer {
             if (o instanceof Loginrequest){
                 // get login request from Control Panel
                 Loginrequest loginrequest = (Loginrequest) o;
-                System.out.printf("User try to login with username %s and hasedpassword %s\n",
-                        loginrequest.getUsername(), loginrequest.getPassword());
 
                 //get user information from database
                 UserInfo u = data.get(loginrequest.getUsername());
@@ -106,7 +110,6 @@ public class BillboardServer {
                 // if the sessiontoken is not expired yet, send the user with the sessinotoken info will be sent to
                 // control panel
                 UserLoggedInrequest userLoggedInrequest = (UserLoggedInrequest) o;
-                System.out.printf("User try to get already logged in user information  ");
                 String sessionToken = userLoggedInrequest.getSessionToken();
                 //check if the session token is exired or not
                 if (isSessionTokenExpired(sessionToken) == false) {
@@ -135,7 +138,6 @@ public class BillboardServer {
             }else if (o instanceof sessionExistRequest){
                 // check if a sessiontoken is exist in the sessiontoken Hashmap.
                 sessionExistRequest ser = (sessionExistRequest) o;
-                System.out.printf("User try to get session token");
                 SessionExistReply reply;
                 if (validSessionTokens.keySet().isEmpty()){
                     // if the Hashmap is empty return null
@@ -152,7 +154,6 @@ public class BillboardServer {
                 // request getting the billboard info with sessiontoken and the billboard title
                 BillboardRequest br = (BillboardRequest) o;
                 String sessionToken =  br.getSessionToken();
-                System.out.println("client requested billboard content with token :"+ sessionToken);
                 // check if the session token is exired or not
                 if (isSessionTokenExpired(sessionToken) == false) {
                     // check if the session token is valid or not
@@ -179,7 +180,6 @@ public class BillboardServer {
                 // requesting list billboard
                 ListBillboardRequest lbr =(ListBillboardRequest) o;
                 String sessionToken = lbr.getSessionToken();
-                System.out.println("client requested billboard lists with token :" + sessionToken);
                 // check if the session token is exired or not
                 if (isSessionTokenExpired(sessionToken) == false) {
                     // check if the session token is valid or not
@@ -204,7 +204,6 @@ public class BillboardServer {
                 // request creating billboard
                 CreateBillboardRequest cbbr =(CreateBillboardRequest) o;
                 String sessionToken = cbbr.getSessionToken();
-                System.out.println("client requested creating lists with token :"+ sessionToken);
                 String results = null;
                 // check if the session token is exired or not
                 if (isSessionTokenExpired(sessionToken) == false) {
@@ -240,7 +239,6 @@ public class BillboardServer {
                 // request editing the billboard
                 EditBillboardRequest ebbr =(EditBillboardRequest) o;
                 String sessionToken = ebbr.getSessionToken();
-                System.out.println("client requested creating lists with token :"+ sessionToken);
                 String results = null;
                 // check if the session token is exired or not
                 if (isSessionTokenExpired(sessionToken) == false) {
@@ -290,9 +288,9 @@ public class BillboardServer {
                 }
             }
             else if(o instanceof DeleteBillboardRequest){
+                // request deleting billboard
                 DeleteBillboardRequest dbbr =(DeleteBillboardRequest) o;
                 String sessionToken = dbbr.getSessionToken();
-                System.out.println("client requested delating billboard with token :"+ sessionToken);
                 String results = null;
                 // check if the session token is exired or not
                 if (isSessionTokenExpired(sessionToken) == false) {
@@ -450,7 +448,6 @@ public class BillboardServer {
             else if(o instanceof ScheduleBillboardRequest){
                 ScheduleBillboardRequest sbbr =(ScheduleBillboardRequest) o;
                 String sessionToken = sbbr.getSessionToken();
-                System.out.println("client requested scheduling the billboard with token :"+ sessionToken);
                 // check if the session token is exired or not
                 if (isSessionTokenExpired(sessionToken) == false) {
                     // check if the session token is valid or not
@@ -459,14 +456,9 @@ public class BillboardServer {
                         UserInfo nu = data.get(currentUser);
                         String results = null;
                         if (nu.getScheduleBillboards().equals("true")) {
-                            // if current user has "schedule permission", the user will try to schedule the billboard with below information.
-
-                            // get the schedule information from schdule database with bellow all information of schedule
+                            // schedule billboard to schedule database with bellow all information of schedule
                             ScheduleInfo new_schedule = new ScheduleInfo(sbbr.getBillboardname(), sbbr.getCreator(), sbbr.getYear(), sbbr.getMonth(), sbbr.getDate(),
                                     sbbr.getHour(), sbbr.getMinitue(), sbbr.getDurationHr(), sbbr.getDurationMin(), sbbr.getRecur());
-//                            System.out.println(isAlreadyRemodeOnce(new_schedule,removedScheduleData));
-//                            System.out.println(scheduleData.findSameSchedule(sbbr.getBillboardname(), sbbr.getMonth(), sbbr.getDate(),
-//                                    sbbr.getHour(), sbbr.getMinitue(), sbbr.getDurationHr(), sbbr.getDurationMin(), sbbr.getRecur()).getDuMin());
 
                             if (scheduleData.findSameSchedule(sbbr.getBillboardname(), sbbr.getMonth(), sbbr.getDate(),
                                     sbbr.getHour(), sbbr.getMinitue(), sbbr.getDurationHr(), sbbr.getDurationMin(), sbbr.getRecur()).getDuMin() != null){
@@ -497,9 +489,9 @@ public class BillboardServer {
                 }
             }
             else if(o instanceof RecurScheduleBillboardRequest){
+                // For recurring schedule
                 RecurScheduleBillboardRequest rsbr =(RecurScheduleBillboardRequest) o;
                 String sessionToken = rsbr.getSessionToken();
-                System.out.println("client requested scheduling the billboard with token :"+ sessionToken);
                 // check if the session token is exired or not
                 if (isSessionTokenExpired(sessionToken) == false) {
                     // check if the session token is valid or not
@@ -508,15 +500,9 @@ public class BillboardServer {
                         UserInfo nu = data.get(currentUser);
                         String results = null;
                         if (nu.getScheduleBillboards().equals("true")) {
-                            // if current user has "schedule permission", the user will try to schedule the billboard with below information.
-
-                            // get the schedule information from schdule database with bellow all information of schedule
+                            // make new schedule information with bellow all information of schedule
                             ScheduleInfo new_schedule = new ScheduleInfo(rsbr.getBillboardname(), rsbr.getCreator(), rsbr.getYear(), rsbr.getMonth(), rsbr.getDate(),
                                     rsbr.getHour(), rsbr.getMinitue(), rsbr.getDurationHr(), rsbr.getDurationMin(), rsbr.getRecur());
-//                            System.out.println(isAlreadyRemodeOnce(new_schedule,removedScheduleData));
-//                            System.out.println(scheduleData.findSameSchedule(sbbr.getBillboardname(), sbbr.getMonth(), sbbr.getDate(),
-//                                    sbbr.getHour(), sbbr.getMinitue(), sbbr.getDurationHr(), sbbr.getDurationMin(), sbbr.getRecur()).getDuMin());
-
                             // check if the schedule is already removed or not by checking the history of removed once
                             if (isAlreadyRemodeOnce(new_schedule,removedScheduleData)){
                                 // if the schedule is already removed once, the schedule cannot be scheduled.
@@ -551,9 +537,9 @@ public class BillboardServer {
                 }
             }
             else if(o instanceof EditScheduleBillboard){
+                // request Editing billboard schedule
                 EditScheduleBillboard esbb =(EditScheduleBillboard) o;
                 String sessionToken = esbb.getSessionToken();
-                System.out.println("client requested editing the billboard with token :"+ sessionToken);
                 // check if the session token is exired or not
                 if (isSessionTokenExpired(sessionToken) == false) {
                     // check if the session token is valid or not
@@ -564,7 +550,6 @@ public class BillboardServer {
                         if (nu.getScheduleBillboards().equals("true")) {
                             // if current user has "schedule permission", the user will try to edit the schedule of the billboard with below information.
                             ScheduleInfo previousSche = scheduleData.findSchedule(esbb.getBillboardname(), esbb.getMonth(),esbb.getDate(), esbb.getHour());
-//                            System.out.println(previousSche);
 
                             if(previousSche.getDuHr().equals(esbb.getDurationHr()) && previousSche.getMinute().equals(esbb.getMinute())
                                     && previousSche.getDuMin().equals(esbb.getDurationMin())){
@@ -590,16 +575,6 @@ public class BillboardServer {
                         } else {
                             results = "No permission";
                         }
-//                        System.out.println(esbb.getBillboardname());
-//                        System.out.println(esbb.getCreator());
-//                        System.out.println(esbb.getYear());
-//                        System.out.println(esbb.getMonth());
-//                        System.out.println(esbb.getDate());
-//                        System.out.println(esbb.getHour());
-//                        System.out.println(esbb.getMinitue());
-//                        System.out.println(esbb.getDurationHr());
-//                        System.out.println(esbb.getDurationMin());
-//                        System.out.println(esbb.getRecur());
                         AcknowledgeReply scheduleBillboardReply = new AcknowledgeReply(results);
                         oos.writeObject(scheduleBillboardReply);
                         oos.flush();
@@ -617,9 +592,9 @@ public class BillboardServer {
                 }
             }
             else if(o instanceof RemoveBillboardRequest){
+                // request removing billboard
                 RemoveBillboardRequest rbbr =(RemoveBillboardRequest) o;
                 String sessionToken = rbbr.getSessionToken();
-                System.out.println("client requested removing billboard from schedule with token :"+ sessionToken);
                 // check if the session token is exired or not
                 if (isSessionTokenExpired(sessionToken) == false) {
                     // check if the session token is valid or not
@@ -631,16 +606,8 @@ public class BillboardServer {
                             // if current user has "schedule permission", the user will try to delete the schedule
                             // of the billboard with below information.
                             ScheduleInfo new_sche = scheduleData.findSchedule(rbbr.getBillboardname(),rbbr.getMonth(), rbbr.getDate(),rbbr.getHour());
-//                            System.out.println(new_sche.getBoardTitle());
-//                            System.out.println(rbbr.getBillboardname());
-//                            System.out.println(new_sche.getMonth());
-//                            System.out.println(rbbr.getMonth());
-//                            System.out.println(new_sche.getDate());
-//                            System.out.println(rbbr.getDate());
-//                            System.out.println(new_sche.getHour());
-//                            System.out.println(rbbr.getHour());
 
-                            //enter the deleted schedule into the remove history database to aboid making the schedule in database
+                            // enter the deleted schedule into the remove history database to aboid making the schedule in database
                             // when  the calender gui try to make the table with recurring.
                             RemovedScheduleInfo delatedSched = new RemovedScheduleInfo(new_sche.getBoardTitle(),new_sche.getCreator(),new_sche.getYear(),
                                     new_sche.getMonth(),new_sche.getDate(),new_sche.getHour(),new_sche.getMinute(),new_sche.getDuHr(),new_sche.getDuMin(),
@@ -674,9 +641,9 @@ public class BillboardServer {
                 }
             }
             else if (o instanceof listUsersRequest) {
+                // request listing users
                 listUsersRequest lur =(listUsersRequest) o;
                 String sessionToken = lur.getSessionToken();
-                System.out.println("client requested user lists with token :"+ sessionToken);
                 UserInfo newu = data.get(getSessionUsername(sessionToken));
                 // check if the session token is exired or not
                 if (isSessionTokenExpired(sessionToken) == false) {
@@ -700,10 +667,9 @@ public class BillboardServer {
                 }
             }
             else if(o instanceof CreateUsersRequest){
+                // request creating user
                 CreateUsersRequest cur =(CreateUsersRequest) o;
                 String sessionToken = cur.getSessionToken();
-                System.out.println("client requested user creating with token :"+ sessionToken);
-                UserInfo u;
                 UserInfo newu = data.get(getSessionUsername(sessionToken));
                 // check if the session token is exired or not
                 if (isSessionTokenExpired(sessionToken) == false){
@@ -733,9 +699,9 @@ public class BillboardServer {
 
             }
             else if(o instanceof GetUserPemmRequest){
+                // request getting user permission
                 GetUserPemmRequest gupr =(GetUserPemmRequest) o;
                 String sessionToken = gupr.getSessionToken();
-                System.out.println("client requested getting user permissions with token :"+ sessionToken);
                 ArrayList<String> permissions = new ArrayList<>();
                 UserInfo per_u = null;
                 // check if the session token is exired or not
@@ -779,9 +745,9 @@ public class BillboardServer {
                 }
             }
             else if(o instanceof SetUserPemmRequest){
+                // request setting user permissions
                 SetUserPemmRequest supr =(SetUserPemmRequest) o;
                 String sessionToken = supr.getSessionToken();
-                System.out.println("client requested setting permissions with token :"+ sessionToken);
                 ArrayList<String> permissions = supr.getPermisssions();
                 String results = null;
                 // check if the session token is exired or not
@@ -829,6 +795,7 @@ public class BillboardServer {
                 }
             }
             else if(o instanceof SetPassRequest){
+                // request setting password, email or/and name
                 SetPassRequest spr = (SetPassRequest) o;
                 String hashedstar = getHashedPass("******");
                 String results = null;
@@ -882,10 +849,10 @@ public class BillboardServer {
                     oos.writeObject(reply);
                     oos.flush();
                 }
-            } else if(o instanceof DelateUserRequest){
-                DelateUserRequest dur =(DelateUserRequest) o;
+            } else if(o instanceof DeleteUserRequest){
+                // request deleting user
+                DeleteUserRequest dur =(DeleteUserRequest) o;
                 String sessiontoken = dur.getSessiontoken();
-                System.out.println("client requested setting permissions with token :"+ sessiontoken);
                 String results = null;
                 UserInfo del_u = data.get(getSessionUsername(dur.getSessiontoken()));
                 // check if the session token is exired or not
@@ -913,6 +880,7 @@ public class BillboardServer {
                     oos.flush();
                 }
             } else if(o instanceof LogoutUsersRequest){
+                // reqest log out the user
                 LogoutUsersRequest lour =(LogoutUsersRequest) o;
                 String sessiontoken = lour.getSessionToken();
                 System.out.println("client requested expired with token :"+ sessiontoken);
@@ -956,7 +924,6 @@ public class BillboardServer {
                 ScheduleInfo currentSche = new ScheduleInfo();
                 BillboardInfo billboardInfo = new BillboardInfo();
 
-                System.out.println(currentSchedules);
                 // find the current schedule in current hour and minute
                 for (int i = 0; i < currentSchedules.size();i++){
                     // if the second digits is 0, just use first digit to adopt computing below
@@ -1011,6 +978,7 @@ public class BillboardServer {
 
     /**
      * check if the sessionToken is valid or not
+     * @param sessionToken enter sessiontoken to confirm if the token is still in session tokens Hashmap
      */
     private static boolean isValidSessionToken(String sessionToken) {
         return validSessionTokens.containsKey(sessionToken);
@@ -1018,18 +986,19 @@ public class BillboardServer {
     /**
      * check if the schedule is already removed once or not. In our calendar gui, we always make schedule with following the recurring time.
      * To avoid writing already removed one, checking the schedule is already removed or not is necessary.
+     * @param sche SchduleInfo that is entering in schedule database
+     * @param data data from removed database
      */
-    private static boolean isAlreadyRemodeOnce(ScheduleInfo shce, RemovedScheduleData data) {
+    private static boolean isAlreadyRemodeOnce(ScheduleInfo sche, RemovedScheduleData data) {
         // get already removed schedule from remove histroy database
-        RemovedScheduleInfo removeOne = data.get(shce.getBoardTitle(),shce.getYear(),shce.getMonth(),shce.getDate(),shce.getHour(),shce.getMinute(),
-                shce.getDuHr(),shce.getDuMin());
-//        System.out.println(removeOne);
+        RemovedScheduleInfo removeOne = data.get(sche.getBoardTitle(),sche.getYear(),sche.getMonth(),sche.getDate(),sche.getHour(),sche.getMinute(),
+                sche.getDuHr(),sche.getDuMin());
         // check if the schedule is exist or not
         if (removeOne.getBoardTitle() != null){
-            if(removeOne.getBoardTitle().equals(shce.getBoardTitle()) && removeOne.getYear().equals(shce.getYear()) && removeOne.getMonth().equals(shce.getMonth())
-                    && removeOne.getDate().equals(shce.getDate()) && removeOne.getHour().equals(shce.getHour())
-                    && removeOne.getMinute().equals(shce.getMinute())  && removeOne.getDuHr().equals(shce.getDuHr())
-                    && removeOne.getDuMin().equals(shce.getDuMin())){
+            if(removeOne.getBoardTitle().equals(sche.getBoardTitle()) && removeOne.getYear().equals(sche.getYear()) && removeOne.getMonth().equals(sche.getMonth())
+                    && removeOne.getDate().equals(sche.getDate()) && removeOne.getHour().equals(sche.getHour())
+                    && removeOne.getMinute().equals(sche.getMinute())  && removeOne.getDuHr().equals(sche.getDuHr())
+                    && removeOne.getDuMin().equals(sche.getDuMin())){
                 // if the schedule which user try to make with recurring already in removed history, true
                 return  true;
             }
@@ -1044,6 +1013,7 @@ public class BillboardServer {
 
     /**
      * check if the session Token is expired or not with checking the current time and logged in time.
+     * @param sessionToken enter this to check if the acitino has not passed 24 hours from last action with this session token
      */
     private static boolean isSessionTokenExpired(String sessionToken) {
         Date newdate = new Date();
@@ -1059,6 +1029,7 @@ public class BillboardServer {
     }
     /**
      * get username with the sessinotoken
+     * @param sessionToken enter session token to get username
      */
     private static String getSessionUsername(String sessionToken) {
         return validSessionTokens.get(sessionToken);
@@ -1066,12 +1037,19 @@ public class BillboardServer {
 
     /**
      * get salt hashed pass from week 9 Q and A
+     * @param hashedpassword enter hashed password in controlpanel
+     * @param salt enter salt to hash password with salt
+     * @throws NoSuchAlgorithmException
      */
     private static String getSaltHashedPass (String hashedpassword, String salt) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         String SaltHashedPassword= bytesToString(md.digest((hashedpassword + salt).getBytes()));
         return SaltHashedPassword;
     }
+
+    /**
+     * convert bytes to string : from week 9 Q and A
+     */
     public static String bytesToString(byte[] hash){
         StringBuffer str_buff = new StringBuffer();
         for (byte b : hash){
@@ -1079,6 +1057,10 @@ public class BillboardServer {
         }
         return str_buff.toString();
     }
+
+    /**
+     * get session token string : from week 9 Q and A
+     */
     private static String getSessionTokenString() {
         Random rng = new Random();
         byte[] token_bytes = new byte[32];
@@ -1087,12 +1069,17 @@ public class BillboardServer {
         return token_str;
     }
     /**
-     * check if login success or not
+     * check if login success or not with comparing hashed ans salt password and the password in database
+     * @param dbpassword password in database
+     * @param password password which user try to login with
      */
     private static boolean loginSuccess(String dbpassword, String password){
         return password.equals(dbpassword);
     }
-    // get idea from week 9 assignment Q & A
+
+    /**
+     *  get idea from week 9 assignment Q & A
+     */
     private static String getSaltString() {
         Random rng = new Random();
         byte[] salt_bytes = new byte[32];
@@ -1100,6 +1087,11 @@ public class BillboardServer {
         String salt_str = bytesToString(salt_bytes);
         return salt_str;
     }
+
+    /**
+     *  get hashed password: from week 9 assignment Q & A
+     * @throws NoSuchAlgorithmException
+     */
     private static String getHashedPass(String password) throws NoSuchAlgorithmException {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         byte[] temp_byte = md.digest(password.getBytes());
@@ -1108,7 +1100,10 @@ public class BillboardServer {
         return hashedPassword;
     }
 
-    // read from network prop file
+    /**
+     *  read property file
+     * @throws IOException
+     */
     private static void getPropValues() throws IOException {
         Properties props = new Properties();
         FileInputStream in = null;

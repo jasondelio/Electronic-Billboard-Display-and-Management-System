@@ -1086,8 +1086,8 @@ public class HomeUI extends JFrame implements ActionListener {
      */
     private void deleteUserPressed() throws IOException, ClassNotFoundException {
         socketStart();
-        DelateUserRequest delateUserRequest = new DelateUserRequest((String) usernameList.getSelectedValue(), sessionToken);
-        oos.writeObject(delateUserRequest);
+        DeleteUserRequest deleteUserRequest = new DeleteUserRequest((String) usernameList.getSelectedValue(), sessionToken);
+        oos.writeObject(deleteUserRequest);
         oos.flush();
         Object transoO = ois.readObject();
         if (transoO instanceof AcknowledgeReply) {

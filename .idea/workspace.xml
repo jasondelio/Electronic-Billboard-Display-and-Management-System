@@ -3,11 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="f7ab41c5-c651-45b3-bca9-a3afafe74f5f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/cab302/db.props" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/db.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/CloseAction.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/CloseAction.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Gui.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/RunViewr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/RunViewr.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Timer15.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Timer15.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/BillboardServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/Billboardserver/BillboardServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/DelateUserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/WillBeControlPanelAction/DeleteUserRequest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -177,15 +176,15 @@
       <item itemvalue="Application.BillboardServer" />
       <item itemvalue="Application.Main" />
       <item itemvalue="Application.Run" />
+      <item itemvalue="Application.RunViewer" />
       <item itemvalue="JUnit.TestHexToRGB" />
       <item itemvalue="JUnit.TestImageGenerator" />
-      <item itemvalue="Application.RunViewer" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.RunViewer" />
-        <item itemvalue="Application.BillboardServer" />
         <item itemvalue="Application.Run" />
+        <item itemvalue="Application.BillboardServer" />
+        <item itemvalue="Application.RunViewer" />
         <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.TestImageGenerator" />
       </list>
@@ -329,10 +328,10 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="349" y="67" key="#com.intellij.openapi.projectRoots.ui.ProjectJdksEditor/0.0.1536.824@0.0.1536.824" timestamp="1590666676344" />
-    <state x="138" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1590821798406">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="90" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1591112907475">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="290" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.900@0.0.1440.900" timestamp="1589548262143" />
+    <state x="90" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1440.900@0.0.1440.900" timestamp="1591112907475" />
     <state x="138" y="0" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.0.1536.824@0.0.1536.824" timestamp="1590821798406" />
     <state x="458" y="205" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1589775364891">
       <screen x="0" y="0" width="1440" height="900" />
@@ -347,28 +346,28 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1590631837753" />
-    <state width="1398" height="210" key="GridCell.Tab.0.bottom" timestamp="1591092369471">
+    <state width="1398" height="149" key="GridCell.Tab.0.bottom" timestamp="1591112974291">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="210" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1591092369471" />
+    <state width="1398" height="149" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1591112974291" />
     <state width="1493" height="166" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590897158733" />
     <state width="1398" height="230" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
-    <state width="1398" height="210" key="GridCell.Tab.0.center" timestamp="1591092369465">
+    <state width="1398" height="149" key="GridCell.Tab.0.center" timestamp="1591112974290">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="210" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1591092369465" />
+    <state width="1398" height="149" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1591112974290" />
     <state width="1493" height="166" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590897158732" />
     <state width="1398" height="230" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1398" height="210" key="GridCell.Tab.0.left" timestamp="1591092369464">
+    <state width="1398" height="149" key="GridCell.Tab.0.left" timestamp="1591112974290">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="210" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1591092369464" />
+    <state width="1398" height="149" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1591112974290" />
     <state width="1493" height="166" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590897158732" />
     <state width="1398" height="230" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1398" height="210" key="GridCell.Tab.0.right" timestamp="1591092369470">
+    <state width="1398" height="149" key="GridCell.Tab.0.right" timestamp="1591112974291">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="210" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1591092369470" />
+    <state width="1398" height="149" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1591112974291" />
     <state width="1493" height="166" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590897158733" />
     <state width="1398" height="230" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1589560562660" />
     <state x="460" y="159" key="MultipleFileMergeDialog" timestamp="1590895965304">
@@ -390,10 +389,10 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="503" y="236" key="chooseDestDirectoryDialog/0.0.1440.900@0.0.1440.900" timestamp="1590576897762" />
-    <state x="374" y="300" key="com.intellij.ide.util.TipDialog" timestamp="1591083388217">
+    <state x="374" y="300" key="com.intellij.ide.util.TipDialog" timestamp="1591110684485">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="374" y="300" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1591083388217" />
+    <state x="374" y="300" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1591110684485" />
     <state x="374" y="300" key="com.intellij.ide.util.TipDialog/0.23.1440.877@0.23.1440.877" timestamp="1590653583888" />
     <state x="452" y="323" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1590668182140">
       <screen x="0" y="0" width="1536" height="824" />
