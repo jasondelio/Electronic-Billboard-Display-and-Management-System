@@ -18,6 +18,9 @@ import java.util.Properties;
 import static javax.swing.JOptionPane.ERROR_MESSAGE;
 import static javax.swing.JOptionPane.showMessageDialog;
 
+/**
+ * This class is for dialog of calendar to show the data of each date and set the new data for schedule database
+ */
 public class CustomDialog extends JDialog implements ActionListener {
 
     private JButton save;
@@ -73,10 +76,22 @@ public class CustomDialog extends JDialog implements ActionListener {
     ObjectOutputStream oos;
     ObjectInputStream ois;
 
-
+    /**
+     * Main method to call and set the dialog for customizing schedule
+     *
+     * @param Bg
+     * @param info
+     * @param year
+     * @param selectedTime
+     * @param billboards
+     * @param schedules
+     * @param duppleSchedules
+     * @param token
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public CustomDialog(JFrame Bg, String info, String year, int selectedTime, ListModel billboards, ListModel schedules, ListModel duppleSchedules, String token) throws IOException, ClassNotFoundException {
-//        this.data = data;
-////        this.boradData = boradData;
+
         bg = Bg;
         getPropValues();
         billboardLists = billboards;
@@ -87,16 +102,24 @@ public class CustomDialog extends JDialog implements ActionListener {
         cal = Calendar.getInstance();
         year1 = year;
 
+        /*
+        Set the date and month by using the title of dialog
+         */
         date = info.replace("/", " ").split(" ")[0];
         month = info.replace("/", " ").split(" ")[1];
 
         pnl = new JPanel();
         setTitle(info);
+        /*
+        Set layout by importing grid bag layout
+         */
         pnl.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         gbc.fill = GridBagConstraints.BOTH;
-
+        /*
+        Set the list of every schedule on selected date
+         */
         datalst = new JList(scheduleLists);
 
         setDisplay(date, month);
@@ -108,7 +131,9 @@ public class CustomDialog extends JDialog implements ActionListener {
 
         pnl.add(pnlList, gbc);
 
-        // name
+        /*
+        Billboard title and chooser box
+         */
         lblName = new JLabel("Billboard name");
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
@@ -124,7 +149,9 @@ public class CustomDialog extends JDialog implements ActionListener {
 
         pnl.add(billboardChooser, gbc);
 
-        // Creator
+        /*
+        Creator
+         */
         lblCreator = new JLabel("Creator");
         gbc.gridwidth = 1;
         gbc.gridheight = 1;
@@ -140,8 +167,10 @@ public class CustomDialog extends JDialog implements ActionListener {
         gbc.gridy = 8;
 
         pnl.add(creatorbox, gbc);
-        // time
 
+        /*
+        Time information - hour and minutes
+         */
         lblTime = new JLabel("Time");
         gbc.gridwidth = 1;
         gbc.gridx = 1;
@@ -175,6 +204,9 @@ public class CustomDialog extends JDialog implements ActionListener {
 
         pnl.add(lblMin, gbc);
 
+        /*
+        Recurrence set - Hours
+         */
         lblRecur = new JLabel("Recur duration");
         gbc.gridx = 1;
         gbc.gridy = 10;
@@ -193,7 +225,9 @@ public class CustomDialog extends JDialog implements ActionListener {
 
         pnl.add(lblRecur, gbc);
 
-        // Duration
+        /*
+        Duration - Hour and minutes
+         */
 
         lblduration = new JLabel("Duration");
         gbc.gridx = 1;
@@ -226,7 +260,9 @@ public class CustomDialog extends JDialog implements ActionListener {
         pnl.add(lblDuhour, gbc);
 
 
-        // Buttons
+        /*
+        Set buttons - new, save, edit, back to main, delete
+         */
         newbtn = new JButton("New");
         gbc.gridx = 1;
         gbc.gridy = 12;
@@ -261,6 +297,9 @@ public class CustomDialog extends JDialog implements ActionListener {
         add(pnl);
         pack();
 
+        /*
+        Add action listener to buttons
+         */
         newbtn.addActionListener(this);
         save.addActionListener(this);
         delete.addActionListener(this);
@@ -269,26 +308,23 @@ public class CustomDialog extends JDialog implements ActionListener {
 
 
 
-//        System.out.println(billboardLists);
-//        System.out.println("yeyey");
-//        System.out.println(billboardChooser.getSelectedItem());
-
-//        System.out.println(finalBillboardcreator);
+        /*
+        Set the specific action to billboard chooser as it needs to take the data from
+        billboard table as the billboard title and creator must be stored before modify the schedule data
+         */
         billboardChooser.addActionListener(e -> {
-//            if(billboardChooser.getSelectedItem().equals("HH")) {
-//                creatorbox.setText("H");
-//            }else
             if (billboardChooser.getSelectedItem().equals("")) {
                 creatorbox.setText("");
-            } else if (billboardChooser.getSelectedItem() != null
+            } // When the billboard title is selected
+            else if (billboardChooser.getSelectedItem() != null
                     && !billboardChooser.getSelectedItem().equals("")) {
-//                show(data.get(billboardChooser.getSelectedItem().toString()));
+                // Send the request to server to take items
                 try {
                     socketStart();
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                BillboardRequest billboardRequest = new BillboardRequest((String)billboardChooser.getSelectedItem(),sessionToken);
+                BillboardRequest billboardRequest = new BillboardRequest((String) billboardChooser.getSelectedItem(), sessionToken);
                 try {
                     oos.writeObject(billboardRequest);
                 } catch (IOException ex) {
@@ -309,7 +345,7 @@ public class CustomDialog extends JDialog implements ActionListener {
                     ex.printStackTrace();
                 }
                 String billboardcreator = null;
-                if (trans instanceof BillboardReply){
+                if (trans instanceof BillboardReply) {
                     BillboardReply reply = (BillboardReply) trans;
                     billboardcreator = reply.getCreator();
                 }
@@ -318,18 +354,25 @@ public class CustomDialog extends JDialog implements ActionListener {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
+                // After taking the information of billboard title and creator
+                // the creator text box must be set up automatically
                 creatorbox.setText(billboardcreator);
             }
         });
 
+        /*
+        Set the action of list of schedule at selected date as when the user selected each item of list,
+        the information must be returned on each boxes of schedule eg. time hour, minutes, durations and so on
+         */
         nameList.addListSelectionListener(e -> {
             if (nameList.getSelectedValue() != null) {
+                // Send the request to server to take items
                 try {
                     socketStart();
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                FindScheduleRequest findScheduleRequest = new FindScheduleRequest(sessionToken,nameList.getSelectedValue().toString().split(" ")[0], month ,date,
+                FindScheduleRequest findScheduleRequest = new FindScheduleRequest(sessionToken, nameList.getSelectedValue().toString().split(" ")[0], month, date,
                         nameList.getSelectedValue().toString().split(" ")[2]);
                 try {
                     oos.writeObject(findScheduleRequest);
@@ -360,62 +403,99 @@ public class CustomDialog extends JDialog implements ActionListener {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
+                // Show the information of selected schedule
                 show(schedule);
             }
         });
         setVisible(true);
     }
 
+    /**
+     * Get the data of props for server
+     *
+     * @throws IOException
+     */
+    private static void getPropValues() throws IOException {
+        Properties props = new Properties();
+        FileInputStream in = null;
+        try {
+            in = new FileInputStream("src/main/cab302/network.props");
+            props.load(in);
+            in.close();
+            // get the property value and print it out
+            port = props.getProperty("port");
+        } catch (Exception e) {
+            System.out.println("Exception: " + e);
+        }
+    }
+
+    /**
+     * Set the combo box for selecting the titles and creator
+     *
+     * @return billboardChooser
+     */
     public JComboBox setBillboardChooser() {
         billboardChooser = new JComboBox();
         chooserBox = new DefaultComboBoxModel<>();
 
-        // For testing new name and creator set of database as name and creator have to be set in Home UI
-//        chooserBox.addElement("HH");
-//        System.out.println(billboardLists.getSize());
         for (int i = 0; i < billboardLists.getSize(); i++)
-            chooserBox.addElement(billboardLists.getElementAt(i));
+            chooserBox.addElement(billboardLists.getElementAt(i)); // Add every titles from billboard database into combo box
 
         billboardChooser.setModel(chooserBox);
 
-//        x.add(monthChooser);
         return billboardChooser;
     }
 
+    /**
+     * Set the display of schedule list
+     *
+     * @param date
+     * @param month
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     public void setDisplay(String date, String month) throws IOException, ClassNotFoundException {
 
         model = new DefaultListModel();
 
-
-//        JList tempData = datalst;
-
         int[] d = new int[schedulDuple.getSize()];
         int index = 0;
 
+        /*
+        While the index is same wilt the size of schedule, get the information of schedule that are
+        title, time, hour, duration and frequency of recurrence to show on the Jlist
+         */
         while (index < schedulDuple.getSize()) {
+            // Send the request to server to take the data
             socketStart();
-            GetIndexSchedule gis = new GetIndexSchedule(sessionToken,index);
+            GetIndexSchedule gis = new GetIndexSchedule(sessionToken, index);
             oos.writeObject(gis);
             oos.flush();
 
             Object transo = ois.readObject();
             ScheduleInfo schedule = new ScheduleInfo();
-            if (transo instanceof FindScheduleReply){
+            if (transo instanceof FindScheduleReply) {
                 FindScheduleReply reply = (FindScheduleReply) transo;
                 schedule = reply.getScheduleInfo();
             }
             socketStop();
+
+            // If the schedule date and month are same with selected date and month,
+            // store the index of schedule into list of d
             if (schedule.getDate().equals(date) &&
                     schedule.getMonth().equals(month)) {
                 d[index] = index;
             } else {
                 d[index] = -1;
             }
+            // If the data at index is not null
             if (d[index] != -1) {
                 String setrehrs = schedule.getRecur();
+                // If the recurrence is not set
                 if (schedule.getRecur() == null || schedule.getRecur().equals("")) {
                     setrehrs = "0";
                 }
+                // Set the printing value of string
                 String value = schedule.getBoardTitle() + " - "
                         + schedule.getHour()
                         + " : " + schedule.getMinute()
@@ -433,7 +513,11 @@ public class CustomDialog extends JDialog implements ActionListener {
         pnlList = new JScrollPane(nameList);
     }
 
-
+    /**
+     * To show the information on every textbox by selecting the list
+     *
+     * @param s
+     */
     private void show(ScheduleInfo s) {
         if (s != null) {
             billboardChooser.setSelectedItem(s.getBoardTitle());
@@ -446,6 +530,9 @@ public class CustomDialog extends JDialog implements ActionListener {
         }
     }
 
+    /**
+     * Clear every textbox
+     */
     private void clearFields() {
         billboardChooser.setSelectedIndex(0);
         minbox.setText("");
@@ -455,24 +542,21 @@ public class CustomDialog extends JDialog implements ActionListener {
         creatorbox.setText("");
     }
 
-    private void setFieldsEditable(boolean editable) {
-        minbox.setEditable(editable);
-        duHrbox.setEditable(editable);
-        duMinbox.setEditable(editable);
-        recurbox.setEditable(editable);
-    }
-
-
+    /**
+     * Set action performances of buttons
+     *
+     * @param e
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
-//        dispose();
         JButton act = (JButton) e.getSource();
 
+        // When new button is clicked
         if (act == newbtn) {
             clearFields();
             recurbox.setEditable(true);
             save.setEnabled(true);
-        } else if (act == save) {
+        } else if (act == save) { // When save button is clicked
             try {
                 savePressed();
             } catch (IOException ex) {
@@ -481,7 +565,7 @@ public class CustomDialog extends JDialog implements ActionListener {
                 ex.printStackTrace();
             }
             dispose();
-        } else if (act == edit) {
+        } else if (act == edit) { // When edit button is clicked
             try {
                 editPressed();
             } catch (IOException ex) {
@@ -490,9 +574,8 @@ public class CustomDialog extends JDialog implements ActionListener {
                 ex.printStackTrace();
             }
             dispose();
-//            setDisplay(date, month);
 
-        } else if (act == delete) {
+        } else if (act == delete) { // When delete button is clicked
             try {
                 deletePressed();
             } catch (IOException ex) {
@@ -501,176 +584,182 @@ public class CustomDialog extends JDialog implements ActionListener {
                 ex.printStackTrace();
             }
             dispose();
-//            setDisplay(date, month);
 
-        } else if (act == close) {
+        } else if (act == close) { // When close button is clicked
             dispose();
         }
     }
 
+    /**
+     * When the save button is pressed
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     private void savePressed() throws IOException, ClassNotFoundException {
         billboardChooser.setEditable(false);
+        // When the hour + duration is over midnight
         if (Integer.parseInt(duHrbox.getText()) + Integer.parseInt(hourbox.getText()) > 24) {
             showMessageDialog(null, "Duration cannot be over selected date", "Title", ERROR_MESSAGE);
             clearFields();
             bg.dispose();
-        } else if(duHrbox.getText().length() <= 1 || duHrbox.getText().length() > 2) {
+        } // If the inputs are not 2 digits
+        else if (duHrbox.getText().length() <= 1 || duHrbox.getText().length() > 2) {
             showMessageDialog(null, "Input must be 2 digits eg.00, 01,...,12", "Title", ERROR_MESSAGE);
             clearFields();
             bg.dispose();
-        }else if(duMinbox.getText().length() <= 1 || duMinbox.getText().length() > 2) {
+        }// If the inputs are not 2 digits
+        else if (duMinbox.getText().length() <= 1 || duMinbox.getText().length() > 2) {
             showMessageDialog(null, "Input must be 2 digits eg.00, 01,...,12", "Title", ERROR_MESSAGE);
             clearFields();
             bg.dispose();
         }
-
+        // If the recurrence is lesser than duration
         else if (!recurbox.getText().equals("") && recurbox.getText() != null && Integer.parseInt(recurbox.getText()) < Integer.parseInt(duHrbox.getText())) {
-//                if(Integer.parseInt(recurbox.getText()) < Integer.parseInt(duHrbox.getText()))
-//            {
+
             showMessageDialog(null, "Recurring time cannot be lesser than duration", "Title", ERROR_MESSAGE);
             clearFields();
             bg.dispose();
-//            }
-        } else if (billboardChooser.getSelectedItem() != null && !billboardChooser.getSelectedItem().equals("") &&
+        } // When the entered information is enough to create the new schedule
+        else if (billboardChooser.getSelectedItem() != null && !billboardChooser.getSelectedItem().equals("") &&
                 hourbox.getText() != null && !hourbox.getText().equals("")
                 && minbox.getText() != null && !minbox.getText().equals("")
                 && duHrbox.getText() != null && !duHrbox.getText().equals("")
                 && duMinbox.getText() != null && !duMinbox.getText().equals("")) {
             socketStart();
-            ScheduleBillboardRequest scheduleBillboardRequest = new ScheduleBillboardRequest(String.valueOf(billboardChooser.getSelectedItem()),creatorbox.getText(),
+            ScheduleBillboardRequest scheduleBillboardRequest = new ScheduleBillboardRequest(String.valueOf(billboardChooser.getSelectedItem()), creatorbox.getText(),
                     year1, month, date, String.valueOf(time), minbox
                     .getText(), sessionToken, duHrbox.getText(), duMinbox.getText(), recurbox.getText());
             oos.writeObject(scheduleBillboardRequest);
             oos.flush();
             Object trans = ois.readObject();
-            if (trans instanceof AcknowledgeReply){
+            if (trans instanceof AcknowledgeReply) {
                 AcknowledgeReply reply = (AcknowledgeReply) trans;
                 System.out.println(reply.getAcknowledgement());
             }
             socketStop();
-//            data.add(s);
+            // Remove all elements of list for next dialog
             model.removeAllElements();
             bg.dispose();
-//            setDisplay(date, month);
         }
     }
 
+    /**
+     * When the edit button is pressed
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     private void editPressed() throws IOException, ClassNotFoundException {
+        /*
+        Same four conditions for the time and inputs with save button, another new condition is when the billboard title is same
+         */
         if (Integer.parseInt(duHrbox.getText()) + Integer.parseInt(duMinbox.getText()) + time > 24) {
             showMessageDialog(null, "Duration cannot be over selected date", "Title", ERROR_MESSAGE);
             clearFields();
             bg.dispose();
-        } else if (!billboardChooser.getSelectedItem().toString().equals(nameList.getSelectedValue().toString().split(" ")[0])){
-           showMessageDialog(null, "Billboard name should be same !", "Title", ERROR_MESSAGE);
-           clearFields();
-           bg.dispose();
-        }else if(duHrbox.getText().length() <= 1 || duHrbox.getText().length() > 2) {
+        } else if (!billboardChooser.getSelectedItem().toString().equals(nameList.getSelectedValue().toString().split(" ")[0])) {
+            showMessageDialog(null, "Billboard name should be same !", "Title", ERROR_MESSAGE);
+            clearFields();
+            bg.dispose();
+        } else if (duHrbox.getText().length() <= 1 || duHrbox.getText().length() > 2) {
             showMessageDialog(null, "Input must be 2 digits eg.00, 01,...,12", "Title", ERROR_MESSAGE);
             clearFields();
             bg.dispose();
 
-        }else if(duMinbox.getText().length() <= 1 || duMinbox.getText().length() > 2) {
+        } else if (duMinbox.getText().length() <= 1 || duMinbox.getText().length() > 2) {
             showMessageDialog(null, "Input must be 2 digits eg.00, 01,...,12", "Title", ERROR_MESSAGE);
             clearFields();
             bg.dispose();
 
         }
-//        else if (!recurbox.getText().equals("")){
-//            if ( Integer.parseInt(recurbox.getText()) < Integer.parseInt(duHrbox.getText()) + Integer.parseInt(duMinbox.getText())) {
-//            showMessageDialog(null, "Recurring time cannot be lesser than duration", "Title", ERROR_MESSAGE);
-//            clearFields();
-//                bg.dispose();
-//
-//            }
-//        }
+        // When the entered information is enough to edit the schedule
         else if (billboardChooser.getSelectedItem() != null && !billboardChooser.getSelectedItem().equals("") &&
                 hourbox.getText() != null && !hourbox.getText().equals("")
                 && minbox.getText() != null && !minbox.getText().equals("")) {
-//            if (minbox.getText() && hourbox.getText() && duHrbox.getText() && duMinbox.getText())
             socketStart();
             EditScheduleBillboard esbr = new EditScheduleBillboard(sessionToken, String.valueOf(billboardChooser.getSelectedItem()), creatorbox.getText(), year1, month, date, hourbox.getText(), minbox
                     .getText(),  duHrbox.getText(), duMinbox.getText(), recurbox.getText());
             oos.writeObject(esbr);
             oos.flush();
             Object trans = ois.readObject();
-            if (trans instanceof AcknowledgeReply){
+            if (trans instanceof AcknowledgeReply) {
                 AcknowledgeReply reply = (AcknowledgeReply) trans;
                 System.out.println(reply.getAcknowledgement());
             }
             socketStop();
-//            data.edit(billboardChooser.getSelectedItem().toString(), creatorbox.getText(), month, date, String.valueOf(time), minbox
-//                    .getText(), duHrbox.getText(), duMinbox.getText(), recurbox.getText());
+            // Remove all elements of list for next dialog
             model.removeAllElements();
             bg.dispose();
-//            setDisplay(date, month);
         }
     }
 
+    /**
+     * When the delete button is pressed
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
     private void deletePressed() throws IOException, ClassNotFoundException {
+        // When the selected information is enough to delete the schedule
         if ((billboardChooser.getSelectedItem() != null && !billboardChooser.getSelectedItem().equals("") &&
                 hourbox.getText() != null && !hourbox.getText().equals("")
                 && minbox.getText() != null && !minbox.getText().equals("")
                 && duHrbox.getText() != null && !duHrbox.getText().equals("")
-                && duMinbox.getText() != null && !duMinbox.getText().equals("") ) ){
-            if(String.valueOf(billboardChooser.getSelectedItem()).equals(nameList.getSelectedValue().toString().split(" ")[0]) && hourbox.getText().equals(nameList.getSelectedValue().toString().split(" ")[2])
+                && duMinbox.getText() != null && !duMinbox.getText().equals(""))) {
+            // Check the edited version is same with one of the scheduled data from the database
+            if (String.valueOf(billboardChooser.getSelectedItem()).equals(nameList.getSelectedValue().toString().split(" ")[0]) && hourbox.getText().equals(nameList.getSelectedValue().toString().split(" ")[2])
                     && minbox.getText().equals(nameList.getSelectedValue().toString().split(" ")[4]) && duHrbox.getText().equals(nameList.getSelectedValue().toString().split(" ")[6])
-                    && duMinbox.getText().equals(nameList.getSelectedValue().toString().split(" ")[8])){
+                    && duMinbox.getText().equals(nameList.getSelectedValue().toString().split(" ")[8])) {
                 socketStart();
                 RemoveBillboardRequest removeBillboardRequest = new RemoveBillboardRequest(String.valueOf(billboardChooser.getSelectedItem()), sessionToken, month, date, hourbox.getText());
                 oos.writeObject(removeBillboardRequest);
                 oos.flush();
                 Object trans = ois.readObject();
-                if (trans instanceof AcknowledgeReply){
+                if (trans instanceof AcknowledgeReply) {
                     AcknowledgeReply reply = (AcknowledgeReply) trans;
                     System.out.println(reply.getAcknowledgement());
                 }
                 socketStop();
-//        data.remove(billboardChooser.getSelectedItem().toString(), date, hourbox.getText());
                 model.removeAllElements();
                 bg.dispose();
             }
-            else{
-                showMessageDialog(null, "Cannot delate new Schedule off course", "Title", ERROR_MESSAGE);
+            // Otherwise,
+            else {
+                showMessageDialog(null, "Cannot delete this as this schedule has not been set", "Title", ERROR_MESSAGE);
                 clearFields();
                 bg.dispose();
             }
         }
-
-        else{
+        // Otherwise, if some text boxes are empty
+        else {
             showMessageDialog(null, "Cannot be null", "Title", ERROR_MESSAGE);
             clearFields();
             bg.dispose();
         }
-//        setDisplay(date, month);
     }
 
-    private void recurePressed() {
-        recurbox.setEditable(true);
-    }
+    /**
+     * Set to start the socket for server
+     *
+     * @throws IOException
+     */
     public void socketStart() throws IOException {
-        socket = new Socket(host,Integer.parseInt(port));
+        socket = new Socket(host, Integer.parseInt(port));
         outputStream = socket.getOutputStream();
         inputStream = socket.getInputStream();
         oos = new ObjectOutputStream(outputStream);
         ois = new ObjectInputStream(inputStream);
     }
 
-    public void socketStop() throws IOException{
+    /**
+     * Stop the socket
+     *
+     * @throws IOException
+     */
+    public void socketStop() throws IOException {
         ois.close();
         oos.close();
         socket.close();
-    }
-    private static void getPropValues() throws IOException {
-        Properties props = new Properties();
-        FileInputStream in = null;
-        try {
-            in = new FileInputStream("src/main/cab302/network.props");
-            props.load(in);
-            in.close();
-            // get the property value and print it out
-            port = props.getProperty("port");
-        } catch (Exception e) {
-            System.out.println("Exception: " + e);
-        }
     }
 }

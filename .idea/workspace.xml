@@ -3,13 +3,13 @@
   <component name="ChangeListManager">
     <list default="true" id="f7ab41c5-c651-45b3-bca9-a3afafe74f5f" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/RemovedSchedule/RemovedScheduleData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/RemovedSchedule/RemovedScheduleData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/RemovedSchedule/RemovedScheduleInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/RemovedSchedule/RemovedScheduleInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/RemovedSchedule/RemovedScheduleSources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/RemovedSchedule/RemovedScheduleSources.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/RemovedSchedule/RemovedSchedulesDatasource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/RemovedSchedule/RemovedSchedulesDatasource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/db.props" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/db.props" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/RunViewr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/RunViewr.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Timer15.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Timer15.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CalendarGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CalendarGUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CustomDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CustomDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/TableModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/TableModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleSources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleSources.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/SchedulesDatasource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/SchedulesDatasource.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -176,12 +176,12 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Run" />
       <item itemvalue="Application.BillboardServer" />
       <item itemvalue="Application.Main" />
+      <item itemvalue="Application.RunViewr" />
+      <item itemvalue="Application.Run" />
       <item itemvalue="JUnit.TestHexToRGB" />
       <item itemvalue="JUnit.TestImageGenerator" />
-      <item itemvalue="Application.RunViewr" />
     </list>
     <recent_temporary>
       <list>

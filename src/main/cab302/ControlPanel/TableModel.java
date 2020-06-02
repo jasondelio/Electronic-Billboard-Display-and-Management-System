@@ -4,8 +4,15 @@ import javax.swing.*;
 import javax.swing.table.JTableHeader;
 import java.awt.*;
 
+/**
+ * This class sets the renderer model of table on weekly schedule
+ */
 class TableModel extends JLabel implements ListCellRenderer {
 
+    /**
+     * @param table
+     * @see CalendarGUI
+     */
     TableModel(JTable table) {
         JTableHeader header = table.getTableHeader();
         setOpaque(true);

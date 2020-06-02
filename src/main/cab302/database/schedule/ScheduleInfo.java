@@ -2,6 +2,9 @@ package cab302.database.schedule;
 
 import java.io.Serializable;
 
+/**
+ * This class sets the schedule information
+ */
 public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
     private String year;
 
@@ -24,14 +27,22 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
     private String recur;
 
 
-    /**
-     *
-     */
     public ScheduleInfo() {
     }
 
     /**
+     * Set the schedule information as required
      *
+     * @param boardtitle
+     * @param creator
+     * @param year
+     * @param month
+     * @param date
+     * @param hour
+     * @param minute
+     * @param durationHr
+     * @param durationMin
+     * @param recur
      */
     public ScheduleInfo(String boardtitle, String creator, String year, String month, String date, String hour, String minute, String durationHr,
                         String durationMin, String recur) {
@@ -49,54 +60,57 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
 
     /**
-     *
+     * @return boardtitle
      */
     public String getBoardTitle() {
         return boardtitle;
     }
 
     /**
-     *
+     * @param boardtitle
      */
     public void setBoardTitle(String boardtitle) {
-            this.boardtitle = boardtitle;
-        }
+        this.boardtitle = boardtitle;
+    }
+
     /**
-     *
+     * @return creator
      */
     public String getCreator() {
-            return creator;
-        }
+        return creator;
+    }
+
     /**
-     *
+     * @param creator
      */
     public void setCreator(String creator) {
-            this.creator = creator;
-        }
+        this.creator = creator;
+    }
+
     /**
-     *
+     * @return date
      */
     public String getDate() {
-            return date;
-        }
+        return date;
+    }
 
     /**
-     *
+     * @param date
      */
     public void setDate(String date) {
-            this.date = date;
-        }
+        this.date = date;
+    }
 
     /**
-     *
+     * @return month
      */
     public String getMonth() {
-            return month;
-        }
+        return month;
+    }
 
 
     /**
-     * @param
+     * @param month
      */
     public void setMonth(String month) {
         this.month = month;
@@ -104,6 +118,7 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
     /**
      *
+     * @return year
      */
     public String getYear() {
         return year;
@@ -111,7 +126,8 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
 
     /**
-     * @param
+     *
+     * @param year
      */
     public void setYear(String year) {
         this.year = year;
@@ -119,7 +135,8 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
 
     /**
-     * @return
+     *
+     * @return hour
      */
     public String getHour() {
         return hour;
@@ -127,13 +144,15 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
     /**
      *
+     * @param hour
      */
     public void setHour(String hour) {
-            this.hour = hour;
-        }
+        this.hour = hour;
+    }
 
     /**
-     * @return
+     *
+     * @return minute
      */
     public String getMinute() {
         return minute;
@@ -141,13 +160,14 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
     /**
      *
+     * @param minute
      */
     public void setMinute(String minute) {
         this.minute = minute;
     }
 
     /**
-     * @return
+     * @return durationHr
      */
     public String getDuHr() {
         return durationHr;
@@ -155,13 +175,14 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
     /**
      *
+     * @param duHr
      */
     public void setDuHr(String duHr) {
         this.durationHr = duHr;
     }
 
     /**
-     * @return
+     * @return durationMin
      */
     public String getDuMin() {
         return durationMin;
@@ -169,13 +190,14 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
     /**
      *
+     * @param duMin
      */
     public void setDuMin(String duMin) {
         this.durationMin = duMin;
     }
 
     /**
-     * @return
+     * @return recur
      */
     public String getRecur() {
         return recur;
@@ -183,6 +205,7 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
     /**
      *
+     * @param recur
      */
     public void setRecur(String recur) {
         this.recur = recur;
@@ -190,6 +213,8 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
     /**
      *
+     * @param other
+     * @return Compared month
      */
     public int compareTo(ScheduleInfo other) {
         return this.month.compareTo(other.month);
@@ -197,6 +222,7 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
     /**
      *
+     * @return Return every information of schedule to string
      */
     public String toString() {
         return boardtitle + " " + creator + " " + year + " " + month + " " + date + " " + hour + " " + minute + " " +

@@ -10,7 +10,7 @@ import java.util.TreeSet;
 
 
 /**
- * Class for retrieving data from the XML file holding the address list.
+ * Class for retrieving data SQL query
  */
 public class SchedulesDatasource implements ScheduleSources {
 
@@ -112,7 +112,9 @@ public class SchedulesDatasource implements ScheduleSources {
     }
 
     /**
-     * @see
+     * Add schedule by the given data of schedule from Custom Dialog
+     *
+     * @see cab302.ControlPanel.CustomDialog
      */
     public void createSchedule(ScheduleInfo b) {
         try {
@@ -133,7 +135,7 @@ public class SchedulesDatasource implements ScheduleSources {
     }
 
     /**
-     * @see
+     * Create the tree set to store the billboard title
      */
     public Set<String> titleSet() {
         Set<String> titles = new TreeSet<String>();
@@ -152,7 +154,9 @@ public class SchedulesDatasource implements ScheduleSources {
     }
 
     /**
-     * @see
+     * Find schedule by searching the given title
+     *
+     * @param title
      */
     public ScheduleInfo getSchedule(String title) {
         ScheduleInfo b = new ScheduleInfo();
@@ -178,7 +182,20 @@ public class SchedulesDatasource implements ScheduleSources {
         return b;
     }
 
-    public ScheduleInfo findSame(String title,String month,String date, String hour, String minute, String durationHr,String durationMin, String recur){
+    /**
+     * Find same schedule comparing to a new schedule from the database
+     *
+     * @param title
+     * @param month
+     * @param date
+     * @param hour
+     * @param minute
+     * @param durationHr
+     * @param durationMin
+     * @param recur
+     * @return ScheduleInfo
+     */
+    public ScheduleInfo findSame(String title, String month, String date, String hour, String minute, String durationHr, String durationMin, String recur) {
         ScheduleInfo b = new ScheduleInfo();
         ResultSet rs = null;
         try {
@@ -209,7 +226,16 @@ public class SchedulesDatasource implements ScheduleSources {
         return b;
     }
 
-    public ScheduleInfo findSchedule(String title, String month ,String date, String hour) {
+    /**
+     * Find schedule by using the given information that are title, date, and hour
+     *
+     * @param title
+     * @param month
+     * @param date
+     * @param hour
+     * @return schedule info
+     */
+    public ScheduleInfo findSchedule(String title, String month, String date, String hour) {
         ScheduleInfo b = new ScheduleInfo();
         ResultSet rs = null;
         try {
@@ -236,15 +262,23 @@ public class SchedulesDatasource implements ScheduleSources {
         return b;
     }
 
+    /**
+     * Get the titles of billboard on current time
+     *
+     * @param year
+     * @param month
+     * @param date
+     * @return array
+     */
     public ArrayList<ScheduleInfo> getCurrentBillboardTitle(String year, String month, String date) {
 
-       ArrayList<ScheduleInfo> titles = new ArrayList<ScheduleInfo>();
-       ResultSet rs = null;
+        ArrayList<ScheduleInfo> titles = new ArrayList<ScheduleInfo>();
+        ResultSet rs = null;
 
         try {
-            getCurrentBoardTitle.setString(1,year);
-            getCurrentBoardTitle.setString(2,month);
-            getCurrentBoardTitle.setString(3,date);
+            getCurrentBoardTitle.setString(1, year);
+            getCurrentBoardTitle.setString(2, month);
+            getCurrentBoardTitle.setString(3, date);
             rs = getCurrentBoardTitle.executeQuery();
             while (rs.next()) {
                 ScheduleInfo si = new ScheduleInfo();
@@ -267,13 +301,19 @@ public class SchedulesDatasource implements ScheduleSources {
         return titles;
     }
 
+    /**
+     * Find the schedule which is on specific row
+     *
+     * @param index
+     * @return schedule info
+     */
     public ScheduleInfo findRow(int index) {
         ScheduleInfo b = new ScheduleInfo();
         ResultSet rs = null;
         try {
             findRow.setInt(1, index);
             rs = findRow.executeQuery();
-            while(rs.next()) {
+            while (rs.next()) {
                 b.setBoardTitle(rs.getString("boardtitle"));
                 b.setCreator(rs.getString("creator"));
                 b.setYear(rs.getString("year"));
@@ -291,7 +331,12 @@ public class SchedulesDatasource implements ScheduleSources {
         return b;
     }
 
-    public DefaultListModel takeSchedule(){
+    /**
+     * Take every billboard titles even it is duplicated
+     *
+     * @return DefaultlistModel n
+     */
+    public DefaultListModel takeSchedule() {
         DefaultListModel n = new DefaultListModel();
         ArrayList<String> a = new ArrayList<>();
 
@@ -300,13 +345,6 @@ public class SchedulesDatasource implements ScheduleSources {
             rs = takeSchedule.executeQuery();
             while (rs.next()) {
                 n.addElement(rs.getString("boardtitle"));
-//                a.add(rs.getString("boardtitle") + ", " +
-//                        rs.getString("month") + ", " +
-//                        rs.getString("date") + ", " +
-//                        rs.getString("hour") + ", " +
-//                        rs.getString("minute") + ", " +
-//                        rs.getString("duration") + "/");
-//                n.addElement(a);
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -316,7 +354,7 @@ public class SchedulesDatasource implements ScheduleSources {
 
 
     /**
-     * @see
+     * Get the size of table
      */
     public int getSize() {
         ResultSet rs = null;
@@ -331,7 +369,12 @@ public class SchedulesDatasource implements ScheduleSources {
         }
         return rows;
     }
-    // im using this in server
+
+    /**
+     * Take the schedule for server
+     *
+     * @return String Set
+     */
     public Set<String> GetScheduleList() {
         Set<String> schedules = new TreeSet<String>();
         ResultSet rs = null;
@@ -339,9 +382,9 @@ public class SchedulesDatasource implements ScheduleSources {
         try {
             rs = getScheduleList.executeQuery();
             while (rs.next()) {
-                schedules.add(rs.getString("boardtitle")+" made by "+rs.getString("creator")+": Scheduled "+ rs.getString("duration")
-                        +" hour on "+rs.getInt("month")+"/"+rs.getInt("date")+"/"+rs.getString("hour")+"/"
-                        +rs.getString("minute") + "(mm/dd/hh/mm):");
+                schedules.add(rs.getString("boardtitle") + " made by " + rs.getString("creator") + ": Scheduled " + rs.getString("duration")
+                        + " hour on " + rs.getInt("month") + "/" + rs.getInt("date") + "/" + rs.getString("hour") + "/"
+                        + rs.getString("minute") + "(mm/dd/hh/mm):");
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -351,7 +394,12 @@ public class SchedulesDatasource implements ScheduleSources {
     }
 
     /**
-     * @see
+     * Delete schedule by searching title, month, date and hour
+     *
+     * @param title
+     * @param month
+     * @param date
+     * @param hour
      */
     public void deleteSchedule(String title, String month, String date, String hour) {
         try {
@@ -366,7 +414,8 @@ public class SchedulesDatasource implements ScheduleSources {
     }
 
     /**
-     * @see
+     * Delete all schedule with same title from the database
+     * @param title
      */
     public void deleteallSchedule(String title) {
         try {
@@ -378,8 +427,17 @@ public class SchedulesDatasource implements ScheduleSources {
     }
 
     /**
-     * @return
-     * @see
+     * Edit schedule information
+     * @param boardtitle
+     * @param creator
+     * @param year
+     * @param month
+     * @param date
+     * @param hour
+     * @param minute
+     * @param duHr
+     * @param duMin
+     * @param recur
      */
     public void editSchedule(String boardtitle, String creator, String year, String month, String date, String hour,
                              String minute, String duHr, String duMin, String recur) {
@@ -406,7 +464,7 @@ public class SchedulesDatasource implements ScheduleSources {
     }
 
     /**
-     * @see
+     * close the connection
      */
     public void close() {
         try {
