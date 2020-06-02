@@ -50,6 +50,8 @@ public class BillboardServer {
 
         // initialise the billboardData
         BillboardData billboardData = new BillboardData();
+        BillboardInfo notSchedule = new BillboardInfo("NotScheduled", "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <billboard background=\"#FFFFFF\"> <message colour=\"#000000\">NOTHING TO DISPLAY..</message> <information></information> </billboard>","root");
+        billboardData.add(notSchedule);
         // initialise the scheduleData
         ScheduleData scheduleData = new ScheduleData();
         // initialise the removedScheduleData
@@ -466,13 +468,62 @@ public class BillboardServer {
 //                            System.out.println(scheduleData.findSameSchedule(sbbr.getBillboardname(), sbbr.getMonth(), sbbr.getDate(),
 //                                    sbbr.getHour(), sbbr.getMinitue(), sbbr.getDurationHr(), sbbr.getDurationMin(), sbbr.getRecur()).getDuMin());
 
+                            if (scheduleData.findSameSchedule(sbbr.getBillboardname(), sbbr.getMonth(), sbbr.getDate(),
+                                    sbbr.getHour(), sbbr.getMinitue(), sbbr.getDurationHr(), sbbr.getDurationMin(), sbbr.getRecur()).getDuMin() != null){
+                                // check if the schedule is already in the schedule database or not
+                                results = "Failed becuase there is already";
+                            } else {
+                                // if it is not scheduled and not removed yet, make new schedule.
+                                scheduleData.add(new_schedule);
+                                results = "Success to schedule the billboard";
+                            }
+                        } else {
+                            results = "No permission";
+                        }
+                        AcknowledgeReply scheduleBillboardReply = new AcknowledgeReply(results);
+                        oos.writeObject(scheduleBillboardReply);
+                        oos.flush();
+                    } else {
+                        AcknowledgeReply reply = new AcknowledgeReply("Invalid Session");
+                        oos.writeObject(reply);
+                        oos.flush();
+                    }
+                }
+                else{
+                    // if session is expired, send the expired to control panel
+                    AcknowledgeReply reply = new AcknowledgeReply("Expired");
+                    oos.writeObject(reply);
+                    oos.flush();
+                }
+            }
+            else if(o instanceof RecurScheduleBillboardRequest){
+                RecurScheduleBillboardRequest rsbr =(RecurScheduleBillboardRequest) o;
+                String sessionToken = rsbr.getSessionToken();
+                System.out.println("client requested scheduling the billboard with token :"+ sessionToken);
+                // check if the session token is exired or not
+                if (isSessionTokenExpired(sessionToken) == false) {
+                    // check if the session token is valid or not
+                    if (isValidSessionToken(sessionToken)) {
+                        String currentUser = getSessionUsername(sessionToken);
+                        UserInfo nu = data.get(currentUser);
+                        String results = null;
+                        if (nu.getScheduleBillboards().equals("true")) {
+                            // if current user has "schedule permission", the user will try to schedule the billboard with below information.
+
+                            // get the schedule information from schdule database with bellow all information of schedule
+                            ScheduleInfo new_schedule = new ScheduleInfo(rsbr.getBillboardname(), rsbr.getCreator(), rsbr.getYear(), rsbr.getMonth(), rsbr.getDate(),
+                                    rsbr.getHour(), rsbr.getMinitue(), rsbr.getDurationHr(), rsbr.getDurationMin(), rsbr.getRecur());
+//                            System.out.println(isAlreadyRemodeOnce(new_schedule,removedScheduleData));
+//                            System.out.println(scheduleData.findSameSchedule(sbbr.getBillboardname(), sbbr.getMonth(), sbbr.getDate(),
+//                                    sbbr.getHour(), sbbr.getMinitue(), sbbr.getDurationHr(), sbbr.getDurationMin(), sbbr.getRecur()).getDuMin());
+
                             // check if the schedule is already removed or not by checking the history of removed once
                             if (isAlreadyRemodeOnce(new_schedule,removedScheduleData)){
                                 // if the schedule is already removed once, the schedule cannot be scheduled.
                                 // this is for avoiding the writing again by setting recur in gui.
                                 results = "Failed becuase already removed.";
-                            } else if (scheduleData.findSameSchedule(sbbr.getBillboardname(), sbbr.getMonth(), sbbr.getDate(),
-                                    sbbr.getHour(), sbbr.getMinitue(), sbbr.getDurationHr(), sbbr.getDurationMin(), sbbr.getRecur()).getDuMin() != null){
+                            } else if (scheduleData.findSameSchedule(rsbr.getBillboardname(), rsbr.getMonth(), rsbr.getDate(),
+                                    rsbr.getHour(), rsbr.getMinitue(), rsbr.getDurationHr(), rsbr.getDurationMin(), rsbr.getRecur()).getDuMin() != null){
                                 // check if the schedule is already in the schedule database or not
                                 results = "Failed becuase there is already";
                             } else {

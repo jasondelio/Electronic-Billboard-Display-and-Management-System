@@ -134,6 +134,7 @@ public class DisplayAssembler {
             informationText.setPreferredSize(new Dimension(this.screenSize.width, this.screenSize.height/3));
 
             // Set up styling attributes
+            informationText.setBackground(bgColour);
             StyleConstants.setFontSize(this.set, 36);
             StyleConstants.setForeground(
                     this.set,

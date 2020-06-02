@@ -36,6 +36,9 @@ import java.util.Properties;
 
 import static cab302.viewer.util.HexToRGB.HexToRGB;
 
+/**
+ * Initiates home's user interface for Billboard Control Panel application.
+ */
 public class HomeUI extends JFrame implements ActionListener {
     public static final int WIDTH = 600;
     public static final int HEIGHT = 600;
@@ -122,12 +125,22 @@ public class HomeUI extends JFrame implements ActionListener {
     ObjectOutputStream oos;
     ObjectInputStream ois;
 
-    public HomeUI(String sessiontoken, ArrayList<String> perm_lists, String loggedInuser, int currentTab) throws IOException, ClassNotFoundException {
+    /**
+     * Constructor sets up the home user interface and displays it
+     *
+     * @param sessiontoken
+     * @param perm_lists
+     * @param loggedInUser
+     * @param currentTab
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    public HomeUI(String sessiontoken, ArrayList<String> perm_lists, String loggedInUser, int currentTab) throws IOException, ClassNotFoundException {
         super("Billboard Control Panel");
         getPropValues(); 
         sessionToken = sessiontoken;
         permissionsList = perm_lists;
-        currentUsername = loggedInuser;
+        currentUsername = loggedInUser;
 
         //decorate the frame and make it visible
         setTitle("Billboard Control Panel");
@@ -1445,7 +1458,7 @@ public class HomeUI extends JFrame implements ActionListener {
      * @throws ClassNotFoundException
      */
     private void previewBillboardPressed(JButton btnSource) throws IOException, ClassNotFoundException {
-        Dimension dialogSize = new Dimension(860, 600);
+        Dimension dialogSize = new Dimension(880, 620);
 
         previewBillboardDialog = new JDialog(this, "Preview Billboard");
         previewBillboardDialog.setSize(dialogSize);

@@ -3,7 +3,6 @@ package cab302.server.Billboardserver;
 import cab302.database.billboard.BillboardInfo;
 
 import java.io.Serializable;
-
 /**
  * Replying to client and client is able to retrieve the billboarddInfo
  */

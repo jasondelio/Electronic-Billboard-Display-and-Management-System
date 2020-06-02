@@ -91,7 +91,6 @@ public class CustomDialog extends JDialog implements ActionListener {
      * @throws ClassNotFoundException
      */
     public CustomDialog(JFrame Bg, String info, String year, int selectedTime, ListModel billboards, ListModel schedules, ListModel duppleSchedules, String token) throws IOException, ClassNotFoundException {
-
         bg = Bg;
         getPropValues();
         billboardLists = billboards;
@@ -306,8 +305,7 @@ public class CustomDialog extends JDialog implements ActionListener {
         edit.addActionListener(this);
         close.addActionListener(this);
 
-
-
+        setFieldsEditable(false);
         /*
         Set the specific action to billboard chooser as it needs to take the data from
         billboard table as the billboard title and creator must be stored before modify the schedule data
@@ -365,6 +363,7 @@ public class CustomDialog extends JDialog implements ActionListener {
         the information must be returned on each boxes of schedule eg. time hour, minutes, durations and so on
          */
         nameList.addListSelectionListener(e -> {
+            setFieldsEditable(true);
             if (nameList.getSelectedValue() != null) {
                 // Send the request to server to take items
                 try {
@@ -512,7 +511,21 @@ public class CustomDialog extends JDialog implements ActionListener {
         nameList = new JList(model);
         pnlList = new JScrollPane(nameList);
     }
-
+    /**
+     * Set false until new button is pressed or the Jlist pressed
+     *
+     * @param editable
+     */
+    private void setFieldsEditable(boolean editable) {
+        this.minbox.setEditable(editable);
+        this.duHrbox.setEditable(editable);
+        this.duMinbox.setEditable(editable);
+        this.recurbox.setEditable(editable);
+        this.edit.setEnabled(editable);
+        this.save.setEnabled(editable);
+        this.delete.setEnabled(editable);
+        this.billboardChooser.setEnabled(editable);
+    }
     /**
      * To show the information on every textbox by selecting the list
      *
@@ -556,6 +569,7 @@ public class CustomDialog extends JDialog implements ActionListener {
             clearFields();
             recurbox.setEditable(true);
             save.setEnabled(true);
+            setFieldsEditable(true);
         } else if (act == save) { // When save button is clicked
             try {
                 savePressed();

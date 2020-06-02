@@ -21,7 +21,9 @@ public class BillboardData {
 
         // add the retrieved data to the list model
         for (String name : billboardData.nameSet()) {
-            listModel.addElement(name);
+            if(!name.equals("NotScheduled")) {
+                listModel.addElement(name);
+            }
         }
     }
 
@@ -35,7 +37,9 @@ public class BillboardData {
         // check to see if the billboard is already in the list model
         // if not add to the billboard table and the list model
         if (!listModel.contains(b.getName())) {
-            listModel.addElement(b.getName());
+            if (!b.getName().equals("NotScheduled")){
+                listModel.addElement(b.getName());
+            }
             billboardData.addBillboard(b);
         }
     }

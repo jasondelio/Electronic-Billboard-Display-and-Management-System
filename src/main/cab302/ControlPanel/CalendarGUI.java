@@ -566,7 +566,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
             for (int[] n : tC) {
 
                 // Find schedules on selected week
-                if (sche.getDate().equals(String.valueOf(n[0]))) {
+                if (sche.getDate().equals(String.valueOf(n[0]))  && sche.getMonth().equals(String.valueOf(tableItem[n[1]][0]))) {
                     d[c] = n;
                 } else {
                     d[c][0] = -1;
@@ -703,11 +703,11 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                             temp.getRecur() == null) {
                         socketStart();
                         // Send the request to store the recurrences
-                        ScheduleBillboardRequest scheduleBillboardRequest = new ScheduleBillboardRequest(recurSchedule[index].split(" ")[0], recurSchedule[index].split(" ")[1],
+                        RecurScheduleBillboardRequest recurScheduleBillboardRequest = new RecurScheduleBillboardRequest(recurSchedule[index].split(" ")[0], recurSchedule[index].split(" ")[1],
                                 recurSchedule[index].split(" ")[2],String.valueOf(dateRecur[in][1]), String.valueOf(dateRecur[in][0]), String.valueOf(hrs),
                                 recurSchedule[index].split(" ")[6], sessionToken, recurSchedule[index].split(" ")[7],
                                 recurSchedule[index].split(" ")[8], "");
-                        oos.writeObject(scheduleBillboardRequest);
+                        oos.writeObject(recurScheduleBillboardRequest);
                         oos.flush();
                         ScheduleInfo s = new ScheduleInfo();
                         Object transoO = ois.readObject();
