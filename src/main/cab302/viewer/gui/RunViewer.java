@@ -8,7 +8,7 @@ import java.util.Timer;
 /**
  * Class running Viewer Gui
  */
-public class RunViewr {
+public class RunViewer {
     public static Timer time;
     private static void createAndShowGUI(Gui GUI) throws IOException, ClassNotFoundException{
         // set timer to update 15 seconds

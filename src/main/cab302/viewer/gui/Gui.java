@@ -98,7 +98,7 @@ public class Gui extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 for (Frame frame : Frame.getFrames()) {
                     frame.dispose();
-                    RunViewr run = new RunViewr();
+                    RunViewer run = new RunViewer();
                     run.time.cancel();
                 }
             }

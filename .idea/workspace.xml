@@ -140,8 +140,8 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="RunViewr" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="cab302.viewer.gui.RunViewr" />
+    <configuration name="RunViewer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="cab302.viewer.gui.RunViewer" />
       <module name="CAB302" />
       <extension name="coverage">
         <pattern>
@@ -176,14 +176,14 @@
     <list>
       <item itemvalue="Application.BillboardServer" />
       <item itemvalue="Application.Main" />
-      <item itemvalue="Application.RunViewr" />
       <item itemvalue="Application.Run" />
       <item itemvalue="JUnit.TestHexToRGB" />
       <item itemvalue="JUnit.TestImageGenerator" />
+      <item itemvalue="Application.RunViewer" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.RunViewr" />
+        <item itemvalue="Application.RunViewer" />
         <item itemvalue="Application.BillboardServer" />
         <item itemvalue="Application.Run" />
         <item itemvalue="Application.Main" />
