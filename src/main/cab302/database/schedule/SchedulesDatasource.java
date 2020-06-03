@@ -44,7 +44,7 @@ public class SchedulesDatasource implements ScheduleSources {
     private static final String GET_SAME_SCHEDULE = "SELECT * FROM schedules  WHERE (boardtitle=?) AND (month=?) AND (date=?) AND (hour=?)" +
             "AND (minute=?) AND (durationHr=?) AND (durationMin=?) AND (recur=?)";
 
-    private static final String DELETE_SCHEDULE = "DELETE FROM schedules WHERE (boardtitle=?) AND (month=?) AND (date=?) AND (hour=?)";
+    private static final String DELETE_SCHEDULE = "DELETE FROM schedules WHERE (boardtitle=?) AND (month=?) AND (date=?) AND (hour=?) AND (minute=?)";
 
     private static final String DELETE_ALLSCHEDULE = "DELETE FROM schedules WHERE boardtitle=?";
 
@@ -56,7 +56,7 @@ public class SchedulesDatasource implements ScheduleSources {
 
     private static final String ROW_ITEM = "SELECT * FROM schedules LIMIT ?, 1;";
 
-    private static final String FIND_SCHEDULE = "SELECT * From schedules WHERE (boardtitle=?) AND  (month=?) AND(date=?) AND (hour=?)";
+    private static final String FIND_SCHEDULE = "SELECT * From schedules WHERE (boardtitle=?) AND  (month=?) AND(date=?) AND (hour=?) AND (minute=?)";
 
     private Connection connection;
 
@@ -233,9 +233,10 @@ public class SchedulesDatasource implements ScheduleSources {
      * @param month
      * @param date
      * @param hour
+     * @param minute
      * @return schedule info
      */
-    public ScheduleInfo findSchedule(String title, String month, String date, String hour) {
+    public ScheduleInfo findSchedule(String title, String month, String date, String hour, String minute) {
         ScheduleInfo b = new ScheduleInfo();
         ResultSet rs = null;
         try {
@@ -243,6 +244,7 @@ public class SchedulesDatasource implements ScheduleSources {
             findSchedule.setString(2, month);
             findSchedule.setString(3, date);
             findSchedule.setString(4, hour);
+            findSchedule.setString(5, minute);
             rs = findSchedule.executeQuery();
             while (rs.next()) {
                 b.setBoardTitle(rs.getString("boardtitle"));
@@ -400,13 +402,15 @@ public class SchedulesDatasource implements ScheduleSources {
      * @param month
      * @param date
      * @param hour
+     * @param minute
      */
-    public void deleteSchedule(String title, String month, String date, String hour) {
+    public void deleteSchedule(String title, String month, String date, String hour,String minute) {
         try {
             deleteSchedule.setString(1, title);
             deleteSchedule.setString(2, month);
             deleteSchedule.setString(3, date);
             deleteSchedule.setString(4, hour);
+            deleteSchedule.setString(5,minute);
             deleteSchedule.executeUpdate();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -417,7 +421,7 @@ public class SchedulesDatasource implements ScheduleSources {
      * Delete all schedule with same title from the database
      * @param title
      */
-    public void deleteallSchedule(String title) {
+    public void deleteAllSchedule(String title) {
         try {
             deleteAllSchedule.setString(1, title);
             deleteAllSchedule.executeUpdate();

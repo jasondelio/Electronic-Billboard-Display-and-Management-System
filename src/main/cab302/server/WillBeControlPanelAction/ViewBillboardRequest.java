@@ -8,6 +8,10 @@ import java.io.Serializable;
 public class ViewBillboardRequest implements Serializable {
     private String sessionToken;
 
+    /**
+     * Constructor setting value to view billboard
+     * @param sessionToken sessionToken
+     */
     public ViewBillboardRequest(String sessionToken) {
         this.sessionToken = sessionToken;
     }

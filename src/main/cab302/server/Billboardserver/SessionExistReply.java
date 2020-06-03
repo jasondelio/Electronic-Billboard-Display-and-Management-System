@@ -8,7 +8,11 @@ import java.util.ArrayList;
 public class SessionExistReply implements Serializable {
     private  boolean loginAlready;
     private ArrayList<String> sessiontokens;
-
+    /**
+     *  Constructor setting value to get sessionTokens to an application
+     * @param loginAlready true or false if sessionToken is existed
+     * @param sessiontokens list of sessionTokens
+     */
     public SessionExistReply(boolean loginAlready, ArrayList<String> sessiontokens){
         this.loginAlready = loginAlready;
         this.sessiontokens = sessiontokens;

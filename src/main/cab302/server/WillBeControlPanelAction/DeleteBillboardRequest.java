@@ -8,6 +8,12 @@ import java.io.Serializable;
 public class DeleteBillboardRequest implements Serializable {
     private String billboardname;
     private String sessionToken;
+
+    /**
+     *  Constructor setting values to delete billboard in server
+     * @param billboardname billboard's title
+     * @param sessionToken sessiontoken
+     */
     public DeleteBillboardRequest(String billboardname, String sessionToken) {
         this.billboardname = billboardname;
         this.sessionToken = sessionToken;

@@ -11,21 +11,34 @@ public class RecurScheduleBillboardRequest implements Serializable {
     private String month;
     private String date;
     private String hour;
-    private String minitue;
+    private String minute;
     private String sessionToken;
     private String durationHr;
     private String durationMin;
     private String recur;
 
-
-    public RecurScheduleBillboardRequest(String billboardname, String creator, String year, String month, String date, String hour, String minitue, String sessionToken, String durationHr, String durationMin, String recur) {
+    /**
+     *  Constructor setting values to schedule billboard with recur in server
+     * @param billboardname billboard's title
+     * @param sessionToken sessionToken
+     * @param creator billboard's creator
+     * @param year year
+     * @param month month
+     * @param date date
+     * @param hour hour
+     * @param minute minute
+     * @param durationHr duration hour
+     * @param durationMin duration minute
+     * @param recur recurring time
+     */
+    public RecurScheduleBillboardRequest(String billboardname, String creator, String year, String month, String date, String hour, String minute, String sessionToken, String durationHr, String durationMin, String recur) {
         this.billboardname = billboardname;
         this.creator = creator;
         this.year = year;
         this.month = month;
         this.date = date;
         this.hour = hour;
-        this.minitue = minitue;
+        this.minute = minute;
         this.sessionToken = sessionToken;
         this.durationHr = durationHr;
         this.durationMin = durationMin;
@@ -61,8 +74,8 @@ public class RecurScheduleBillboardRequest implements Serializable {
         return hour;
     }
 
-    public String getMinitue() {
-        return minitue;
+    public String getminute() {
+        return minute;
     }
 
     public String getYear() {

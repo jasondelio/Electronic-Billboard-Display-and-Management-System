@@ -9,6 +9,13 @@ public class CreateBillboardRequest implements Serializable {
     private String billboardname;
     private String billboardContent;
     private String sessionToken;
+
+    /**
+     * Constructor setting values to crate a billboard
+     * @param billboardname billboard's title
+     * @param billboardContent billboard's content
+     * @param sessionToken sessionToken
+     */
     public CreateBillboardRequest(String billboardname,String billboardContent ,String sessionToken) {
         this.billboardname = billboardname;
         this.billboardContent = billboardContent;

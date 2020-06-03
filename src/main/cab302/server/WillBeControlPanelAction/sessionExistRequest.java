@@ -7,6 +7,11 @@ import java.io.Serializable;
  */
 public class sessionExistRequest implements Serializable {
     private String sessionToken;
+
+    /**
+     * Constructor setting value to check if the session token still not expired
+     * @param sessionToken
+     */
     public sessionExistRequest(String sessionToken){
         this.sessionToken = sessionToken;
     }

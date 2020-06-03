@@ -150,9 +150,9 @@ public class BillboardServer {
                 oos.writeObject(reply);
                 oos.flush();
             }
-            else if(o instanceof BillboardRequest){
-                // request getting the billboard info with sessiontoken and the billboard title
-                BillboardRequest br = (BillboardRequest) o;
+            else if(o instanceof GetBillboardInfoRequest){
+                // request getting the billboard info with sessionToken and the billboard title
+                GetBillboardInfoRequest br = (GetBillboardInfoRequest) o;
                 String sessionToken =  br.getSessionToken();
                 // check if the session token is exired or not
                 if (isSessionTokenExpired(sessionToken) == false) {
@@ -394,7 +394,7 @@ public class BillboardServer {
                         if (nu.getScheduleBillboards().equals("true")) {
                             // if current user has "schedule billboard" permission
                             // get the schedule information from database with title, month, data and hour.
-                            sch = scheduleData.findSchedule(sBbr.getTitle(), sBbr.getMonth(),sBbr.getDate(),sBbr.getHour());
+                            sch = scheduleData.findSchedule(sBbr.getTitle(), sBbr.getMonth(),sBbr.getDate(),sBbr.getHour(), sBbr.getMinute());
                         } else {
                             sch = null;
                         }
@@ -458,10 +458,10 @@ public class BillboardServer {
                         if (nu.getScheduleBillboards().equals("true")) {
                             // schedule billboard to schedule database with bellow all information of schedule
                             ScheduleInfo new_schedule = new ScheduleInfo(sbbr.getBillboardname(), sbbr.getCreator(), sbbr.getYear(), sbbr.getMonth(), sbbr.getDate(),
-                                    sbbr.getHour(), sbbr.getMinitue(), sbbr.getDurationHr(), sbbr.getDurationMin(), sbbr.getRecur());
+                                    sbbr.getHour(), sbbr.getminute(), sbbr.getDurationHr(), sbbr.getDurationMin(), sbbr.getRecur());
 
                             if (scheduleData.findSameSchedule(sbbr.getBillboardname(), sbbr.getMonth(), sbbr.getDate(),
-                                    sbbr.getHour(), sbbr.getMinitue(), sbbr.getDurationHr(), sbbr.getDurationMin(), sbbr.getRecur()).getDuMin() != null){
+                                    sbbr.getHour(), sbbr.getminute(), sbbr.getDurationHr(), sbbr.getDurationMin(), sbbr.getRecur()).getDuMin() != null){
                                 // check if the schedule is already in the schedule database or not
                                 results = "Failed becuase there is already";
                             } else {
@@ -502,14 +502,14 @@ public class BillboardServer {
                         if (nu.getScheduleBillboards().equals("true")) {
                             // make new schedule information with bellow all information of schedule
                             ScheduleInfo new_schedule = new ScheduleInfo(rsbr.getBillboardname(), rsbr.getCreator(), rsbr.getYear(), rsbr.getMonth(), rsbr.getDate(),
-                                    rsbr.getHour(), rsbr.getMinitue(), rsbr.getDurationHr(), rsbr.getDurationMin(), rsbr.getRecur());
+                                    rsbr.getHour(), rsbr.getminute(), rsbr.getDurationHr(), rsbr.getDurationMin(), rsbr.getRecur());
                             // check if the schedule is already removed or not by checking the history of removed once
                             if (isAlreadyRemodeOnce(new_schedule,removedScheduleData)){
                                 // if the schedule is already removed once, the schedule cannot be scheduled.
                                 // this is for avoiding the writing again by setting recur in gui.
                                 results = "Failed becuase already removed.";
                             } else if (scheduleData.findSameSchedule(rsbr.getBillboardname(), rsbr.getMonth(), rsbr.getDate(),
-                                    rsbr.getHour(), rsbr.getMinitue(), rsbr.getDurationHr(), rsbr.getDurationMin(), rsbr.getRecur()).getDuMin() != null){
+                                    rsbr.getHour(), rsbr.getminute(), rsbr.getDurationHr(), rsbr.getDurationMin(), rsbr.getRecur()).getDuMin() != null){
                                 // check if the schedule is already in the schedule database or not
                                 results = "Failed becuase there is already";
                             } else {
@@ -549,7 +549,7 @@ public class BillboardServer {
                         String results = null;
                         if (nu.getScheduleBillboards().equals("true")) {
                             // if current user has "schedule permission", the user will try to edit the schedule of the billboard with below information.
-                            ScheduleInfo previousSche = scheduleData.findSchedule(esbb.getBillboardname(), esbb.getMonth(),esbb.getDate(), esbb.getHour());
+                            ScheduleInfo previousSche = scheduleData.findSchedule(esbb.getBillboardname(), esbb.getMonth(),esbb.getDate(), esbb.getHour(), esbb.getMinute());
 
                             if(previousSche.getDuHr().equals(esbb.getDurationHr()) && previousSche.getMinute().equals(esbb.getMinute())
                                     && previousSche.getDuMin().equals(esbb.getDurationMin())){
@@ -605,7 +605,7 @@ public class BillboardServer {
                         if (un.getScheduleBillboards().equals("true")) {
                             // if current user has "schedule permission", the user will try to delete the schedule
                             // of the billboard with below information.
-                            ScheduleInfo new_sche = scheduleData.findSchedule(rbbr.getBillboardname(),rbbr.getMonth(), rbbr.getDate(),rbbr.getHour());
+                            ScheduleInfo new_sche = scheduleData.findSchedule(rbbr.getBillboardname(),rbbr.getMonth(), rbbr.getDate(),rbbr.getHour(), rbbr.getMinute());
 
                             // enter the deleted schedule into the remove history database to aboid making the schedule in database
                             // when  the calender gui try to make the table with recurring.
@@ -616,7 +616,7 @@ public class BillboardServer {
                             if (new_sche.getBoardTitle().equals(rbbr.getBillboardname()) && new_sche.getMonth().equals(rbbr.getMonth())
                                     && new_sche.getDate().equals(rbbr.getDate()) && new_sche.getHour().equals(rbbr.getHour())) {
                                 // if the billboard info is in the schdule.
-                                scheduleData.remove(rbbr.getBillboardname(), rbbr.getMonth(), rbbr.getDate(), rbbr.getHour());
+                                scheduleData.remove(rbbr.getBillboardname(), rbbr.getMonth(), rbbr.getDate(), rbbr.getHour(),rbbr.getMinute());
                                 result = "Success to remove bb from schedule !";
                             } else {
                                 result = "failed to remove cuz no billboard schedule on parameter time!";
@@ -883,7 +883,6 @@ public class BillboardServer {
                 // reqest log out the user
                 LogoutUsersRequest lour =(LogoutUsersRequest) o;
                 String sessiontoken = lour.getSessionToken();
-                System.out.println("client requested expired with token :"+ sessiontoken);
                 // remove from hashmap
                 validSessionTokens.remove(sessiontoken);
                 // remove from time hashmap

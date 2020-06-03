@@ -11,7 +11,11 @@ public class GetUserpemmReply implements Serializable {
     private ArrayList<String> listPermissions;
     private UserInfo u;
 
-
+    /**
+     * Constructor setting value to get user information to an application
+     * @param u user information
+     * @param listPermissions list of user permissions
+     */
     public GetUserpemmReply(ArrayList<String> listPermissions, UserInfo u ){
         this.listPermissions = listPermissions;
         this.u = u;

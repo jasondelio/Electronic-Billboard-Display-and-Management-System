@@ -7,6 +7,11 @@ import java.io.Serializable;
  */
 public class ListBillboardRequest implements Serializable {
     private String sessionToken;
+
+    /**
+     * Constructor setting value to list billboard in server
+     * @param sessionToken sessionToken
+     */
     public ListBillboardRequest(String sessionToken){
         this.sessionToken = sessionToken;
     }

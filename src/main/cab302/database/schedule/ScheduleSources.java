@@ -14,15 +14,15 @@ public interface ScheduleSources {
 
     ScheduleInfo findSame(String title, String month, String date, String hour, String minute, String durationHr, String durationMin, String recur);
 
-    ScheduleInfo findSchedule(String title, String month, String date, String hour);
+    ScheduleInfo findSchedule(String title, String month, String date, String hour, String minute);
 
     int getSize();
 
     ArrayList<ScheduleInfo> getCurrentBillboardTitle(String year, String month, String date);
 
-    void deleteSchedule(String title, String month, String date, String hour);
+    void deleteSchedule(String title, String month, String date, String hour, String minute);
 
-    void deleteallSchedule(String title);
+    void deleteAllSchedule(String title);
 
     void editSchedule(String boardtitle, String creator, String year, String month, String date, String hour,
                       String minute, String duHr, String duMin, String recur);

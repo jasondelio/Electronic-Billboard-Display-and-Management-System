@@ -10,14 +10,19 @@ public class AlreadyLoginReply implements Serializable {
     private  String sessionToken;
     private ArrayList<String> permissionsList;
     private String LoggedInUsername;
-//    private String logintime;
 
+    /**
+     * Constructor setting value to get user's information to an application
+     * @param loggedInUsername username already logged in
+     * @param sessionToken sessionToken
+     * @param permissionsList permissions list of user
+     * @param loginSuccess boolean if the user login success or not
+     */
     public AlreadyLoginReply(boolean loginSuccess, String sessionToken, ArrayList<String> permissionsList, String loggedInUsername){
         this.loginSucceed = loginSuccess;
         this.sessionToken = sessionToken;
         this.permissionsList  = permissionsList;
         this.LoggedInUsername = loggedInUsername;
-//        this.logintime = logintime;
     }
     public String getSessionToken(){
         return sessionToken;
@@ -34,8 +39,5 @@ public class AlreadyLoginReply implements Serializable {
         return LoggedInUsername;
     }
 
-//    public String getLogintime() {
-//        return logintime;
-//    }
 }
 

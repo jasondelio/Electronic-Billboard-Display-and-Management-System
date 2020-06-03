@@ -10,6 +10,13 @@ public class EditBillboardRequest implements Serializable {
     private String billboardname;
     private String billboardContent;
     private String sessionToken;
+
+    /**
+     *  Constructor setting values to edit billboard in server
+     * @param billboardname billboard's title
+     * @param sessionToken sessiontoken
+     * @param billboardContent billboard's content
+     */
     public EditBillboardRequest(String billboardname, String billboardContent , String sessionToken) {
         this.billboardname = billboardname;
         this.billboardContent = billboardContent;

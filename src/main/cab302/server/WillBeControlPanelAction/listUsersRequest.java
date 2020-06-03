@@ -8,8 +8,11 @@ import java.io.Serializable;
 public class listUsersRequest implements Serializable {
     private String sessionToken;
 
+    /**
+     * Constructor setting value to list user in server
+     * @param sessionToken sessionToken
+     */
     public listUsersRequest(String sessionToken){
-
         this.sessionToken = sessionToken;
     }
 

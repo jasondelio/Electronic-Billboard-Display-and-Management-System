@@ -11,6 +11,13 @@ public class LoginReply implements Serializable {
     private ArrayList<String> permissionsList;
     private String LoggedInUsername;
 
+    /**
+     *  Constructor setting value to get user info to an application
+     * @param loggedInUsername username logged in with
+     * @param sessionToken sessionToken
+     * @param permissionsList permmissoins list
+     * @param loginSuccess login is success or not
+     */
     public LoginReply(boolean loginSuccess, String sessionToken, ArrayList<String> permissionsList, String loggedInUsername){
         this.loginSucceed = loginSuccess;
         this.sessionToken = sessionToken;

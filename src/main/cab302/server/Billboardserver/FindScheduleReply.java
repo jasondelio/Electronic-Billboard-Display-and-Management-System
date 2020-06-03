@@ -8,7 +8,10 @@ import java.io.Serializable;
  */
 public class FindScheduleReply implements Serializable {
     private ScheduleInfo scheduleInfo;
-
+    /**
+     * Constructor setting value to get schedule information to an application
+     * @param scheduleInfo xml content of billboard
+     */
     public FindScheduleReply(ScheduleInfo scheduleInfo){
         this.scheduleInfo = scheduleInfo;
     }

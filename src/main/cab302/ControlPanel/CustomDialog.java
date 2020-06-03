@@ -322,9 +322,9 @@ public class CustomDialog extends JDialog implements ActionListener {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
-                BillboardRequest billboardRequest = new BillboardRequest((String) billboardChooser.getSelectedItem(), sessionToken);
+                GetBillboardInfoRequest getBillboardInfoRequest = new GetBillboardInfoRequest((String) billboardChooser.getSelectedItem(), sessionToken);
                 try {
-                    oos.writeObject(billboardRequest);
+                    oos.writeObject(getBillboardInfoRequest);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -372,7 +372,7 @@ public class CustomDialog extends JDialog implements ActionListener {
                     ex.printStackTrace();
                 }
                 FindScheduleRequest findScheduleRequest = new FindScheduleRequest(sessionToken, nameList.getSelectedValue().toString().split(" ")[0], month, date,
-                        nameList.getSelectedValue().toString().split(" ")[2]);
+                        nameList.getSelectedValue().toString().split(" ")[2],nameList.getSelectedValue().toString().split(" ")[4]);
                 try {
                     oos.writeObject(findScheduleRequest);
                 } catch (IOException ex) {
@@ -726,7 +726,7 @@ public class CustomDialog extends JDialog implements ActionListener {
                     && minbox.getText().equals(nameList.getSelectedValue().toString().split(" ")[4]) && duHrbox.getText().equals(nameList.getSelectedValue().toString().split(" ")[6])
                     && duMinbox.getText().equals(nameList.getSelectedValue().toString().split(" ")[8])) {
                 socketStart();
-                RemoveBillboardRequest removeBillboardRequest = new RemoveBillboardRequest(String.valueOf(billboardChooser.getSelectedItem()), sessionToken, month, date, hourbox.getText());
+                RemoveBillboardRequest removeBillboardRequest = new RemoveBillboardRequest(String.valueOf(billboardChooser.getSelectedItem()), sessionToken, month, date, hourbox.getText(), minbox.getText());
                 oos.writeObject(removeBillboardRequest);
                 oos.flush();
                 Object trans = ois.readObject();

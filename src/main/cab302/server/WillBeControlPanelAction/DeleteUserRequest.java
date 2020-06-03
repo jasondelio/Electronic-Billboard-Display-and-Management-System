@@ -8,7 +8,11 @@ import java.io.Serializable;
 public class DeleteUserRequest implements Serializable {
     private String username;
     private String sessiontoken;
-
+    /**
+     *  Constructor setting values to delete user in server
+     * @param username user's name
+     * @param sessiontoken sessionToken
+     */
     public DeleteUserRequest(String username, String sessiontoken){
         this.sessiontoken = sessiontoken;
         this.username = username;

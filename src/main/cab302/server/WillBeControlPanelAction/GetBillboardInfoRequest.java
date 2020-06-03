@@ -4,10 +4,16 @@ import java.io.Serializable;
 /**
  * Requesting to server to get the billboard info and the server get sessiontoken and billboard name from client
  */
-public class BillboardRequest implements Serializable {
+public class GetBillboardInfoRequest implements Serializable {
     private String billboardname;
     private String sessionToken;
-    public BillboardRequest(String billboardname, String sessionToken) {
+
+    /**
+     * Constructor setting values to get billboard content from server
+     * @param billboardname billboard's title
+     * @param sessionToken sessionToken
+     */
+    public GetBillboardInfoRequest(String billboardname, String sessionToken) {
         this.billboardname = billboardname;
         this.sessionToken = sessionToken;
     }

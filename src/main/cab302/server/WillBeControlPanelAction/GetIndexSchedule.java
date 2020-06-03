@@ -8,7 +8,11 @@ import java.io.Serializable;
 public class GetIndexSchedule implements Serializable {
     private String sessiontoken;
     private Integer index;
-
+    /**
+     *  Constructor setting values to find schedule with the index of database
+     * @param index index of database
+     * @param sessiontoken sessiontoken
+     */
     public GetIndexSchedule(String sessiontoken,int index){
         this.sessiontoken =sessiontoken;
         this.index = index;

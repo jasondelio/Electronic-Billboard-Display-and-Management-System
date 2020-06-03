@@ -9,6 +9,10 @@ import java.io.Serializable;
 public class ViewerReply implements Serializable {
     private BillboardInfo billboardInfo;
 
+    /**
+     *  Constructor setting value to get billboard Information to applications
+     * @param billboardInfo billboardInfo will be sent to applications
+     */
     public ViewerReply(BillboardInfo billboardInfo){
         this.billboardInfo = billboardInfo;
     }

@@ -13,6 +13,14 @@ public class CreateUsersRequest implements Serializable {
     private String email;
     private ArrayList<String> lists_Permissions;
 
+    /**
+     * Constuctor setting values to create new user in server
+     * @param sessiontoken sessionToken
+     * @param password new user's password
+     * @param username new user's username
+     * @param email new user's email
+     * @param lists_permission new user's list permissions
+     */
     public CreateUsersRequest(String sessiontoken, String password, String username,String email, ArrayList<String> lists_permission){
         this.email = email;
         this.sessionToken = sessiontoken;
@@ -21,9 +29,7 @@ public class CreateUsersRequest implements Serializable {
         this.lists_Permissions = lists_permission;
     }
 
-    public String getSessionToken() {
-        return sessionToken;
-    }
+    public String getSessionToken() { return sessionToken; }
 
     public String getUsername() { return username; }
 

@@ -738,8 +738,8 @@ public class HomeUI extends JFrame implements ActionListener {
             editBillboardPanel.add(panelBillboardName, BorderLayout.NORTH);
             socketStart();
 
-            BillboardRequest billboardRequest = new BillboardRequest((String) billboardList.getSelectedValue(),sessionToken);
-            oos.writeObject(billboardRequest);
+            GetBillboardInfoRequest getBillboardInfoRequest = new GetBillboardInfoRequest((String) billboardList.getSelectedValue(),sessionToken);
+            oos.writeObject(getBillboardInfoRequest);
             oos.flush();
             String billboardContent = null;
             String billboardCreator = null;
@@ -1481,8 +1481,8 @@ public class HomeUI extends JFrame implements ActionListener {
             parser = new XMLParser(XMLContents);
         } else if (btnSource == btnPreviewBillboard) {
             socketStart();
-            BillboardRequest billboardRequest = new BillboardRequest((String) billboardList.getSelectedValue(), sessionToken);
-            oos.writeObject(billboardRequest);
+            GetBillboardInfoRequest getBillboardInfoRequest = new GetBillboardInfoRequest((String) billboardList.getSelectedValue(), sessionToken);
+            oos.writeObject(getBillboardInfoRequest);
             oos.flush();
             String billContent = null;
             Object trans = ois.readObject();

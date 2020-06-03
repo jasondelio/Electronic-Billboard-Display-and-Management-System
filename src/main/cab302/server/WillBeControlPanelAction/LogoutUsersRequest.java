@@ -8,6 +8,10 @@ import java.io.Serializable;
 public class LogoutUsersRequest implements Serializable {
     private String sessionToken;
 
+    /**
+     * Constructor setting values to log out in server
+     * @param sessiontoken sessionToken
+     */
     public LogoutUsersRequest(String sessiontoken){
 
         this.sessionToken = sessiontoken;

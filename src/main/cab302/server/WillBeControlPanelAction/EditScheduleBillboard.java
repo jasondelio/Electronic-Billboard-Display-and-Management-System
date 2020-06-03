@@ -18,7 +18,20 @@ public class EditScheduleBillboard implements Serializable {
     private String durationMin;
     private String recur;
 
-
+    /**
+     *  Constructor setting values to edit schedule in server
+     * @param boardtitle billboard's title
+     * @param sessionToken sessiontoken
+     * @param creator billboard's crator
+     * @param year year
+     * @param month month
+     * @param date date
+     * @param hour hour
+     * @param minute minute
+     * @param duHr duration hour
+     * @param duMin duration minute
+     * @param recur recurring time
+     */
     public EditScheduleBillboard(String sessionToken, String boardtitle, String creator, String year, String month, String date, String hour,
                                  String minute, String duHr, String duMin, String recur) {
         this.sessionToken = sessionToken;

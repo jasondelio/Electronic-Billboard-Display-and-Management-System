@@ -9,6 +9,10 @@ public class ListUsersReply implements Serializable {
 
     private ListModel listOfUsers;
 
+    /**
+     *  Constructor setting value to get list of users to an application
+     * @param listOfUsers
+     */
     public ListUsersReply(ListModel listOfUsers){
         this.listOfUsers = listOfUsers;
     }

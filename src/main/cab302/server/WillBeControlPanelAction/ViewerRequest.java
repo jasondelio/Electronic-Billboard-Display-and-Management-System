@@ -8,6 +8,10 @@ import java.io.Serializable;
 public class ViewerRequest implements Serializable {
     private String request;
 
+    /**
+     * Constructor setting string to server
+     * @param request
+     */
     public ViewerRequest(String request) {
         this.request = request;
     }

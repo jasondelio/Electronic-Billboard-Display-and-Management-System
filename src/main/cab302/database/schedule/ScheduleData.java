@@ -41,11 +41,11 @@ public class ScheduleData {
      * @param date
      * @param hour  Remove items by using parameters to detect specific schedule
      */
-    public void remove(String title, String month, String date, String hour) {
+    public void remove(String title, String month, String date, String hour, String minute) {
 
         // remove from both list and map
 //        sModel.removeElement(key);
-        data.deleteSchedule(title, month, date, hour);
+        data.deleteSchedule(title, month, date, hour,minute);
     }
 
     /**
@@ -58,7 +58,7 @@ public class ScheduleData {
         // remove from both list and map
         listModel.removeElement(title);
         sModel.removeElement(title);
-        data.deleteallSchedule(title);
+        data.deleteAllSchedule(title);
     }
 
 
@@ -90,8 +90,8 @@ public class ScheduleData {
      * @return schedule data
      * Find schedule data depends on title, date and hour
      */
-    public ScheduleInfo findSchedule(Object title, Object month, Object date, Object hour) {
-        return data.findSchedule((String) title, (String) month, (String) date, (String) hour);
+    public ScheduleInfo findSchedule(Object title, Object month, Object date, Object hour, Object minute) {
+        return data.findSchedule((String) title, (String) month, (String) date, (String) hour, (String) minute);
     }
 
     /**

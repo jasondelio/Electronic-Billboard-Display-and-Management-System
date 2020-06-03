@@ -687,7 +687,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                     // Set the server to find the schedule with recurrence
                     socketStart();
                     FindScheduleRequest fsr = new FindScheduleRequest(sessionToken, recurSchedule[index].split(" ")[0], String.valueOf(dateRecur[in][1]), String.valueOf(dateRecur[in][0]),
-                            String.valueOf(hrs));
+                            String.valueOf(hrs), recurSchedule[index].split(" ")[6]);
                     oos.writeObject(fsr);
                     oos.flush();
                     ScheduleInfo sch = new ScheduleInfo();

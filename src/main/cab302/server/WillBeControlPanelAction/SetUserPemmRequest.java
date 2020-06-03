@@ -10,13 +10,20 @@ public class SetUserPemmRequest implements Serializable {
     private String username;
     private String sessionToken;
     private String email;
-    private ArrayList<String> permisssions;
+    private ArrayList<String> permissions;
 
-    public SetUserPemmRequest(String username, String sessionToken, String email, ArrayList<String> permisssions){
+    /**
+     *  Constructor setting values to remove schedule from schedules in server
+     * @param sessionToken sessionToken
+     * @param username username
+     * @param email email
+     * @param permissions permissions
+     */
+    public SetUserPemmRequest(String username, String sessionToken, String email, ArrayList<String> permissions){
         this.sessionToken = sessionToken;
         this.email = email;
         this.username = username;
-        this.permisssions = permisssions;
+        this.permissions = permissions;
     }
 
     public String getSessionToken() {
@@ -26,6 +33,6 @@ public class SetUserPemmRequest implements Serializable {
         return username;
     }
     public String getEmail() {return email; }
-    public ArrayList<String> getPermisssions(){ return  permisssions; }
+    public ArrayList<String> getPermisssions(){ return  permissions; }
 }
 

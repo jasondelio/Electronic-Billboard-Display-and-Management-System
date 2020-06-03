@@ -7,7 +7,10 @@ import java.io.Serializable;
 public class UserLoggedInrequest implements Serializable {
     private  String sessionToken;
 
-
+    /**
+     * Constructor setting value to get already logged in user information
+     * @param sessionToken sessionToken
+     */
     public UserLoggedInrequest(String sessionToken){
         this.sessionToken = sessionToken;
     }

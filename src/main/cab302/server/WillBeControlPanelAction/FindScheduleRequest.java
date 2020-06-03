@@ -10,12 +10,24 @@ public class FindScheduleRequest  implements Serializable {
     private String month;
     private String date;
     private String hour;
-    public FindScheduleRequest(String sessiontoken, String title, String month, String date, String hour){
+    private String minute;
+
+    /**
+     *  Constructor setting values to find schedule with below information in server
+     * @param title billboard's title
+     * @param sessiontoken sessionToken
+     * @param month month
+     * @param date date
+     * @param hour hour
+     * @param minute minute
+     */
+    public FindScheduleRequest(String sessiontoken, String title, String month, String date, String hour, String minute){
         this.sessiontoken =sessiontoken;
         this.title = title;
         this.month = month;
         this.date = date;
         this.hour = hour;
+        this.minute = minute;
     }
     public String getSessiontoken(){
         return sessiontoken;
@@ -35,5 +47,9 @@ public class FindScheduleRequest  implements Serializable {
 
     public String getHour() {
         return hour;
+    }
+
+    public String getMinute() {
+        return minute;
     }
 }

@@ -7,7 +7,10 @@ import java.io.Serializable;
  */
 public class ListBillboardReply implements Serializable {
     private ListModel listofBillboards;
-
+    /**
+     * Constructor setting value to get list of billboard to an application
+     * @param listBillboardRequest list of billboard
+     */
     public ListBillboardReply(ListModel listBillboardRequest){
         this.listofBillboards = listBillboardRequest;
     }

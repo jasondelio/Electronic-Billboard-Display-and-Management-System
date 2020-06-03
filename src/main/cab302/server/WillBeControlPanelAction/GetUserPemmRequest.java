@@ -7,6 +7,12 @@ import java.io.Serializable;
 public class GetUserPemmRequest implements Serializable {
     private String username;
     private String sessionToken;
+
+    /**
+     * Constructor setting values to get user permissions in server
+     * @param sessionToken sessionToken
+     * @param username new user's username
+     */
     public GetUserPemmRequest (String username, String sessionToken){
         this.sessionToken = sessionToken;
         this.username = username;
