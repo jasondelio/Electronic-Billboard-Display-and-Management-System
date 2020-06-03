@@ -36,10 +36,12 @@ public class ScheduleData {
     }
 
     /**
-     * @param title
-     * @param month
-     * @param date
-     * @param hour  Remove items by using parameters to detect specific schedule
+     * Remove items by using parameters to detect specific schedule
+     *
+     * @param title : the title of schedule to remove
+     * @param month : the month of schedule to remove
+     * @param date  : the date of schedule to remove
+     * @param hour  : the hour of schedule to remove
      */
     public void remove(String title, String month, String date, String hour, String minute) {
 
@@ -51,7 +53,7 @@ public class ScheduleData {
     /**
      * Remove all items from list and map
      *
-     * @param title
+     * @param title : the title of schedule to remove
      */
     public void removeAll(String title) {
 
@@ -63,7 +65,7 @@ public class ScheduleData {
 
 
     /**
-     * @param key
+     * @param key : the key of a schedule to get the information
      * @return schedule data
      * Get schedule data by title
      */
@@ -74,19 +76,19 @@ public class ScheduleData {
     /**
      * Find schedule for current time
      *
-     * @param year
-     * @param month
-     * @param date
-     * @return
+     * @param year : the year of schedule to find at current time
+     * @param month : the month of schedule to find at current time
+     * @param date : the date of schedule to find at current time
+     * @return the data of found schedule
      */
     public ArrayList<ScheduleInfo> findCurrenttime(String year, String month, String date) {
         return data.getCurrentBillboardTitle(year, month, date);
     }
 
     /**
-     * @param title
-     * @param date
-     * @param hour
+     * @param title : the title of schedule to find
+     * @param date : the date of schedule to find
+     * @param hour : the hour of schedule to find
      * @return schedule data
      * Find schedule data depends on title, date and hour
      */
@@ -97,14 +99,14 @@ public class ScheduleData {
     /**
      * Find new schedule is already in the database or not
      *
-     * @param title
-     * @param month
-     * @param date
-     * @param hour
-     * @param minute
-     * @param durationHr
-     * @param durationMin
-     * @param recur
+     * @param title : the title of a schedule to verify it is already in the current database
+     * @param month : the month of a schedule to verify it is already in the current database
+     * @param date : the date of a schedule to verify it is already in the current database
+     * @param hour : the hour of a schedule to verify it is already in the current database
+     * @param minute : the minute of a schedule to verify it is already in the current database
+     * @param durationHr : the durationHr of a schedule to verify it is already in the current database
+     * @param durationMin : the durationMin of a schedule to verify it is already in the current database
+     * @param recur : the recur of a schedule to verify it is already in the current database
      * @return ScheduleInfo
      */
     public ScheduleInfo findSameSchedule(Object title, Object month, Object date, Object hour, Object minute, Object durationHr, Object durationMin
@@ -113,7 +115,7 @@ public class ScheduleData {
     }
 
     /**
-     * @param index
+     * @param index : the index of a schedule which has to be found
      * @return schedule data by the given index of row
      * Find the schedule data which is on the given row of index
      */
@@ -122,16 +124,17 @@ public class ScheduleData {
     }
 
     /**
-     * @param boardtitle
-     * @param creator
-     * @param year
-     * @param month
-     * @param date
-     * @param hour
-     * @param minute
-     * @param duHr
-     * @param duMin
-     * @param recur      Edit schedule
+     * Edit schedule
+     * @param boardtitle : the title of schedule to edit
+     * @param creator : the creator of schedule to edit
+     * @param year : the year of schedule to edit
+     * @param month : the month of schedule to edit
+     * @param date : the date of schedule to edit
+     * @param hour : the hour of schedule to edit
+     * @param minute : the minute of schedule to edit
+     * @param duHr : the duHr of schedule to edit
+     * @param duMin : the duMin of schedule to edit
+     * @param recur : the recur of schedule to edit
      */
     public void edit(String boardtitle, String creator, String year, String month, String date, String hour,
                      String minute, String duHr, String duMin, String recur) {

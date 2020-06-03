@@ -33,16 +33,16 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
     /**
      * Set the schedule information as required
      *
-     * @param boardtitle
-     * @param creator
-     * @param year
-     * @param month
-     * @param date
-     * @param hour
-     * @param minute
-     * @param durationHr
-     * @param durationMin
-     * @param recur
+     * @param boardtitle  : the data of title
+     * @param creator     : the data of creator
+     * @param year        : the data of year
+     * @param month       : the data of month
+     * @param date        : the data of date
+     * @param hour        : the data of hour
+     * @param minute      : the data of minute
+     * @param durationHr  : the data of durationHr
+     * @param durationMin : the data of durationMin
+     * @param recur       : the data of recur
      */
     public ScheduleInfo(String boardtitle, String creator, String year, String month, String date, String hour, String minute, String durationHr,
                         String durationMin, String recur) {
@@ -67,7 +67,7 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
     }
 
     /**
-     * @param boardtitle
+     * @param boardtitle : the title to be set
      */
     public void setBoardTitle(String boardtitle) {
         this.boardtitle = boardtitle;
@@ -81,7 +81,7 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
     }
 
     /**
-     * @param creator
+     * @param creator : the creator to be set
      */
     public void setCreator(String creator) {
         this.creator = creator;
@@ -95,7 +95,7 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
     }
 
     /**
-     * @param date
+     * @param date : the date to be set
      */
     public void setDate(String date) {
         this.date = date;
@@ -110,7 +110,7 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
 
     /**
-     * @param month
+     * @param month : the month to be set
      */
     public void setMonth(String month) {
         this.month = month;
@@ -127,7 +127,7 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
     /**
      *
-     * @param year
+     * @param year : the year to be set
      */
     public void setYear(String year) {
         this.year = year;
@@ -144,7 +144,7 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
     /**
      *
-     * @param hour
+     * @param hour : the hour to be set
      */
     public void setHour(String hour) {
         this.hour = hour;
@@ -160,7 +160,7 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
     /**
      *
-     * @param minute
+     * @param minute : the minute to be set
      */
     public void setMinute(String minute) {
         this.minute = minute;
@@ -175,7 +175,7 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
     /**
      *
-     * @param duHr
+     * @param duHr : the duration hours to be set
      */
     public void setDuHr(String duHr) {
         this.durationHr = duHr;
@@ -190,7 +190,7 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
     /**
      *
-     * @param duMin
+     * @param duMin : the duration minutes to be set
      */
     public void setDuMin(String duMin) {
         this.durationMin = duMin;
@@ -205,7 +205,7 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
     /**
      *
-     * @param recur
+     * @param recur : the frequency to be set
      */
     public void setRecur(String recur) {
         this.recur = recur;
@@ -213,7 +213,7 @@ public class ScheduleInfo implements Comparable<ScheduleInfo>, Serializable {
 
     /**
      *
-     * @param other
+     * @param other : the other month to be compared
      * @return Compared month
      */
     public int compareTo(ScheduleInfo other) {

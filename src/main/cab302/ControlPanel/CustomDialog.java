@@ -1,10 +1,10 @@
 package cab302.ControlPanel;
 
 import cab302.database.schedule.ScheduleInfo;
+import cab302.server.ApplicationsRequests.*;
 import cab302.server.ReplyToApplications.AcknowledgeReply;
 import cab302.server.ReplyToApplications.BillboardReply;
 import cab302.server.ReplyToApplications.FindScheduleReply;
-import cab302.server.ApplicationsRequests.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -78,16 +78,16 @@ public class CustomDialog extends JDialog implements ActionListener {
     ObjectInputStream ois;
 
     /**
-     * Main method to call and set the dialog for customizing schedule
+     * The constructor to call and set the dialog for customizing schedule
      *
-     * @param Bg
-     * @param info
-     * @param year
-     * @param selectedTime
-     * @param billboards
-     * @param schedules
-     * @param duppleSchedules
-     * @param token
+     * @param Bg              : the frame of calendarGUI
+     * @param info            : title information
+     * @param year            : current year
+     * @param selectedTime    : selected time by user
+     * @param billboards      : selected billboard by user
+     * @param schedules       : selected schedule by user
+     * @param duppleSchedules : selected recurrence Schedule information
+     * @param token           : session token
      * @throws IOException
      * @throws ClassNotFoundException
      */
@@ -306,7 +306,7 @@ public class CustomDialog extends JDialog implements ActionListener {
         edit.addActionListener(this);
         close.addActionListener(this);
 
-        setFieldsEditable(false);
+        setEditable(false);
         /*
         Set the specific action to billboard chooser as it needs to take the data from
         billboard table as the billboard title and creator must be stored before modify the schedule data
@@ -364,7 +364,7 @@ public class CustomDialog extends JDialog implements ActionListener {
         the information must be returned on each boxes of schedule eg. time hour, minutes, durations and so on
          */
         nameList.addListSelectionListener(e -> {
-            setFieldsEditable(true);
+            setEditable(true);
             if (nameList.getSelectedValue() != null) {
                 // Send the request to server to take items
                 try {
@@ -451,8 +451,8 @@ public class CustomDialog extends JDialog implements ActionListener {
     /**
      * Set the display of schedule list
      *
-     * @param date
-     * @param month
+     * @param date : the date to display every schedules
+     * @param month : the month to display every schedules
      * @throws IOException
      * @throws ClassNotFoundException
      */
@@ -514,12 +514,13 @@ public class CustomDialog extends JDialog implements ActionListener {
         nameList = new JList(model);
         pnlList = new JScrollPane(nameList);
     }
+
     /**
      * Set false until new button is pressed or the Jlist pressed
      *
-     * @param editable
+     * @param editable : boolean value to set editable
      */
-    private void setFieldsEditable(boolean editable) {
+    private void setEditable(boolean editable) {
         this.minbox.setEditable(editable);
         this.duHrbox.setEditable(editable);
         this.duMinbox.setEditable(editable);
@@ -529,10 +530,11 @@ public class CustomDialog extends JDialog implements ActionListener {
         this.delete.setEnabled(editable);
         this.billboardChooser.setEnabled(editable);
     }
+
     /**
      * To show the information on every textbox by selecting the list
      *
-     * @param s
+     * @param s : the schedule information
      */
     private void show(ScheduleInfo s) {
         if (s != null) {
@@ -561,7 +563,7 @@ public class CustomDialog extends JDialog implements ActionListener {
     /**
      * Set action performances of buttons
      *
-     * @param e
+     * @param e : the action event object
      */
     @Override
     public void actionPerformed(ActionEvent e) {
@@ -572,7 +574,7 @@ public class CustomDialog extends JDialog implements ActionListener {
             clearFields();
             recurbox.setEditable(true);
             save.setEnabled(true);
-            setFieldsEditable(true);
+            setEditable(true);
         } else if (act == save) { // When save button is clicked
             try {
                 savePressed();

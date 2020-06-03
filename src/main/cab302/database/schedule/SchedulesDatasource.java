@@ -154,7 +154,7 @@ public class SchedulesDatasource implements ScheduleSources {
     /**
      * Find schedule by searching the given title
      *
-     * @param title
+     * @param title : the title of schedule
      */
     public ScheduleInfo getSchedule(String title) {
         ScheduleInfo b = new ScheduleInfo();
@@ -183,14 +183,14 @@ public class SchedulesDatasource implements ScheduleSources {
     /**
      * Find same schedule comparing to a new schedule from the database
      *
-     * @param title
-     * @param month
-     * @param date
-     * @param hour
-     * @param minute
-     * @param durationHr
-     * @param durationMin
-     * @param recur
+     * @param title       : the title of schedule to be found from the current database
+     * @param month       : the month of schedule to be found from the current database
+     * @param date        : the date of schedule to be found from the current database
+     * @param hour        : the hour of schedule to be found from the current database
+     * @param minute      : the minute of schedule to be found from the current database
+     * @param durationHr  : the duration hours of schedule to be found from the current database
+     * @param durationMin : the duration minutes of schedule to be found from the current database
+     * @param recur       : the frequency of schedule to be found from the current database
      * @return ScheduleInfo
      */
     public ScheduleInfo findSame(String title, String month, String date, String hour, String minute, String durationHr, String durationMin, String recur) {
@@ -227,11 +227,11 @@ public class SchedulesDatasource implements ScheduleSources {
     /**
      * Find schedule by using the given information that are title, date, and hour
      *
-     * @param title
-     * @param month
-     * @param date
-     * @param hour
-     * @param minute
+     * @param title : the title of schedule to be found
+     * @param month : the month of schedule to be found
+     * @param date : the date of schedule to be found
+     * @param hour : the hour of schedule to be found
+     * @param minute : the minute of schedule to be found
      * @return schedule info
      */
     public ScheduleInfo findSchedule(String title, String month, String date, String hour, String minute) {
@@ -265,10 +265,10 @@ public class SchedulesDatasource implements ScheduleSources {
     /**
      * Get the titles of billboard on current time
      *
-     * @param year
-     * @param month
-     * @param date
-     * @return array
+     * @param year : the year of schedule to get the required title of billboard
+     * @param month : the month of schedule to get the required title of billboard
+     * @param date : the date of schedule to get the required title of billboard
+     * @return array list of title
      */
     public ArrayList<ScheduleInfo> getCurrentBillboardTitle(String year, String month, String date) {
 
@@ -304,7 +304,7 @@ public class SchedulesDatasource implements ScheduleSources {
     /**
      * Find the schedule which is on specific row
      *
-     * @param index
+     * @param index : the index of the schedule that needs to be found
      * @return schedule info
      */
     public ScheduleInfo findRow(int index) {
@@ -396,11 +396,11 @@ public class SchedulesDatasource implements ScheduleSources {
     /**
      * Delete schedule by searching title, month, date and hour
      *
-     * @param title
-     * @param month
-     * @param date
-     * @param hour
-     * @param minute
+     * @param title : the title of a schedule which has to be removed
+     * @param month : the month of a schedule which has to be removed
+     * @param date : the date of a schedule which has to be removed
+     * @param hour : the hour of a schedule which has to be removed
+     * @param minute : the minute of a schedule which has to be removed
      */
     public void deleteSchedule(String title, String month, String date, String hour,String minute) {
         try {
@@ -417,7 +417,7 @@ public class SchedulesDatasource implements ScheduleSources {
 
     /**
      * Delete all schedule with same title from the database
-     * @param title
+     * @param title : the title of a schedule
      */
     public void deleteAllSchedule(String title) {
         try {
@@ -430,16 +430,16 @@ public class SchedulesDatasource implements ScheduleSources {
 
     /**
      * Edit schedule information
-     * @param boardtitle
-     * @param creator
-     * @param year
-     * @param month
-     * @param date
-     * @param hour
-     * @param minute
-     * @param duHr
-     * @param duMin
-     * @param recur
+     * @param boardtitle : the title of schedule that must be edited
+     * @param creator : the creator of schedule that must be edited
+     * @param year : the year of schedule that must be edited
+     * @param month : the month of schedule that must be edited
+     * @param date : the date of schedule that must be edited
+     * @param hour : the hour of schedule that must be edited
+     * @param minute : the minute of schedule that must be edited
+     * @param duHr : the duration hours of schedule that must be edited
+     * @param duMin : the duration minutes of schedule that must be edited
+     * @param recur : the frequency of schedule that must be edited
      */
     public void editSchedule(String boardtitle, String creator, String year, String month, String date, String hour,
                              String minute, String duHr, String duMin, String recur) {

@@ -1,11 +1,11 @@
 package cab302.ControlPanel;
 
 import cab302.database.schedule.ScheduleInfo;
+import cab302.server.ApplicationsRequests.*;
 import cab302.server.ReplyToApplications.AcknowledgeReply;
 import cab302.server.ReplyToApplications.FindScheduleReply;
 import cab302.server.ReplyToApplications.ListBillboardReply;
 import cab302.server.ReplyToApplications.ViewScheduleListsReply;
-import cab302.server.ApplicationsRequests.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -17,7 +17,6 @@ import java.net.Socket;
 import java.util.Calendar;
 import java.util.Properties;
 
-//sorry i just change public to firsly run the server to create tables
 public class CalendarGUI extends JFrame implements ActionListener, Runnable, MouseListener {
     public static final int YEAR_DURATION = 10;
     public static final int WEEK_LENGTH = 7;
@@ -50,14 +49,11 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
     protected String[] monthNames = {"Jan", "Feb",
             "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
-//    ScheduleData dataSet;
-//    BillboardData boradData;
     private String host;
     ListModel billboardsList;
     ListModel scheduleList;
     ListModel scheduleDupleList;
 
-    //UserData data;
     Socket socket;
     JList data;
     OutputStream outputStream;
@@ -78,9 +74,9 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
     String sessionToken;
 
     /**
-     * Method for calling calendar GUI
+     * The cunstructor for calling calendar GUI
      *
-     * @param sessiontoken
+     * @param sessiontoken : the session token to use the server
      * @throws IOException
      * @throws ClassNotFoundException
      */
@@ -314,7 +310,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                     /**
                      * When the dialog is opened
                      *
-                     * @param e
+                     * @param e : the window action even object
                      */
                     @Override
                     public void windowOpened(WindowEvent e) {
@@ -396,7 +392,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                     /**
                      * When the dialog is closed
                      *
-                     * @param e
+                     * @param e : the window action even object
                      */
                     @Override
                     public void windowClosed(WindowEvent e) {
@@ -522,7 +518,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
     /**
      * Set the values for weekly table
      *
-     * @param t
+     * @param t : the table of weekly
      * @throws IOException
      * @throws ClassNotFoundException
      */
@@ -757,7 +753,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
     /**
      * Set year chooser combo box
      *
-     * @param x
+     * @param x : the box for year chooser on frame
      */
     public void setYearChooser(Box x) {
 
@@ -773,7 +769,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
     /**
      * Set month chooser combo box
      *
-     * @param x
+     * @param x : the box of month chooser on frame
      */
     public void setMonthChooser(Box x) {
 
@@ -843,7 +839,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
     /**
      * Set the weekly after taking user's chosen date from monthly calendar
      *
-     * @param comp
+     * @param comp : the component which is the user selection
      */
     public void weeklyPlanner(String comp) {
         Calendar tempCal = Calendar.getInstance();
@@ -939,7 +935,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
     /**
      * The performances for mouse clicking
      *
-     * @param e
+     * @param e : the mouse clicked action object
      */
     public void mouseClicked(MouseEvent e) {
         Object comp = e.getSource();
@@ -976,7 +972,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
     /**
      * Set the performances for user actions
      *
-     * @param e
+     * @param e : the event action object
      */
     public void actionPerformed(ActionEvent e) {
         Object obj = e.getSource();
@@ -1025,6 +1021,9 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
         socket.close();
     }
 
+    /*
+    The methods that are called by IntelliJ to use the mouse clicked event.
+     */
     @Override
     public void mouseExited(MouseEvent e) {}
 

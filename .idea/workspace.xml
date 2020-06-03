@@ -5,17 +5,9 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CalendarGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CalendarGUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CustomDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CustomDialog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/UserLoginUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/UserLoginUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/billboard/BillboardData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/billboard/BillboardData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/billboard/BillboardDataSource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/billboard/BillboardDataSource.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/billboard/BillboardSources.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/billboard/BillboardSources.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/EditScheduleBillboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/EditScheduleBillboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ViewBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ViewScheduleListsRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/listUsersRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ListUsersRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/sessionExistRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/SessionExistRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/BillboardServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/BillboardServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/ViewBillboardReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/ViewScheduleListsReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/SchedulesDatasource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/SchedulesDatasource.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -184,8 +176,8 @@
     <list>
       <item itemvalue="Application.BillboardServer" />
       <item itemvalue="Application.Main" />
-      <item itemvalue="Application.Run" />
       <item itemvalue="Application.RunViewer" />
+      <item itemvalue="Application.Run" />
       <item itemvalue="JUnit.TestHexToRGB" />
       <item itemvalue="JUnit.TestImageGenerator" />
     </list>
