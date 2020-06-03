@@ -1,8 +1,8 @@
 package cab302.ControlPanel;
 
 import cab302.database.user.UserInfo;
-import cab302.server.Billboardserver.*;
-import cab302.server.WillBeControlPanelAction.*;
+import cab302.server.ReplyToApplications.*;
+import cab302.server.ApplicationsRequests.*;
 import cab302.viewer.exceptions.BadImageFormatException;
 import cab302.viewer.exceptions.MalformedHexadecimalColourException;
 import cab302.viewer.gui.DisplayAssembler;

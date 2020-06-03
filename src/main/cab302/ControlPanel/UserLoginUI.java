@@ -1,12 +1,12 @@
 package cab302.ControlPanel;
 
-import cab302.server.Billboardserver.AcknowledgeReply;
-import cab302.server.Billboardserver.AlreadyLoginReply;
-import cab302.server.Billboardserver.LoginReply;
-import cab302.server.Billboardserver.SessionExistReply;
-import cab302.server.WillBeControlPanelAction.Loginrequest;
-import cab302.server.WillBeControlPanelAction.UserLoggedInrequest;
-import cab302.server.WillBeControlPanelAction.sessionExistRequest;
+import cab302.server.ReplyToApplications.AcknowledgeReply;
+import cab302.server.ReplyToApplications.AlreadyLoginReply;
+import cab302.server.ReplyToApplications.LoginReply;
+import cab302.server.ReplyToApplications.SessionExistReply;
+import cab302.server.ApplicationsRequests.Loginrequest;
+import cab302.server.ApplicationsRequests.UserLoggedInrequest;
+import cab302.server.ApplicationsRequests.sessionExistRequest;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;

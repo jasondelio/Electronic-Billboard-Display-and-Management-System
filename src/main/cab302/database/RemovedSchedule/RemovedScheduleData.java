@@ -25,7 +25,8 @@ public class RemovedScheduleData {
     }
 
     /**
-     *  Add element to listmodel and data
+     * Add element to listModel and data
+     * @param s removed scheduleInfo to add in RemovedSchedule history
      */
     public void add(RemovedScheduleInfo s) {
         listModel.addElement(s.getBoardTitle());
@@ -34,7 +35,8 @@ public class RemovedScheduleData {
 
 
     /**
-     *  delete element to listmodel and data
+     *  delete element from listmodel and data
+     * @param title billboard title
      */
     public void remove(String title) {
         // remove from both list and map
@@ -44,12 +46,20 @@ public class RemovedScheduleData {
 
     /**
      * method checking if the schedule is in removed history
+     * @param key
+     * @param month
+     * @param date
+     * @param hour
+     * @param minute
+     * @param duraHr
+     * @param duraMin
+     * @return RemovedScheduleInfo
      */
     public RemovedScheduleInfo get(Object key,Object year,Object month,Object date,Object hour,Object minute,Object duraHr,Object duraMin) {
         return data.getSchedule((String) key,(String) year,(String) month,(String) date,(String) hour,(String) minute,(String) duraHr,(String) duraMin);
     }
 
-    /**
+    /**@return list model
      */
     public ListModel getModel() {
         return listModel;

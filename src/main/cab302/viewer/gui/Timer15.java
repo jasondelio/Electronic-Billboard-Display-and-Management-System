@@ -8,6 +8,11 @@ import java.util.TimerTask;
  */
 public class Timer15 extends TimerTask {
     private Gui GUI;
+
+    /**
+     * Repeat GUI every 15 seconds until close
+     * @param GUI
+     */
     Timer15 (Gui GUI){
         this.GUI = GUI;
     }

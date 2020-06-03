@@ -1,6 +1,7 @@
 package cab302.database.RemovedSchedule;
 
 import cab302.database.DataConnection;
+import cab302.server.BillboardServer;
 
 import java.sql.*;
 import java.util.Set;
@@ -40,7 +41,10 @@ public class RemovedSchedulesDatasource implements RemovedScheduleSources {
 
     private PreparedStatement getSchedule;
     private PreparedStatement delateSchedules;
-
+    /**
+     * Add removed schedule by the given data of schedule from server
+     * @see BillboardServer
+     */
     public RemovedSchedulesDatasource() {
         connection = DataConnection.getInstance();
         try {
@@ -53,12 +57,11 @@ public class RemovedSchedulesDatasource implements RemovedScheduleSources {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
-        System.out.println("Table created");
     }
 
     /**
      * delete schedule info
+     * @param title delete schedule from removed history
      */
     public void delateSchedules(String title) {
         try {
@@ -70,6 +73,7 @@ public class RemovedSchedulesDatasource implements RemovedScheduleSources {
     }
     /**
      * create schedule
+     * @param b add b in database
      */
     public void createSchedule(RemovedScheduleInfo b) {
         try {
@@ -91,6 +95,14 @@ public class RemovedSchedulesDatasource implements RemovedScheduleSources {
 
     /**
      * get removed schedule info
+     * @param title billboard title
+     * @param year year
+     * @param month month
+     * @param date data
+     * @param hour hour
+     * @param minute minute
+     * @param durationHr duration Hour
+     * @param durationMin duration Minute
      */
     public RemovedScheduleInfo getSchedule(String title, String year, String month, String date,String hour, String minute, String durationHr, String durationMin) {
         RemovedScheduleInfo b = new RemovedScheduleInfo();
@@ -124,6 +136,7 @@ public class RemovedSchedulesDatasource implements RemovedScheduleSources {
     }
     /**
      * title set
+     * @return title
      */
     public Set<String> titleSet() {
         Set<String> titles = new TreeSet<String>();
@@ -142,7 +155,7 @@ public class RemovedSchedulesDatasource implements RemovedScheduleSources {
     }
 
     /**
-     * @see
+     * close
      */
     public void close() {
         try {

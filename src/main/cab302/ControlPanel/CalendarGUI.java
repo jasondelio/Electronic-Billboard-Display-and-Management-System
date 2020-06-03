@@ -1,11 +1,11 @@
 package cab302.ControlPanel;
 
 import cab302.database.schedule.ScheduleInfo;
-import cab302.server.Billboardserver.AcknowledgeReply;
-import cab302.server.Billboardserver.FindScheduleReply;
-import cab302.server.Billboardserver.ListBillboardReply;
-import cab302.server.Billboardserver.ViewBillboardReply;
-import cab302.server.WillBeControlPanelAction.*;
+import cab302.server.ReplyToApplications.AcknowledgeReply;
+import cab302.server.ReplyToApplications.FindScheduleReply;
+import cab302.server.ReplyToApplications.ListBillboardReply;
+import cab302.server.ReplyToApplications.ViewBillboardReply;
+import cab302.server.ApplicationsRequests.*;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;

@@ -1,8 +1,8 @@
 package cab302.viewer.gui;
 
 import cab302.database.billboard.BillboardInfo;
-import cab302.server.Billboardserver.ViewerReply;
-import cab302.server.WillBeControlPanelAction.ViewerRequest;
+import cab302.server.ReplyToApplications.ViewerReply;
+import cab302.server.ApplicationsRequests.ViewerRequest;
 import cab302.viewer.exceptions.BadImageFormatException;
 import cab302.viewer.exceptions.MalformedHexadecimalColourException;
 import cab302.viewer.util.XMLParser;
@@ -39,6 +39,7 @@ public class Gui extends JFrame {
     public Gui() throws IOException, ClassNotFoundException {
         // get the current scheduled billboard info from server
         getPropValues();
+
         BillboardInfo billBoardInfo = new BillboardInfo();
 
         socketStart();
@@ -51,8 +52,7 @@ public class Gui extends JFrame {
             billBoardInfo = reply.getBillboardInfo();
         }
         socketStop();
-//        System.out.println(billBoardInfo);
-
+        // enter current billboard Information
         XMLParser parser = new XMLParser(billBoardInfo);
         HashMap<String, String> xmlInfo = parser.parseXML();
 

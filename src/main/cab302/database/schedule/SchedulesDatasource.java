@@ -107,8 +107,6 @@ public class SchedulesDatasource implements ScheduleSources {
         } catch (SQLException ex) {
             ex.printStackTrace();
         }
-
-        System.out.println("Table created");
     }
 
     /**

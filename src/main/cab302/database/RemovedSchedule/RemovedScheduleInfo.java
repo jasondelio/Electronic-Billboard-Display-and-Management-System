@@ -28,7 +28,18 @@ public class RemovedScheduleInfo implements Comparable<RemovedScheduleInfo>, Ser
 
     public RemovedScheduleInfo(){};
     /**
-     * Constructor of removed schedule information
+     * Set the removedSchedule information as required
+     *
+     * @param boardtitle
+     * @param creator
+     * @param year
+     * @param month
+     * @param date
+     * @param hour
+     * @param minute
+     * @param durationHr
+     * @param durationMin
+     * @param recur
      */
     public RemovedScheduleInfo(String boardtitle, String creator, String year, String month, String date, String hour, String minute, String durationHr,
                                String durationMin, String recur) {
@@ -46,32 +57,36 @@ public class RemovedScheduleInfo implements Comparable<RemovedScheduleInfo>, Ser
 
 
     /**
-     * get billboard title
+     * @return get billboard title
      */
     public String getBoardTitle() {
         return boardtitle;
     }
 
     /**
-     * set billboard title
+     * enter billboard title
+     * @param boardtitle billboard title
      */
     public void setBoardTitle(String boardtitle) {
             this.boardtitle = boardtitle;
         }
     /**
      * get creator
+     * @return get creator
      */
     public String getCreator() {
             return creator;
         }
     /**
      * set creator
+     * @param creator billboard's creator
      */
     public void setCreator(String creator) {
             this.creator = creator;
         }
     /**
      * get date
+     * @return date
      */
     public String getDate() {
             return date;
@@ -79,6 +94,7 @@ public class RemovedScheduleInfo implements Comparable<RemovedScheduleInfo>, Ser
 
     /**
      * set date
+     * @param date scheduled date
      */
     public void setDate(String date) {
             this.date = date;
@@ -86,6 +102,7 @@ public class RemovedScheduleInfo implements Comparable<RemovedScheduleInfo>, Ser
 
     /**
      * get month
+     * @return month
      */
     public String getMonth() {
             return month;
@@ -94,6 +111,7 @@ public class RemovedScheduleInfo implements Comparable<RemovedScheduleInfo>, Ser
 
     /**
      * set month
+     * @param month schedule month
      */
     public void setMonth(String month) {
         this.month = month;
@@ -101,6 +119,7 @@ public class RemovedScheduleInfo implements Comparable<RemovedScheduleInfo>, Ser
 
     /**
      * get year
+     * @return year
      */
     public String getYear() {
         return year;
@@ -109,6 +128,7 @@ public class RemovedScheduleInfo implements Comparable<RemovedScheduleInfo>, Ser
 
     /**
      * set year
+     * @param year schedule year
      */
     public void setYear(String year) {
         this.year = year;
@@ -117,6 +137,7 @@ public class RemovedScheduleInfo implements Comparable<RemovedScheduleInfo>, Ser
 
     /**
      * get hour
+     * @return hour
      */
     public String getHour() {
         return hour;
@@ -124,13 +145,15 @@ public class RemovedScheduleInfo implements Comparable<RemovedScheduleInfo>, Ser
 
     /**
      * set hour
+     * @param hour schedule hour
      */
     public void setHour(String hour) {
             this.hour = hour;
         }
 
     /**
-     *  get minute
+     * get minute
+     * @return minute
      */
     public String getMinute() {
         return minute;
@@ -138,41 +161,47 @@ public class RemovedScheduleInfo implements Comparable<RemovedScheduleInfo>, Ser
 
     /**
      * set minute
+     * @param minute schedule minute
      */
     public void setMinute(String minute) {
         this.minute = minute;
     }
 
     /**
-     *  get Duration hour
+     * get durationHr
+     * @return durationHr
      */
     public String getDuHr() {
         return durationHr;
     }
 
     /**
-     * set Duration hour
+     * set duHr
+     * @param duHr schedule duHr
      */
     public void setDuHr(String duHr) {
         this.durationHr = duHr;
     }
 
     /**
-     *  get Duration minute
+     * get durationMin
+     * @return durationMin
      */
     public String getDuMin() {
         return durationMin;
     }
 
     /**
-     * set Duration minute
+     * set duMin
+     * @param duMin schedule duMin
      */
     public void setDuMin(String duMin) {
         this.durationMin = duMin;
     }
 
     /**
-     *  get recur
+     * get recur
+     * @return recur
      */
     public String getRecur() {
         return recur;
@@ -180,20 +209,23 @@ public class RemovedScheduleInfo implements Comparable<RemovedScheduleInfo>, Ser
 
     /**
      * set recur
+     * @param recur schedule recur
      */
     public void setRecur(String recur) {
         this.recur = recur;
     }
 
     /**
-     * compare
+     * compare to RemovedSchedule Information
+     * @param other for comparing the RemovedScheduleInfo
      */
     public int compareTo(RemovedScheduleInfo other) {
         return this.month.compareTo(other.month);
     }
 
     /**
-     * set to string
+     * get minute
+     * @return string connecting all information
      */
     public String toString() {
         return boardtitle + " " + creator + " " + year + " " + month + " " + date + " " + hour + " " + minute + " " +
