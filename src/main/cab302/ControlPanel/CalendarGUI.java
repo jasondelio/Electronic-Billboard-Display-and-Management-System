@@ -4,7 +4,7 @@ import cab302.database.schedule.ScheduleInfo;
 import cab302.server.ReplyToApplications.AcknowledgeReply;
 import cab302.server.ReplyToApplications.FindScheduleReply;
 import cab302.server.ReplyToApplications.ListBillboardReply;
-import cab302.server.ReplyToApplications.ViewBillboardReply;
+import cab302.server.ReplyToApplications.ViewScheduleListsReply;
 import cab302.server.ApplicationsRequests.*;
 
 import javax.swing.*;
@@ -211,13 +211,13 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
         socketStop();
 
         socketStart();
-        ViewBillboardRequest vBbr = new ViewBillboardRequest(sessionToken);
+        ViewScheduleListsRequest vBbr = new ViewScheduleListsRequest(sessionToken);
         oos.writeObject(vBbr);
         oos.flush();
 
         Object trans = ois.readObject();
-        if (trans instanceof ViewBillboardReply){
-            ViewBillboardReply reply = (ViewBillboardReply) trans;
+        if (trans instanceof ViewScheduleListsReply){
+            ViewScheduleListsReply reply = (ViewScheduleListsReply) trans;
             scheduleList = reply.getScheduledBillboard();
             scheduleDupleList = reply.getDuplicatedModel();
         }
@@ -360,7 +360,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
-                        ViewBillboardRequest vBbr = new ViewBillboardRequest(sessionToken);
+                        ViewScheduleListsRequest vBbr = new ViewScheduleListsRequest(sessionToken);
                         try {
                             oos.writeObject(vBbr);
                         } catch (IOException ex) {
@@ -380,8 +380,8 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                         } catch (ClassNotFoundException ex) {
                             ex.printStackTrace();
                         }
-                        if (trans instanceof ViewBillboardReply) {
-                            ViewBillboardReply reply = (ViewBillboardReply) trans;
+                        if (trans instanceof ViewScheduleListsReply) {
+                            ViewScheduleListsReply reply = (ViewScheduleListsReply) trans;
                             // Set the new data
                             scheduleList = reply.getScheduledBillboard();
                             scheduleDupleList = reply.getDuplicatedModel();
@@ -442,7 +442,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                         } catch (IOException ex) {
                             ex.printStackTrace();
                         }
-                        ViewBillboardRequest vBbr = new ViewBillboardRequest(sessionToken);
+                        ViewScheduleListsRequest vBbr = new ViewScheduleListsRequest(sessionToken);
                         try {
                             oos.writeObject(vBbr);
                         } catch (IOException ex) {
@@ -462,8 +462,8 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
                         } catch (ClassNotFoundException ex) {
                             ex.printStackTrace();
                         }
-                        if (trans instanceof ViewBillboardReply){
-                            ViewBillboardReply reply = (ViewBillboardReply) trans;
+                        if (trans instanceof ViewScheduleListsReply){
+                            ViewScheduleListsReply reply = (ViewScheduleListsReply) trans;
                             scheduleList = reply.getScheduledBillboard();
                             scheduleDupleList = reply.getDuplicatedModel();
                         }

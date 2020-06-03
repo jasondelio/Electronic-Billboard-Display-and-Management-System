@@ -62,6 +62,7 @@ public class CustomDialog extends JDialog implements ActionListener {
     String year1;
     String month;
     String date;
+    String minute;
 
     Calendar cal;
     String sessionToken;
@@ -396,6 +397,7 @@ public class CustomDialog extends JDialog implements ActionListener {
                 if (transo instanceof FindScheduleReply){
                     FindScheduleReply reply = (FindScheduleReply) transo;
                     schedule = reply.getScheduleInfo();
+                    minute = schedule.getMinute();
                 }
                 try {
                     socketStop();
@@ -436,7 +438,8 @@ public class CustomDialog extends JDialog implements ActionListener {
     public JComboBox setBillboardChooser() {
         billboardChooser = new JComboBox();
         chooserBox = new DefaultComboBoxModel<>();
-
+        // for initial element of this combo box is blanket
+        chooserBox.addElement("");
         for (int i = 0; i < billboardLists.getSize(); i++)
             chooserBox.addElement(billboardLists.getElementAt(i)); // Add every titles from billboard database into combo box
 
@@ -655,6 +658,11 @@ public class CustomDialog extends JDialog implements ActionListener {
             // Remove all elements of list for next dialog
             model.removeAllElements();
             bg.dispose();
+        } // when user do not choose any title, should be error
+        else if (billboardChooser.getSelectedItem().equals("")){
+            showMessageDialog(null, "Choose title", "Title", ERROR_MESSAGE);
+            clearFields();
+            bg.dispose();
         }
     }
 
@@ -691,9 +699,10 @@ public class CustomDialog extends JDialog implements ActionListener {
         else if (billboardChooser.getSelectedItem() != null && !billboardChooser.getSelectedItem().equals("") &&
                 hourbox.getText() != null && !hourbox.getText().equals("")
                 && minbox.getText() != null && !minbox.getText().equals("")) {
+
             socketStart();
-            EditScheduleBillboard esbr = new EditScheduleBillboard(sessionToken, String.valueOf(billboardChooser.getSelectedItem()), creatorbox.getText(), year1, month, date, hourbox.getText(), minbox
-                    .getText(),  duHrbox.getText(), duMinbox.getText(), recurbox.getText());
+            EditScheduleBillboard esbr = new EditScheduleBillboard(sessionToken, String.valueOf(billboardChooser.getSelectedItem()), creatorbox.getText(), year1, month, date, hourbox.getText(), minute,
+                    minbox.getText(),duHrbox.getText(), duMinbox.getText(), recurbox.getText());
             oos.writeObject(esbr);
             oos.flush();
             Object trans = ois.readObject();

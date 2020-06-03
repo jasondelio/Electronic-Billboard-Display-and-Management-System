@@ -3,22 +3,21 @@ package cab302.server.ApplicationsRequests;
 import java.io.Serializable;
 
 /**
- * Request viewing billboard to server and the server get sessiontoken from client
+ * Request getting user's list to server and the server get sessiontoken from client
  */
-public class ViewBillboardRequest implements Serializable {
+public class ListUsersRequest implements Serializable {
     private String sessionToken;
 
     /**
-     * Constructor setting value to view billboard
+     * Constructor setting value to list user in server
      * @param sessionToken sessionToken
      */
-    public ViewBillboardRequest(String sessionToken) {
+    public ListUsersRequest(String sessionToken){
         this.sessionToken = sessionToken;
     }
 
     public String getSessionToken() {
         return sessionToken;
     }
-
 }
 

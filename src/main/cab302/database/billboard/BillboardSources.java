@@ -10,7 +10,12 @@ public interface BillboardSources {
      * @param b Billboard to add
      */
     void addBillboard(BillboardInfo b);
-
+    /**
+     * Add "Not Schedule" billboard to the billboards table in database
+     *
+     * @param b Billboard to add
+     */
+    void addNotScheduledBillboard(BillboardInfo b);
     /**
      * Extracts all the details of a billboard from the billboards table based on the
      * name passed in.

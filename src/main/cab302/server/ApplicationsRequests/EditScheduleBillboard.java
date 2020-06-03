@@ -13,6 +13,7 @@ public class EditScheduleBillboard implements Serializable {
     private String date;
     private String hour;
     private String minute;
+    private String new_minute;
     private String sessionToken;
     private String durationHr;
     private String durationMin;
@@ -28,12 +29,13 @@ public class EditScheduleBillboard implements Serializable {
      * @param date date
      * @param hour hour
      * @param minute minute
+     * @param new_minute new_minute will be changed
      * @param duHr duration hour
      * @param duMin duration minute
      * @param recur recurring time
      */
     public EditScheduleBillboard(String sessionToken, String boardtitle, String creator, String year, String month, String date, String hour,
-                                 String minute, String duHr, String duMin, String recur) {
+                                 String minute, String new_minute, String duHr, String duMin, String recur) {
         this.sessionToken = sessionToken;
         this.billboardname = boardtitle;
         this.creator = creator;
@@ -42,6 +44,7 @@ public class EditScheduleBillboard implements Serializable {
         this.date = date;
         this.hour = hour;
         this.minute = minute;
+        this.new_minute = new_minute;
         this.durationHr = duHr;
         this.durationMin = duMin;
         this.recur = recur;
@@ -78,6 +81,10 @@ public class EditScheduleBillboard implements Serializable {
 
     public String getMinute() {
         return minute;
+    }
+
+    public String getNew_minute() {
+        return new_minute;
     }
 
     public String getYear() {

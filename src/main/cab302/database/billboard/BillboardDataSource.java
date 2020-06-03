@@ -21,6 +21,8 @@ public class BillboardDataSource implements BillboardSources {
 
     private static final String INSERT_BILLBOARD = "INSERT INTO billboards (name, xmlContent, creator) VALUES (?, ?, ?);";
 
+    private static final String INSERT_NOTSCHEDULED_BILLBOARD = "INSERT INTO billboards (name, xmlContent, creator) VALUES (?, ?, ?);";
+
     private static final String GET_XML = "SELECT xmlContent FROM billboards WHERE name=?";
 
     private static final String GET_BILLBOARD = "SELECT * FROM billboards WHERE name=?";
@@ -38,6 +40,8 @@ public class BillboardDataSource implements BillboardSources {
     private Connection connection;
 
     private PreparedStatement addBillboard;
+
+    private PreparedStatement addNotScheduledBoard;
 
     private PreparedStatement getXML;
 
@@ -60,6 +64,7 @@ public class BillboardDataSource implements BillboardSources {
             Statement st = connection.createStatement();
             st.execute(CREATE_TABLE);
             addBillboard = connection.prepareStatement(INSERT_BILLBOARD);
+            addNotScheduledBoard = connection.prepareStatement(INSERT_NOTSCHEDULED_BILLBOARD);
             getXML = connection.prepareStatement(GET_XML);
             getBillboard = connection.prepareStatement(GET_BILLBOARD);
             getNameList = connection.prepareStatement(GET_NAMES);
@@ -72,6 +77,19 @@ public class BillboardDataSource implements BillboardSources {
         }
     }
 
+    /**
+     * @see BillboardSources#addNotScheduledBillboard(BillboardInfo)
+     */
+    public void addNotScheduledBillboard(BillboardInfo b) {
+        try {
+            addBillboard.setString(1, b.getName());
+            addBillboard.setString(2, b.getXMLContent());
+            addBillboard.setString(3, b.getCreator());
+            addBillboard.execute();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+    }
     /**
      * @see BillboardSources#addBillboard(BillboardInfo)
      */

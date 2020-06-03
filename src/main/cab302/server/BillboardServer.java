@@ -57,8 +57,9 @@ public class BillboardServer {
 
         // initialise the billboardData
         BillboardData billboardData = new BillboardData();
+        // enter the not scheduled billboard to show when there is no schedule at that time
         BillboardInfo notSchedule = new BillboardInfo("NotScheduled", "<?xml version=\"1.0\" encoding=\"UTF-8\"?> <billboard background=\"#FFFFFF\"> <message colour=\"#000000\">NOTHING TO DISPLAY..</message> <information></information> </billboard>","root");
-        billboardData.add(notSchedule);
+        billboardData.addNotScheduledBoard(notSchedule);
         // initialise the scheduleData
         ScheduleData scheduleData = new ScheduleData();
         // initialise the removedScheduleData
@@ -136,9 +137,9 @@ public class BillboardServer {
                     oos.writeObject(reply);
                     oos.flush();
                 }
-            }else if (o instanceof sessionExistRequest){
+            }else if (o instanceof SessionExistRequest){
                 // check if a sessiontoken is exist in the sessiontoken Hashmap.
-                sessionExistRequest ser = (sessionExistRequest) o;
+                SessionExistRequest ser = (SessionExistRequest) o;
                 SessionExistReply reply;
                 if (validSessionTokens.keySet().isEmpty()){
                     // if the Hashmap is empty return null
@@ -345,8 +346,8 @@ public class BillboardServer {
                     oos.flush();
                 }
             }
-            else if(o instanceof ViewBillboardRequest){
-                ViewBillboardRequest vbbr =(ViewBillboardRequest) o;
+            else if(o instanceof ViewScheduleListsRequest){
+                ViewScheduleListsRequest vbbr =(ViewScheduleListsRequest) o;
                 String sessionToken = vbbr.getSessionToken();
                 // check if the session token is exired or not
                 if (isSessionTokenExpired(sessionToken) == false) {
@@ -367,7 +368,7 @@ public class BillboardServer {
                         } else {
                             sche_lists = null;
                         }
-                        ViewBillboardReply viewbillbord = new ViewBillboardReply(sche_lists,dupleSchedules);
+                        ViewScheduleListsReply viewbillbord = new ViewScheduleListsReply(sche_lists,dupleSchedules);
                         oos.writeObject(viewbillbord);
                         oos.flush();
                     } else {
@@ -552,7 +553,7 @@ public class BillboardServer {
                             // if current user has "schedule permission", the user will try to edit the schedule of the billboard with below information.
                             ScheduleInfo previousSche = scheduleData.findSchedule(esbb.getBillboardname(), esbb.getMonth(),esbb.getDate(), esbb.getHour(), esbb.getMinute());
 
-                            if(previousSche.getDuHr().equals(esbb.getDurationHr()) && previousSche.getMinute().equals(esbb.getMinute())
+                            if(previousSche.getDuHr().equals(esbb.getDurationHr()) && previousSche.getMinute().equals(esbb.getNew_minute())
                                     && previousSche.getDuMin().equals(esbb.getDurationMin())){
                                 // if user try to edit the schedule with same information, the schdule will be scheduled.
                                 // the same value edit shoud not in removed history database to avoid not entering the schedule in delete history database
@@ -570,7 +571,7 @@ public class BillboardServer {
 
                                 // change the schedule
                                 scheduleData.edit(esbb.getBillboardname(), esbb.getCreator(), esbb.getYear(), esbb.getMonth(),esbb.getDate(), esbb.getHour(),
-                                        esbb.getMinute(), esbb.getDurationHr(), esbb.getDurationMin(), esbb.getRecur());
+                                        esbb.getNew_minute(), esbb.getDurationHr(), esbb.getDurationMin(), esbb.getRecur());
                                 results = "Success to edit the scheduled billboard";
                             }
                         } else {
@@ -641,9 +642,9 @@ public class BillboardServer {
                     oos.flush();
                 }
             }
-            else if (o instanceof listUsersRequest) {
+            else if (o instanceof ListUsersRequest) {
                 // request listing users
-                listUsersRequest lur =(listUsersRequest) o;
+                ListUsersRequest lur =(ListUsersRequest) o;
                 String sessionToken = lur.getSessionToken();
                 UserInfo newu = data.get(getSessionUsername(sessionToken));
                 // check if the session token is exired or not

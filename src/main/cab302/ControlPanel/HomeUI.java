@@ -246,7 +246,7 @@ public class HomeUI extends JFrame implements ActionListener {
         panelEditUsers = new JPanel();
         panelEditUsers.setLayout(new BorderLayout());
         socketStart();
-        listUsersRequest liur = new listUsersRequest(sessionToken);
+        ListUsersRequest liur = new ListUsersRequest(sessionToken);
 
         oos.writeObject(liur);
         oos.flush();

@@ -7,7 +7,6 @@ import javax.swing.*;
  */
 public class BillboardData {
     DefaultListModel listModel;
-
     BillboardDataSource billboardData;
 
     /**
@@ -28,6 +27,19 @@ public class BillboardData {
     }
 
     /**
+     * Adds only the billboard with name "NotScheduled" to the billboards table.
+     *
+     * @param b Billboard to add to billboards table.
+     */
+    public void addNotScheduledBoard(BillboardInfo b) {
+
+        // check if starting up of billboard database or not with
+        // using get size
+        if (billboardData.getSize() == 0){
+            billboardData.addNotScheduledBillboard(b);
+        }
+    }
+    /**
      * Adds a billboard to the billboards table.
      *
      * @param b Billboard to add to billboards table.
@@ -37,9 +49,7 @@ public class BillboardData {
         // check to see if the billboard is already in the list model
         // if not add to the billboard table and the list model
         if (!listModel.contains(b.getName())) {
-            if (!b.getName().equals("NotScheduled")){
-                listModel.addElement(b.getName());
-            }
+            listModel.addElement(b.getName());
             billboardData.addBillboard(b);
         }
     }

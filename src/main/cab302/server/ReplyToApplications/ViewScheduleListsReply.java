@@ -3,9 +3,9 @@ package cab302.server.ReplyToApplications;
 import javax.swing.*;
 import java.io.Serializable;
 /**
- * Replying to client and the client is able to retrieve the user list model
+ * Replying to client and the client is able to retrieve the schedule listModels
  */
-public class ViewBillboardReply implements Serializable {
+public class ViewScheduleListsReply implements Serializable {
     private ListModel scheduledBillboard;
     private ListModel duplicatedModel;
     /**
@@ -13,7 +13,7 @@ public class ViewBillboardReply implements Serializable {
      * @param schebillboards unique schedule list
      * @param duplicatedMOdel duplicated schedule list for recurring
      */
-    public ViewBillboardReply(ListModel schebillboards, ListModel duplicatedMOdel){
+    public ViewScheduleListsReply(ListModel schebillboards, ListModel duplicatedMOdel){
         this.scheduledBillboard = schebillboards;
         this.duplicatedModel = duplicatedMOdel;
     }
