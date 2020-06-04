@@ -1,8 +1,8 @@
 package cab302.viewer.gui;
 
 import cab302.database.billboard.BillboardInfo;
-import cab302.server.ReplyToApplications.ViewerReply;
 import cab302.server.ApplicationsRequests.ViewerRequest;
+import cab302.server.ReplyToApplications.ViewerReply;
 import cab302.viewer.exceptions.BadImageFormatException;
 import cab302.viewer.exceptions.MalformedHexadecimalColourException;
 import cab302.viewer.util.XMLParser;
@@ -27,7 +27,6 @@ public class Gui extends JFrame {
     private String host;
 
     Socket socket;
-    JList data;
     OutputStream outputStream;
     InputStream inputStream;
     ObjectOutputStream oos;
@@ -99,7 +98,7 @@ public class Gui extends JFrame {
                 for (Frame frame : Frame.getFrames()) {
                     frame.dispose();
                     RunViewer run = new RunViewer();
-                    run.time.cancel();
+                    RunViewer.time.cancel();
                 }
             }
 

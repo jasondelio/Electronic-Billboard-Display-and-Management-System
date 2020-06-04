@@ -4,17 +4,26 @@ import javax.swing.*;
 import java.io.IOException;
 import java.util.Timer;
 
-
-/**
- * Class running Viewer Gui
- */
 public class RunViewer {
     public static Timer time;
-    private static void createAndShowGUI(Gui GUI) throws IOException, ClassNotFoundException{
+
+    /**
+     * Create the Viewer Gui. For thread safety,
+     * this method should be invoked from the
+     * event-dispatching thread. The gui will be refresh every 15 seconds by using timer.
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    private static void createAndShowGUI(Gui GUI) throws IOException, ClassNotFoundException {
         // set timer to update 15 seconds
         time = new Timer();
-        time.scheduleAtFixedRate(new Timer15(GUI),15000,15000);
+        time.scheduleAtFixedRate(new Timer15(GUI), 15000, 15000);
     }
+
+    /**
+     * @param args
+     */
     public static void main(String[] args) {
         JFrame.setDefaultLookAndFeelDecorated(true);
         SwingUtilities.invokeLater(new Runnable() {

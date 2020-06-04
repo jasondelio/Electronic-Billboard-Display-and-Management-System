@@ -1,8 +1,8 @@
 package cab302.ControlPanel;
 
 import cab302.database.user.UserInfo;
-import cab302.server.ReplyToApplications.*;
 import cab302.server.ApplicationsRequests.*;
+import cab302.server.ReplyToApplications.*;
 import cab302.viewer.exceptions.BadImageFormatException;
 import cab302.viewer.exceptions.MalformedHexadecimalColourException;
 import cab302.viewer.gui.DisplayAssembler;
@@ -113,8 +113,7 @@ public class HomeUI extends JFrame implements ActionListener {
     private String previousPicture;
     private String previousInformation;
     private String previousInformationColour;
-    ListModel billboards;
-    //UserData data;
+    private ListModel billboards;
     Socket socket;
     String sessionToken;
     String currentUsername;
@@ -128,10 +127,10 @@ public class HomeUI extends JFrame implements ActionListener {
     /**
      * Constructor sets up the home user interface and displays it
      *
-     * @param sessiontoken
-     * @param perm_lists
-     * @param loggedInUser
-     * @param currentTab
+     * @param sessiontoken the session token of the valid user
+     * @param perm_lists   permission list of the user
+     * @param loggedInUser the username of the user who login to the HomeUI
+     * @param currentTab   current tab in JTabbedPane that has to be shown to the suer
      * @throws IOException
      * @throws ClassNotFoundException
      */
@@ -256,7 +255,6 @@ public class HomeUI extends JFrame implements ActionListener {
             ListUsersReply reply = (ListUsersReply) transo;
             usernameList = new JList(reply.getListOfUsers());
         }
-        //usernameList = new JList(userData.getModel());
         socketStop();
         scroller = new JScrollPane(usernameList);
         scroller.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
@@ -547,16 +545,98 @@ public class HomeUI extends JFrame implements ActionListener {
     }
 
     /**
+     * Makes the plain text password to the hashed password
+     *
+     * @param password The plain text password
+     * @return The hashed password
+     * @throws NoSuchAlgorithmException
+     */
+    public static String getHashedPass(String password) throws NoSuchAlgorithmException {
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] temp_byte = md.digest(password.getBytes());
+        String hashedPassword = bytesToString(temp_byte);
+
+        return hashedPassword;
+    }
+
+    /**
+     * Makes the bytes from hashed password to string
+     *
+     * @param hash the bytes of hashed password
+     * @return hashed password after be converted to string
+     */
+    public static String bytesToString(byte[] hash) {
+        StringBuffer str_buff = new StringBuffer();
+        for (byte b : hash) {
+            str_buff.append(String.format("%02x", b & 0xFF));
+        }
+        return str_buff.toString();
+    }
+
+    /**
+     * Parse the billboard's content which is retrieved from server and database, then
+     * the result of the parse will be shown to user in the text fields
+     *
+     * @param billboardContent billboard's content which has xml format
+     */
+    private void parseXMLContentsFromDatabase(String billboardContent) {
+        content = billboardContent;
+        try {
+            DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
+            InputSource is = new InputSource();
+            is.setCharacterStream(new StringReader(content));
+
+            Document doc = db.parse(is);
+            doc.getDocumentElement().normalize();
+            NodeList nodes = doc.getElementsByTagName("billboard");
+
+            for (int i = 0; i < nodes.getLength(); i++) {
+                Node nNode = nodes.item(i);
+                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                    Element eElement = (Element) nNode;
+                    Element messageElement = (Element) eElement.getElementsByTagName("message").item(0);
+                    Element pictureElement = (Element) eElement.getElementsByTagName("picture").item(0);
+                    Element informationElement = (Element) eElement.getElementsByTagName("information").item(0);
+                    backgroundColour.setText(eElement.getAttribute("background"));
+                    if (messageElement != null) {
+                        messageColour.setText(messageElement.getAttribute("colour"));
+                        message.setText(messageElement.getTextContent());
+                    }
+                    if (informationElement != null) {
+                        informationColour.setText(informationElement.getAttribute("colour"));
+                        information.setText(informationElement.getTextContent());
+                    }
+                    if (pictureElement != null) {
+                        if (!pictureElement.getAttribute("url").equals("")) {
+                            btnUploadPicture.setEnabled(false);
+                            cbUrl.setSelected(true);
+                            picture.setEnabled(true);
+                            picture.setText(pictureElement.getAttribute("url"));
+                        }
+                        if (!pictureElement.getAttribute("data").equals("")) {
+                            picture.setText(pictureElement.getAttribute("data"));
+                        }
+                    }
+                }
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * When create new billboard button pressed, the dialog which contains create billboard fields,
      * save new billboard, preview new billboard, reset new billboard, and export billboard buttons
      * will be shown
      */
-    private void createNewBillboardPressed()
-    {
+    private void createNewBillboardPressed() {
         createNewBillboardDialog = new JDialog(this, "Create new billboard");
         createNewBillboardDialog.setSize(430, 300);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        createNewBillboardDialog.setLocation(dim.width / 2 - 215, dim.height / 2 - 150);
+        createNewBillboardDialog.setLocation(dim.width / 2 - createNewBillboardDialog.getWidth() / 2, dim.height / 2 -
+                createNewBillboardDialog.getHeight() / 2);
         JPanel createNewBillboardPanel = new JPanel();
         createNewBillboardPanel.setLayout(new BorderLayout());
         JPanel buttonPanel = new JPanel();
@@ -589,13 +669,116 @@ public class HomeUI extends JFrame implements ActionListener {
         createNewBillboardDialog.add(buttonPanel, BorderLayout.SOUTH);
         createNewBillboardDialog.setVisible(true);
     }
+
+    /**
+     * The billboard content that has been inputted will be converted to xml format
+     */
+    private void convertBillboardToXML() {
+        XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+
+        if (backgroundColour.getText() != null && !backgroundColour.getText().equals("")) {
+            addToXMLContents("<billboard background=\"" + backgroundColour.getText() + "\">\n");
+        } else {
+            addToXMLContents("<billboard>\n");
+        }
+        if (message.getText() != null && !message.getText().equals("") &&
+                messageColour.getText() != null && !messageColour.getText().equals("")) {
+            addToXMLContents("<message colour=\"" + messageColour.getText() + "\">" + message.getText() + "</message>\n");
+        } else if (message.getText() != null && !message.getText().equals("")) {
+            addToXMLContents("<message>" + message.getText() + "</message>\n");
+        }
+        if (picture.getText() != null && !picture.getText().equals("") && cbUrl.isSelected()) {
+            addToXMLContents("<picture url=\"" + picture.getText() + "\"/>\n");
+        } else if (picture.getText() != null && !picture.getText().equals("") && !cbUrl.isSelected()) {
+            addToXMLContents("<picture data=\"" + picture.getText() + "\"/>\n");
+        }
+        if (information.getText() != null && !information.getText().equals("") &&
+                informationColour.getText() != null && !informationColour.getText().equals("")) {
+            addToXMLContents("<information colour=\"" + informationColour.getText() + "\">" + information.getText()
+                    + "</information>\n");
+        } else if (information.getText() != null && !message.getText().equals("")) {
+            addToXMLContents("<information>" + information.getText() + "</information>\n");
+        }
+        addToXMLContents("</billboard>");
+    }
+
+    /**
+     * When the save new billboard button pressed, the billboard with the xml format will be saved
+     * into database
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    private void saveNewBillboardPressed() throws IOException, ClassNotFoundException {
+        convertBillboardToXML();
+        socketStart();
+        CreateBillboardRequest billboardRequest = new CreateBillboardRequest(billboardName.getText(),
+                XMLContents, sessionToken);
+        oos.writeObject(billboardRequest);
+        oos.flush();
+        Object transoO = ois.readObject();
+        boolean Logout = false;
+        if (transoO instanceof AcknowledgeReply) {
+            AcknowledgeReply reply = (AcknowledgeReply) transoO;
+            if (reply.getAcknowledgement().equals("Expired")) {
+                Logout = true;
+            }
+            System.out.println(reply.getAcknowledgement());
+        }
+        socketStop();
+        if (Logout == false) {
+            if (billboardName.getText() != null && !billboardName.getText().equals("")) {
+                createNewBillboardDialog.dispose();
+            } else {
+                JOptionPane.showMessageDialog(this, "Billboard name must be filled",
+                        "Error", JOptionPane.WARNING_MESSAGE);
+            }
+            XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+            dispose();
+            HomeUI GUI = new HomeUI(sessionToken, permissionsList, currentUsername, pane.getSelectedIndex());
+            GUI.setVisible(true);
+        } else {
+            logout();
+        }
+    }
+
+    /**
+     * When delete billboard button pressed, the selected billboard from the list will be deleted from database
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    private void deleteBillboardPressed() throws IOException, ClassNotFoundException {
+        socketStart();
+        DeleteBillboardRequest deleteBillboardRequest = new DeleteBillboardRequest((String) billboardList.getSelectedValue(), sessionToken);
+        oos.writeObject(deleteBillboardRequest);
+        oos.flush();
+        boolean Logout = false;
+        Object transoO = ois.readObject();
+        if (transoO instanceof AcknowledgeReply) {
+            AcknowledgeReply lurlist = (AcknowledgeReply) transoO;
+            if (lurlist.getAcknowledgement().equals("Expired")) {
+                Logout = true;
+            }
+            System.out.println(lurlist.getAcknowledgement());
+        }
+        socketStop();
+        if (Logout == false) {
+            dispose();
+            HomeUI GUI = new HomeUI(sessionToken, permissionsList, currentUsername, pane.getSelectedIndex());
+            GUI.setVisible(true);
+        } else {
+            logout();
+        }
+
+    }
+
     /**
      * When import billboard button pressed, the user can import the contents
      * of a billboard which are described in an XML file. The user will only be able to import
      * xml documents, any other file extensions will not be accepted
      */
-    private void importBillboardPressed()
-    {
+    private void importBillboardPressed() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setCurrentDirectory(new File(System.getProperty("user.home")));
         fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
@@ -609,7 +792,8 @@ public class HomeUI extends JFrame implements ActionListener {
             importBillboardDialog = new JDialog(this, "Billboard name");
             importBillboardDialog.setSize(300, 100);
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-            importBillboardDialog.setLocation(dim.width / 2 - 150, dim.height / 2 - 50);
+            importBillboardDialog.setLocation(dim.width / 2 - importBillboardDialog.getWidth() / 2, dim.height / 2 -
+                    importBillboardDialog.getHeight() / 2);
             JPanel setBillboardNamePanel = new JPanel();
             setBillboardNamePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
             JLabel lblBillboardName = new JLabel("Billboard Name");
@@ -636,65 +820,6 @@ public class HomeUI extends JFrame implements ActionListener {
     }
 
     /**
-     * Parse the billboard's content which is retrieved from server and database, then
-     * the result of the parse will be shown to user in the text fields
-     *
-     * @param billboardContent billboard's content which has xml format
-     */
-    private void parseXMLContentsFromDatabase(String billboardContent)
-    {
-        content = billboardContent;
-        try {
-            DocumentBuilder db = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-            InputSource is = new InputSource();
-            is.setCharacterStream(new StringReader(content));
-
-            Document doc = db.parse(is);
-            doc.getDocumentElement().normalize();
-            NodeList nodes = doc.getElementsByTagName("billboard");
-
-            for (int i = 0; i < nodes.getLength(); i++) {
-                Node nNode = nodes.item(i);
-                if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                    Element eElement = (Element) nNode;
-                    Element messageElement = (Element) eElement.getElementsByTagName("message").item(0);
-                    Element pictureElement = (Element) eElement.getElementsByTagName("picture").item(0);
-                    Element informationElement = (Element) eElement.getElementsByTagName("information").item(0);
-                    backgroundColour.setText(eElement.getAttribute("background"));
-                    if (messageElement != null)
-                    {
-                        messageColour.setText(messageElement.getAttribute("colour"));
-                        message.setText(messageElement.getTextContent());
-                    }
-                    if (informationElement != null)
-                    {
-                        informationColour.setText(informationElement.getAttribute("colour"));
-                        information.setText(informationElement.getTextContent());
-                    }
-                    if (pictureElement != null)
-                    {
-                        if(!pictureElement.getAttribute("url").equals(""))
-                        {
-                            btnUploadPicture.setEnabled(false);
-                            cbUrl.setSelected(true);
-                            picture.setEnabled(true);
-                            picture.setText(pictureElement.getAttribute("url"));
-                        }
-                        if(!pictureElement.getAttribute("data").equals(""))
-                        {
-                            picture.setText(pictureElement.getAttribute("data"));
-                        }
-                    }
-                }
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    /**
      * When edit billboard button pressed, the dialog which contains create billboard fields,
      * save edited billboard, preview edited billboard, reset edited billboard, and export billboard
      * buttons will be shown. The crete billboard fields will be filled with the current billboard's content
@@ -707,7 +832,8 @@ public class HomeUI extends JFrame implements ActionListener {
             editBillboardDialog = new JDialog(this, "Edit billboard");
             editBillboardDialog.setSize(430, 300);
             Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-            editBillboardDialog.setLocation(dim.width / 2 - 215, dim.height / 2 - 150);
+            editBillboardDialog.setLocation(dim.width / 2 - editBillboardDialog.getWidth() / 2, dim.height / 2 -
+                    editBillboardDialog.getHeight() / 2);
             JPanel editBillboardPanel = new JPanel();
             editBillboardPanel.setLayout(new BorderLayout());
             JPanel buttonPanel = new JPanel();
@@ -756,8 +882,6 @@ public class HomeUI extends JFrame implements ActionListener {
             socketStop();
             if (Logout == false) {
                 billboardName.setText((String) billboardList.getSelectedValue());
-//                System.out.println(billboardContent);
-//                System.out.println((String) billboardList.getSelectedValue());
                 parseXMLContentsFromDatabase(billboardContent);
                 creator.setText(billboardCreator);
                 previousBillboardName = billboardName.getText();
@@ -778,110 +902,8 @@ public class HomeUI extends JFrame implements ActionListener {
     }
 
     /**
-     * The billboard content that has been inputted will be converted to xml format
+     * When export button pressed, the user can save the billboard content in xml format in his computer
      */
-    private void convertBillboardToXML() {
-        XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-
-        if (backgroundColour.getText() != null && !backgroundColour.getText().equals("")) {
-            addToXMLContents("<billboard background=\"" + backgroundColour.getText() + "\">\n");
-        } else {
-            addToXMLContents("<billboard>\n");
-        }
-        if (message.getText() != null && !message.getText().equals("") &&
-                messageColour.getText() != null && !messageColour.getText().equals("")) {
-            addToXMLContents("<message colour=\"" + messageColour.getText() + "\">" + message.getText() + "</message>\n");
-        }
-        else if (message.getText() != null && !message.getText().equals("")) {
-            addToXMLContents("<message>" + message.getText() + "</message>\n");
-        }
-        if (picture.getText() != null && !picture.getText().equals("") && cbUrl.isSelected()) {
-            addToXMLContents("<picture url=\"" + picture.getText() + "\"/>\n");
-        }
-        else if (picture.getText() != null && !picture.getText().equals("") && !cbUrl.isSelected()) {
-            addToXMLContents("<picture data=\"" + picture.getText() + "\"/>\n");
-        }
-        if (information.getText() != null && !information.getText().equals("") &&
-                informationColour.getText() != null && !informationColour.getText().equals("")) {
-            addToXMLContents("<information colour=\"" + informationColour.getText() + "\">" + information.getText()
-                    + "</information>\n");
-        } else if (information.getText() != null && !message.getText().equals("")){
-            addToXMLContents("<information>" + information.getText()+ "</information>\n");
-        }
-        addToXMLContents("</billboard>");
-    }
-    /**
-     * When the save new billboard button pressed, the billboard with the xml format will be saved
-     * into database
-     *
-     * @throws IOException
-     * @throws ClassNotFoundException
-     */
-    private void saveNewBillboardPressed() throws IOException, ClassNotFoundException {
-        convertBillboardToXML();
-        socketStart();
-        CreateBillboardRequest billboardRequest = new CreateBillboardRequest(billboardName.getText(),
-                XMLContents, sessionToken);
-        oos.writeObject(billboardRequest);
-        oos.flush();
-        Object transoO = ois.readObject();
-        boolean Logout = false;
-        if (transoO instanceof AcknowledgeReply) {
-            AcknowledgeReply reply = (AcknowledgeReply) transoO;
-            if(reply.getAcknowledgement().equals("Expired")){
-                Logout = true;
-            }
-            System.out.println(reply.getAcknowledgement());
-        }
-        socketStop();
-        if(Logout == false) {
-            if (billboardName.getText() != null && !billboardName.getText().equals("")) {
-//            BillboardInfo b = new BillboardInfo(billboardName.getText(), XMLContents, null);
-
-                createNewBillboardDialog.dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "Billboard name must be filled",
-                        "Error", JOptionPane.WARNING_MESSAGE);
-            }
-            XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
-            dispose();
-            HomeUI GUI = new HomeUI(sessionToken, permissionsList, currentUsername, pane.getSelectedIndex());
-            GUI.setVisible(true);
-        } else {
-            logout();
-        }
-    }
-
-    /**
-     * When delete billboard button pressed, the selected billboard from the list will be deleted from database
-     *
-     * @throws IOException
-     * @throws ClassNotFoundException
-     */
-    private void deleteBillboardPressed() throws IOException, ClassNotFoundException {
-        socketStart();
-        DeleteBillboardRequest deleteBillboardRequest = new DeleteBillboardRequest((String) billboardList.getSelectedValue(), sessionToken);
-        oos.writeObject(deleteBillboardRequest);
-        oos.flush();
-        boolean Logout = false;
-        Object transoO = ois.readObject();
-        if (transoO instanceof AcknowledgeReply) {
-            AcknowledgeReply lurlist = (AcknowledgeReply) transoO;
-            if (lurlist.getAcknowledgement().equals("Expired")){
-                Logout = true;
-            }
-            System.out.println(lurlist.getAcknowledgement());
-        }
-        socketStop();
-        if(Logout == false){
-            dispose();
-            HomeUI GUI = new HomeUI(sessionToken, permissionsList,currentUsername, pane.getSelectedIndex());
-            GUI.setVisible(true);
-        } else {
-            logout();
-        }
-
-    }
     public void exportBillboardPressed()
     {
         if (billboardName.getText() != null && !billboardName.getText().equals("")) {
@@ -920,16 +942,17 @@ public class HomeUI extends JFrame implements ActionListener {
                     "Error", JOptionPane.WARNING_MESSAGE);
         }
     }
+
     /**
      * When new user button pressed, a dialog which contains user fields panel, save new user, and reset new user
      * buttons will be shown
      */
-    private void newUserPressed()
-    {
+    private void newUserPressed() {
         addNewUserDialog = new JDialog(this, "Add new user");
-        addNewUserDialog.setSize(300,300);
+        addNewUserDialog.setSize(300, 300);
         Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        addNewUserDialog.setLocation(dim.width / 2 - 150, dim.height / 2 - 150);
+        addNewUserDialog.setLocation(dim.width / 2 - addNewUserDialog.getWidth() / 2, dim.height / 2 -
+                addNewUserDialog.getHeight() / 2);
         JPanel addNewUserPanel = new JPanel();
         addNewUserPanel.setLayout(new BorderLayout());
         JPanel buttonPanel = new JPanel();
@@ -946,136 +969,6 @@ public class HomeUI extends JFrame implements ActionListener {
         addNewUserDialog.add(buttonPanel, BorderLayout.SOUTH);
         addNewUserDialog.add(addNewUserPanel);
         addNewUserDialog.setVisible(true);
-    }
-    /**
-     * When edit user button pressed, a dialog which contains user fields panel and update button
-     * will be shown. The user fields will be filled with the selected user's information from database.
-     *
-     * @throws IOException
-     * @throws ClassNotFoundException
-     */
-    private void editUserPressed() throws IOException, ClassNotFoundException {
-        if (usernameList.getSelectedValue() != null) {
-            editUserDialog = new JDialog(this, "Edit user");
-            editUserDialog.setSize(300, 300);
-            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-            editUserDialog.setLocation(dim.width / 2 - 150, dim.height / 2 - 150);
-            JPanel editUserPanel = new JPanel();
-            editUserPanel.setLayout(new BorderLayout());
-            JPanel buttonPanel = new JPanel();
-            buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-            btnUpdateUser = new JButton("Update");
-            btnUpdateUser.addActionListener(this);
-            buttonPanel.add(Box.createHorizontalStrut(110));
-            buttonPanel.add(btnUpdateUser);
-            editUserPanel.add(makeUserFieldsPanel(), BorderLayout.CENTER);
-            socketStart();
-            GetUserPemmRequest getUserPemmRequest = new GetUserPemmRequest((String) usernameList.getSelectedValue(), sessionToken);
-            oos.writeObject(getUserPemmRequest);
-            oos.flush();
-            boolean Logout = false;
-            UserInfo u = null;
-            Object transoO = ois.readObject();
-
-            if (transoO instanceof GetUserpemmReply) {
-                GetUserpemmReply lurlist = (GetUserpemmReply) transoO;
-                System.out.println(lurlist.getListPermissions());
-                u = lurlist.getU();
-            } else if (transoO instanceof AcknowledgeReply){
-                Logout = true;
-            }
-            socketStop();
-            if(Logout == false) {
-                name.setText(u.getName());
-                username.setText(u.getUsername());
-                username.setEditable(false);
-                password.setText("******");
-                email.setText(u.getEmail());
-                cbCreateBillboardsPermission.setSelected(Boolean.parseBoolean(u.getCreateBillboards()));
-                cbEditAllBillboardsPermission.setSelected(Boolean.parseBoolean(u.getEditAllBillboards()));
-                cbScheduleBillboardsPermission.setSelected(Boolean.parseBoolean(u.getScheduleBillboards()));
-                if (usernameList.getSelectedValue().equals(currentUsername)) {
-                    cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
-                    cbEditUsersPermission.setEnabled(false);
-                } else {
-                    cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
-                }
-
-                editUserDialog.add(buttonPanel, BorderLayout.SOUTH);
-                editUserDialog.add(editUserPanel);
-                editUserDialog.setVisible(true);
-            } else {
-                logout();
-            }
-        }
-    }
-
-    /**
-     * When edit profile button pressed, the user will be able to edit his own user's information, but
-     * he may not to change any permissions he has if he does not have edit users permission
-     *
-     * @throws IOException
-     * @throws ClassNotFoundException
-     */
-    private void editProfilePressed() throws IOException, ClassNotFoundException{
-        editUserDialog = new JDialog(this, "Edit Current User");
-        editUserDialog.setSize(300, 300);
-        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
-        editUserDialog.setLocation(dim.width / 2 - 150, dim.height / 2 - 150);
-        JPanel editUserPanel = new JPanel();
-        editUserPanel.setLayout(new BorderLayout());
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
-        btnUpdateCurrentUser = new JButton("Update Profile");
-        btnUpdateCurrentUser.addActionListener(this);
-        buttonPanel.add(Box.createHorizontalStrut(110));
-        buttonPanel.add(btnUpdateCurrentUser);
-        editUserPanel.add(makeUserFieldsPanel(), BorderLayout.CENTER);
-        socketStart();
-        GetUserPemmRequest getUserPemmRequest = new GetUserPemmRequest(currentUsername, sessionToken);
-        oos.writeObject(getUserPemmRequest);
-        oos.flush();
-        UserInfo u = null;
-        boolean Logout = false;
-        Object transoO = ois.readObject();
-        if (transoO instanceof GetUserpemmReply) {
-            GetUserpemmReply lurlist = (GetUserpemmReply) transoO;
-            System.out.println(lurlist.getListPermissions());
-            u = lurlist.getU();
-        }
-        else if (transoO instanceof AcknowledgeReply){
-            Logout = true;
-        }
-        socketStop();
-        if (Logout == false) {
-            name.setText(u.getName());
-            username.setText(u.getUsername());
-            username.setEditable(false);
-            password.setText("******");
-            email.setText(u.getEmail());
-            if (permissionsList.get(3).equals("true")) {
-                cbCreateBillboardsPermission.setSelected(Boolean.parseBoolean(u.getCreateBillboards()));
-                cbEditAllBillboardsPermission.setSelected(Boolean.parseBoolean(u.getEditAllBillboards()));
-                cbScheduleBillboardsPermission.setSelected(Boolean.parseBoolean(u.getScheduleBillboards()));
-                cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
-                cbEditUsersPermission.setEnabled(false);
-            } else {
-                cbCreateBillboardsPermission.setSelected(Boolean.parseBoolean(u.getCreateBillboards()));
-                cbCreateBillboardsPermission.setEnabled(false);
-                cbEditAllBillboardsPermission.setSelected(Boolean.parseBoolean(u.getEditAllBillboards()));
-                cbEditAllBillboardsPermission.setEnabled(false);
-                cbScheduleBillboardsPermission.setSelected(Boolean.parseBoolean(u.getScheduleBillboards()));
-                cbScheduleBillboardsPermission.setEnabled(false);
-                cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
-                cbEditUsersPermission.setEnabled(false);
-            }
-
-            editUserDialog.add(buttonPanel, BorderLayout.SOUTH);
-            editUserDialog.add(editUserPanel);
-            editUserDialog.setVisible(true);
-        } else {
-            logout();
-        }
     }
 
     /**
@@ -1153,8 +1046,6 @@ public class HomeUI extends JFrame implements ActionListener {
                 }
             }
             socketStop();
-
-//            addNewUserDialog.dispose();
         } else {
             JOptionPane.showMessageDialog(this,"Data cannot be null",
                     "Error", JOptionPane.WARNING_MESSAGE);
@@ -1214,8 +1105,6 @@ public class HomeUI extends JFrame implements ActionListener {
             if (getPermm instanceof GetUserpemmReply) {
                 GetUserpemmReply lurlist = (GetUserpemmReply) getPermm;
                 System.out.println(lurlist.getListPermissions());
-//                permissionsList = lurlist.getListPermissions();
-//                disableFeatureBasedOnPermissions();
                 dispose();
                 HomeUI GUI = new HomeUI(sessionToken, lurlist.getListPermissions(), currentUsername, pane.getSelectedIndex());
                 GUI.setVisible(true);
@@ -1311,20 +1200,67 @@ public class HomeUI extends JFrame implements ActionListener {
     }
 
     /**
-     * The user will be able to choose any colour from JColorChooser and it will be converted to hex
-     * colour format
+     * When edit user button pressed, a dialog which contains user fields panel and update button
+     * will be shown. The user fields will be filled with the selected user's information from database.
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
      */
-    private void displayColorChooser()
-    {
-        Color color = JColorChooser.showDialog(this,
-                "Select a color", initialColor);
-        if (color != null) {
-            r = color.getRed();
-            g = color.getGreen();
-            b = color.getBlue();
+    private void editUserPressed() throws IOException, ClassNotFoundException {
+        if (usernameList.getSelectedValue() != null) {
+            editUserDialog = new JDialog(this, "Edit user");
+            editUserDialog.setSize(300, 300);
+            Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+            editUserDialog.setLocation(dim.width / 2 - editUserDialog.getWidth() / 2, dim.height / 2 -
+                    editUserDialog.getHeight() / 2);
+            JPanel editUserPanel = new JPanel();
+            editUserPanel.setLayout(new BorderLayout());
+            JPanel buttonPanel = new JPanel();
+            buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+            btnUpdateUser = new JButton("Update");
+            btnUpdateUser.addActionListener(this);
+            buttonPanel.add(Box.createHorizontalStrut(110));
+            buttonPanel.add(btnUpdateUser);
+            editUserPanel.add(makeUserFieldsPanel(), BorderLayout.CENTER);
+            socketStart();
+            GetUserPemmRequest getUserPemmRequest = new GetUserPemmRequest((String) usernameList.getSelectedValue(), sessionToken);
+            oos.writeObject(getUserPemmRequest);
+            oos.flush();
+            boolean Logout = false;
+            UserInfo u = null;
+            Object transoO = ois.readObject();
+
+            if (transoO instanceof GetUserpemmReply) {
+                GetUserpemmReply lurlist = (GetUserpemmReply) transoO;
+                System.out.println(lurlist.getListPermissions());
+                u = lurlist.getU();
+            } else if (transoO instanceof AcknowledgeReply) {
+                Logout = true;
+            }
+            socketStop();
+            if (Logout == false) {
+                name.setText(u.getName());
+                username.setText(u.getUsername());
+                username.setEditable(false);
+                password.setText("******");
+                email.setText(u.getEmail());
+                cbCreateBillboardsPermission.setSelected(Boolean.parseBoolean(u.getCreateBillboards()));
+                cbEditAllBillboardsPermission.setSelected(Boolean.parseBoolean(u.getEditAllBillboards()));
+                cbScheduleBillboardsPermission.setSelected(Boolean.parseBoolean(u.getScheduleBillboards()));
+                if (usernameList.getSelectedValue().equals(currentUsername)) {
+                    cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
+                    cbEditUsersPermission.setEnabled(false);
+                } else {
+                    cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
+                }
+
+                editUserDialog.add(buttonPanel, BorderLayout.SOUTH);
+                editUserDialog.add(editUserPanel);
+                editUserDialog.setVisible(true);
+            } else {
+                logout();
+            }
         }
-        hexColour = String.format("#%02X%02X%02X", r, g, b);
-        initialColor = new Color(r, g, b);
     }
 
     /**
@@ -1409,7 +1345,6 @@ public class HomeUI extends JFrame implements ActionListener {
                     XMLContents, sessionToken);
             oos.writeObject(editBillboardRequest);
             oos.flush();
-            String billboardContent = null;
             Object transoO = ois.readObject();
             if (transoO instanceof AcknowledgeReply) {
                 AcknowledgeReply reply = (AcknowledgeReply) transoO;
@@ -1477,7 +1412,6 @@ public class HomeUI extends JFrame implements ActionListener {
         boolean Logout = false;
         if (btnSource == btnPreviewEditedBillboard || btnSource == btnPreviewNewBillboard) {
             convertBillboardToXML();
-//            System.out.println(XMLContents);
             parser = new XMLParser(XMLContents);
         } else if (btnSource == btnPreviewBillboard) {
             socketStart();
@@ -1751,19 +1685,90 @@ public class HomeUI extends JFrame implements ActionListener {
             }
         }
     }
-    public static String getHashedPass(String password) throws NoSuchAlgorithmException {
-        MessageDigest md = MessageDigest.getInstance("SHA-256");
-        byte[] temp_byte = md.digest(password.getBytes());
-        String hashedPassword= bytesToString(temp_byte);
 
-        return hashedPassword;
-    }
-    public static String bytesToString(byte[] hash){
-        StringBuffer str_buff = new StringBuffer();
-        for (byte b : hash){
-            str_buff.append(String.format("%02x", b & 0xFF));
+    /**
+     * When edit profile button pressed, the user will be able to edit his own user's information, but
+     * he may not to change any permissions he has if he does not have edit users permission
+     *
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
+    private void editProfilePressed() throws IOException, ClassNotFoundException {
+        editUserDialog = new JDialog(this, "Edit Current User");
+        editUserDialog.setSize(300, 300);
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        editUserDialog.setLocation(dim.width / 2 - editUserDialog.getWidth() / 2, dim.height / 2 -
+                editUserDialog.getHeight() / 2);
+        JPanel editUserPanel = new JPanel();
+        editUserPanel.setLayout(new BorderLayout());
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.X_AXIS));
+        btnUpdateCurrentUser = new JButton("Update Profile");
+        btnUpdateCurrentUser.addActionListener(this);
+        buttonPanel.add(Box.createHorizontalStrut(110));
+        buttonPanel.add(btnUpdateCurrentUser);
+        editUserPanel.add(makeUserFieldsPanel(), BorderLayout.CENTER);
+        socketStart();
+        GetUserPemmRequest getUserPemmRequest = new GetUserPemmRequest(currentUsername, sessionToken);
+        oos.writeObject(getUserPemmRequest);
+        oos.flush();
+        UserInfo u = null;
+        boolean Logout = false;
+        Object transoO = ois.readObject();
+        if (transoO instanceof GetUserpemmReply) {
+            GetUserpemmReply lurlist = (GetUserpemmReply) transoO;
+            System.out.println(lurlist.getListPermissions());
+            u = lurlist.getU();
+        } else if (transoO instanceof AcknowledgeReply) {
+            Logout = true;
         }
-        return str_buff.toString();
+        socketStop();
+        if (Logout == false) {
+            name.setText(u.getName());
+            username.setText(u.getUsername());
+            username.setEditable(false);
+            password.setText("******");
+            email.setText(u.getEmail());
+            if (permissionsList.get(3).equals("true")) {
+                cbCreateBillboardsPermission.setSelected(Boolean.parseBoolean(u.getCreateBillboards()));
+                cbEditAllBillboardsPermission.setSelected(Boolean.parseBoolean(u.getEditAllBillboards()));
+                cbScheduleBillboardsPermission.setSelected(Boolean.parseBoolean(u.getScheduleBillboards()));
+                cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
+                cbEditUsersPermission.setEnabled(false);
+            } else {
+                cbCreateBillboardsPermission.setSelected(Boolean.parseBoolean(u.getCreateBillboards()));
+                cbCreateBillboardsPermission.setEnabled(false);
+                cbEditAllBillboardsPermission.setSelected(Boolean.parseBoolean(u.getEditAllBillboards()));
+                cbEditAllBillboardsPermission.setEnabled(false);
+                cbScheduleBillboardsPermission.setSelected(Boolean.parseBoolean(u.getScheduleBillboards()));
+                cbScheduleBillboardsPermission.setEnabled(false);
+                cbEditUsersPermission.setSelected(Boolean.parseBoolean(u.getEditUsers()));
+                cbEditUsersPermission.setEnabled(false);
+            }
+
+            editUserDialog.add(buttonPanel, BorderLayout.SOUTH);
+            editUserDialog.add(editUserPanel);
+            editUserDialog.setVisible(true);
+        } else {
+            logout();
+        }
+    }
+
+    /**
+     * The user will be able to choose any colour from JColorChooser and it will be converted to hex
+     * colour format
+     */
+    private void displayColorChooser() {
+        Color color = JColorChooser.showDialog(this,
+                "Select a color", initialColor);
+        if (color != null) {
+            r = color.getRed();
+            g = color.getGreen();
+            b = color.getBlue();
+        }
+        //convert RGB colour to hex colour
+        hexColour = String.format("#%02X%02X%02X", r, g, b);
+        initialColor = new Color(r, g, b);
     }
 
     /**
@@ -1788,8 +1793,11 @@ public class HomeUI extends JFrame implements ActionListener {
         oos.close();
         socket.close();
     }
+
     /**
      * Gets the port and host for connecting to the billboard server
+     *
+     * @throws IOException
      */
     public void getPropValues() throws IOException {
         Properties props = new Properties();

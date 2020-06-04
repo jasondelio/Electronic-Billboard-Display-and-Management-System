@@ -46,7 +46,6 @@ public class ScheduleData {
     public void remove(String title, String month, String date, String hour, String minute) {
 
         // remove from both list and map
-//        sModel.removeElement(key);
         data.deleteSchedule(title, month, date, hour,minute);
     }
 
@@ -162,7 +161,6 @@ public class ScheduleData {
         return data.getSize();
     }
 
-//    public Set<String> getScheduleList (){ return data.GetScheduleList(); }
 
 }
 

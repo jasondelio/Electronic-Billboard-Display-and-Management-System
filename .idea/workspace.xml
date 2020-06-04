@@ -4,10 +4,12 @@
     <list default="true" id="f7ab41c5-c651-45b3-bca9-a3afafe74f5f" name="Default Changelist" comment="Fixed error in misc.xml">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CalendarGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CalendarGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CustomDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CustomDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/UserLoginUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/UserLoginUI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/SchedulesDatasource.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/SchedulesDatasource.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Gui.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/RunViewer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/RunViewer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Timer15.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Timer15.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +100,7 @@
       <recent name="D:\[University\CAB302\CAB302\src\main\java\viewer" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.BillboardServer">
+  <component name="RunManager" selected="Application.RunViewer">
     <configuration name="BillboardServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cab302.server.BillboardServer" />
       <module name="CAB302" />
@@ -183,9 +185,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.BillboardServer" />
-        <item itemvalue="Application.Run" />
         <item itemvalue="Application.RunViewer" />
+        <item itemvalue="Application.Run" />
+        <item itemvalue="Application.BillboardServer" />
         <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.TestImageGenerator" />
       </list>
@@ -347,29 +349,29 @@
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1590631837753" />
-    <state width="1398" height="326" key="GridCell.Tab.0.bottom" timestamp="1591170461802">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="1493" height="166" key="GridCell.Tab.0.bottom" timestamp="1591304978052">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="326" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1591170461802" />
-    <state width="1493" height="166" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590897158733" />
+    <state width="1493" height="166" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1591304978052" />
     <state width="1398" height="203" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1591159108839" />
-    <state width="1398" height="326" key="GridCell.Tab.0.center" timestamp="1591170461801">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="1493" height="166" key="GridCell.Tab.0.center" timestamp="1591304978052">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="326" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1591170461801" />
-    <state width="1493" height="166" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590897158732" />
+    <state width="1493" height="166" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1591304978052" />
     <state width="1398" height="230" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1398" height="326" key="GridCell.Tab.0.left" timestamp="1591170461800">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="1493" height="166" key="GridCell.Tab.0.left" timestamp="1591304978051">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="326" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1591170461800" />
-    <state width="1493" height="166" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590897158732" />
+    <state width="1493" height="166" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1591304978051" />
     <state width="1398" height="230" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1398" height="326" key="GridCell.Tab.0.right" timestamp="1591170461801">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state width="1493" height="166" key="GridCell.Tab.0.right" timestamp="1591304978052">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state width="1398" height="326" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1591170461801" />
-    <state width="1493" height="166" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590897158733" />
+    <state width="1493" height="166" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1591304978052" />
     <state width="1398" height="203" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1591159108826" />
     <state width="1398" height="408" key="GridCell.Tab.1.bottom" timestamp="1591143884670">
       <screen x="0" y="0" width="1440" height="900" />
@@ -406,10 +408,11 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="503" y="236" key="chooseDestDirectoryDialog/0.0.1440.900@0.0.1440.900" timestamp="1590576897762" />
-    <state x="374" y="300" key="com.intellij.ide.util.TipDialog" timestamp="1591140957520">
-      <screen x="0" y="0" width="1440" height="900" />
+    <state x="399" y="275" key="com.intellij.ide.util.TipDialog" timestamp="1591302416032">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="374" y="300" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1591140957520" />
+    <state x="399" y="275" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1591302416032" />
     <state x="374" y="300" key="com.intellij.ide.util.TipDialog/0.23.1440.877@0.23.1440.877" timestamp="1590653583888" />
     <state x="452" y="323" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1590668182140">
       <screen x="0" y="0" width="1536" height="824" />

@@ -17,6 +17,9 @@ import java.net.Socket;
 import java.util.Calendar;
 import java.util.Properties;
 
+/**
+ * Initiates CalendarGUI interface for scheduling the billboard.
+ */
 public class CalendarGUI extends JFrame implements ActionListener, Runnable, MouseListener {
     public static final int YEAR_DURATION = 10;
     public static final int WEEK_LENGTH = 7;
@@ -1029,6 +1032,7 @@ public class CalendarGUI extends JFrame implements ActionListener, Runnable, Mou
 
     @Override
     public void run() {}
+
     @Override
     public void mousePressed(MouseEvent e) {}
 

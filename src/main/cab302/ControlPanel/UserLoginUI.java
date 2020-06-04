@@ -1,12 +1,12 @@
 package cab302.ControlPanel;
 
+import cab302.server.ApplicationsRequests.Loginrequest;
+import cab302.server.ApplicationsRequests.SessionExistRequest;
+import cab302.server.ApplicationsRequests.UserLoggedInrequest;
 import cab302.server.ReplyToApplications.AcknowledgeReply;
 import cab302.server.ReplyToApplications.AlreadyLoginReply;
 import cab302.server.ReplyToApplications.LoginReply;
 import cab302.server.ReplyToApplications.SessionExistReply;
-import cab302.server.ApplicationsRequests.Loginrequest;
-import cab302.server.ApplicationsRequests.UserLoggedInrequest;
-import cab302.server.ApplicationsRequests.SessionExistRequest;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
@@ -325,6 +325,12 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
         oos.close();
         socket.close();
     }
+
+    /**
+     * Gets the port and host for connecting to the billboard server
+     *
+     * @throws IOException
+     */
     public void getPropValues() throws IOException {
         Properties props = new Properties();
         FileInputStream in = null;
