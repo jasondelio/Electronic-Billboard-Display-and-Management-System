@@ -295,7 +295,6 @@ public class HomeUI extends JFrame implements ActionListener {
             panelListBillboards.add(makeButtonsPanelListBillboards(), BorderLayout.SOUTH);
             return panelListBillboards;
         }else{
-            System.out.println("dfa");
             return  null;
         }
     }
@@ -1112,7 +1111,6 @@ public class HomeUI extends JFrame implements ActionListener {
             Object getPermm = ois.readObject();
             if (getPermm instanceof GetUserpemmReply) {
                 GetUserpemmReply lurlist = (GetUserpemmReply) getPermm;
-                System.out.println(lurlist.getListPermissions());
                 dispose();
                 HomeUI GUI = new HomeUI(sessionToken, lurlist.getListPermissions(), currentUsername, pane.getSelectedIndex());
                 GUI.setVisible(true);
@@ -1185,7 +1183,6 @@ public class HomeUI extends JFrame implements ActionListener {
             boolean Logout = false;
             if (getPermm instanceof GetUserpemmReply) {
                 GetUserpemmReply lurlist = (GetUserpemmReply) getPermm;
-                System.out.println(lurlist.getListPermissions());
 
                 dispose();
                 HomeUI GUI = new HomeUI(sessionToken, lurlist.getListPermissions(), currentUsername, pane.getSelectedIndex());
@@ -1240,7 +1237,6 @@ public class HomeUI extends JFrame implements ActionListener {
 
             if (transoO instanceof GetUserpemmReply) {
                 GetUserpemmReply lurlist = (GetUserpemmReply) transoO;
-                System.out.println(lurlist.getListPermissions());
                 u = lurlist.getU();
             } else if (transoO instanceof AcknowledgeReply) {
                 Logout = true;
@@ -1726,7 +1722,6 @@ public class HomeUI extends JFrame implements ActionListener {
         Object transoO = ois.readObject();
         if (transoO instanceof GetUserpemmReply) {
             GetUserpemmReply lurlist = (GetUserpemmReply) transoO;
-            System.out.println(lurlist.getListPermissions());
             u = lurlist.getU();
         } else if (transoO instanceof AcknowledgeReply) {
             Logout = true;
