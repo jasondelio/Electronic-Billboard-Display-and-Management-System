@@ -255,9 +255,7 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
                 sessionToken = reply.getSessionToken();
                 loggedinuser = reply.getLoggedInUsername();
 
-                System.out.println("Success to log in, recieve the token " + sessionToken);
                 permlists = reply.getPermissionsList();
-                System.out.println(permlists);
                 HomeUI GUI = new HomeUI(sessionToken,permlists,loggedinuser,0);
                 GUI.setVisible(true);
                 socketStop();
@@ -268,7 +266,7 @@ public class UserLoginUI extends JFrame implements ActionListener, KeyListener {
                 password.setBorder(new LineBorder(Color.RED));
                 JOptionPane.showMessageDialog(this, "Invalid username or password",
                         "Error", JOptionPane.WARNING_MESSAGE);
-                System.out.println("fail to login");
+                System.out.println("Failed to login");
             }
         }
 

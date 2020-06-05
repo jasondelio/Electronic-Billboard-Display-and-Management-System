@@ -711,35 +711,42 @@ public class HomeUI extends JFrame implements ActionListener {
      */
     private void saveNewBillboardPressed() throws IOException, ClassNotFoundException {
         convertBillboardToXML();
-        socketStart();
-        CreateBillboardRequest billboardRequest = new CreateBillboardRequest(billboardName.getText(),
-                XMLContents, sessionToken);
-        oos.writeObject(billboardRequest);
-        oos.flush();
-        Object transoO = ois.readObject();
         boolean Logout = false;
-        if (transoO instanceof AcknowledgeReply) {
-            AcknowledgeReply reply = (AcknowledgeReply) transoO;
-            if (reply.getAcknowledgement().equals("Expired")) {
-                Logout = true;
-            }
-            System.out.println(reply.getAcknowledgement());
-        }
-        socketStop();
-        if (Logout == false) {
-            if (billboardName.getText() != null && !billboardName.getText().equals("")) {
-                createNewBillboardDialog.dispose();
-            } else {
-                JOptionPane.showMessageDialog(this, "Billboard name must be filled",
+        if(billboardName.getText().contains(" ")){
+                JOptionPane.showMessageDialog(this, "Billboard name must be made without any white spaces",
                         "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        else if (billboardName.getText() != null && !billboardName.getText().equals("")) {
+            createNewBillboardDialog.dispose();
+            socketStart();
+            CreateBillboardRequest billboardRequest = new CreateBillboardRequest(billboardName.getText(),
+                    XMLContents, sessionToken);
+            oos.writeObject(billboardRequest);
+            oos.flush();
+            Object transoO = ois.readObject();
+
+            if (transoO instanceof AcknowledgeReply) {
+                AcknowledgeReply reply = (AcknowledgeReply) transoO;
+                if (reply.getAcknowledgement().equals("Expired")) {
+                    Logout = true;
+                }
+                System.out.println(reply.getAcknowledgement());
             }
+            socketStop();
+        } else {
+            JOptionPane.showMessageDialog(this, "Billboard name must be filled",
+                        "Error", JOptionPane.WARNING_MESSAGE);
+        }
+
+        if(Logout == false){
             XMLContents = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
             dispose();
             HomeUI GUI = new HomeUI(sessionToken, permissionsList, currentUsername, pane.getSelectedIndex());
             GUI.setVisible(true);
-        } else {
+        }else{
             logout();
         }
+
     }
 
     /**

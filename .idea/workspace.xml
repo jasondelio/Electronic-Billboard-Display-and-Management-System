@@ -3,40 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="f7ab41c5-c651-45b3-bca9-a3afafe74f5f" name="Default Changelist" comment="Fixed error in misc.xml">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/CreateBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/CreateBillboardRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/CreateUsersRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/CreateUsersRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/DeleteBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/DeleteBillboardRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/DeleteUserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/DeleteUserRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/EditBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/EditBillboardRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/EditScheduleBillboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/EditScheduleBillboard.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/FindScheduleRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/FindScheduleRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/GetBillboardInfoRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/GetBillboardInfoRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/GetIndexSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/GetIndexSchedule.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/GetUserPemmRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/GetUserPemmRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ListBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ListBillboardRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ListUsersRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ListUsersRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/Loginrequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/Loginrequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/LogoutUsersRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/LogoutUsersRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/RecurScheduleBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/RecurScheduleBillboardRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/RemoveBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/RemoveBillboardRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ScheduleBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ScheduleBillboardRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/SessionExistRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/SessionExistRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/SetPassRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/SetPassRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/SetUserPemmRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/SetUserPemmRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/UserLoggedInrequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/UserLoggedInrequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ViewScheduleListsRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ViewScheduleListsRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ViewerRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ViewerRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/AcknowledgeReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/AcknowledgeReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/AlreadyLoginReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/AlreadyLoginReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/BillboardReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/BillboardReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/FindScheduleReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/FindScheduleReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/GetUserpemmReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/GetUserpemmReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/ListBillboardReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/ListBillboardReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/ListUsersReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/ListUsersReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/LoginReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/LoginReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/SessionExistReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/SessionExistReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/ViewScheduleListsReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/ViewScheduleListsReply.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/ViewerReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/ViewerReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CustomDialog.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CustomDialog.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/UserLoginUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/UserLoginUI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/BillboardServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/BillboardServer.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,7 +97,7 @@
       <recent name="D:\[University\CAB302\CAB302\src\main\java\viewer" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.BillboardServer">
+  <component name="RunManager" selected="Application.Run">
     <configuration name="BillboardServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cab302.server.BillboardServer" />
       <module name="CAB302" />
@@ -205,8 +175,8 @@
     <list>
       <item itemvalue="Application.BillboardServer" />
       <item itemvalue="Application.Main" />
-      <item itemvalue="Application.RunViewer" />
       <item itemvalue="Application.Run" />
+      <item itemvalue="Application.RunViewer" />
       <item itemvalue="JUnit.TestHexToRGB" />
       <item itemvalue="JUnit.TestImageGenerator" />
     </list>
@@ -378,30 +348,30 @@
     <state x="87" y="102" width="1266" height="697" key="DiffContextDialog/0.0.1440.900@0.0.1440.900" timestamp="1591325860710" />
     <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1590631837753" />
     <state x="87" y="102" width="1266" height="697" key="DiffContextDialog/0.23.1440.877@0.23.1440.877" timestamp="1591325889676" />
-    <state width="1398" height="182" key="GridCell.Tab.0.bottom" timestamp="1591170764320">
+    <state width="1398" height="381" key="GridCell.Tab.0.bottom" timestamp="1591336802087">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="182" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1591170764320" />
+    <state width="1398" height="381" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1591336802087" />
     <state width="1493" height="166" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590897158733" />
-    <state width="1398" height="203" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1591159108839" />
-    <state width="1398" height="182" key="GridCell.Tab.0.center" timestamp="1591170764319">
+    <state width="1398" height="352" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1591334819673" />
+    <state width="1398" height="381" key="GridCell.Tab.0.center" timestamp="1591336802085">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="182" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1591170764319" />
+    <state width="1398" height="381" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1591336802085" />
     <state width="1493" height="166" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590897158732" />
-    <state width="1398" height="230" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1398" height="182" key="GridCell.Tab.0.left" timestamp="1591170764319">
+    <state width="1398" height="352" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1591334819667" />
+    <state width="1398" height="381" key="GridCell.Tab.0.left" timestamp="1591336802083">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="182" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1591170764319" />
+    <state width="1398" height="381" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1591336802083" />
     <state width="1493" height="166" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590897158732" />
-    <state width="1398" height="230" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1398" height="182" key="GridCell.Tab.0.right" timestamp="1591170764320">
+    <state width="1398" height="352" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1591334819666" />
+    <state width="1398" height="381" key="GridCell.Tab.0.right" timestamp="1591336802086">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="182" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1591170764320" />
+    <state width="1398" height="381" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1591336802086" />
     <state width="1493" height="166" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590897158733" />
-    <state width="1398" height="203" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1591159108826" />
+    <state width="1398" height="352" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1591334819672" />
     <state width="1398" height="408" key="GridCell.Tab.1.bottom" timestamp="1591170764314">
       <screen x="0" y="0" width="1440" height="900" />
     </state>

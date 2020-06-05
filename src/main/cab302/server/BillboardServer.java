@@ -217,9 +217,9 @@ public class BillboardServer {
                         if (nu.getCreateBillboards().equals("true")) {
                             BillboardInfo new_b = new BillboardInfo(cbbr.getBillboardname(), cbbr.getBillboardContent(), currentUser);
                             billboardData.add(new_b);
-                            results = "Success to edit billboard";
+                            results = "Succeed to create billboard";
                         } else {
-                            results = "falied to edit";
+                            results = "Failed to create";
                         }
                         // send the result of action
                         AcknowledgeReply createBillboardReply = new AcknowledgeReply(results);
@@ -259,18 +259,18 @@ public class BillboardServer {
                                     // if the user editing own one and it is not scheduled, current user can
                                     // edit this billboard with "crete billboard" permission;
                                     billboardData.edit(edit_b.getName(), ebbr.getBillboardContent(), edit_b.getName());
-                                    results = "Success to edit billboard";
+                                    results = "Succeed to edit billboard";
                                 } else {
-                                    results = "failed to edit billboard";
+                                    results = "Failed to edit billboard";
                                 }
                             } else {
                                 if (nu.getEditAllBillboards().equals("true")) {
                                     // if the user editing other one or it is scheduled, current user can
                                     // edit this billboard with "Edit all billboard" permission;
                                     billboardData.edit(edit_b.getName(), ebbr.getBillboardContent(), edit_b.getName());
-                                    results = "Success to edit billboard";
+                                    results = "Succeed to edit billboard";
                                 } else {
-                                    results = "falied to edit billboard";
+                                    results = "Failed to edit billboard";
                                 }
                             }
                         }
@@ -313,7 +313,7 @@ public class BillboardServer {
                                 scheduleData.removeAll(edit_b.getName());
                                 // delate the billboards from the delate history database
                                 removedScheduleData.remove(edit_b.getName());
-                                results = "Success to delate";
+                                results = "Succeed to delete";
                             } else {
                                 results = "You do not have CreateBillboard permission";
                             }
@@ -326,7 +326,7 @@ public class BillboardServer {
                                 scheduleData.removeAll(edit_b.getName());
                                 // delate the billboards from the delate history database
                                 removedScheduleData.remove(edit_b.getName());
-                                results = "Success to delate";
+                                results = "Succeed to delete";
                             } else {
                                 results = "You do not have EditAllBillboard permissions";
                             }
@@ -465,7 +465,7 @@ public class BillboardServer {
                             if (scheduleData.findSameSchedule(sbbr.getBillboardname(), sbbr.getMonth(), sbbr.getDate(),
                                     sbbr.getHour(), sbbr.getminute(), sbbr.getDurationHr(), sbbr.getDurationMin(), sbbr.getRecur()).getDuMin() != null){
                                 // check if the schedule is already in the schedule database or not
-                                results = "Failed becuase there is already";
+                                results = "Failed because there is the schedule already";
                             } else {
                                 // if it is not scheduled and not removed yet, make new schedule.
                                 scheduleData.add(new_schedule);
@@ -509,11 +509,11 @@ public class BillboardServer {
                             if (isAlreadyRemodeOnce(new_schedule,removedScheduleData)){
                                 // if the schedule is already removed once, the schedule cannot be scheduled.
                                 // this is for avoiding the writing again by setting recur in gui.
-                                results = "Failed becuase already removed.";
+                                results = "Failed because already removed.";
                             } else if (scheduleData.findSameSchedule(rsbr.getBillboardname(), rsbr.getMonth(), rsbr.getDate(),
                                     rsbr.getHour(), rsbr.getminute(), rsbr.getDurationHr(), rsbr.getDurationMin(), rsbr.getRecur()).getDuMin() != null){
                                 // check if the schedule is already in the schedule database or not
-                                results = "Failed becuase there is already";
+                                results = "Failed because there is same schedule in database already";
                             } else {
                                 // if it is not scheduled and not removed yet, make new schedule.
                                 scheduleData.add(new_schedule);
@@ -559,7 +559,7 @@ public class BillboardServer {
                                 // the same value edit shoud not in removed history database to avoid not entering the schedule in delete history database
                                 scheduleData.edit(esbb.getBillboardname(), esbb.getCreator(), esbb.getYear(), esbb.getMonth(),esbb.getDate(), esbb.getHour(),
                                         esbb.getMinute(), esbb.getDurationHr(), esbb.getDurationMin(), esbb.getRecur());
-                                results = "Success to edit the scheduled billboard";
+                                results = "Succeed to edit the scheduled billboard";
                             }
                             else{
                                 // if user try to edit the schedule, the previous schedule time should be removed to avoid showing the schedule again with
@@ -572,7 +572,7 @@ public class BillboardServer {
                                 // change the schedule
                                 scheduleData.edit(esbb.getBillboardname(), esbb.getCreator(), esbb.getYear(), esbb.getMonth(),esbb.getDate(), esbb.getHour(),
                                         esbb.getNew_minute(), esbb.getDurationHr(), esbb.getDurationMin(), esbb.getRecur());
-                                results = "Success to edit the scheduled billboard";
+                                results = "Succeed to edit the scheduled billboard";
                             }
                         } else {
                             results = "No permission";
@@ -611,20 +611,20 @@ public class BillboardServer {
 
                             // enter the deleted schedule into the remove history database to aboid making the schedule in database
                             // when  the calender gui try to make the table with recurring.
-                            RemovedScheduleInfo delatedSched = new RemovedScheduleInfo(new_sche.getBoardTitle(),new_sche.getCreator(),new_sche.getYear(),
+                            RemovedScheduleInfo deletedSched = new RemovedScheduleInfo(new_sche.getBoardTitle(),new_sche.getCreator(),new_sche.getYear(),
                                     new_sche.getMonth(),new_sche.getDate(),new_sche.getHour(),new_sche.getMinute(),new_sche.getDuHr(),new_sche.getDuMin(),
                                     new_sche.getRecur());
-                            removedScheduleData.add(delatedSched);
+                            removedScheduleData.add(deletedSched);
                             if (new_sche.getBoardTitle().equals(rbbr.getBillboardname()) && new_sche.getMonth().equals(rbbr.getMonth())
                                     && new_sche.getDate().equals(rbbr.getDate()) && new_sche.getHour().equals(rbbr.getHour())) {
                                 // if the billboard info is in the schdule.
                                 scheduleData.remove(rbbr.getBillboardname(), rbbr.getMonth(), rbbr.getDate(), rbbr.getHour(),rbbr.getMinute());
-                                result = "Success to remove bb from schedule !";
+                                result = "Success to remove billboards from schedule !";
                             } else {
-                                result = "failed to remove cuz no billboard schedule on parameter time!";
+                                result = "Failed to remove because no billboard schedule at the time!";
                             }
                         } else {
-                            result = "failed to remove!";
+                            result = "Failed to remove!";
                         }
                         AcknowledgeReply remove_the_billbord = new AcknowledgeReply(result);
                         oos.writeObject(remove_the_billbord);
@@ -765,7 +765,7 @@ public class BillboardServer {
                                 // if editing own, the edit permission cannot be edited
                                 data.edit(spr_user.getName(), spr_user.getUsername(), spr_user.getPasswords(), spr_user.getSalt(), spr_user.getEmail(), spr_user.getUsername(),
                                         permissions.get(0), permissions.get(1), permissions.get(2), spr_user.getEditUsers());
-                                results = "Succeceed to change same user's permissions";
+                                results = "Succeed to change own permissions";
                             } else {
                                 // if editing other user's permissions, the user can change all of them.
                                 UserInfo new_user = data.get(supr.getUsername());
@@ -778,7 +778,7 @@ public class BillboardServer {
                             // we need to edit this to update the userinfo ???????
                             data.edit(spr_user.getName(), spr_user.getUsername(), spr_user.getPasswords(), spr_user.getSalt(), spr_user.getEmail(), spr_user.getUsername(),
                                     spr_user.getCreateBillboards(), spr_user.getEditAllBillboards(), spr_user.getScheduleBillboards(), spr_user.getEditUsers());
-                            results = "Failed to change user's permsissions because there is no Edit Users permsissions";
+                            results = "Failed to change user's permissions because there is no Edit Users permissions";
                         }
 
                         AcknowledgeReply setUserPemmReply = new AcknowledgeReply(results);
@@ -839,7 +839,7 @@ public class BillboardServer {
                                 results = "Succeed to change own name, password and/or email";
                             }
                         } else {
-                            results = "failed to change  name, password and/or email";
+                            results = "Failed to change  name, password and/or email";
                         }
                     }
                     AcknowledgeReply setPassReply = new AcknowledgeReply(results);
@@ -944,14 +944,13 @@ public class BillboardServer {
                     }
 
                     // get the whole duration as a minute, by following calculation.
-                    int durtionWholeMinute = 60 * Integer.parseInt(scheduledDuHr) + Integer.parseInt(scheduledDuMin);
+                    int durationWholeMinute = 60 * Integer.parseInt(scheduledDuHr) + Integer.parseInt(scheduledDuMin);
                     // get the gap between current time and each schedule time, by following calculation.
-                    int durtionCurrentWholeMinute = 60 * ((Integer.parseInt(hour) - Integer.parseInt(scheduledHr))) + (Integer.parseInt(minute) - Integer.parseInt(scheduledMin));
+                    int durationCurrentWholeMinute = 60 * ((Integer.parseInt(hour) - Integer.parseInt(scheduledHr))) + (Integer.parseInt(minute) - Integer.parseInt(scheduledMin));
 
                     // check if each schedule is in between schedule time and duration time.
-                    if (0 <= durtionCurrentWholeMinute &&  durtionCurrentWholeMinute < durtionWholeMinute){
+                    if (0 <= durationCurrentWholeMinute &&  durationCurrentWholeMinute < durationWholeMinute){
                         // if the schedule is in between schedule time, enter the schedule
-//                        System.out.println("there is schedule");
                         currentSche = currentSchedules.get(i);
 
                     }
