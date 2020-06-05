@@ -901,6 +901,7 @@ public class HomeUI extends JFrame implements ActionListener {
                 editBillboardDialog.add(buttonPanel, BorderLayout.SOUTH);
                 editBillboardDialog.add(editBillboardPanel);
                 editBillboardDialog.setVisible(true);
+                billboardName.setEnabled(false);
             }
 
         }
@@ -1346,6 +1347,7 @@ public class HomeUI extends JFrame implements ActionListener {
     private void saveEditedBillboardPressed() throws IOException, ClassNotFoundException {
         convertBillboardToXML();
         boolean Logout = false;
+
         if (billboardName.getText() != null && !billboardName.getText().equals("")) {
             socketStart();
             EditBillboardRequest editBillboardRequest = new EditBillboardRequest(billboardName.getText(),
