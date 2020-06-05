@@ -257,7 +257,7 @@ public class CustomDialog extends JDialog implements ActionListener {
         gbc.gridx = 5;
         gbc.gridy = 11;
 
-        pnl.add(lblDuhour, gbc);
+        pnl.add(lblDumin, gbc);
 
 
         /*
