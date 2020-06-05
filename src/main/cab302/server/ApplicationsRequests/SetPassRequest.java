@@ -29,24 +29,44 @@ public class SetPassRequest implements Serializable {
         this.previousUserName = previousUserName;
     }
 
+    /**
+     * @return hashedPassword
+     */
     public String getHashedPassword() {
         return hashedPassword;
     }
 
+    /**
+     * @return name
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * @return email
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * @return username
+     */
     public String getUsername(){
         return username;
     }
+
+    /**
+     * @return previousUserName
+     */
     public String getPreviousUserName() {
         return previousUserName;
     }
+
+    /**
+     * @return sessionToken
+     */
     public String getSessionToken() {
         return sessionToken;
     }

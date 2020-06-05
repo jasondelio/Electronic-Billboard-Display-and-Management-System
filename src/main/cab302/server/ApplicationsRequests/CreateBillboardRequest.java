@@ -22,12 +22,21 @@ public class CreateBillboardRequest implements Serializable {
         this.sessionToken = sessionToken;
     }
 
+    /**
+     * @return sessionToken
+     */
     public String getSessionToken() {
         return sessionToken;
     }
 
+    /**
+     * @return billboardContent
+     */
     public String getBillboardContent() { return billboardContent; }
 
+    /**
+     * @return billboardname
+     */
     public String getBillboardname() {
         return billboardname;
     }

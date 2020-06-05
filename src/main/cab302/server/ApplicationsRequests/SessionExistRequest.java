@@ -15,7 +15,9 @@ public class SessionExistRequest implements Serializable {
     public SessionExistRequest(String sessionToken){
         this.sessionToken = sessionToken;
     }
-
+    /**
+     * @return sessionToken
+     */
     public String getSessionToken() {
         return sessionToken;
     }

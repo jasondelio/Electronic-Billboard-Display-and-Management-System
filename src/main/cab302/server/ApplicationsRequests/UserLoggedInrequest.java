@@ -14,6 +14,10 @@ public class UserLoggedInrequest implements Serializable {
     public UserLoggedInrequest(String sessionToken){
         this.sessionToken = sessionToken;
     }
+
+    /**
+     * @return sessionToken
+     */
     public String getSessionToken(){
         return sessionToken;
     }

@@ -17,6 +17,9 @@ public class ListUsersReply implements Serializable {
         this.listOfUsers = listOfUsers;
     }
 
+    /**
+     * @return listOfUsers
+     */
     public ListModel getListOfUsers() {
         return listOfUsers;
     }

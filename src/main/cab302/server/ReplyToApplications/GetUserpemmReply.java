@@ -20,10 +20,16 @@ public class GetUserpemmReply implements Serializable {
         this.listPermissions = listPermissions;
         this.u = u;
     }
+    /**
+     * @return listpermissions
+     */
     public ArrayList<String> getListPermissions(){
         return listPermissions;
     }
 
+    /**
+     * @return u
+     */
     public UserInfo getU() {
         return u;
     }

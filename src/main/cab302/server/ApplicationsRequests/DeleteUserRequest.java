@@ -18,9 +18,16 @@ public class DeleteUserRequest implements Serializable {
         this.username = username;
     }
 
+    /**
+     * @return sessionToken
+     */
     public String getSessiontoken() {
         return sessiontoken;
     }
+
+    /**
+     * @return username
+     */
     public String getUsername(){
         return username;
     }

@@ -17,6 +17,9 @@ public class ViewerReply implements Serializable {
         this.billboardInfo = billboardInfo;
     }
 
+    /**
+     * @return billboardInfo
+     */
     public BillboardInfo getBillboardInfo() {
         return billboardInfo;
     }

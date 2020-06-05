@@ -29,14 +29,29 @@ public class CreateUsersRequest implements Serializable {
         this.lists_Permissions = lists_permission;
     }
 
+    /**
+     * @return sessionToken
+     */
     public String getSessionToken() { return sessionToken; }
 
+    /**
+     * @return username
+     */
     public String getUsername() { return username; }
 
+    /**
+     * @return password
+     */
     public String getPassword() { return password; }
 
+    /**
+     * @return email
+     */
     public String getEmail() { return email; }
 
+    /**
+     * @return lists_Permissions
+     */
     public ArrayList<String> getLists_Permissions() { return lists_Permissions; }
 }
 

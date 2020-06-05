@@ -17,9 +17,16 @@ public class ViewScheduleListsReply implements Serializable {
         this.scheduledBillboard = schebillboards;
         this.duplicatedModel = duplicatedMOdel;
     }
+
+    /**
+     * @return scheduleBillboard
+     */
     public ListModel getScheduledBillboard(){
         return scheduledBillboard;
     }
+    /**
+     * @return duplicatedModel
+     */
     public ListModel getDuplicatedModel(){return duplicatedModel;}
 
 }

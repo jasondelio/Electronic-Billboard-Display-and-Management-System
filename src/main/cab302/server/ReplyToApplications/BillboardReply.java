@@ -17,11 +17,15 @@ public class BillboardReply implements Serializable {
         this.xmlcontent = xmlContent;
         this.creator = creator;
     }
-
+    /**
+     * @return xmlcontent
+     */
     public String getXmlcontent() {
         return xmlcontent;
     }
-
+    /**
+     * @return creator
+     */
     public String getCreator() {
         return creator;
     }

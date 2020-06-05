@@ -14,7 +14,9 @@ public class ListBillboardReply implements Serializable {
     public ListBillboardReply(ListModel listBillboardRequest){
         this.listofBillboards = listBillboardRequest;
     }
-
+    /**
+     * @return listofBillboards
+     */
     public ListModel getListofBillboards() {
         return listofBillboards;
     }

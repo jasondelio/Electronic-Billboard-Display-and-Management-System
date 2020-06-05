@@ -29,26 +29,45 @@ public class FindScheduleRequest  implements Serializable {
         this.hour = hour;
         this.minute = minute;
     }
+
+    /**
+     * @return sessionToken
+     */
     public String getSessiontoken(){
         return sessiontoken;
     }
 
+    /**
+     * @return month
+     */
     public String getMonth() {
         return month;
     }
 
+    /**
+     * @return title
+     */
     public String getTitle() {
         return title;
     }
 
+    /**
+     * @return date
+     */
     public String getDate() {
         return date;
     }
 
+    /**
+     * @return hour
+     */
     public String getHour() {
         return hour;
     }
 
+    /**
+     * @return minute
+     */
     public String getMinute() {
         return minute;
     }

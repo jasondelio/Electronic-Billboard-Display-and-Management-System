@@ -3,13 +3,40 @@
   <component name="ChangeListManager">
     <list default="true" id="f7ab41c5-c651-45b3-bca9-a3afafe74f5f" name="Default Changelist" comment="Fixed error in misc.xml">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CalendarGUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/CalendarGUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/HomeUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/ControlPanel/UserLoginUI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/ControlPanel/UserLoginUI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleData.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/database/schedule/ScheduleData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Gui.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Gui.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/RunViewer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/RunViewer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Timer15.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/viewer/gui/Timer15.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/CreateBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/CreateBillboardRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/CreateUsersRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/CreateUsersRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/DeleteBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/DeleteBillboardRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/DeleteUserRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/DeleteUserRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/EditBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/EditBillboardRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/EditScheduleBillboard.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/EditScheduleBillboard.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/FindScheduleRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/FindScheduleRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/GetBillboardInfoRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/GetBillboardInfoRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/GetIndexSchedule.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/GetIndexSchedule.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/GetUserPemmRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/GetUserPemmRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ListBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ListBillboardRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ListUsersRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ListUsersRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/Loginrequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/Loginrequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/LogoutUsersRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/LogoutUsersRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/RecurScheduleBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/RecurScheduleBillboardRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/RemoveBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/RemoveBillboardRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ScheduleBillboardRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ScheduleBillboardRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/SessionExistRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/SessionExistRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/SetPassRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/SetPassRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/SetUserPemmRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/SetUserPemmRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/UserLoggedInrequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/UserLoggedInrequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ViewScheduleListsRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ViewScheduleListsRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ViewerRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ApplicationsRequests/ViewerRequest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/AcknowledgeReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/AcknowledgeReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/AlreadyLoginReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/AlreadyLoginReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/BillboardReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/BillboardReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/FindScheduleReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/FindScheduleReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/GetUserpemmReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/GetUserpemmReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/ListBillboardReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/ListBillboardReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/ListUsersReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/ListUsersReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/LoginReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/LoginReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/SessionExistReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/SessionExistReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/ViewScheduleListsReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/ViewScheduleListsReply.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/ViewerReply.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/cab302/server/ReplyToApplications/ViewerReply.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -100,7 +127,7 @@
       <recent name="D:\[University\CAB302\CAB302\src\main\java\viewer" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.RunViewer">
+  <component name="RunManager" selected="Application.BillboardServer">
     <configuration name="BillboardServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="cab302.server.BillboardServer" />
       <module name="CAB302" />
@@ -185,9 +212,9 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.RunViewer" />
         <item itemvalue="Application.Run" />
         <item itemvalue="Application.BillboardServer" />
+        <item itemvalue="Application.RunViewer" />
         <item itemvalue="Application.Main" />
         <item itemvalue="JUnit.TestImageGenerator" />
       </list>
@@ -345,54 +372,56 @@
     </state>
     <state x="342" y="55" key="CommitChangelistDialog2/0.0.1440.900@0.0.1440.900" timestamp="1591146308337" />
     <state x="365" y="14" key="CommitChangelistDialog2/0.0.1536.824@0.0.1536.824" timestamp="1590896626156" />
-    <state x="93" y="93" width="1350" height="638" key="DiffContextDialog" timestamp="1590631837753">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="87" y="102" width="1266" height="697" key="DiffContextDialog" timestamp="1591325889676">
+      <screen x="0" y="23" width="1440" height="877" />
     </state>
+    <state x="87" y="102" width="1266" height="697" key="DiffContextDialog/0.0.1440.900@0.0.1440.900" timestamp="1591325860710" />
     <state x="93" y="93" width="1350" height="638" key="DiffContextDialog/0.0.1536.824@0.0.1536.824" timestamp="1590631837753" />
-    <state width="1493" height="166" key="GridCell.Tab.0.bottom" timestamp="1591304978052">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="87" y="102" width="1266" height="697" key="DiffContextDialog/0.23.1440.877@0.23.1440.877" timestamp="1591325889676" />
+    <state width="1398" height="182" key="GridCell.Tab.0.bottom" timestamp="1591170764320">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="326" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1591170461802" />
-    <state width="1493" height="166" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1591304978052" />
+    <state width="1398" height="182" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1591170764320" />
+    <state width="1493" height="166" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590897158733" />
     <state width="1398" height="203" key="GridCell.Tab.0.bottom/0.23.1440.877@0.23.1440.877" timestamp="1591159108839" />
-    <state width="1493" height="166" key="GridCell.Tab.0.center" timestamp="1591304978052">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1398" height="182" key="GridCell.Tab.0.center" timestamp="1591170764319">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="326" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1591170461801" />
-    <state width="1493" height="166" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1591304978052" />
+    <state width="1398" height="182" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1591170764319" />
+    <state width="1493" height="166" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590897158732" />
     <state width="1398" height="230" key="GridCell.Tab.0.center/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1493" height="166" key="GridCell.Tab.0.left" timestamp="1591304978051">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1398" height="182" key="GridCell.Tab.0.left" timestamp="1591170764319">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="326" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1591170461800" />
-    <state width="1493" height="166" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1591304978051" />
+    <state width="1398" height="182" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1591170764319" />
+    <state width="1493" height="166" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590897158732" />
     <state width="1398" height="230" key="GridCell.Tab.0.left/0.23.1440.877@0.23.1440.877" timestamp="1589560562659" />
-    <state width="1493" height="166" key="GridCell.Tab.0.right" timestamp="1591304978052">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1398" height="182" key="GridCell.Tab.0.right" timestamp="1591170764320">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="326" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1591170461801" />
-    <state width="1493" height="166" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1591304978052" />
+    <state width="1398" height="182" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1591170764320" />
+    <state width="1493" height="166" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590897158733" />
     <state width="1398" height="203" key="GridCell.Tab.0.right/0.23.1440.877@0.23.1440.877" timestamp="1591159108826" />
-    <state width="1398" height="408" key="GridCell.Tab.1.bottom" timestamp="1591143884670">
+    <state width="1398" height="408" key="GridCell.Tab.1.bottom" timestamp="1591170764314">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="408" key="GridCell.Tab.1.bottom/0.0.1440.900@0.0.1440.900" timestamp="1591143884670" />
-    <state width="1398" height="408" key="GridCell.Tab.1.center" timestamp="1591143884669">
+    <state width="1398" height="408" key="GridCell.Tab.1.bottom/0.0.1440.900@0.0.1440.900" timestamp="1591170764314" />
+    <state width="1398" height="408" key="GridCell.Tab.1.center" timestamp="1591170764313">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="408" key="GridCell.Tab.1.center/0.0.1440.900@0.0.1440.900" timestamp="1591143884669" />
-    <state width="1398" height="408" key="GridCell.Tab.1.left" timestamp="1591143884668">
+    <state width="1398" height="408" key="GridCell.Tab.1.center/0.0.1440.900@0.0.1440.900" timestamp="1591170764313" />
+    <state width="1398" height="408" key="GridCell.Tab.1.left" timestamp="1591170764312">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="408" key="GridCell.Tab.1.left/0.0.1440.900@0.0.1440.900" timestamp="1591143884668" />
-    <state width="1398" height="408" key="GridCell.Tab.1.right" timestamp="1591143884669">
+    <state width="1398" height="408" key="GridCell.Tab.1.left/0.0.1440.900@0.0.1440.900" timestamp="1591170764312" />
+    <state width="1398" height="408" key="GridCell.Tab.1.right" timestamp="1591170764313">
       <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state width="1398" height="408" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1591143884669" />
-    <state x="460" y="159" key="MultipleFileMergeDialog" timestamp="1590895965304">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state width="1398" height="408" key="GridCell.Tab.1.right/0.0.1440.900@0.0.1440.900" timestamp="1591170764313" />
+    <state x="431" y="174" key="MultipleFileMergeDialog" timestamp="1591325769209">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="431" y="174" key="MultipleFileMergeDialog/0.0.1440.900@0.0.1440.900" timestamp="1590622953046" />
+    <state x="431" y="174" key="MultipleFileMergeDialog/0.0.1440.900@0.0.1440.900" timestamp="1591325769209" />
     <state x="460" y="159" key="MultipleFileMergeDialog/0.0.1536.824@0.0.1536.824" timestamp="1590895965304" />
     <state x="108" y="0" key="SettingsEditor" timestamp="1590672691919">
       <screen x="0" y="0" width="1536" height="824" />
@@ -408,21 +437,20 @@
       <screen x="0" y="0" width="1440" height="900" />
     </state>
     <state x="503" y="236" key="chooseDestDirectoryDialog/0.0.1440.900@0.0.1440.900" timestamp="1590576897762" />
-    <state x="399" y="275" key="com.intellij.ide.util.TipDialog" timestamp="1591302416032">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="374" y="300" key="com.intellij.ide.util.TipDialog" timestamp="1591325726056">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="374" y="300" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1591140957520" />
-    <state x="399" y="275" key="com.intellij.ide.util.TipDialog/0.0.1536.824@0.0.1536.824" timestamp="1591302416032" />
+    <state x="374" y="300" key="com.intellij.ide.util.TipDialog/0.0.1440.900@0.0.1440.900" timestamp="1591325726056" />
     <state x="374" y="300" key="com.intellij.ide.util.TipDialog/0.23.1440.877@0.23.1440.877" timestamp="1590653583888" />
     <state x="452" y="323" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD" timestamp="1590668182140">
       <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="424" y="353" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1440.900@0.0.1440.900" timestamp="1589769463259" />
     <state x="452" y="323" key="com.intellij.jarRepository.RepositoryAttachDialog-DOWNLOAD/0.0.1536.824@0.0.1536.824" timestamp="1590668182140" />
-    <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1590897165524">
-      <screen x="0" y="0" width="1536" height="824" />
+    <state x="542" y="359" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1591325758839">
+      <screen x="0" y="0" width="1440" height="900" />
     </state>
-    <state x="542" y="359" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1440.900@0.0.1440.900" timestamp="1590623428948" />
+    <state x="542" y="359" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1440.900@0.0.1440.900" timestamp="1591325758839" />
     <state x="578" y="329" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1536.824@0.0.1536.824" timestamp="1590897165524" />
     <state x="500" y="204" key="git4idea.merge.GitPullDialog" timestamp="1590895459465">
       <screen x="0" y="0" width="1536" height="824" />

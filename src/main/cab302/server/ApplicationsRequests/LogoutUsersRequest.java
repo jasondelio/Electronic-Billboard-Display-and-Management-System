@@ -17,6 +17,9 @@ public class LogoutUsersRequest implements Serializable {
         this.sessionToken = sessiontoken;
     }
 
+    /**
+     * @return sessionToken
+     */
     public String getSessionToken() {
         return sessionToken;
     }

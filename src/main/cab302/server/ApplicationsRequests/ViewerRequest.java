@@ -16,6 +16,9 @@ public class ViewerRequest implements Serializable {
         this.request = request;
     }
 
+    /**
+     * @return request
+     */
     public String getRequest() {
         return request;
     }

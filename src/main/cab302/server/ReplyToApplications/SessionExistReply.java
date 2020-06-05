@@ -17,9 +17,17 @@ public class SessionExistReply implements Serializable {
         this.loginAlready = loginAlready;
         this.sessiontokens = sessiontokens;
     }
+
+    /**
+     * @return loginAlready
+     */
     public boolean isLoginAlready(){
         return loginAlready;
     }
+
+    /**
+     * @return sessionToken
+     */
     public ArrayList<String> getSessiontokens(){
         return sessiontokens;
     }

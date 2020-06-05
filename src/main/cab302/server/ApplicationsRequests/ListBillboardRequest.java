@@ -16,6 +16,9 @@ public class ListBillboardRequest implements Serializable {
         this.sessionToken = sessionToken;
     }
 
+    /**
+     * @return sessionToken
+     */
     public String getSessionToken() {
         return sessionToken;
     }

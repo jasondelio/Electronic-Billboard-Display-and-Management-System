@@ -15,6 +15,10 @@ public class FindScheduleReply implements Serializable {
     public FindScheduleReply(ScheduleInfo scheduleInfo){
         this.scheduleInfo = scheduleInfo;
     }
+
+    /**
+     * @return scheduleInfo
+     */
     public ScheduleInfo getScheduleInfo(){
         return scheduleInfo;
     }

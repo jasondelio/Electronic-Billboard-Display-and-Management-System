@@ -15,6 +15,10 @@ public class AcknowledgeReply implements Serializable {
     public AcknowledgeReply(String acknowledgement){
         this.acknowledgement = acknowledgement;
     }
+
+    /**
+     * @return acknowledgement
+     */
     public String getAcknowledgement(){
         return acknowledgement;
     }

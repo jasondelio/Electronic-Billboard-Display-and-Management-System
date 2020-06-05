@@ -24,17 +24,31 @@ public class AlreadyLoginReply implements Serializable {
         this.permissionsList  = permissionsList;
         this.LoggedInUsername = loggedInUsername;
     }
+
+    /**
+     * @return sessionToken
+     */
     public String getSessionToken(){
         return sessionToken;
     }
+
+    /**
+     * @return loginSucceed
+     */
     public boolean isLoginSucceed(){
         return loginSucceed;
     }
 
+    /**
+     * @return permissionsList
+     */
     public ArrayList<String> getPermissionsList() {
         return permissionsList;
     }
 
+    /**
+     * @return LogggedInUsername
+     */
     public String getLoggedInUsername() {
         return LoggedInUsername;
     }

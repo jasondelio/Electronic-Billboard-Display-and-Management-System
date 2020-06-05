@@ -26,13 +26,28 @@ public class SetUserPemmRequest implements Serializable {
         this.permissions = permissions;
     }
 
+    /**
+     * @return sessionToken
+     */
     public String getSessionToken() {
         return sessionToken;
     }
+
+    /**
+     * @return username
+     */
     public String getUsername(){
         return username;
     }
+
+    /**
+     * @return email
+     */
     public String getEmail() {return email; }
+
+    /**
+     * @return permissions
+     */
     public ArrayList<String> getPermisssions(){ return  permissions; }
 }
 

@@ -18,9 +18,16 @@ public class GetUserPemmRequest implements Serializable {
         this.username = username;
     }
 
+    /**
+     * @return sessionToken
+     */
     public String getSessionToken() {
         return sessionToken;
     }
+
+    /**
+     * @return username
+     */
     public String getUsername(){
         return username;
     }

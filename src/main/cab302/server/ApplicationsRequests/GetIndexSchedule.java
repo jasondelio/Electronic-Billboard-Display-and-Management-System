@@ -17,9 +17,16 @@ public class GetIndexSchedule implements Serializable {
         this.sessiontoken =sessiontoken;
         this.index = index;
     }
+
+    /**
+     * @return sessionToken
+     */
     public String getSessiontoken(){
         return sessiontoken;
     }
 
+    /**
+     * @return index
+     */
     public Integer getIndex()  {return index;}
 }

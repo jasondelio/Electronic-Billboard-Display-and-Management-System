@@ -25,15 +25,30 @@ public class LoginReply implements Serializable {
         this.LoggedInUsername = loggedInUsername;
     }
 
+    /**
+     * @return sessionToken
+     */
     public String getSessionToken(){
         return sessionToken;
     }
+
+    /**
+     * @return loginSucceed
+     */
     public boolean isLoginSucceed(){
         return loginSucceed;
     }
+
+    /**
+     * @return permissionsList
+     */
     public ArrayList<String> getPermissionsList() {
         return permissionsList;
     }
+
+    /**
+     * @return LoggedInUsername
+     */
     public String getLoggedInUsername() {
         return LoggedInUsername;
     }

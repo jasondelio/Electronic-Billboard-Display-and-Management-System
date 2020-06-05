@@ -18,11 +18,16 @@ public class DeleteBillboardRequest implements Serializable {
         this.billboardname = billboardname;
         this.sessionToken = sessionToken;
     }
-
+    /**
+     * @return sessionToken
+     */
     public String getSessionToken() {
         return sessionToken;
     }
 
+    /**
+     * @return billboardname
+     */
     public String getBillboardname() {
         return billboardname;
     }

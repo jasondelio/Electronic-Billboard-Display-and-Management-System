@@ -45,41 +45,63 @@ public class RecurScheduleBillboardRequest implements Serializable {
         this.recur = recur;
     }
 
+    /**
+     * @return sessionToken
+     */
     public String getSessionToken() {
         return sessionToken;
     }
+
+    /**
+     * @return creator
+     */
     public String getCreator(){return creator; }
+
+    /**
+     * @return billboardname
+     */
     public String getBillboardname() {
         return billboardname;
     }
 
-    public String getDurationHr() {
-        return durationHr;
-    }
-    public String getDurationMin() {
-        return durationMin;
-    }
-    public String getRecur() {
-        return recur;
-    }
+    /**
+     * @return durationHr
+     */
+    public String getDurationHr() { return durationHr; }
 
-    public String getMonth() {
-        return month;
-    }
-    public String getDate() {
-        return date;
-    }
+    /**
+     * @return durationMin
+     */
+    public String getDurationMin() { return durationMin; }
 
-    public String getHour() {
-        return hour;
-    }
+    /**
+     * @return recur
+     */
+    public String getRecur() { return recur; }
 
-    public String getminute() {
-        return minute;
-    }
+    /**
+     * @return month
+     */
+    public String getMonth() { return month; }
 
-    public String getYear() {
-        return year;
-    }
+    /**
+     * @return date
+     */
+    public String getDate() { return date; }
+
+    /**
+     * @return hour
+     */
+    public String getHour() { return hour; }
+
+    /**
+     * @return minute
+     */
+    public String getminute() { return minute; }
+
+    /**
+     * @return year
+     */
+    public String getYear() { return year; }
 }
 

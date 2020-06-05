@@ -31,26 +31,42 @@ public class RemoveBillboardRequest implements Serializable {
 
     }
 
+    /**
+     * @return sessionToken
+     */
     public String getSessionToken() {
         return sessionToken;
     }
 
+    /**
+     * @return billboardname
+     */
     public String getBillboardname() {
         return billboardname;
     }
 
-    public String getMonth() {
-        return month;
-    }
+    /**
+     * @return month
+     */
+    public String getMonth() { return month; }
 
+    /**
+     * @return date
+     */
     public String getDate() {
         return date;
     }
 
+    /**
+     * @return hour
+     */
     public String getHour() {
         return hour;
     }
 
+    /**
+     * @return minute
+     */
     public String getMinute() {
         return minute;
     }

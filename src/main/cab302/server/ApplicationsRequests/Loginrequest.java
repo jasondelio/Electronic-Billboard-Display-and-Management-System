@@ -22,14 +22,24 @@ public class Loginrequest implements Serializable {
         this.username = username;
         this.loginTime = loginTime;
     }
+
+    /**
+     * @return username
+     */
     public String getUsername(){
         return username;
     }
 
+    /**
+     * @return password
+     */
     public String getPassword(){
         return password;
     }
 
+    /**
+     * @return loginTime
+     */
     public Date  getLoginTime() {
         return loginTime;
     }
