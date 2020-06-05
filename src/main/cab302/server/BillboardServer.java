@@ -309,11 +309,11 @@ public class BillboardServer {
                                 // if the user deleting own one and it is not scheduled, current user can
                                 // delete this billboard with "crete billboard" permission;
                                 billboardData.remove(edit_b.getName());
-                                // when the billboard is delated, current schedule with the billboard title will be delated also.
+                                // when the billboard is deleted, current schedule with the billboard title will be deleted also.
                                 scheduleData.removeAll(edit_b.getName());
-                                // delate the billboards from the delate history database
+                                // delete the billboards from the delete history database
                                 removedScheduleData.remove(edit_b.getName());
-                                results = "Succeed to delete";
+                                results = "Succeed to delete billboard";
                             } else {
                                 results = "You do not have CreateBillboard permission";
                             }
@@ -322,17 +322,17 @@ public class BillboardServer {
                                 // if the user deleting other one or it is scheduled, current user can
                                 // delete this billboard with "Edit all billboard" permission;
                                 billboardData.remove(edit_b.getName());
-                                // when the billboard is delated, current schedule with the billboard title will be delated also.
+                                // when the billboard is deleted, current schedule with the billboard title will be deleted also.
                                 scheduleData.removeAll(edit_b.getName());
-                                // delate the billboards from the delate history database
+                                // delete the billboards from the delete history database
                                 removedScheduleData.remove(edit_b.getName());
-                                results = "Succeed to delete";
+                                results = "Succeed to delete billboard";
                             } else {
                                 results = "You do not have EditAllBillboard permissions";
                             }
                         }
-                        AcknowledgeReply delateBillboardReply = new AcknowledgeReply(results);
-                        oos.writeObject(delateBillboardReply);
+                        AcknowledgeReply deleteBillboardReply = new AcknowledgeReply(results);
+                        oos.writeObject(deleteBillboardReply);
                         oos.flush();
                     } else {
                         AcknowledgeReply reply = new AcknowledgeReply("Invalid Session");
@@ -564,10 +564,10 @@ public class BillboardServer {
                             else{
                                 // if user try to edit the schedule, the previous schedule time should be removed to avoid showing the schedule again with
                                 // recurring.
-                                RemovedScheduleInfo delatedSched = new RemovedScheduleInfo(previousSche.getBoardTitle(),previousSche.getCreator(),previousSche.getYear(),
-                                        previousSche.getMonth(),previousSche.getDate(),previousSche.getHour(),previousSche.getMinute(),previousSche.getDuHr(),previousSche.getDuMin(),
+                                RemovedScheduleInfo deletedSched = new RemovedScheduleInfo(previousSche.getBoardTitle(), previousSche.getCreator(), previousSche.getYear(),
+                                        previousSche.getMonth(), previousSche.getDate(), previousSche.getHour(), previousSche.getMinute(), previousSche.getDuHr(), previousSche.getDuMin(),
                                         previousSche.getRecur());
-                                removedScheduleData.add(delatedSched);
+                                removedScheduleData.add(deletedSched);
 
                                 // change the schedule
                                 scheduleData.edit(esbb.getBillboardname(), esbb.getCreator(), esbb.getYear(), esbb.getMonth(),esbb.getDate(), esbb.getHour(),
@@ -867,13 +867,13 @@ public class BillboardServer {
                             results = "USER CANNOT DELETE OWN PAASSWORD!";
                         } else {
                             data.remove(dur.getUsername());
-                            results = "Succeed to delate user !";
+                            results = "Succeed to delete user !";
                         }
                     } else {
-                        results = "Fail to delate user !";
+                        results = "Fail to delete user !";
                     }
-                    AcknowledgeReply delateUserReply = new AcknowledgeReply(results);
-                    oos.writeObject(delateUserReply);
+                    AcknowledgeReply deleteUserReply = new AcknowledgeReply(results);
+                    oos.writeObject(deleteUserReply);
                     oos.flush();
                 } else {
                     // if session is expired, send the expired to control panel
@@ -994,17 +994,12 @@ public class BillboardServer {
         RemovedScheduleInfo removeOne = data.get(sche.getBoardTitle(),sche.getYear(),sche.getMonth(),sche.getDate(),sche.getHour(),sche.getMinute(),
                 sche.getDuHr(),sche.getDuMin());
         // check if the schedule is exist or not
-        if (removeOne.getBoardTitle() != null){
-            if(removeOne.getBoardTitle().equals(sche.getBoardTitle()) && removeOne.getYear().equals(sche.getYear()) && removeOne.getMonth().equals(sche.getMonth())
+        if (removeOne.getBoardTitle() != null) {
+            // if the schedule which user try to make with recurring already in removed history, true
+            return removeOne.getBoardTitle().equals(sche.getBoardTitle()) && removeOne.getYear().equals(sche.getYear()) && removeOne.getMonth().equals(sche.getMonth())
                     && removeOne.getDate().equals(sche.getDate()) && removeOne.getHour().equals(sche.getHour())
-                    && removeOne.getMinute().equals(sche.getMinute())  && removeOne.getDuHr().equals(sche.getDuHr())
-                    && removeOne.getDuMin().equals(sche.getDuMin())){
-                // if the schedule which user try to make with recurring already in removed history, true
-                return  true;
-            }
-            else{
-                return false;
-            }
+                    && removeOne.getMinute().equals(sche.getMinute()) && removeOne.getDuHr().equals(sche.getDuHr())
+                    && removeOne.getDuMin().equals(sche.getDuMin());
         }
         else{
             return false;
